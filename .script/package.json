@@ -1,0 +1,16 @@
+{
+	"name": "cmpt-276",
+	"version": "1.0.0",
+	"private": true,
+	"dependencies": {
+		"chalk": "^2.4.1",
+		"find-up": "^3.0.0",
+		"fs-extra": "^7.0.1",
+		"gulp": "^4.0.0",
+		"inquirer": "^6.2.1",
+		"json-format": "^1.0.1",
+		"nodegit": "^0.23.0",
+		"typescript": "^3.3.0-dev.20190103",
+		"typescript-formatter": "^7.2.2"
+	}
+}

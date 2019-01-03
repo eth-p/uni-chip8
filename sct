@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+# MIT License
+# ----------------------------------------------------------------------------------------------------------------------
+# sct: A command-line tool to make contributing and working on the project extremely simple.
+# This should avoid any ID-10T or PEBKAC problems.
+#
+# This script acts as a library for and wrapper around the scripts in .script/tools
+# ----------------------------------------------------------------------------------------------------------------------
+# Variables:
+
+ANSI_RESET='\x1B[0m'
+ANSI_ERROR='\x1B[31m'
+ANSI_DEFAULT='\x1B[39m'
+ANSI_COMMAND='\x1B[35m'
+ANSI_INFO='\x1B[33m'
+ANSI_PARAM='\x1B[4m'
+ANSI_LINK='\x1B[34m'
+LIST_BULLET='    '
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Main:
+
+self="$(basename "${BASH_SOURCE[0]}")"
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+base="${root}/.script"
+script_name="$1"
+script_args=("${@:2}")
+script_spec="${base}/tools/${script_name}/${script_name}.sh"
+
+PROGRAM="$self"
+SCRIPT="${script_name}"
+SCT="${root}/${self}"
+
+# Attempt to run the script directly.
+if [[ -f "${script_spec}" ]]; then
+	RES="${base}/tools/${script_name}"
+
+	source "${base}/lib/npx.sh"
+	source "${base}/lib/msg.sh"
+	source "${base}/lib/die.sh"
+	source "${base}/lib/xopts.sh"
+	source "${base}/lib/srun.sh"
+	source "${base}/lib/git_utils.sh"
+
+	usage() {
+		printf "$(USAGE | sed 's/%/%%/')"
+	}
+
+	source "${script_spec}"
+	cd     "$root"
+	ENTRY  "${script_args[@]}"
+	exit   $?
+fi
+
+# Display error for unknown script.
+if [[ -n "${script_name}" ]]; then
+	printf "${ANSI_ERROR}%s: '%s' is not a %s command.${ANSI_DEFAULT}\n\n" "$PROGRAM" "$script_name" "$PROGRAM"
+fi
+
+# Display a list of scripts.
+printf "Available commands:\n"
+for script in "${base}/tools"/*; do
+	script_name="$(basename "${script}")"
+	script_spec="${script}/${script_name}.sh"
+	if [[ -f "${script_spec}" ]]; then
+		source "${script_spec}"
+		printf "${LIST_BULLET} ${ANSI_COMMAND}%-20s${ANSI_DEFAULT} - %s${ANSI_DEFAULT}\n" \
+			"$script_name" \
+			"$(tr '\n' ' ' <<< "$DESCRIPTION" | sed 's/  / /')"
+	fi
+done
+printf "\n"

@@ -1,0 +1,11 @@
+# Development
+.idea
+.DS_Store
+.tmp
+*.iml
+*.swp
+node_modules
+
+# Build
+/artifact
+/target

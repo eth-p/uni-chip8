@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"module": "umd",
+		"target": "es5",
+		"sourceMap": true,
+		"alwaysStrict": true,
+		"downlevelIteration": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"newLine": "lf",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"removeComments": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"stripInternal": true,
+	},
+	"include": [
+		"../../src/**/*.ts",
+		"../../lib/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		".script"
+	]
+}
