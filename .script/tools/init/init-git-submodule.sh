@@ -1,7 +1,7 @@
 # Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 # MIT License
 # ----------------------------------------------------------------------------------------------------------------------
-cd "$root"
+cd "$ROOT"
 
 # Check if git is installed.
 command -v git &>/dev/null || die - <<-MESSAGE

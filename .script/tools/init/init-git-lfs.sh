@@ -1,7 +1,7 @@
 # Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 # MIT License
 # ----------------------------------------------------------------------------------------------------------------------
-cd "$root"
+cd "$ROOT"
 
 # Check if git-lfs is installed.
 git lfs &>/dev/null || die - <<-MESSAGE

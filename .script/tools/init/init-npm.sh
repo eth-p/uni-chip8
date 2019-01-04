@@ -1,7 +1,7 @@
 # Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 # MIT License
 # ----------------------------------------------------------------------------------------------------------------------
-cd "$base"
+cd "$BASE"
 
 # Check if npm is installed.
 command -v npm &>/dev/null || die - <<-MESSAGE

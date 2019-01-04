@@ -7,7 +7,7 @@
 
 git_utils() {
 	local util
-	for util in "${base}/lib/git_"*.sh; do
+	for util in "${BASE}/lib/git_"*.sh; do
 		source "$util"
 	done
 }

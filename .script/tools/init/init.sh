@@ -33,7 +33,7 @@ ENTRY() {
 init_npm() {
 	set -o errexit
 
-	cd "$base"
+	cd "$BASE"
 	srun npm install --progress=false --loglevel=error
 
 	return 0
@@ -41,7 +41,7 @@ init_npm() {
 
 init_git() {
 	set -o errexit
-	cd "$root"
+	cd "$ROOT"
 
 	# Check if git is installed.
 	git lfs &>/dev/null || die - <<-MESSAGE
