@@ -25,6 +25,7 @@ class Answers {
 				'add':       '[+] Added something.',
 				'remove':    '[-] Removed something.',
 				'change':    '[~] Changed something.',
+				'rename':    '[~] Renamed something.',
 				'fix':       '[#] Fixed something.',
 				'deorecate': '[~] Deprecated something.'
 			}
