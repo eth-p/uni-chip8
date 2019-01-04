@@ -21,6 +21,7 @@
 #     'e'    [D] -- Enable `--key=value` parsing.
 #     'i'        -- Ignore the casing of options.
 #     'l'        -- Add multiple copies of an argument into an array.
+#     'n'    [D] -- Enable `--no-*` options for flag options.
 #     's'        -- Stop parsing after the first non-option argument.
 #     'u'    [D] -- Error at unknown arguments.
 #
@@ -46,6 +47,7 @@ xopts() {
 	local xo_flag_ignore_case=false
 	local xo_flag_lists=false
 	local xo_flag_equals=false
+	local xo_flag_negater=false
 
 	if [[ "${xo_flags:0:1}" = ':' ]]; then
 		shift
@@ -57,6 +59,7 @@ xopts() {
 			'i') xo_flag_ignore_case=true;;
 			'l') xo_flag_lists=true;;
 			'e') xo_flag_equals=true;;
+			'n') xo_flag_negater=true;;
 			'')  :;;
 			*)   echo "xopts: unknown flag '${xo_flag}'"; return 6;;
 		esac; done <<< "${xo_flags:1}"
@@ -65,6 +68,7 @@ xopts() {
 		xo_flag_stop_early=false
 		xo_flag_bundling=true
 		xo_flag_ignore_case=false
+		xo_flag_negater=true
 		xo_flag_lists=false
 		xo_flag_equals=true
 	fi
@@ -88,10 +92,17 @@ xopts() {
 		local pattern_name_primary="${pattern_names%%/*}"
 		local pattern_name_aliases="${pattern_names#*/}"
 
+		local negater=false
+		case "$pattern_types" in
+			flag) negater="$xo_flag_negater";;
+		esac
+
 		xo_arg_definitions+=("$pattern_name_primary" "$pattern_types")
+		$negater && xo_arg_aliases+=("no-${pattern_name_primary}" "$pattern_name_primary") || true
 		if [[ "${pattern_name_aliases}" != "${pattern_name_primary}" ]]; then
 			while read -r aliased; do
 				xo_arg_aliases+=("$aliased" "${pattern_name_primary}")
+				$negater && xo_arg_aliases+=("no-${aliased}" "$pattern_name_primary") || true
 			done <<< "$(tr '/' '\n' <<< "${pattern_name_aliases}")"
 		fi
 	done <<< "$(tr ',' '\n' <<< "${xo_pattern}" | sed 's/ *//')"
@@ -251,7 +262,11 @@ _xopts_commit_unalias() {
 	local vto="$2"
 	case "$type" in
 
-		'flag')     if [[ -z "$vto" ]]; then
+		'flag')     if $xo_flag_negater && [[ -z "$vto" && "${arg_raw:0:5}" = '--no-' ]]; then
+						vto=false
+					fi
+
+					if [[ -z "$vto" ]]; then
 						vto=true
 					fi;;
 
