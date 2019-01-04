@@ -7,6 +7,7 @@ const chalk    = require('chalk');
 const fs       = require('fs-extra');
 const git      = require('nodegit');
 const inquirer = require('inquirer');
+const minimist = require('minimist');
 const path     = require('path');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -203,7 +204,13 @@ class Answers {
 // ---------------------------------------------------------------------------------------------------------------------
 // Main:
 
-async function main() {
+async function main(argv) {
+	const args = minimist(argv, {
+		boolean: 'staged-only',
+		default: {'staged-only': false},
+		alias: {'s': 'staged-only'}
+	});
+
 	const repo_path   = await git.Repository.discover('.', 0, '/');
 	const repo        = await git.Repository.open(repo_path);
 	const config      = await repo.config();
@@ -211,6 +218,8 @@ async function main() {
 
 	// Get status.
 	let status = await repo.getStatus();
+
+	if (args['staged-only']) status = status.filter(x => x.inIndex());
 	if (status.length === 0) {
 		console.log('Nothing has changed since the last commit.');
 		return 0;
@@ -286,7 +295,7 @@ async function main() {
 // ---------------------------------------------------------------------------------------------------------------------
 // Entry:
 
-main(Array.from(process.argv).slice(1)).then(()=>{}, (error) => {
+main(Array.from(process.argv).slice(2)).then(()=>{}, (error) => {
 	console.error(chalk.red('sct-commit: failed to commit changes.'));
 	console.error('');
 	console.error(error);

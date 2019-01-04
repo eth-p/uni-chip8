@@ -13,7 +13,7 @@ ENTRY() {
 	git_utils
 	git_protect 'commit to'
 
-	xopts 'format=flag' "$@"
+	xopts 'format=flag,only-staged/s=ignore' "$@"
 
 	# Reformat code.
 	if [[ "$opt_format" != "false" ]]; then
@@ -21,7 +21,7 @@ ENTRY() {
 	fi
 
 	# Commit.
-	exec node "${RES}/git-commit.js"
+	exec node "${RES}/git-commit.js" "${opt_[@]}"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
