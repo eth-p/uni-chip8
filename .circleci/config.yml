@@ -26,8 +26,7 @@ jobs:
           name: System Dependencies
           command: |
             apt update -y &&
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash --no-use &&
-            nvm use 10.15.0
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash --no-use
 
       - save_cache:
           name: System Dependencies (Save)
@@ -35,6 +34,30 @@ jobs:
           paths:
             - /var/cache/apt/archives
             - /usr/share/nvm
+
+      - restore_cache:
+          name: NodeJS (Cached)
+          keys: v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+
+      - run:
+          name: NodeJS (Download)
+          command: |
+            nvm use 10.15.0
+
+      - save_cache:
+          name: NodeJS (Save)
+          key: v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          paths:
+          - /usr/share/nvm
+
+      - checkout:
+          name: Repository
+
+      - run:
+          name: Repository (Initialize)
+          command: |
+            git lfs install
+            git submodule update --init --recursive
 
       - restore_cache:
           name: Node Dependencies (Cached)
@@ -47,19 +70,10 @@ jobs:
             npm install
 
       - save_cache:
-          name: System Dependencies (Save)
+          name: Node Dependencies (Save)
           key: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
           paths:
-            - .script/node_modules
-
-      - checkout:
-          name: Repository
-
-      - run:
-          name: Repository (Initialize)
-          command: |
-            git lfs install
-            git submodule update --init --recursive
+          - .script/node_modules
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: validate
