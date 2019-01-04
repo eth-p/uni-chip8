@@ -19,24 +19,33 @@ ENTRY() {
 		refmt
 	fi
 
-	git push
+	#git push
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
 
 refmt() {
-	git stash >/dev/null     || die 'Unable to reformat code.'
+	local stash=false
+	if git_dirty; then
+		stash=true
+		git stash >/dev/null || die 'Unable to reformat code.'
+	fi
 
 	# Format files.
 	local file
+	local changes=false
 	while read -r file; do
+		changes=true
 		git add "$file"
-	done < <("$SCT" format --porcelain)
+	done < <("$SCT" fmt --porcelain)
 
 	# Add formatted files.
-	if ! git diff --cached --quiet; then
-		git commit -m "auto: Reformatted code."
+	if $changes; then
+		git commit -m "auto: Reformatted code." >/dev/null || die 'Unable to reformat code.'
+		printf "Automatically formatted code.\n"
 	fi
 
-	git stash pop >/dev/null || die 'Unable to reformat code.'
+	if $stash; then
+		git stash pop >/dev/null || die 'Unable to reformat code.'
+	fi
 }
