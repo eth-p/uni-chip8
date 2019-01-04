@@ -1,0 +1,227 @@
+version: 2.0
+jobs:
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Job: initialize
+  # Initializes the build environment.
+  # ------------------------------------------------------------------------------------------------------------------
+
+  initialize:
+
+    environment:
+      DISTRO:          ubuntu
+      DISTRO_CODENAME: bionic
+      ARCH:            x86_64
+
+    docker:
+      - image:   ethp/ci-ubuntu:bionic.x86_64
+
+    steps:
+
+      - restore_cache:
+          name: System Dependencies (Cached)
+          keys: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+
+      - run:
+          name: System Dependencies
+          command: |
+            apt update -y &&
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash --no-use &&
+            nvm use 10.15.0
+
+      - save_cache:
+          name: System Dependencies (Save)
+          key: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          paths:
+            - /var/cache/apt/archives
+            - /usr/share/nvm
+
+      - restore_cache:
+          name: Node Dependencies (Cached)
+          keys: v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+
+      - run:
+          name: Node Dependencies
+          command: |
+            cd .script &&
+            npm install
+
+      - save_cache:
+          name: System Dependencies (Save)
+          key: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          paths:
+            - .script/node_modules
+
+      - checkout:
+          name: Repository
+
+      - run:
+          name: Repository (Initialize)
+          command: |
+            git lfs install
+            git submodule update --init --recursive
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: validate
+  # Validates the source code.
+  # This will ensure consistent style and prevent unwanted "f***"-ups (i.e. cursing).
+  # --------------------------------------------------------------------------------------------------------------
+
+  validate:
+
+    environment:
+      DISTRO:          ubuntu
+      DISTRO_CODENAME: bionic
+      ARCH:            x86_64
+
+    docker:
+      - image:   ethp/ci-ubuntu:bionic.x86_64
+
+    steps:
+
+      - run:
+          name: Formatting
+          command: ./sct fmt --validate
+
+      # TODO: Cursing checks.
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: build
+  # Builds the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  build:
+
+    environment:
+      DISTRO:          ubuntu
+      DISTRO_CODENAME: bionic
+      ARCH:            x86_64
+
+    docker:
+      - image:   ethp/ci-ubuntu:bionic.x86_64
+
+    steps:
+      - run:
+          name: Build
+          command: ./sct build
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: test
+  # Tests the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  test:
+
+    environment:
+      DISTRO:          ubuntu
+      DISTRO_CODENAME: bionic
+      ARCH:            x86_64
+
+    docker:
+      - image:   ethp/ci-ubuntu:bionic.x86_64
+
+    steps:
+      - run:
+          name: Test
+          command: ./sct test
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: release
+  # Releases the latest version of the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  release:
+
+    environment:
+      DISTRO:          ubuntu
+      DISTRO_CODENAME: bionic
+      ARCH:            x86_64
+
+    docker:
+      - image:   ethp/ci-ubuntu:bionic.x86_64
+
+    steps:
+      - store_artifacts:
+          name: Store
+          path: artifacts/
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+workflows:
+  version: 2
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Build: release
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test -> release
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  release:
+
+    jobs:
+      - init:
+        filters:
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
+      - validate:
+        requires:
+          - init
+        filters:
+          tags:
+            only: /^v.*/
+          branches:
+            ignore: /.*/
+      - build:
+          requires: [init, validate]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - release:
+          requires: [init, validate, build, test]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Build: development
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  development:
+
+    jobs:
+      - init:
+          tags:
+            ignore: /.*/
+      - validate:
+          requires: [init]
+          tags:
+            ignore: /.*/
+      - build:
+          requires: [init, validate]
+          tags:
+            ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          tags:
+            ignore: /.*/
