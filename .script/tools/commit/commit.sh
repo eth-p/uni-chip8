@@ -27,5 +27,5 @@ ENTRY() {
 # ----------------------------------------------------------------------------------------------------------------------
 
 refmt() {
-	"$SCT" format --porcelain >/dev/null || die 'Unable to reformat code.'
+	"$SCT" fmt --porcelain >/dev/null || die 'Unable to reformat code.'
 }
