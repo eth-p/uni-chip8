@@ -163,19 +163,18 @@ workflows:
 
     jobs:
       - init:
-        filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - validate:
-        requires:
-          - init
-        filters:
-          tags:
-            only: /^v.*/
-          branches:
-            ignore: /.*/
+          requires: [init]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
       - build:
           requires: [init, validate]
           filters:
