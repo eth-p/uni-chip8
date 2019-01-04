@@ -1,5 +1,5 @@
 class XYZ {
-	hi (): number {
+	hi(): number {
 		return 3 + 5 - 8;
 	}
 }

@@ -21,7 +21,7 @@ class Answers {
 	constructor() {
 		this._cachefile = path.join(process.cwd(), '.tmp', 'commit.json');
 		this._choices = {
-			modules: ['docs', 'tools'],
+			modules: ['docs', 'tools', 'ci'],
 			verbs:   {
 				'add':       '[+] Added something.',
 				'remove':    '[-] Removed something.',
