@@ -20,24 +20,24 @@ jobs:
 
       - restore_cache:
           name: System Dependencies (Cached)
-          keys: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          keys: ['v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}']
 
       - run:
           name: System Dependencies
           command: |
             apt update -y &&
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash --no-use
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash -- --no-use
 
       - save_cache:
           name: System Dependencies (Save)
-          key: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          key: 'v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}'
           paths:
             - /var/cache/apt/archives
             - /usr/share/nvm
 
       - restore_cache:
           name: NodeJS (Cached)
-          keys: v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          keys: ['v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}']
 
       - run:
           name: NodeJS (Download)
@@ -46,7 +46,7 @@ jobs:
 
       - save_cache:
           name: NodeJS (Save)
-          key: v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          key: 'v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}'
           paths:
           - /usr/share/nvm
 
@@ -61,7 +61,7 @@ jobs:
 
       - restore_cache:
           name: Node Dependencies (Cached)
-          keys: v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          keys: ['v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}']
 
       - run:
           name: Node Dependencies
@@ -71,7 +71,7 @@ jobs:
 
       - save_cache:
           name: Node Dependencies (Save)
-          key: v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}
+          key: 'v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}'
           paths:
           - .script/node_modules
 
