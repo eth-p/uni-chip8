@@ -29,6 +29,7 @@
 #     'string'   -- Any string.
 #     'string!'  -- Any non-empty string.
 #     'flag'     -- True or false. Validation isn't implemented yet.
+#     'ignore'   -- Pass the option through to the default list exactly as it was presented.
 #
 # EXAMPLES:
 #
@@ -102,13 +103,17 @@ xopts() {
 	local val=''
 	local old_key=''
 	local old_val=''
+	local arg_prev=''
+	local arg_raw=''
+	local xo_iseq=false
 	local xo_break=false
 	for arg in "${xo_args[@]}"; do
+		arg_raw="$arg"
+
 		if $xo_break; then
 			_xopts_commit_default "$arg"
 			continue
 		fi
-
 
 		case "$arg" in
 
@@ -120,6 +125,7 @@ xopts() {
 
 			--*=*)
 				if $xo_flag_equals; then
+					xo_iseq=true
 					old_key="$key"
 					old_val="$val"
 
@@ -129,6 +135,7 @@ xopts() {
 
 					key="$old_key"
 					val="$old_val"
+					xo_iseq=false
 				else
 					if [[ "$key" != '' || "$val" != '' ]]; then
 						_xopts_commit || return $?
@@ -152,6 +159,8 @@ xopts() {
 				fi;;
 
 		esac
+
+		arg_prev="$arg_raw"
 	done
 
 	[[ "$key" != '' || "$val" != '' ]] && { _xopts_commit || return $?; }
@@ -250,6 +259,20 @@ _xopts_commit_unalias() {
 						printf "invalid argument '%s': cannot be empty\n" "$type"
 						return 1
 					fi;;
+
+		'ignore')
+					if $xo_iseq; then
+						opt_+=("$arg_raw")
+						return 0
+					else
+						if [[ -z "${val}" ]]; then
+							opt_+=("$arg_raw")
+						else
+							opt_+=("$arg_prev" "$arg_raw")
+						fi
+						return 0
+					fi
+					;;
 
 	esac
 
