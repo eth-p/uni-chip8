@@ -210,17 +210,21 @@ workflows:
 
     jobs:
       - init:
-          tags:
-            ignore: /.*/
+          filters:
+            tags:
+              ignore: /.*/
       - validate:
           requires: [init]
-          tags:
-            ignore: /.*/
+          filters:
+            tags:
+              ignore: /.*/
       - build:
           requires: [init, validate]
-          tags:
-            ignore: /.*/
+          filters:
+            tags:
+              ignore: /.*/
       - test:
           requires: [init, validate, build]
-          tags:
-            ignore: /.*/
+          filters:
+            tags:
+              ignore: /.*/
