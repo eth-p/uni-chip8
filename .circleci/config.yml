@@ -12,6 +12,7 @@ jobs:
       DISTRO:          ubuntu
       DISTRO_CODENAME: bionic
       ARCH:            x86_64
+      NODE_LTS:        dubnium
 
     docker:
       - image:   ethp/ci-ubuntu:bionic.x86_64
@@ -25,30 +26,14 @@ jobs:
       - run:
           name: System Dependencies
           command: |
-            apt update -y &&
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | NVM_DIR='/usr/share/nvm' bash -- --no-use
+            curl -sL https://deb.nodesource.com/setup_10.x | bash -
+            apt install -y nodejs
 
       - save_cache:
           name: System Dependencies (Save)
           key: 'v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}'
           paths:
             - /var/cache/apt/archives
-            - /usr/share/nvm
-
-      - restore_cache:
-          name: NodeJS (Cached)
-          keys: ['v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}']
-
-      - run:
-          name: NodeJS (Download)
-          command: |
-            nvm use 10.15.0
-
-      - save_cache:
-          name: NodeJS (Save)
-          key: 'v1-node-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}'
-          paths:
-          - /usr/share/nvm
 
       - checkout:
           name: Repository
