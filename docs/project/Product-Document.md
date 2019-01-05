@@ -1,4 +1,4 @@
-# SFU-CMPT276 Project Document
+# SFU-CMPT276 Product Document
 
 ## Meeting Schedule
 
