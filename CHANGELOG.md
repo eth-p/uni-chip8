@@ -17,3 +17,4 @@
 ### Documentation
 - **docs:** Added contributing guide.
 - **docs:** Added Project Document file.
+- **docs:** Added meeting minutes template file.
