@@ -1,4 +1,9 @@
 {
+	"modules": {
+		"docs": {},
+		"tools": {},
+		"ci": {}
+	},
 	"build": {
 		"config": ".",
 		"target": "../target",

@@ -2,15 +2,13 @@
 # Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 # MIT License
 # ----------------------------------------------------------------------------------------------------------------------
-# A function for getting the current branch ref.
-# Will return non-zero if in a detached head state.
+# build: Build the project.
+# This will invoke various utilities in order to build the project artifacts.
 # ----------------------------------------------------------------------------------------------------------------------
+[[ "${#BASH_SOURCE[@]}" = 1 ]] && printf "This script cannot be executed directly.\n" && exit 5
 
-git_current_branch() {
-	case "$1" in
-		'--simple') git symbolic-ref HEAD 2>/dev/null | sed 's/^refs\/heads\///' || { echo "(detached)" && return 1; };;
-		*)          git symbolic-ref HEAD 2>/dev/null || return 1;;
-	esac
-
+DESCRIPTION="Build the project."
+ENTRY() {
+	echo "This is a shim for testing. We need to implement it properly later."
 	return 0
 }

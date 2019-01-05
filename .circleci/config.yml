@@ -1,0 +1,211 @@
+version: 2.1
+references:
+
+  workspace_root: &workspace_root
+    /tmp/workspace
+
+  workspace_load: &workspace_load
+    attach_workspace:
+      at: *workspace_root
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+executors:
+  standard:
+    docker:
+      - image: ethp/sfu-cmpt276
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+jobs:
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Job: init
+  # Initializes the build environment.
+  # ------------------------------------------------------------------------------------------------------------------
+
+  init:
+    working_directory: *workspace_root
+    executor: standard
+    steps:
+
+      - checkout:
+          name: Repository
+
+      - run:
+          name: Repository (Initialize)
+          command: |
+            git lfs install
+            git submodule update --init --recursive
+
+      - restore_cache:
+          name: Node Dependencies (Cached)
+          keys: ['v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}']
+
+      - run:
+          name: Node Dependencies
+          command: |
+            cd .script &&
+            npm install
+
+      - save_cache:
+          name: Node Dependencies (Save)
+          key: 'v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}'
+          paths:
+          - .script/node_modules
+
+      - persist_to_workspace:
+          root: *workspace_root
+          paths: ['*']
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: validate
+  # Validates the source code.
+  # This will ensure consistent style and prevent unwanted "f***"-ups (i.e. cursing).
+  # --------------------------------------------------------------------------------------------------------------
+
+  validate:
+    working_directory: *workspace_root
+    executor: standard
+    steps:
+
+      - *workspace_load
+      - run:
+          name: Formatting
+          command: ./sct fmt --validate
+
+      # TODO: Cursing checks.
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: build
+  # Builds the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  build:
+    working_directory: *workspace_root
+    executor: standard
+    steps:
+      - *workspace_load
+      - run:
+          name: Prepare
+          command: mkdir -p target artifacts || true
+      - run:
+          name: Build
+          command: ./sct build
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - target
+            - artifacts
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: test
+  # Tests the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  test:
+    working_directory: *workspace_root
+    executor: standard
+    steps:
+      - *workspace_load
+      - run:
+          name: Tests
+          command: ./sct test
+
+  # --------------------------------------------------------------------------------------------------------------
+  # Job: release
+  # Releases the latest version of the project.
+  # --------------------------------------------------------------------------------------------------------------
+
+  release:
+    working_directory: *workspace_root
+    executor: standard
+    steps:
+      - *workspace_load
+      - store_artifacts:
+          name: Store
+          path: artifacts/
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+workflows:
+  version: 2
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Build: release
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test -> release
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  release:
+
+    jobs:
+      - init:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - validate:
+          requires: [init]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - build:
+          requires: [init, validate]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - release:
+          requires: [init, validate, build, test]
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Build: development
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  development:
+
+    jobs:
+      - init:
+          filters:
+            tags:
+              ignore: /.*/
+      - validate:
+          requires: [init]
+          filters:
+            tags:
+              ignore: /.*/
+      - build:
+          requires: [init, validate]
+          filters:
+            tags:
+              ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          filters:
+            tags:
+              ignore: /.*/

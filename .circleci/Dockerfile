@@ -1,45 +1,30 @@
-root = true
+# Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+# MIT License
+# ----------------------------------------------------------------------------------------------------------------------
+FROM ubuntu:bionic
+ENV DEBIAN_FRONTENT=noninteractive
+RUN apt-get update -y
 
 # ----------------------------------------------------------------------------------------------------------------------
-# All Files:
+# Repository Tools
 # ----------------------------------------------------------------------------------------------------------------------
-
-[*]
-charset                  = utf-8
-end_of_line              = lf
-insert_final_newline     = true
-indent_style             = tab
-indent_size              = 4
-tab_width                = 4
-trim_trailing_whitespace = true
-max_line_length          = 120
+RUN apt-get install -y \
+	apt-utils \
+	curl \
+	software-properties-common
 
 # ----------------------------------------------------------------------------------------------------------------------
-# TypeScript, JavaScript:
+# Repository Sources
 # ----------------------------------------------------------------------------------------------------------------------
-
-[*.{js,ts}]
-quote_type               = single
-curly_bracket_next_line  = false
-spaces_around_operators  = true
-indent_brace_style       = K&R
-spaces_around_brackets   = outside
-continuation_indent_size = 4
+RUN add-apt-repository ppa:git-core/ppa
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 # ----------------------------------------------------------------------------------------------------------------------
-# JSON:
+# Tools
 # ----------------------------------------------------------------------------------------------------------------------
-
-[*.json]
-indent_style = tab
-indent_size  = 2
-tab_width    = 2
-
-# ----------------------------------------------------------------------------------------------------------------------
-# YAML:
-# ----------------------------------------------------------------------------------------------------------------------
-
-[*.yml]
-indent_style = space
-indent_size  = 2
-tab_width    = 2
+RUN apt-get install -y \
+	build-essential \
+	git \
+	git-lfs \
+	gnupg2 \
+	nodejs

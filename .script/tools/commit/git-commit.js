@@ -9,6 +9,9 @@ const git      = require('nodegit');
 const inquirer = require('inquirer');
 const minimist = require('minimist');
 const path     = require('path');
+const spawn    = require('child-process-promise').spawn;
+
+const PROJECT  = require(path.resolve(__dirname, '../../build/project.json'));
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Prompt:
@@ -21,7 +24,7 @@ class Answers {
 	constructor() {
 		this._cachefile = path.join(process.cwd(), '.tmp', 'commit.json');
 		this._choices = {
-			modules: ['docs', 'tools'],
+			modules: Object.keys(PROJECT.modules),
 			verbs:   {
 				'add':       '[+] Added something.',
 				'remove':    '[-] Removed something.',
@@ -274,17 +277,28 @@ async function main(argv) {
 
 	if (answers2.message != null) message = answers2.message;
 
-	// Add files and commit.
+	// Add files.
 	await Promise.all([].concat(
 		status.filter(x => !x.isDeleted()).map(x => index.addByPath(x.path())),
 		status.filter(x => x.isDeleted()).map(x => index.removeByPath(x.path()))
 	));
 	await index.write();
-	let oid    = await index.writeTree();
-	let parent = await repo.getCommit(await git.Reference.nameToId(repo, 'HEAD'));
-	let author = git.Signature.now(name, email);
-	await repo.createCommit('HEAD', author, author, message, oid, [parent]);
 
+	// Commit.
+	//
+	//     let oid    = await index.writeTree();
+	//     let parent = await repo.getCommit(await git.Reference.nameToId(repo, 'HEAD'));
+	//     let author = git.Signature.now(name, email);
+	//     await repo.createCommit('HEAD', author, author, message, oid, [parent]);
+	//
+	// Falling back to `git commit`, since it actually signs things properly.
+	console.log("\nCommitting...");
+	let commit = spawn('git', ['commit', '--file', '-']);
+	let proc   = commit.childProcess;
+	proc.stdin.end(`${message}\n`, 'utf-8');
+	proc.stdout.pipe(process.stdout);
+	proc.stderr.pipe(process.stderr);
+	await commit;
 
 	// Cleanup.
 	await answers.clear();
