@@ -13,11 +13,16 @@ ENTRY() {
 	git_utils
 	git_protect 'commit to'
 
-	xopts 'format=flag,only-staged/s=ignore' "$@"
+	xopts 'format=flag,unsafe=flag,only-staged/s=ignore' "$@"
 
 	# Reformat code.
 	if [[ "$opt_format" != "false" ]]; then
 		refmt
+	fi
+
+	# Check code.
+	if [[ "$opt_unsafe" != "true" ]]; then
+		check
 	fi
 
 	# Commit.
@@ -28,4 +33,13 @@ ENTRY() {
 
 refmt() {
 	"$SCT" fmt --porcelain >/dev/null || die 'Unable to reformat code.'
+}
+
+check() {
+	"$SCT" check --no-formatting &>/dev/null || die - <<-MESSAGE
+		Refusing to commit changes.
+		${ANSI_DEFAULT}
+		One or more checks failed.
+		Run ${ANSI_COMMAND}${PROGRAM} check${ANSI_DEFAULT} for more details.
+	MESSAGE
 }
