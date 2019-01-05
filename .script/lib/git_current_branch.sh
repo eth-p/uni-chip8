@@ -8,7 +8,7 @@
 
 git_current_branch() {
 	case "$1" in
-		'--simple') git symbolic-ref HEAD 2>/dev/null | sed 's/^refs\/heads\///' || {{ echo "(detached)" && return 1};;
+		'--simple') git symbolic-ref HEAD 2>/dev/null | sed 's/^refs\/heads\///' || { echo "(detached)" && return 1; };;
 		*)          git symbolic-ref HEAD 2>/dev/null || return 1;;
 	esac
 
