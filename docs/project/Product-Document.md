@@ -1,7 +1,7 @@
 # SFU-CMPT276 Project Document
 ## Meeting Schedule
 |Week|Date|Priorities|
-|---|-----|----------|
+|---:|:-----:|:----------:|
 |1  |XYZ  |XYZ       |
 |2  |XYZ  |XYZ       |
 |3  |XYZ  |XYZ       |
@@ -23,7 +23,14 @@
 
 ## Implementation Language
 
+We will be using TypeScript to implement the CHIP-8 emulator.
+
+TypeScript was chosen over Javascript because TypeScript is a statically typed, "compilied" language.  
+*TODO: Include other reasons and explanations.*
+
 ## Use Cases
+
+*TODO: Determine what qualifies for use cases.*
 
 ## Work Breakdown
 
