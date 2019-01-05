@@ -1,4 +1,22 @@
 version: 2.1
+references:
+
+  workspace_root: &workspace_root
+    /tmp/workspace
+
+  workspace_load: &workspace_load
+    attach_workspace:
+      at: *workspace_root
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+executors:
+  standard:
+    docker:
+      - image: ethp/sfu-cmpt276
+
+# ----------------------------------------------------------------------------------------------------------------------
+
 jobs:
 
   # ------------------------------------------------------------------------------------------------------------------
@@ -7,33 +25,9 @@ jobs:
   # ------------------------------------------------------------------------------------------------------------------
 
   init:
-
-    environment:
-      DISTRO:          ubuntu
-      DISTRO_CODENAME: bionic
-      ARCH:            x86_64
-      NODE_LTS:        dubnium
-
-    docker:
-      - image:   ethp/ci-ubuntu:bionic.x86_64
-
+    working_directory: *workspace_root
+    executor: standard
     steps:
-
-      - restore_cache:
-          name: System Dependencies (Cached)
-          keys: ['v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}']
-
-      - run:
-          name: System Dependencies
-          command: |
-            curl -sL https://deb.nodesource.com/setup_10.x | bash -
-            apt install -y nodejs
-
-      - save_cache:
-          name: System Dependencies (Save)
-          key: 'v1-sys-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ .Branch }}'
-          paths:
-            - /var/cache/apt/archives
 
       - checkout:
           name: Repository
@@ -46,7 +40,7 @@ jobs:
 
       - restore_cache:
           name: Node Dependencies (Cached)
-          keys: ['v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}']
+          keys: ['v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}']
 
       - run:
           name: Node Dependencies
@@ -56,9 +50,13 @@ jobs:
 
       - save_cache:
           name: Node Dependencies (Save)
-          key: 'v1-npm-cache-{{ .Environment.DISTRO }}-{{ .Environment.DISTRO_CODENAME }}-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}'
+          key: 'v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}'
           paths:
           - .script/node_modules
+
+      - persist_to_workspace:
+          root: *workspace_root
+          paths: ['*']
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: validate
@@ -67,17 +65,11 @@ jobs:
   # --------------------------------------------------------------------------------------------------------------
 
   validate:
-
-    environment:
-      DISTRO:          ubuntu
-      DISTRO_CODENAME: bionic
-      ARCH:            x86_64
-
-    docker:
-      - image:   ethp/ci-ubuntu:bionic.x86_64
-
+    working_directory: *workspace_root
+    executor: standard
     steps:
 
+      - *workspace_load
       - run:
           name: Formatting
           command: ./sct fmt --validate
@@ -90,19 +82,21 @@ jobs:
   # --------------------------------------------------------------------------------------------------------------
 
   build:
-
-    environment:
-      DISTRO:          ubuntu
-      DISTRO_CODENAME: bionic
-      ARCH:            x86_64
-
-    docker:
-      - image:   ethp/ci-ubuntu:bionic.x86_64
-
+    working_directory: *workspace_root
+    executor: standard
     steps:
+      - *workspace_load
+      - run:
+          name: Prepare
+          command: mkdir -p build artifacts || true
       - run:
           name: Build
           command: ./sct build
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - build
+            - artifacts
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: test
@@ -110,18 +104,12 @@ jobs:
   # --------------------------------------------------------------------------------------------------------------
 
   test:
-
-    environment:
-      DISTRO:          ubuntu
-      DISTRO_CODENAME: bionic
-      ARCH:            x86_64
-
-    docker:
-      - image:   ethp/ci-ubuntu:bionic.x86_64
-
+    working_directory: *workspace_root
+    executor: standard
     steps:
+      - *workspace_load
       - run:
-          name: Test
+          name: Tests
           command: ./sct test
 
   # --------------------------------------------------------------------------------------------------------------
@@ -130,16 +118,10 @@ jobs:
   # --------------------------------------------------------------------------------------------------------------
 
   release:
-
-    environment:
-      DISTRO:          ubuntu
-      DISTRO_CODENAME: bionic
-      ARCH:            x86_64
-
-    docker:
-      - image:   ethp/ci-ubuntu:bionic.x86_64
-
+    working_directory: *workspace_root
+    executor: standard
     steps:
+      - *workspace_load
       - store_artifacts:
           name: Store
           path: artifacts/
