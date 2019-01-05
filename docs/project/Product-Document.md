@@ -1,5 +1,7 @@
 # SFU-CMPT276 Product Document
 
+| [<- README](../../README.md) |
+
 ## Meeting Schedule
 
 |Week|Date|Priorities|Notes|Minutes|

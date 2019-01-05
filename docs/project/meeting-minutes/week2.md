@@ -1,5 +1,7 @@
 # SFU-CMPT276 Meeting Minutes: Week 2
 
+| [<- Product Document](../Product-Document.md) |
+
 ## Information
 
 **Location:** *Surrey Campus*  
