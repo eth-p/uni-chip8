@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+# MIT License
+# ----------------------------------------------------------------------------------------------------------------------
+# check: formatting
+# Check the project source code formatting.
+# ----------------------------------------------------------------------------------------------------------------------
+fail=false
+
+# Run:
+npx tsfmt --verify --no-vscode --useTsconfig ".script/build/tsconfig.json" -- "$@" || fail=true
+
+# Return:
+$fail && exit 1
+exit 0

@@ -1,12 +1,26 @@
 {
 	"modules": {
-		"docs": {},
-		"tools": {},
-		"ci": {}
-	},
-	"build": {
-		"config": ".",
-		"target": "../target",
-		"artifact": "../artifact"
+
+		"docs": {
+			"sources": [
+				"/*.md",
+				"/docs/**/*.md"
+			]
+		},
+
+		"tools": {
+			"sources": [
+				"/.script/**/*",
+				"!*.{png,jpeg,jpg,svg}",
+				"!**/node_modules/**"
+			]
+		},
+
+		"ci": {
+			"sources": [
+				"/.circle/**/*"
+			]
+		}
+
 	}
 }
