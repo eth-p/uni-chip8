@@ -15,7 +15,7 @@ ENTRY() {
 
 	local checks=()
 	[[ "$opt_formatting" != false ]] && checks+=('formatting')
-#	[[ "$opt_profanity " != false ]] && checks+=('profanity')
+	[[ "$opt_profanity " != false ]] && checks+=('profanity')
 
 	# Any checks?
 	if [[ "${#checks[@]}" = 0 ]]; then
