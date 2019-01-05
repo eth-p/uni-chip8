@@ -1,5 +1,7 @@
 # SFU-CMPT276 Project Document
+
 ## Meeting Schedule
+
 |Week|Date|Priorities|
 |---:|:-----:|:----------:|
 |1  |XYZ  |XYZ       |
