@@ -6,7 +6,7 @@
 
 **Location:** *Surrey Campus*  
 **Date:**  *M DD, YYYY*  
-**Time:** *HH::MM - HH::MM*
+**Time:** *HH:MM - HH:MM*
 
 ## Attendance
 

@@ -6,7 +6,7 @@
 
 **Location:** *Surrey Campus*  
 **Date:**  *January 7, 2019*  
-**Time:** *HH::MM - HH::MM*
+**Time:** *HH:MM - HH:MM*
 
 ## Attendance
 
