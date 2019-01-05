@@ -14,3 +14,4 @@
 
 ### Documentation
 - **docs:** Added contributing guide.
+- **docs:** Added Project Document file.
