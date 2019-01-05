@@ -11,6 +11,8 @@ const minimist = require('minimist');
 const path     = require('path');
 const spawn    = require('child-process-promise').spawn;
 
+const PROJECT  = require(path.resolve(__dirname, '../../build/project.json'));
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Prompt:
 
@@ -22,7 +24,7 @@ class Answers {
 	constructor() {
 		this._cachefile = path.join(process.cwd(), '.tmp', 'commit.json');
 		this._choices = {
-			modules: ['docs', 'tools', 'ci'],
+			modules: Object.keys(PROJECT.modules),
 			verbs:   {
 				'add':       '[+] Added something.',
 				'remove':    '[-] Removed something.',
