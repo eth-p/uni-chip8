@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
+		"bad-words": "^3.0.0",
 		"chalk": "^2.4.1",
 		"child-process-promise": "^2.2.1",
 		"find-up": "^3.0.0",
