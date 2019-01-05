@@ -72,9 +72,7 @@ jobs:
       - *workspace_load
       - run:
           name: Formatting
-          command: ./sct fmt --validate
-
-      # TODO: Cursing checks.
+          command: ./sct check
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: build
