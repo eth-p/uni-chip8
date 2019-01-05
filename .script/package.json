@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"chalk": "^2.4.1",
+		"child-process-promise": "^2.2.1",
 		"find-up": "^3.0.0",
 		"fs-extra": "^7.0.1",
 		"gulp": "^4.0.0",
