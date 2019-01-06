@@ -44,7 +44,7 @@ MESSAGE
 switch_branch() {
 	if ! git rev-parse "$1" &>/dev/null; then
 		if [[ "$opt_new" = true ]]; then
-			create_branch "$1" || die 'Could not create branch.'
+			create_branch "$1" || die 'Can not create branch.'
 			return $?
 		else
 			die "'%s' is not a branch. Use --create to make it.\n" "$1"
@@ -57,7 +57,7 @@ switch_branch() {
 create_branch() {
 	# Ensure the branch name isn't weird.
 	grep '^\([a-z]\{1,\}\)\([/-][a-z]\{1,\}\)\{0,\}$' <<< "$1" || die "'%s' is an unusual branch name." "$1"
-	git checkout -b "$1"
+	git checkout -b "$1"                                       || die "Can not create branch."
 }
 
 display_branch() {

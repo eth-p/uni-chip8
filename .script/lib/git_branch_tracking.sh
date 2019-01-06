@@ -2,13 +2,12 @@
 # Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 # MIT License
 # ----------------------------------------------------------------------------------------------------------------------
-# A function for getting a list of local branch refs.
+# A function for getting the current branch's upstream ref.
 # ----------------------------------------------------------------------------------------------------------------------
 
-git_branch_list() {
+git_branch_tracking() {
 	case "$1" in
-		'--simple') git for-each-ref --format='%(refname)' refs/heads/ 2>/dev/null | sed 's/^refs\/heads\///' || return 1;;
-		*)          git for-each-ref --format='%(refname)' refs/heads/ 2>/dev/null || return 1;;
+		*) git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || return 1;;
 	esac
 
 	return 0
