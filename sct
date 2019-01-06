@@ -37,13 +37,13 @@ SCT="${ROOT}/${PROGRAM}"
 if [[ -f "${script_spec}" ]]; then
 	RES="${BASE}/tools/${script_name}"
 
-	source "${BASE}/lib/npx.sh"
-	source "${BASE}/lib/msg.sh"
-	source "${BASE}/lib/die.sh"
-	source "${BASE}/lib/xopts.sh"
-	source "${BASE}/lib/srun.sh"
-	source "${BASE}/lib/project.sh"
-	source "${BASE}/lib/git_utils.sh"
+	source "${BASE}/lib/sh/npx.sh"
+	source "${BASE}/lib/sh/msg.sh"
+	source "${BASE}/lib/sh/die.sh"
+	source "${BASE}/lib/sh/xopts.sh"
+	source "${BASE}/lib/sh/srun.sh"
+	source "${BASE}/lib/sh/project.sh"
+	source "${BASE}/lib/sh/git_utils.sh"
 
 	usage() {
 		printf "$(USAGE | sed 's/%/%%/')"
