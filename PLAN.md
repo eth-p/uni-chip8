@@ -1,3 +1,0 @@
-# Project Guide
-
-*TODO*
