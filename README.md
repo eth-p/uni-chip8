@@ -11,7 +11,7 @@ The following software is required:
 
 - [NodeJS](https://nodejs.org/) (10.15 or later)
 
-Once you have everything ready, run the [[sct init command|sct-init]] to set everything up.
+Once you have everything ready, run the [sct init command](https://github.com/eth-p/SFU-CMPT276/wiki/sct-init) to set everything up.
 
 
 
