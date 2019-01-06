@@ -2,7 +2,9 @@
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
+require('module-alias/register');
 
+// Libraries.
 const chalk    = require('chalk');
 const fs       = require('fs-extra');
 const git      = require('nodegit');
@@ -11,20 +13,22 @@ const minimist = require('minimist');
 const path     = require('path');
 const spawn    = require('child-process-promise').spawn;
 
-const PROJECT  = require(path.resolve(__dirname, '../../build/project.json'));
+// Modules.
+const Project  = require('@/Project');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Prompt:
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Prompts and answers related to this script.
  */
 class Answers {
 
-	constructor() {
+	constructor(project) {
 		this._cachefile = path.join(process.cwd(), '.tmp', 'commit.json');
 		this._choices = {
-			modules: Object.keys(PROJECT.modules),
+			modules: project.getModules().map(x => x.getId()),
 			verbs:   {
 				'add':       '[+] Added something.',
 				'remove':    '[-] Removed something.',
@@ -87,7 +91,7 @@ class Answers {
 				name:     'answer',
 				message:  'What module does your change affect?',
 				default:  this.module,
-				choices:  [ ...this._choices.modules, new inquirer.Separator(), 'other...' ]
+				choices:  [ ...this._choices.modules, new inquirer.Separator(), 'other...', new inquirer.Separator()]
 			}
 		]);
 
@@ -214,6 +218,7 @@ async function main(argv) {
 		alias: {'s': 'staged-only'}
 	});
 
+	const project     = await Project.get();
 	const repo_path   = await git.Repository.discover('.', 0, '/');
 	const repo        = await git.Repository.open(repo_path);
 	const config      = await repo.config();
@@ -229,7 +234,7 @@ async function main(argv) {
 	}
 
 	// Get answers.
-	let answers = new Answers();
+	let answers = new Answers(project);
 	await answers.load();
 	await answers.askModule();
 	await answers.askVerb();
