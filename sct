@@ -16,7 +16,8 @@ ANSI_COMMAND='\x1B[35m'
 ANSI_INFO='\x1B[33m'
 ANSI_PARAM='\x1B[4m'
 ANSI_LINK='\x1B[34m'
-LIST_BULLET='    '
+LIST_BULLET='\x1B[33m - \x1B[39m'
+INDENT='    '
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Main:
@@ -67,7 +68,7 @@ for script in "${BASE}/tools"/*; do
 	script_spec="${script}/${script_name}.sh"
 	if [[ -f "${script_spec}" ]]; then
 		source "${script_spec}"
-		printf "${LIST_BULLET} ${ANSI_COMMAND}%-20s${ANSI_DEFAULT} - %s${ANSI_DEFAULT}\n" \
+		printf "${IDENT} ${ANSI_COMMAND}%-20s${ANSI_DEFAULT} - %s${ANSI_DEFAULT}\n" \
 			"$script_name" \
 			"$(tr '\n' ' ' <<< "$DESCRIPTION" | sed 's/  / /')"
 	fi

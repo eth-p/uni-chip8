@@ -66,7 +66,7 @@ display_branch() {
 
 	local branch
 	while read -r branch; do
-		printf "${ANSI_INFO} - ${ANSI_DEFAULT}%-20s (%s)\n" "$branch" "$(git_branch_date "$branch" --relative)"
+		printf "${LIST_BULLET}%-20s (%s)\n" "$branch" "$(git_branch_date "$branch" --relative)"
 	done < <(git_branch_list --simple)
 }
 
