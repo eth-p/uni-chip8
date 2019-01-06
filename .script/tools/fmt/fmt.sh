@@ -44,6 +44,6 @@ validate() {
 # Wrappers.
 
 tsfmt() {
-	node "${SCRIPT_DIR}/format-typescript.js" --no-vscode --no-tsconfig "$@"
+	node "${BASE}/libexec/format-typescript.js" --no-vscode --no-tsconfig "$@"
 	return $?
 }
