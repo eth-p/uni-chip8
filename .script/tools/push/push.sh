@@ -11,6 +11,7 @@ ENTRY() {
 	set -o errexit
 	git_utils
 	git_protect 'push to'
+	local args=()
 
 	xopts 'format=flag' "$@"
 
@@ -19,7 +20,12 @@ ENTRY() {
 		refmt
 	fi
 
-	git push
+	# Fix tracking.
+	if ! git_branch_tracking &>/dev/null; then
+		args+=(-u "origin/$(git_current_branch --simple)")
+	fi
+
+	git push "${args[@]}"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
