@@ -13,6 +13,8 @@
 - **tools:** Created `./sct push` to push commits (with forced reformatting).
 - **tools:** Created `./sct pull` to pull commits.
 - **tools:** Created `./sct check` to check for code issues.
+- **tools:** Created `./sct test` to run unit tests.
+- **tools:** Created `./sct @query` to query projectin formation.
 
 ### Documentation
 - **docs:** Added contributing guide.

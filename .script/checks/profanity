@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+// Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+// MIT License
+// ---------------------------------------------------------------------------------------------------------------------
+// check: profanity
+// Check the project source code for any profanity.
+// ---------------------------------------------------------------------------------------------------------------------
+'use strict';
+require('module-alias/register');
+
+// Libraries.
+const badwords = require('bad-words');
+const fs       = require('fs-extra');
+const mm       = require('micromatch');
+const path     = require('path');
+
+// Modules.
+const Project  = require('@/Project');
+
+// Constants.
+const PROFANITY = new badwords();
+const BUFFER    = 64;
+const IGNORE    = [
+	'**/*.{png,jpg,jpeg}'
+];
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Check.
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Checks a file for profanity.
+ *
+ * @param filepath {String} The path to the file.
+ * @returns {Promise<bool>} True if the function is clean.
+ */
+function checkFile(filepath) {
+	return new Promise((resolve, reject) => {
+		let stream = fs.createReadStream(filepath, {encoding: 'utf-8'});
+		let cache  = '';
+
+		stream.on('data', (chunk) => {
+			if (PROFANITY.isProfane(cache + chunk)) {
+				stream.close();
+				return resolve(false);
+			}
+
+			cache = chunk.substring(cache.length - BUFFER);
+		});
+
+		stream.on('end', () => {resolve(true)});
+	});
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Main.
+// ---------------------------------------------------------------------------------------------------------------------
+
+(async function() {
+	let project = await Project.get();
+
+	let failed  = false;
+	let waits   = [];
+	let checked = {}; // Makeshift hashmap, since V8 optimizes it under the hood.
+	for (let mod of project.getModules()) {
+		for (let finder of mod.getFiles()) {
+			waits.push(finder.promise());
+
+			finder.on('data', (file) => {
+				if (mm.any(file, IGNORE)) {
+					return;
+				}
+
+				if (file in checked) {
+					return;
+				}
+
+				checked[file] = true;
+				waits.push((async function() {
+					let qfile  = path.join(mod.getDirectory(), file);
+					let status = await checkFile(qfile);
+					if (status !== true) {
+						console.error(`${qfile} contains profanity`);
+						failed = true;
+					}
+				})());
+			});
+
+			finder.start();
+		}
+	}
+
+	await Promise.all(waits);
+	process.exit(failed ? 1 : 0);
+})();

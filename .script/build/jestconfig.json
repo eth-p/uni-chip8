@@ -1,0 +1,25 @@
+{
+	"testRegex": "/?[^.]\\.tsx?$",
+
+	"roots": [
+		"test"
+	],
+
+	"transform": {
+		"ts": "ts-jest"
+	},
+
+	"moduleFileExtensions": [
+		"ts",
+		"tsx",
+		"js",
+		"jsx",
+		"json"
+	],
+
+	"globals": {
+		"ts-jest": {
+			"diagnostics": false
+		}
+	}
+}

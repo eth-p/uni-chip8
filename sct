@@ -16,7 +16,8 @@ ANSI_COMMAND='\x1B[35m'
 ANSI_INFO='\x1B[33m'
 ANSI_PARAM='\x1B[4m'
 ANSI_LINK='\x1B[34m'
-LIST_BULLET='    '
+LIST_BULLET='\x1B[33m - \x1B[39m'
+INDENT='    '
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Main:
@@ -37,12 +38,13 @@ SCT="${ROOT}/${PROGRAM}"
 if [[ -f "${script_spec}" ]]; then
 	RES="${BASE}/tools/${script_name}"
 
-	source "${BASE}/lib/npx.sh"
-	source "${BASE}/lib/msg.sh"
-	source "${BASE}/lib/die.sh"
-	source "${BASE}/lib/xopts.sh"
-	source "${BASE}/lib/srun.sh"
-	source "${BASE}/lib/git_utils.sh"
+	source "${BASE}/lib/sh/npx.sh"
+	source "${BASE}/lib/sh/msg.sh"
+	source "${BASE}/lib/sh/die.sh"
+	source "${BASE}/lib/sh/xopts.sh"
+	source "${BASE}/lib/sh/srun.sh"
+	source "${BASE}/lib/sh/project.sh"
+	source "${BASE}/lib/sh/git_utils.sh"
 
 	usage() {
 		printf "$(USAGE | sed 's/%/%%/')"
@@ -66,7 +68,7 @@ for script in "${BASE}/tools"/*; do
 	script_spec="${script}/${script_name}.sh"
 	if [[ -f "${script_spec}" ]]; then
 		source "${script_spec}"
-		printf "${LIST_BULLET} ${ANSI_COMMAND}%-20s${ANSI_DEFAULT} - %s${ANSI_DEFAULT}\n" \
+		printf "${IDENT} ${ANSI_COMMAND}%-20s${ANSI_DEFAULT} - %s${ANSI_DEFAULT}\n" \
 			"$script_name" \
 			"$(tr '\n' ' ' <<< "$DESCRIPTION" | sed 's/  / /')"
 	fi

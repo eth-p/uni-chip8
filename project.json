@@ -1,0 +1,78 @@
+{
+	"modules": {
+
+		"docs": {
+			"meta": true,
+			"description": "Project documentation.",
+
+			"sources": [
+				"*.md",
+				"docs/**/*.md"
+			]
+		},
+
+		"tools": {
+			"meta": true,
+			"description": "Project tooling.",
+
+			"sources": [
+				".script/**/*",
+				"!*.{png,jpeg,jpg,svg}"
+			]
+		},
+
+		"ci": {
+			"meta": true,
+			"description": "Continuous integration.",
+
+			"sources": [
+				".circle/**/*"
+			]
+		},
+
+		"repo": {
+			"meta": true,
+			"description": "The repo.",
+
+			"sources": [
+				".editorconfig",
+				".gitattributes",
+				".gitignore",
+				"project.json"
+			],
+
+			"exclude": [
+				"**/node_modules",
+				"**/.tmp"
+			]
+
+		},
+
+		"chip-emu": {
+			"description": "The CHIP-8 emulator core.",
+
+			"sources": [
+				"src/**/*.ts"
+			],
+
+			"tests": [
+				"test/**/*.ts"
+			]
+
+		},
+
+		"chip-dbg": {
+			"description": "The CHIP-8 debugging module.",
+
+			"sources": [
+				"src/**/*.ts"
+			],
+
+			"tests": [
+				"test/**/*.ts"
+			]
+
+		}
+
+	}
+}

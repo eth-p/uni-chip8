@@ -17,11 +17,8 @@
 		"stripInternal": true,
 	},
 	"include": [
-		"../../src/**/*.ts",
-		"../../lib/**/*.ts"
+		"src/**/*.ts"
 	],
 	"exclude": [
-		"node_modules",
-		".script"
 	]
 }
