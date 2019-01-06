@@ -1,23 +1,27 @@
-# SFU-CMPT276 Project Document
+# SFU-CMPT276 Product Document
+
+| [<- README](../../README.md) |
 
 ## Meeting Schedule
 
-|Week|Date|Priorities|
-|---:|:-----:|:----------:|
-|1  |XYZ  |XYZ       |
-|2  |XYZ  |XYZ       |
-|3  |XYZ  |XYZ       |
-|4  |XYZ  |XYZ       |
-|5  |XYZ  |XYZ       |
-|6  |XYZ  |XYZ       |
-|7  |XYZ  |XYZ       |
-|8  |XYZ  |XYZ       |
-|9  |XYZ  |XYZ       |
-|10  |XYZ  |XYZ      |
-|11  |XYZ  |XYZ      |
-|12  |XYZ  |XYZ      |
+|Week|Date|Priorities|Notes|Minutes|
+|---:|:---:|:---:|:---:|:---:|
+|**1**|N/A|N/A|N/A|N/A|
+|**2**|*Tentative: January 7*|Release 0| |[week2](meeting-minutes/week2.md)|
+|**3**| | | | |
+|**4**| | | | |
+|**5**| | | | |
+|**6**| | | | |
+|**7**| | | | |
+|**8**| | | | |
+|**9**| | | | |
+|**10**| | | | |
+|**11**| | | | |
+|**12**| | | | |
 
 ## Communication Tools
+
+Discord will be the primary form of communication online.
 
 ## Software Repository
 

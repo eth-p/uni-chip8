@@ -1,5 +1,5 @@
 # SFU-CMPT276
-| [Changelog](CHANGELOG.md) | [Project Guide](PLAN.md) | [Contributing Guide](CONTRIBUTING.md) | 
+| [Changelog](CHANGELOG.md) | [Project Guide](PLAN.md) | [Contributing Guide](CONTRIBUTING.md) | [Product Document](docs/project/Product-Document.md) |
 
 
 
