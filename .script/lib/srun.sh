@@ -37,7 +37,7 @@ srun() {
 	fi
 
 	if [[ "$lines" -lt "$(tput lines)" ]]; then
-		printf "\x1B[${lines}A\x1B[${width}G%s\n\x1B[${lines}B" "$msg"
+		printf "\x1B[${lines}A\x1B[${width}G%s\x1B[1G\x1B[${lines}B" "$msg"
 	else
 		printf "$msg"
 	fi
