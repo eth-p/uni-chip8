@@ -25,8 +25,9 @@ ENTRY() {
 	# Run checks.
 	local check
 	local fail=false
+	cd "$BASE"
 	for check in "${checks[@]}"; do
-		SRUN_MESSAGE=$'\x1B[34m'"${check}" srun "${SCRIPT_DIR}/checks/${check}" || fail=true
+		SRUN_MESSAGE=$'\x1B[34m'"${check}" srun "${BASE}/checks/${check}" || fail=true
 	done
 
 	# Summary.

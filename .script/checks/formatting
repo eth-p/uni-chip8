@@ -8,7 +8,7 @@
 fail=false
 
 # Run:
-npx tsfmt --verify --no-vscode --useTsconfig ".script/build/tsconfig.json" -- "$@" || fail=true
+./libexec/format-typescript.js --verify --no-vscode --no-tsconfig || fail=true
 
 # Return:
 $fail && exit 1
