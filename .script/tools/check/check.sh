@@ -31,10 +31,10 @@ ENTRY() {
 
 	# Summary.
 	if $fail; then
-		printf "\n\nOne or more checks have failed.\n"
+		printf "\nOne or more checks have failed.\n"
 		return 1
 	fi
 
-	printf "\n\nAll checks have passed.\n"
+	printf "\nAll checks have passed.\n"
 	return 0
 }
