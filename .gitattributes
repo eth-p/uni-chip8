@@ -1,0 +1,3 @@
+# Line Endings
+* eol=lf
+*.sh eol=lf
