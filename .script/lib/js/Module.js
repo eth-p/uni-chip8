@@ -4,8 +4,6 @@
 'use strict';
 
 // Libraries.
-const fs       = require('fs-extra');
-const git      = require('nodegit');
 const path     = require('path');
 
 // Modules.
@@ -126,7 +124,7 @@ module.exports = class Module {
 		this._sources     = config.sources instanceof Array ? config.sources : [];
 		this._tests       = config.tests instanceof Array ? config.tests : [];
 		this._excludes    = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
-		this._directory   = this._meta ? project.getDirectory() : path.join(project.getDirectory(), 'module', id);
+		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
 	}
 
 }

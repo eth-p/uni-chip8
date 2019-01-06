@@ -2,6 +2,8 @@
 // Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
+// format-typescript: A wrapper around tsfmt that adds all the project files.
+// ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 require('module-alias/register');
 

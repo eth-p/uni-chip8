@@ -29,6 +29,14 @@ module.exports = class Project {
 	}
 
 	/**
+	 * Gets the module directory.
+	 * @returns {string}
+	 */
+	getModuleDirectory() {
+		return path.join(this._directory, 'module');
+	}
+
+	/**
 	 * Gets the project repository.
 	 * @returns {Promise<git.Repository|null>}
 	 */

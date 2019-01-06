@@ -20,7 +20,7 @@
 		"readdirp": "^2.2.1",
 		"through2-filter": "^3.0.0",
 		"ts-jest": "^23.10.5",
-		"typescript": "^3.3.0-dev.20190103",
+		"typescript": "^3.2.2",
 		"typescript-formatter": "^7.2.2"
 	},
 	"_moduleAliases": {

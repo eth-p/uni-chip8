@@ -42,6 +42,7 @@ if [[ -f "${script_spec}" ]]; then
 	source "${BASE}/lib/die.sh"
 	source "${BASE}/lib/xopts.sh"
 	source "${BASE}/lib/srun.sh"
+	source "${BASE}/lib/project.sh"
 	source "${BASE}/lib/git_utils.sh"
 
 	usage() {
