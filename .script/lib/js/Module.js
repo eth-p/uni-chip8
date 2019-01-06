@@ -64,9 +64,11 @@ module.exports = class Module {
 	 */
 	getSourceFiles() {
 		return new Finder(this.getDirectory(), this.getSourcePatterns().concat(this._excludes, [
+			'!**/node_modules',
 			'!**/.git',
 			'!**/.DS_Store',
 			'!**/._*',
+			'!**/.tmp',
 			'!**/.idea'
 		]));
 	}
@@ -85,9 +87,11 @@ module.exports = class Module {
 	 */
 	getTestFiles() {
 		return new Finder(this.getDirectory(), this.getTestPatterns().concat(this._excludes, [
+			'!**/node_modules',
 			'!**/.git',
 			'!**/.DS_Store',
 			'!**/._*',
+			'!**/.tmp',
 			'!**/.idea'
 		]));
 	}

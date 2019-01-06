@@ -8,12 +8,7 @@
 			"sources": [
 				"*.md",
 				"docs/**/*.md"
-			],
-
-			"exclude": [
-				"**/node_modules"
 			]
-
 		},
 
 		"tools": {
@@ -23,12 +18,7 @@
 			"sources": [
 				".script/**/*",
 				"!*.{png,jpeg,jpg,svg}"
-			],
-
-			"exclude": [
-				"**/node_modules"
 			]
-
 		},
 
 		"ci": {
@@ -37,12 +27,7 @@
 
 			"sources": [
 				".circle/**/*"
-			],
-
-			"exclude": [
-				"**/node_modules"
 			]
-
 		},
 
 		"repo": {
@@ -57,7 +42,8 @@
 			],
 
 			"exclude": [
-				"**/node_modules"
+				"**/node_modules",
+				"**/.tmp"
 			]
 
 		},
