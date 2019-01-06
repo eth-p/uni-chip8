@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@types/jest": "^23.3.11",
+		"array.prototype.flat": "^1.2.1",
 		"bad-words": "^3.0.0",
 		"chalk": "^2.4.1",
 		"child-process-promise": "^2.2.1",

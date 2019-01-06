@@ -6,6 +6,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 require('module-alias/register');
+require('array.prototype.flat').shim();
 
 // Libraries.
 const minimist = require('minimist');
@@ -54,7 +55,10 @@ async function listModules(project, ARGS) {
 }
 
 async function listFiles(project, modules, fnsig) {
-	(await Promise.all(modules.map(x => (project.getModule(x))[fnsig]()).flat().map(x => x.array())))
+	let mods  = modules.map(x => project.getModule(x));
+	let files = mods.map(x => x[fnsig]()).flat().map(x => x.array());
+
+	(await Promise.all(files))
 		.flat()
 		.sort()
 		.forEach(x => process.stdout.write(`${x}\n`));
