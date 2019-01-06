@@ -11,13 +11,26 @@ ENTRY() {
 	set -o errexit
 	git_utils
 
-	xopts 'new/create=flag' "$@"
+	xopts 'new/create=flag,update=flag' "$@"
 
 	case "${#opt_[@]}" in
-		0) display_branch; return $?;;
-		1) switch_branch "$1" "${opt_new}"; return $?;;
+
+		0) if [[ "$opt_update" = "true" ]]; then
+		       update_branch
+		       return $?
+		   else
+		       display_branch
+		       return $?
+		   fi;;
+
+		1) switch_branch "$1" "${opt_new}" || return $?;;
 		2) die "Too many arguments.${ANSI_DEFAULT}\n\n%s" "$(usage)";;
 	esac
+
+	if [[ -n "$opt_update" && "$opt_new" != "true" ]]; then
+		update_branch "$opt_update"
+		return $?
+	fi
 }
 
 USAGE() {
@@ -29,9 +42,14 @@ MESSAGE
 # ----------------------------------------------------------------------------------------------------------------------
 
 switch_branch() {
-	git rev-parse "$1" &>/dev/null || { [[ "$2" = true ]] && {
-		create_branch "$1" || return $?
-	} } || die "'%s' is not a branch. Use --create to make it.\n" "$1"
+	if ! git rev-parse "$1" &>/dev/null; then
+		if [[ "$opt_new" = true ]]; then
+			create_branch "$1" || die 'Could not create branch.'
+			return $?
+		else
+			die "'%s' is not a branch. Use --create to make it.\n" "$1"
+		fi
+	fi
 
 	git checkout "$1"
 }
@@ -50,4 +68,21 @@ display_branch() {
 	while read -r branch; do
 		printf "${ANSI_INFO} - ${ANSI_DEFAULT}%-20s (%s)\n" "$branch" "$(git_branch_date "$branch" --relative)"
 	done < <(git_branch_list --simple)
+}
+
+update_branch() {
+	# Determine source branch.
+	local branch="$1"
+	if [[ -z "$branch" ]]; then
+		branch="master"
+	fi
+
+	printf "Updating '%s' with commits from '%s'...\n" "$(git_current_branch --simple)" "$branch"
+
+	# Merge.
+	git fetch >/dev/null           || die 'Could not update branch.'
+	git merge "$branch" --ff-only  || die 'Could not update branch. You will need to do it manually.'
+
+	# Done.
+	printf "Done.\n"
 }
