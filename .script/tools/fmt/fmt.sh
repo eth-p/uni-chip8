@@ -18,14 +18,15 @@ ENTRY() {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Functions.
 
 fmt() {
 	set -o errexit
 
 	if [[ "$opt_porcelain" ]]; then
-		npx tsfmt --replace --no-vscode --useTsconfig ".script/build/tsconfig.json" -- "$@" | sed 's/^replaced //'
+		tsfmt --replace -- "$@" | sed 's/^replaced //'
 	else
-		npx tsfmt --replace --no-vscode --useTsconfig ".script/build/tsconfig.json" -- "$@"
+		tsfmt --replace -- "$@"
 	fi
 
 	return 0
@@ -34,7 +35,15 @@ fmt() {
 validate() {
 	set -o errexit
 
-	npx tsfmt --verify --no-vscode --useTsconfig ".script/build/tsconfig.json" -- "$@"
+	npx tsfmt --verify -- "$@"
 
 	return 0
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Wrappers.
+
+tsfmt() {
+	node "${SCRIPT_DIR}/format-typescript.js" --no-vscode --no-tsconfig "$@"
+	return $?
 }
