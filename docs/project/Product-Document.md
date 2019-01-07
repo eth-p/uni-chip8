@@ -48,11 +48,11 @@ Major libraries and tools are discussed later in the document.
 
 We will use GitHub to host our private repository.
 
-## Communication Tools
+## Communication
 
 Discord will be the primary form of communication online.
 
-## Testing Tools
+## Testing
 
 On GitHub, we will use CircleCI to automatically validate incoming commits.
 *(is this correct?)*
