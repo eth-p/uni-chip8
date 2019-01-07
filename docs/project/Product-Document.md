@@ -4,28 +4,7 @@
 
 ## Table of Contents
 
-- [**Meeting Schedule**](#meeting-schedule)
-- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
-  - [*Deliverables*](#deliverables)  
-  - [*Development Tools*](#development-tools)  
-  - [*Far Future Ideas*](#far-future-ideas)
-- [**Implementation Language**](#implementation-language)
-- [**Software Development Methodology**](#software-development-methodology)  
-  - [*Project Guidelines*](#project-guidelines)
-  - [*Member Roles*](#member-roles)
-- [**Software Repository**](#software-repository)
-- [**Communication**](#communication)
-- [**Testing**](#testing)
-- [**Developer Environment**](#developer-environment)  
-  - [*Repository Tools*](#repository-tools)  
-  - [*Linux Environment Requirements*](#linux-environment-requirements)  
-  - [*Windows Environment Requirements*](#windows-environment-requirements)
-  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)  
-- [**Use Cases**](#use-cases)
-- [**Work Breakdown**](#work-breakdown)
-- [**Project Schedule**](#project-schedule)
-- [**Information Sources**](#information-sources)
-  - [*CHIP-8 Documentation*](#chip-8-Documentation)
+[TOC]
 
 ## Meeting Schedule
 
@@ -106,11 +85,23 @@ We will use GitHub to host our private repository.
 
 ## Communication
 
-Discord will be the primary form of communication online.
+Communication is done through in-person meetings, GitHub issues, and Discord.
+
+### GitHub Issues
+
+GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+
+### Meetings
+
+Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+
+### Discord
+
+Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
 
 ## Testing
 
-On GitHub, we will use CircleCI to automatically validate incoming commits. This will check the commits against code style guidelines and unit tests, preventing developers from merging branches that would introduce regressions or bugs.
+On GitHub, we will use CircleCI to automatically validate incoming commits. This will check the commits against code style guidelines and Jest unit tests, preventing developers from merging branches that would introduce regressions or bugs.
 
 Furthermore, these testing and validation tools are exposed to developers through the in-house command line script, `sct`. For further details, view the [repository tools section.](#repository-tools)
 
@@ -147,7 +138,7 @@ commands work on the local repository --->
 ### Linux Environment Requirements
 
 For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
-  
+
 Please install all of the following packages before executing `./sct init`.
 
 All packages listed (**exception to nodejs**) may be installed through the `apt` command.  
