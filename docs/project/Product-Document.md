@@ -2,6 +2,24 @@
 
 | [<- README](../../README.md) |
 
+## Table of Contents
+
+- [**Meeting Schedule**](#meeting-schedule)
+- [**Implementation Language**](#implementation-language)
+- [**Software Development Methodology**](#Software-development-methodology)  
+  - [*Project Guidelines*](#project-guidelines)
+- [**Software Repository**](#software-repository)
+- [**Communication**](#communication)
+- [**Testing**](#testing)
+- [**Developer Environment**](#developer-environment)  
+  - [*Repository Tools*](#repository-tools)  
+  - [*Linux Environment Requirements*](#linux-environment-requirements)  
+  - [*Windows Environment Requirements*](#windows-environment-requirements)
+  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)  
+- [**Use Cases**](#use-cases)
+- [**Work Breakdown**](#work-breakdown)
+- [**Project Schedule**](#project-schedule)
+
 ## Meeting Schedule
 
 |Week|Date|Priorities|Notes|Minutes|
