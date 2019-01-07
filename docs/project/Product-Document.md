@@ -5,13 +5,14 @@
 ## Table of Contents
 
 - [**Meeting Schedule**](#meeting-schedule)
-- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
+- [**Cumulative Project Deliverables and Tools**](#cumulative-project-deliverables-and-tools)
   - [*Deliverables*](#deliverables)  
   - [*Development Tools*](#development-tools)  
-  - [*Ideas*](#ideas)
+  - [*Far Future Ideas*](#far-future-ideas)
 - [**Implementation Language**](#implementation-language)
 - [**Software Development Methodology**](#Software-development-methodology)  
   - [*Project Guidelines*](#project-guidelines)
+  - [*Member Roles*](#member-roles)
 - [**Software Repository**](#software-repository)
 - [**Communication**](#communication)
 - [**Testing**](#testing)
@@ -43,22 +44,27 @@
 |**11**| | | | |
 |**12**| | | | |
 
-## Project Deliverables and Tools
+## Cumulative Project Deliverables and Tools
+
+This section contains all deliverables and tools that we are planning to create, in-progress to create, or have completed.
+
+<!--- Find a different system later on --->
+**Legend:** `ITEM (STATE, START WEEK OF CURRENT STATE)`
 
 ### Deliverables
 
-- **CHIP-8 Emulator**
-- **CHIP-8 ...**
-- **CHIP-8 Game: xyz**
+- **CHIP-8 Emulator** *(Planning, Week 2)*
+- **CHIP-8 Debugger** *(Planning, Week 2)*
 
 ### Development Tools
 
-- **Local Unit Tests**
-- **Local Repository Manager ([sct](#repository-tools))**
+- **Automated Repository Tests** *(In Work, Week 1)*
+- **Local Repository Manager ([sct](#repository-tools))** *(In Work, Week 1)*
+- **Local Unit Tests** *(In Work, Week 1)*
 
-### Ideas
+### Far Future
 
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
+- **Intermediate Representation -> WebAssembly optimizing JIT Compiler** *(Idea)*
 
 ## Implementation Language
 
@@ -82,6 +88,17 @@ Major libraries and tools are discussed later in the document.
 
 - Source code will be formatted according to a team standard. 
 - Source code will not contain any swear words.
+
+### Member Roles
+<!--- Tentative Roles --->
+|Member|Team Lead|Emulator Dev|Tool Dev|Game Dev|Documentor|
+|------:|:---------:|:------------:|:----------:|:--------:|:---------:|
+|**Ethan Pini**| X | X | X | | X |
+|**Kyle Saburao**| X | X | | | X |
+|**Dan Amarasinghe**| | | | | |
+|**Anthony Pham**| | | | | |
+|**Henry Wang**| | | | | |
+
 
 ## Software Repository
 
