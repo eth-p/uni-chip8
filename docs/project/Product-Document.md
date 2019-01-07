@@ -19,19 +19,6 @@
 |**11**| | | | |
 |**12**| | | | |
 
-## Communication Tools
-
-Discord will be the primary form of communication online.
-
-## Software Repository
-
-We will use GitHub to host our private repository.
-
-## Testing Tools
-
-On GitHub, we will use CircleCI to automatically validate incoming commits.
-(is this correct?)
-
 ## Implementation Language
 
 We will be using TypeScript to implement the CHIP-8 emulator.  
@@ -40,23 +27,73 @@ TypeScript was chosen over Javascript because TypeScript is a statically typed, 
 
 *Note that compilation support is quoted. More accurately, Typescript is **transpiled** into Javascript. Code in TypeScript is reduced into equivalent code in Javascript. Syntactical errors prevent the transpilation from completing.*
 
-TypeScript supports *async/await*, where code that would normally halt execution (such as waiting for user input) could potentially not block critical systems such as the CHIP-8 timers. (is this correct?)
+TypeScript supports *async/await*, where code that would normally halt execution (such as waiting for user input) could potentially not block critical systems such as the CHIP-8 timers. *(is this correct?)*
 
 *TODO: Include other reasons and explanations.*
 
 The CHIP-8 will be designed with object-oriented principles and modularity in mind.
 
-## Developer Environment Requirements
+Major libraries and tools are discussed later in the document.
 
-### Linux Environment
+## Software Development Methodology
 
-- Language Packages
+*Discuss continuous integration and member roles*
+
+### Project Guidelines
+
+- Source code will be formatted according to a team standard. 
+- Source code will not contain any swear words.
+
+## Software Repository
+
+We will use GitHub to host our private repository.
+
+## Communication Tools
+
+Discord will be the primary form of communication online.
+
+## Testing Tools
+
+On GitHub, we will use CircleCI to automatically validate incoming commits.
+*(is this correct?)*
+
+
+
+## Developer Environment
+
+The project repository contains in-house tools which will help developers maintain code and repository quality.  
+
+These tools have been designed to run in a Linux terminal, therefore we ask that all developers have the capacity to run bash scripts on their primary environment.  
+
+`sct` is the command file to execute in the repository root directory.  
+A command in the following table is executed as follows: `./sct CMD`.  
+To view the command list in terminal, execute `./sct` without any trailing command.  
+
+<!--- I changed the purpose text for some commands to explicitly indicate that the  
+commands work on the local repository --->
+
+|Command|Purpose|
+|-------|-------|
+|`@query`|Query project information|
+|`branch`|Create or switch branches|
+|`build`|Build the project|
+|`check`|Check to see if local source code passes project guidelines|
+|`commit`|Commit local changes to Git|
+|`fmt`  |Format local source code|
+|`init` |Initialize the local repository|
+|`pull` |Pull remote changes from GitHub|
+|`push` |Push local changes to GitHub|
+|`test` |Run local unit tests|
+
+### Linux Environment Requirements
+
+- **Language Packages**
   - g++
   - python2.7
   - nodejs
     - [**DO NOT INSTALL DIRECTLY THROUGH APT**](https://github.com/nodesource/distributions/blob/master/README.md#deb)
   
-- Tool Packages
+- **Tool Packages**
   - curl
   - git
   - git-lfs
@@ -66,16 +103,15 @@ The CHIP-8 will be designed with object-oriented principles and modularity in mi
   - libssl-dev
   - build-essential
 
-### Windows Environment
+### Windows Environment Requirements
 
 To faciliate development consistency, we ask that all members on Windows 10 enable the Windows Subsystem for Linux.
-Local development tools have been designed to run in a bash shell with various Linux packages.
 
-- Windows Subsystem for Linux
-  - Ubuntu from Windows Store
+- **Windows Subsystem for Linux**
+  - Ubuntu from the Windows Store
   - All standard Linux packages
 
-- *Optional*
+- **Optional**
   - NodeJS for Windows
   - Git for Windows
   - Visual Studio Code
