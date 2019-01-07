@@ -65,7 +65,7 @@ In each developers local repository, there is a bash CLI that will run all unit 
 
 The project repository contains in-house tools which will help developers maintain code and repository quality.  
 
-These tools have been designed to run in a Linux terminal, therefore we ask that all developers have the capacity to run bash scripts on their primary environment. The end of this section details basic requirements that all developers should have on their development environment.
+These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The end of this section details basic requirements that all developers should satisfy on their development environment.
 
 `sct` is the command file to execute in the repository root directory.  
 To view the command list in terminal, execute `./sct` without any trailing command.  
@@ -94,7 +94,7 @@ commands work on the local repository --->
 - **Language Packages**
   - g++
   - python2.7
-  - nodejs
+  - nodejs 10.15, or later
     - [**DO NOT INSTALL DIRECTLY THROUGH APT**](https://github.com/nodesource/distributions/blob/master/README.md#deb)
   
 - **Tool Packages**
@@ -109,19 +109,19 @@ commands work on the local repository --->
 
 ### Windows Environment Requirements
 
-To faciliate development consistency, we ask that all members on Windows 10 enable *Windows Subsystem for Linux*.
+To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
 - **Windows Subsystem for Linux**
-  - Ubuntu from the Windows Store
-  - All standard Linux packages
+  - Ubuntu from the [Windows Store](https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?rtc=1&activetab=pivot:overviewtab)
+  - All standard [Linux packages](#linux-environment-requirements)
 
 - **Optional**
-  - NodeJS for Windows
-  - Git for Windows
-  - Visual Studio Code
+  - [NodeJS for Windows](https://nodejs.org/en/)
+  - [Git for Windows](https://git-scm.com/downloads)
+  - [Visual Studio Code](https://code.visualstudio.com/)
 
-**Note:** There is currently an outstanding, but tracked issue with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal. As a result, a developer may suffer performance degradation in running WSL terminal commands.  
-To counteract this issue, the root directory of the WSL installation package and any associated major processes must be excluded from the default Windows Antimalware Service. Please consider the ramifications before attempting this fix.  
+**Note:** There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+To counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
 ## Use Cases
 
