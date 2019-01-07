@@ -5,7 +5,7 @@
 ## Table of Contents
 
 - [**Meeting Schedule**](#meeting-schedule)
-- [**Cumulative Project Deliverables and Tools**](#cumulative-project-deliverables-and-tools)
+- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
   - [*Deliverables*](#deliverables)  
   - [*Development Tools*](#development-tools)  
   - [*Far Future Ideas*](#far-future-ideas)
@@ -44,7 +44,7 @@
 |**11**| | | | |
 |**12**| | | | |
 
-## Cumulative Project Deliverables and Tools
+## Project Deliverables and Tools
 
 This section contains all deliverables and tools that we are planning to create, in-progress to create, or have completed.
 
