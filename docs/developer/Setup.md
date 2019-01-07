@@ -45,7 +45,7 @@ sudo add-apt-repository ppa:git-core/ppa
 sudo apt install -y git-lfs
 
 # Install packages required for building nodegit.
-# WARNING: If you ignore this step, you may run into issues using 'sct
+# WARNING: If you ignore this step, you may run into issues using 'sct init' or 'npm install'.
 sudo apt install -y \
 	build-essential \
 	libcurl4-openssl-dev \
