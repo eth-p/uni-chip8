@@ -19,6 +19,7 @@
 - [**Use Cases**](#use-cases)
 - [**Work Breakdown**](#work-breakdown)
 - [**Project Schedule**](#project-schedule)
+- [**Information Sources**](#information-sources)
 
 ## Meeting Schedule
 
@@ -157,6 +158,13 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 ## Work Breakdown
 
-## Project Schedule 
+## Project Schedule
 
 *TODO: Include a gantt chart*
+
+## Information Sources
+
+- <https://en.wikipedia.org/wiki/CHIP-8>
+- <http://www.emulator101.com/introduction-to-chip-8.html>
+- <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
+- <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
