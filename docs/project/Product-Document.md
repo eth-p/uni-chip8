@@ -117,6 +117,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine. Thus, a develop
 
 - **Windows Subsystem for Linux**
   - Ubuntu from the [Windows Store](https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?rtc=1&activetab=pivot:overviewtab)
@@ -131,6 +132,9 @@ To faciliate development consistency, we ask that all developers on Windows 10 e
 There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
 
 To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
+
+### Detailed Setup Instructions for MacOS and Ubuntu
+[Setup Page](../developer/Setup.md)
 
 ## Use Cases
 
