@@ -23,15 +23,13 @@
 
 We will be using TypeScript to implement the CHIP-8 emulator.  
 
-TypeScript was chosen over Javascript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntactical errors can be flagged immediately before ever being shipped.  
+TypeScript was chosen over JavaScript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntax and control flow errors can be flagged immediately before ever being shipped.  
 
-*Note that compilation support is quoted. More accurately, Typescript is **transpiled** into Javascript. Code in TypeScript is reduced into equivalent code in Javascript. Syntactical errors prevent the transpilation from completing.*
+*Note that we use the term "compile" loosely when referring to TypeScript. More accurately, TypeScript is **transpiled** into JavaScript. Code in TypeScript is parsed and transformed into equivalent JavaScript code, which is used in the final product.*
 
-TypeScript supports *async/await*, where code that would normally halt execution (such as waiting for user input) could potentially not block critical systems such as the CHIP-8 timers. *(is this correct?)*
+TypeScript supports and polyfills the `async` and `await` keywords introduced in ECMAScript 7, which enable developers to operate on asynchronous JavaScript Promises as though they were synchronous constructs.
 
-*TODO: Include other reasons and explanations.*
-
-The CHIP-8 will be designed with object-oriented principles and modularity in mind.
+The CHIP-8 emulator and debugging engine will be designed with object-oriented principles and modularity in mind.
 
 Major libraries and tools are discussed later in the document.
 
@@ -54,10 +52,9 @@ Discord will be the primary form of communication online.
 
 ## Testing
 
-On GitHub, we will use CircleCI to automatically validate incoming commits.
-*(is this correct?)*
+On GitHub, we will use CircleCI to automatically validate incoming commits. This will check the commits against code style guidelines and unit tests, preventing developers from merging branches that would introduce regressions or bugs.
 
-In each developers local repository, there is a bash CLI that will run all unit tests. For further details on execution, view the [repository tools section.](#repository-tools)
+Furthermore, these testing and validation tools are exposed to developers through the in-house command line script, `sct`. For further details, view the [repository tools section.](#repository-tools)
 
 ## Developer Environment
 
