@@ -57,9 +57,11 @@ Discord will be the primary form of communication online.
 On GitHub, we will use CircleCI to automatically validate incoming commits.
 *(is this correct?)*
 
-
+In each developers local repository, there is a bash CLI that will run all unit tests. For further details on execution, view the [repository tools section.](#repository-tools)
 
 ## Developer Environment
+
+### Repository Tools
 
 The project repository contains in-house tools which will help developers maintain code and repository quality.  
 
@@ -107,7 +109,7 @@ commands work on the local repository --->
 
 ### Windows Environment Requirements
 
-To faciliate development consistency, we ask that all members on Windows 10 enable the Windows Subsystem for Linux.
+To faciliate development consistency, we ask that all members on Windows 10 enable *Windows Subsystem for Linux*.
 
 - **Windows Subsystem for Linux**
   - Ubuntu from the Windows Store
