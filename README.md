@@ -5,13 +5,7 @@
 
 ## Getting Started
 
-Make sure you have a BSD or Linux based computer. If you're on Windows, you can always use [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) with an Ubuntu-based distribution.
-
-The following software is required:
-
-- [NodeJS](https://nodejs.org/) (10.15 or later)
-
-Once you have everything ready, run the [sct init command](https://github.com/eth-p/SFU-CMPT276/wiki/sct-init) to set everything up.
+Check out the [setup guide](docs/developer/Setup.md) for instructions on how to get started.
 
 
 
