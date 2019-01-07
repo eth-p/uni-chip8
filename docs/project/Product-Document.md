@@ -5,12 +5,12 @@
 ## Table of Contents
 
 - [**Meeting Schedule**](#meeting-schedule)
-- [**Cumulative Project Deliverables and Tools**](#cumulative-project-deliverables-and-tools)
+- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
   - [*Deliverables*](#deliverables)  
   - [*Development Tools*](#development-tools)  
   - [*Far Future Ideas*](#far-future-ideas)
 - [**Implementation Language**](#implementation-language)
-- [**Software Development Methodology**](#Software-development-methodology)  
+- [**Software Development Methodology**](#software-development-methodology)  
   - [*Project Guidelines*](#project-guidelines)
   - [*Member Roles*](#member-roles)
 - [**Software Repository**](#software-repository)
@@ -44,7 +44,7 @@
 |**11**| | | | |
 |**12**| | | | |
 
-## Cumulative Project Deliverables and Tools
+## Project Deliverables and Tools
 
 This section contains all deliverables and tools that we are planning to create, in-progress to create, or have completed.
 
@@ -93,12 +93,12 @@ Major libraries and tools are discussed later in the document.
 <!--- Tentative Roles --->
 |Member|Team Lead|Emulator Dev|Tool Dev|Game Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|
-|**Ethan Pini**| X | X | X | | X |
-|**Kyle Saburao**| X | X | | | X |
-|**Dan Amarasinghe**| | | | | |
-|**Anthony Pham**| | | | | |
-|**Henry Wang**| | | | | |
-
+|**Ethan P.**| X | X | X | | X |
+|**Kyle S.**| X | X | | | X |
+|**Dan A.**| | | | | |
+|**Anthony P.**| | | | | |
+|**Henry W.**| | | | | |
+<!--- Last names shortened due to profanity filter --->
 
 ## Software Repository
 
