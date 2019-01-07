@@ -73,14 +73,21 @@ display_branch() {
 update_branch() {
 	# Determine source branch.
 	local branch="$1"
+	local current="$(git_current_branch --simple)"
+
 	if [[ -z "$branch" ]]; then
 		branch="master"
 	fi
 
 	printf "Updating '%s' with commits from '%s'...\n" "$(git_current_branch --simple)" "$branch"
 
+	# Update original branch.
+	git fetch                              >/dev/null || { git checkout "$current"; die 'Could not update branch.'; }
+	git checkout "$branch"                 >/dev/null || { git checkout "$current"; die 'Could not update branch.'; }
+	git merge "origin/${branch}" --ff-only >/dev/null || { git checkout "$current"; die 'Could not update branch. You will need to do it manually.'; }
+	git checkout "$current"                >/dev/null || { git checkout "$current"; die 'Could not update branch.'; }
+
 	# Merge.
-	git fetch >/dev/null           || die 'Could not update branch.'
 	git merge "$branch" --ff-only  || die 'Could not update branch. You will need to do it manually.'
 
 	# Done.
