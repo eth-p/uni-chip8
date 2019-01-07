@@ -5,6 +5,10 @@
 ## Table of Contents
 
 - [**Meeting Schedule**](#meeting-schedule)
+- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
+  - [*Deliverables*](#deliverables)  
+  - [*Development Tools*](#development-tools)  
+  - [*Ideas*](#ideas)
 - [**Implementation Language**](#implementation-language)
 - [**Software Development Methodology**](#Software-development-methodology)  
   - [*Project Guidelines*](#project-guidelines)
@@ -20,6 +24,7 @@
 - [**Work Breakdown**](#work-breakdown)
 - [**Project Schedule**](#project-schedule)
 - [**Information Sources**](#information-sources)
+  - [*CHIP-8 Documentation*](#chip-8-Documentation)
 
 ## Meeting Schedule
 
@@ -37,6 +42,23 @@
 |**10**| | | | |
 |**11**| | | | |
 |**12**| | | | |
+
+## Project Deliverables and Tools
+
+### Deliverables
+
+- **CHIP-8 Emulator**
+- **CHIP-8 ...**
+- **CHIP-8 Game: xyz**
+
+### Development Tools
+
+- **Local Unit Tests**
+- **Local Repository Manager ([sct](#repository-tools))**
+
+### Ideas
+
+- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Implementation Language
 
@@ -163,6 +185,8 @@ To temporarily counteract this issue, the root directory of the WSL installation
 *TODO: Include a gantt chart*
 
 ## Information Sources
+
+### CHIP-8 Documentation
 
 - <https://en.wikipedia.org/wiki/CHIP-8>
 - <http://www.emulator101.com/introduction-to-chip-8.html>
