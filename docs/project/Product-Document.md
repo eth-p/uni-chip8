@@ -10,7 +10,7 @@
   - [*Development Tools*](#development-tools)  
   - [*Far Future Ideas*](#far-future-ideas)
 - [**Implementation Language**](#implementation-language)
-- [**Software Development Methodology**](#Software-development-methodology)  
+- [**Software Development Methodology**](#software-development-methodology)  
   - [*Project Guidelines*](#project-guidelines)
   - [*Member Roles*](#member-roles)
 - [**Software Repository**](#software-repository)
