@@ -91,24 +91,28 @@ commands work on the local repository --->
 
 ### Linux Environment Requirements
 
+For the sake of this consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
+  
+Please install all of the following packages before executing `./sct init`.
+
 All packages listed (**exception to nodejs**) may be installed through the `apt` command.  
 To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
 nodejs through `apt` will yield an outdated version.
 
 - **Language Packages**
-  - g++
-  - python2.7
-  - nodejs 10.15, or later
+  - `g++`
+  - `python2.7`
+  - `nodejs` 10.15, or later
   
 - **Tool Packages**
-  - curl
-  - git
-  - git-lfs
-  - make
-  - node-gyp
-  - libcurl4-openssl-dev
-  - libssl-dev
-  - build-essential
+  - `curl`
+  - `git`
+  - `git-lfs`
+  - `make`
+  - `node-gyp`
+  - `libcurl4-openssl-dev`
+  - `libssl-dev`
+  - `build-essential`
 
 ### Windows Environment Requirements
 
@@ -123,8 +127,10 @@ To faciliate development consistency, we ask that all developers on Windows 10 e
   - [Git for Windows](https://git-scm.com/downloads)
   - [Visual Studio Code](https://code.visualstudio.com/)
 
-**Note:** There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
-To counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
+**Note:**  
+There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+
+To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
 ## Use Cases
 
