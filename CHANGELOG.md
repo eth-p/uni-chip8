@@ -20,3 +20,4 @@
 - **docs:** Added contributing guide.
 - **docs:** Added Project Document file.
 - **docs:** Added meeting minutes template file.
+- **docs:** Update Product Document to reflect tentative details before Week 2 meeting.
