@@ -7,7 +7,7 @@
 |Week|Date|Priorities|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
-|**2**|*Tentative: January 7*|Release 0| |[week2](meeting-minutes/week2.md)|
+|**2**|January 7|Release 0| |[week2](meeting-minutes/week2.md)|
 |**3**| | | | |
 |**4**| | | | |
 |**5**| | | | |
@@ -37,7 +37,7 @@ Major libraries and tools are discussed later in the document.
 
 ## Software Development Methodology
 
-*Discuss continuous integration and member roles*
+*TODO: Discuss continuous integration and member roles*
 
 ### Project Guidelines
 
@@ -68,7 +68,7 @@ The project repository contains in-house tools which will help developers mainta
 These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The end of this section details basic requirements that all developers should satisfy on their development environment.
 
 `sct` is the command file to execute in the repository root directory.  
-To view the command list in terminal, execute `./sct` without any trailing command.  
+To view the command list in terminal, execute exactly `./sct`.
 
 A command in the following table is executed as follows: `./sct command`.  
 
@@ -91,11 +91,14 @@ commands work on the local repository --->
 
 ### Linux Environment Requirements
 
+All packages listed (**exception to nodejs**) may be installed through the `apt` command.  
+To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
+nodejs through `apt` will yield an outdated version.
+
 - **Language Packages**
   - g++
   - python2.7
   - nodejs 10.15, or later
-    - [**DO NOT INSTALL DIRECTLY THROUGH APT**](https://github.com/nodesource/distributions/blob/master/README.md#deb)
   
 - **Tool Packages**
   - curl
@@ -130,3 +133,5 @@ To counteract this issue, the root directory of the WSL installation package and
 ## Work Breakdown
 
 ## Project Schedule 
+
+*TODO: Include a gantt chart*
