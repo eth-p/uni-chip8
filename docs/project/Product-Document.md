@@ -93,12 +93,12 @@ Major libraries and tools are discussed later in the document.
 <!--- Tentative Roles --->
 |Member|Team Lead|Emulator Dev|Tool Dev|Game Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|
-|**Ethan Pini**| X | X | X | | X |
-|**Kyle Saburao**| X | X | | | X |
-|**Dan Amarasinghe**| | | | | |
-|**Anthony Pham**| | | | | |
-|**Henry Wang**| | | | | |
-
+|**Ethan P.**| X | X | X | | X |
+|**Kyle S.**| X | X | | | X |
+|**Dan A.**| | | | | |
+|**Anthony P.**| | | | | |
+|**Henry W.**| | | | | |
+<!--- Last names shortened due to profanity filter --->
 
 ## Software Repository
 
