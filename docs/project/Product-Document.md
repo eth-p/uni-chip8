@@ -63,11 +63,13 @@ On GitHub, we will use CircleCI to automatically validate incoming commits.
 
 The project repository contains in-house tools which will help developers maintain code and repository quality.  
 
-These tools have been designed to run in a Linux terminal, therefore we ask that all developers have the capacity to run bash scripts on their primary environment.  
+These tools have been designed to run in a Linux terminal, therefore we ask that all developers have the capacity to run bash scripts on their primary environment. The end of this section details basic requirements that all developers should have on their development environment.
 
 `sct` is the command file to execute in the repository root directory.  
-A command in the following table is executed as follows: `./sct CMD`.  
 To view the command list in terminal, execute `./sct` without any trailing command.  
+
+A command in the following table is executed as follows: `./sct command`.  
+
 
 <!--- I changed the purpose text for some commands to explicitly indicate that the  
 commands work on the local repository --->
@@ -78,7 +80,7 @@ commands work on the local repository --->
 |`branch`|Create or switch branches|
 |`build`|Build the project|
 |`check`|Check to see if local source code passes project guidelines|
-|`commit`|Commit local changes to Git|
+|`commit`|Commit local changes to current branch|
 |`fmt`  |Format local source code|
 |`init` |Initialize the local repository|
 |`pull` |Pull remote changes from GitHub|
@@ -106,6 +108,9 @@ commands work on the local repository --->
 ### Windows Environment Requirements
 
 To faciliate development consistency, we ask that all members on Windows 10 enable the Windows Subsystem for Linux.
+
+**Note:** There is currently an outstanding, but tracked issue with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal. As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+To counteract this issue, the root directory of the WSL installation package and any associated major processes must be excluded from the default Windows Antimalware Service. Please consider the ramifications before attempting this fix.  
 
 - **Windows Subsystem for Linux**
   - Ubuntu from the Windows Store
