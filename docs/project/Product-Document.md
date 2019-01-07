@@ -80,7 +80,7 @@ Furthermore, these testing and validation tools are exposed to developers throug
 
 The project repository contains in-house tools which will help developers maintain code and repository quality.  
 
-These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The end of this section details basic requirements that all developers should satisfy on their development environment.
+These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
 
 `sct` is the command file to execute in the repository root directory.  
 To view the command list in terminal, execute exactly `./sct`.
