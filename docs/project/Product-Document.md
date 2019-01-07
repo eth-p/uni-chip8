@@ -133,7 +133,7 @@ There is currently an [outstanding, but tracked issue](https://github.com/Micros
 
 To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
-### Detailed Setup Instructions for MacOS and Ubuntu
+### Detailed Setup Instructions for MacOS, Ubuntu and Windows
 [Setup Page](../developer/Setup.md)
 
 ## Use Cases
