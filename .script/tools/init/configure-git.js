@@ -9,6 +9,15 @@ const inquirer = require('inquirer');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Main:
+// ---------------------------------------------------------------------------------------------------------------------
+
+async function getConfigKey(config, key) {
+	try {
+		return await config.getStringBuf(key);
+	} catch (ex) {
+		return null;
+	}
+}
 
 async function main() {
 	const repo_path = await git.Repository.discover('.', 0, '/');
@@ -21,7 +30,7 @@ async function main() {
 			type:     'input',
 			name:     'user_name',
 			message:  'What is your full name?',
-			default:  await config.getStringBuf('user.name'),
+			default:  await getConfigKey(config, 'user.name'),
 			validate: (input) => {
 				if (input.split(" ").length < 2) return "Please enter both your first and last names.";
 				if (!/^\p{Upper}\p{Lower}+ \p{Upper}\p{Lower}+$/u.test(input)) return "Please use proper casing.";
@@ -32,7 +41,7 @@ async function main() {
 			type:     'input',
 			name:     'user_email',
 			message:  'What is your email?',
-			default:  await config.getStringBuf('user.email'),
+			default:  await getConfigKey(config, 'user.email'),
 			validate: (input) => {
 				if (!/^[A-Za-z0-9._+\-]+@[a-z0-9\-]+\.[a-z0-9\-]+$/u.test(input)) return "Please enter a valid email.";
 				return true;
