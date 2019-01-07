@@ -100,11 +100,11 @@ When planning major refactors, please create an issue on GitHub so that all team
 
 #### Release 0
 
-We will be creating the initial product document.
+We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
 
 #### Release 1
 
-We will be releasing an inital interpreter.
+We will be releasing an inital interpreter. The interpreter will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
 This interpreter should be able to perform the the basic computational functions of the CHIP-8 specification.
 
 #### Release 2
