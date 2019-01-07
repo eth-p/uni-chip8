@@ -109,9 +109,6 @@ commands work on the local repository --->
 
 To faciliate development consistency, we ask that all members on Windows 10 enable the Windows Subsystem for Linux.
 
-**Note:** There is currently an outstanding, but tracked issue with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal. As a result, a developer may suffer performance degradation in running WSL terminal commands.  
-To counteract this issue, the root directory of the WSL installation package and any associated major processes must be excluded from the default Windows Antimalware Service. Please consider the ramifications before attempting this fix.  
-
 - **Windows Subsystem for Linux**
   - Ubuntu from the Windows Store
   - All standard Linux packages
@@ -120,6 +117,9 @@ To counteract this issue, the root directory of the WSL installation package and
   - NodeJS for Windows
   - Git for Windows
   - Visual Studio Code
+
+**Note:** There is currently an outstanding, but tracked issue with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal. As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+To counteract this issue, the root directory of the WSL installation package and any associated major processes must be excluded from the default Windows Antimalware Service. Please consider the ramifications before attempting this fix.  
 
 ## Use Cases
 
