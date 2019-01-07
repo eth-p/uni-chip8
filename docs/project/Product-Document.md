@@ -128,19 +128,31 @@ This interpreter should be able to perform the the basic computational functions
 
 ## Communication
 
-Discord will be the primary form of communication online.
+Communication is done through in-person meetings, GitHub issues, and Discord.
+
+### GitHub Issues
+
+GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+
+### Meetings
+
+Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+
+### Discord
+
+Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
 
 ## Testing
 
-On GitHub, we will use CircleCI to automatically validate incoming commits. This will check the commits against code style guidelines and unit tests, preventing developers from merging branches that would introduce regressions or bugs.
+Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests are implemented on a per-module basis and are intended to prevent regressions and ensure that the code works as intended by the developers.
 
-Furthermore, these testing and validation tools are exposed to developers through the in-house command line script, `sct`. For further details, view the [repository tools section.](#repository-tools)
+As well as being accessible to developers through the use of the `sct test` tool, the repository is tracked by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
 
 ## Developer Environment
 
 ### Repository Tools
 
-The project repository contains in-house tools which will help developers maintain code and repository quality.
+The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.  
 
 These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
 
