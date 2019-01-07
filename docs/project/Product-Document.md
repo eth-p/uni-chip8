@@ -4,7 +4,28 @@
 
 ## Table of Contents
 
-[TOC]
+- [**Meeting Schedule**](#meeting-schedule)
+- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
+  - [*Deliverables*](#deliverables)
+  - [*Development Tools*](#development-tools)
+  - [*Far Future Ideas*](#far-future-ideas)
+- [**Implementation Language**](#implementation-language)
+- [**Software Repository**](#software-repository)
+- [**Software Development Methodology**](#software-development-methodology)
+  - [*Work Breakdown*](#work-breakdown)
+  - [*Project Guidelines*](#project-guidelines)
+  - [*Member Roles*](#member-roles)
+- [**Communication**](#communication)
+- [**Testing**](#testing)
+- [**Developer Environment**](#developer-environment)
+  - [*Repository Tools*](#repository-tools)
+  - [*Linux Environment Requirements*](#linux-environment-requirements)
+  - [*Windows Environment Requirements*](#windows-environment-requirements)
+  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
+- [**Use Cases**](#use-cases)
+- [**Project Schedule**](#project-schedule)
+- [**Information Sources**](#information-sources)
+  - [*CHIP-8 Documentation*](#chip-8-Documentation)
 
 ## Meeting Schedule
 
@@ -22,6 +43,12 @@
 |**10**| | | | |
 |**11**| | | | |
 |**12**| | | | |
+
+### General Plan
+
+Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned when CMPT 213 starts at 2:30 PM.
+
+If required additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing the structure of the interpeter project.
 
 ## Project Deliverables and Tools
 
@@ -47,9 +74,9 @@ This section contains all deliverables and tools that we are planning to create,
 
 ## Implementation Language
 
-We will be using TypeScript to implement the CHIP-8 emulator.  
+We will be using TypeScript to implement the CHIP-8 emulator.
 
-TypeScript was chosen over JavaScript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntax and control flow errors can be flagged immediately before ever being shipped.  
+TypeScript was chosen over JavaScript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntax and control flow errors can be flagged immediately before ever being shipped.
 
 *Note that we use the term "compile" loosely when referring to TypeScript. More accurately, TypeScript is **transpiled** into JavaScript. Code in TypeScript is parsed and transformed into equivalent JavaScript code, which is used in the final product.*
 
@@ -59,13 +86,34 @@ The CHIP-8 emulator and debugging engine will be designed with object-oriented p
 
 Major libraries and tools are discussed later in the document.
 
+## Software Repository
+
+We will use GitHub to host our private repository.
+
 ## Software Development Methodology
 
-*TODO: Discuss continuous integration and member roles*
+### Developer Process
+
+When planning major refactors, please create an issue on GitHub so that all team members are aware of your intentions. Creating an issue will help avoid any major merge conflicts where work by one member become redundant.
+
+### Work Breakdown
+
+#### Release 0
+
+We will be creating the initial product document.
+
+#### Release 1
+
+We will be releasing an inital interpreter.
+This interpreter should be able to perform the the basic computational functions of the CHIP-8 specification.
+
+#### Release 2
+#### Release 3
+#### Release 4
 
 ### Project Guidelines
 
-- Source code will be formatted according to a team standard. 
+- Source code will be formatted according to a team standard.
 - Source code will not contain any swear words.
 
 ### Member Roles
@@ -77,11 +125,6 @@ Major libraries and tools are discussed later in the document.
 |**Dan Amarasinghe**| | | | | |
 |**Anthony Pham**| | | | | |
 |**Henry Wang**| | | | | |
-
-
-## Software Repository
-
-We will use GitHub to host our private repository.
 
 ## Communication
 
@@ -113,13 +156,13 @@ The project repository contains [in-house tools](https://github.com/eth-p/SFU-CM
 
 These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
 
-`sct` is the command file to execute in the repository root directory.  
+`sct` is the command file to execute in the repository root directory.
 To view the command list in terminal, execute exactly `./sct`.
 
-A command in the following table is executed as follows: `./sct command`.  
+A command in the following table is executed as follows: `./sct command`.
 
 
-<!--- I changed the purpose text for some commands to explicitly indicate that the  
+<!--- I changed the purpose text for some commands to explicitly indicate that the
 commands work on the local repository --->
 
 |Command|Purpose|
@@ -141,7 +184,7 @@ For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](ht
 
 Please install all of the following packages before executing `./sct init`.
 
-All packages listed (**exception to nodejs**) may be installed through the `apt` command.  
+All packages listed (**exception to nodejs**) may be installed through the `apt` command.
 To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
 nodejs through `apt` will yield an outdated version.
 
@@ -149,7 +192,7 @@ nodejs through `apt` will yield an outdated version.
   - `g++`
   - `python2.7`
   - `nodejs` 10.15, or later
-  
+
 - **Tool Packages**
   - `curl`
   - `git`
@@ -174,8 +217,8 @@ Windows Subsystem for Linux allows Windows to run a bash terminal without having
   - [Git for Windows](https://git-scm.com/downloads)
   - [Visual Studio Code](https://code.visualstudio.com/)
 
-**Note:**  
-There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+**Note:**
+There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.
 
 To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
@@ -185,8 +228,6 @@ To temporarily counteract this issue, the root directory of the WSL installation
 ## Use Cases
 
 *TODO: Determine what qualifies for use cases.*
-
-## Work Breakdown
 
 ## Project Schedule
 
