@@ -52,7 +52,7 @@ The debugger we will use to diagnose the CHIP-8 emulator module.
 
 Include details that other developers should be aware of when working on the item.
 
-## Developer Resources
+## Developer Resources and Citations
 
 - [Resource](url)
 - ...

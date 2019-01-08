@@ -33,7 +33,7 @@
 - [**Use Cases**](#use-cases)
   - [*Release 1 Use Cases*](#release-1-use-cases)
 - [**Project Schedule**](#project-schedule)
-- [**All Information Sources**](#all-information-sources)
+- [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [*CHIP-8 Documentation*](#chip-8-Documentation)
 
 ## Meeting Schedule
@@ -278,7 +278,7 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 *TODO: Include a gantt chart*
 
-## All Information Sources
+## All Information Sources and Citations
 
 ### CHIP-8 Documentation
 

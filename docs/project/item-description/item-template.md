@@ -52,7 +52,7 @@ Blurb of text describing the item.
 
 Include details that other developers should be aware of when working on the item.
 
-## Developer Resources
+## Developer Resources and Citations
 
 - [Resource](url)
 - ...
