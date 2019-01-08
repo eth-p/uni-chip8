@@ -14,9 +14,11 @@
 - [**Implementation Language**](#implementation-language)
 - [**Software Repository**](#software-repository)
 - [**Software Development Methodology**](#software-development-methodology)
+  - [*Developer Process*](#developer-process)
   - [*Work Breakdown*](#work-breakdown)
   - [*Project Guidelines*](#project-guidelines)
   - [*Member Roles*](#member-roles)
+  - [*Roles*](#roles)
 - [**Testing**](#testing)
 - [**Developer Environment**](#developer-environment)
   - [*Repository Tools*](#repository-tools)
@@ -24,8 +26,9 @@
   - [*Windows Environment Requirements*](#windows-environment-requirements)
   - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
 - [**Use Cases**](#use-cases)
+  - [*Release 1 Use Cases*](#release-1-use-cases)
 - [**Project Schedule**](#project-schedule)
-- [**Information Sources**](#information-sources)
+- [**All Information Sources**](#all-information-sources)
   - [*CHIP-8 Documentation*](#chip-8-Documentation)
 
 ## Meeting Schedule
@@ -61,7 +64,7 @@ This section contains all deliverables and tools that we are planning to create,
 ### Deliverables
 
 - [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
-- **CHIP-8 Debugger**
+- [**CHIP-8 Debugger**](item-description/chip-8-debugger.md)
 
 ### Development Tools
 
@@ -253,7 +256,7 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 ## Use Cases
 
-### Release 1
+### Release 1 Use Cases
 
 #### Developers
 
@@ -272,7 +275,7 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 *TODO: Include a gantt chart*
 
-## Information Sources
+## All Information Sources
 
 ### CHIP-8 Documentation
 
