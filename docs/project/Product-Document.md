@@ -1,4 +1,4 @@
-# SFU-CMPT276 "Chocolate Chip" Product Document
+# Team CHIPotle Product Document
 
 | [<- README](../../README.md) |
 
