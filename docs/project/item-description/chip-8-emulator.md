@@ -83,7 +83,7 @@ CHIP-8 specification calls for big-endianness. Most significant bits are at the 
 
 - `i`
   - Stores memory addresses
-  - Right align values smaller than 16 bits. Match position of least significant bit of value with least significant bit of `i`   
+  - Right align values smaller than 16 bits (*i.e. preserve big endianness*). Match position of least significant bit of value with least significant bit of `i`   
   `load 0b1101 into i -> i = 0b0000 0000 0000 1101`
   
 
@@ -100,15 +100,16 @@ CHIP-8 specification calls for big-endianness. Most significant bits are at the 
   - 16 (0x10) size data register
   - Each value is 8 bits
   - `V[0x0]` through `V[0xF]`
-  - `V[0xF]` is reserved as a CHIP-8 flag  
+  - `V[0xF]` is reserved as a CHIP-8 flag:
      Arithmetic carry flag or draw pixel unset detect
 
 - `S`
-  - 16 (0x10) size size stack
+  - 16 (0x10) size address stack
   - Each value is 8 bits
   - `S[0x0]` through `S[0xF]`
   - Used to return from subroutines
   - Top of `S` is `S[sp]`
+  - When entering a new subroutine, push the current `pc` address, assuming it was double incremented after fetch/decode, to the stack, then increment `sp`.
 
 
 ### Opcodes constants
@@ -118,7 +119,7 @@ Following constants are derived from the current opcode.
 - `opcode = (MEM[pc] << 8) | (MEM[pc + 1])`
 
 - `nnn`
-  - `nnn = (opcode & 0x0FFF)` 
+  - `nnn = (opcode & 0x0FFF)`
 
 - `nn`
   - `nn = (opcode & 0x00FF)`
@@ -162,8 +163,8 @@ MEM[pc + 1] = 0xA7 = 0b1010 0111
 // operator |: OR both values together (OR bit columns together)
 // (0b1010 0000 | 0b0000 1010) == 0b1010 1010
 
-// Therefore, MEM[pc] must be shifted 8 bits left,
-// then OR with MEM[pc + 1] to construct the opcode.
+// Therefore to construct the opcode, MEM[pc] must be shifted 8 bits left,
+// then OR with MEM[pc + 1].
 
 // 0xF == 0b1111, so 0x...F... with operator & acts as a mask
 // to select certain nibbles.
@@ -178,7 +179,7 @@ n = (opcode & 0x000F) = 0x0007 == 0x7 == 0b0000 0000 0000 0111 == 0b0111
 
 x = (opcode & 0x0F00) >> 8 = 0x0005 == 0x5 == 0b0000 0000 0000 0101 == 0b0101
 
-y = (opcode & 0x00F00) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
+y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 ```
 
 ###
