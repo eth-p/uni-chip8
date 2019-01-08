@@ -13,6 +13,9 @@
   - [*Development Tools*](#development-tools)
   - [*Far Future*](#far-future)
 - [**Communication**](#communication)
+  - [*Over GitHub*](#over-github)  
+  - [*Over Meetings*](#over-meetings)  
+  - [*Over Discord*](#over-discord)  
 - [**Implementation Language**](#implementation-language)
 - [**Software Repository**](#software-repository)
 - [**Software Development Methodology**](#software-development-methodology)
@@ -82,17 +85,17 @@ This section contains all deliverables and tools that we are planning to create,
 
 Communication is done through in-person meetings, GitHub issues, and Discord.
 
-### GitHub
+### Over GitHub
 
 GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
 
 The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
 
-### Meetings
+### Over Meetings
 
 Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
 
-### Discord
+### Over Discord
 
 Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
 
