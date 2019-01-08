@@ -168,7 +168,7 @@ MEM[pc + 1] = 0xA7 = 0b1010 0111
 // 0xF == 0b1111, so 0xF with operator & acts as a mask
 // to select certain nibbles.
 
-opcode = (MEM[0x350] << 8) | (MEM[351]) = 0x05A7 == 0b0000 0101 1010 0111
+opcode = (MEM[0x350] << 8) | (MEM[0x351]) = 0x05A7 == 0b0000 0101 1010 0111
 
 nnn = (opcode & 0x0FFF) = 0x05A7 == 0x5A7 == 0b0000 0101 1010 0111 == 0b0101 1010 0111
 
