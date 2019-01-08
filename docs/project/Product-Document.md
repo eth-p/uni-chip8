@@ -1,4 +1,4 @@
-# SFU-CMPT276 Product Document
+# SFU-CMPT276 "Chocolate Chip" Product Document
 
 | [<- README](../../README.md) |
 
@@ -8,14 +8,14 @@
 - [**Project Deliverables and Tools**](#project-deliverables-and-tools)
   - [*Deliverables*](#deliverables)
   - [*Development Tools*](#development-tools)
-  - [*Far Future Ideas*](#far-future-ideas)
+  - [*Far Future*](#far-future)
+- [**Communication**](#communication)
 - [**Implementation Language**](#implementation-language)
 - [**Software Repository**](#software-repository)
 - [**Software Development Methodology**](#software-development-methodology)
   - [*Work Breakdown*](#work-breakdown)
   - [*Project Guidelines*](#project-guidelines)
   - [*Member Roles*](#member-roles)
-- [**Communication**](#communication)
 - [**Testing**](#testing)
 - [**Developer Environment**](#developer-environment)
   - [*Repository Tools*](#repository-tools)
@@ -72,6 +72,22 @@ This section contains all deliverables and tools that we are planning to create,
 
 - **Intermediate Representation -> WebAssembly optimizing JIT Compiler** *(Idea)*
 
+## Communication
+
+Communication is done through in-person meetings, GitHub issues, and Discord.
+
+### GitHub Issues
+
+GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+
+### Meetings
+
+Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+
+### Discord
+
+Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
+
 ## Implementation Language
 
 We will be using TypeScript to implement the CHIP-8 emulator.
@@ -85,6 +101,12 @@ TypeScript supports and polyfills the `async` and `await` keywords introduced in
 The CHIP-8 emulator and debugging engine will be designed with object-oriented principles and modularity in mind.
 
 Major libraries and tools are discussed later in the document.
+
+## Testing
+
+Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests are implemented on a per-module basis and are intended to prevent regressions and ensure that the code works as intended by the developers.
+
+As well as being accessible to developers through the use of the `sct test` tool, the repository is tracked by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
 
 ## Software Repository
 
@@ -108,6 +130,9 @@ We will be releasing an inital interpreter. The interpreter will meet full funct
 This interpreter should be able to perform the the basic computational functions of the CHIP-8 specification.
 
 #### Release 2
+
+Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
+
 #### Release 3
 #### Release 4
 
@@ -126,33 +151,21 @@ This interpreter should be able to perform the the basic computational functions
 |**Anthony Pham**| | | | | |
 |**Henry Wang**| | | | | |
 
-## Communication
+### Roles
 
-Communication is done through in-person meetings, GitHub issues, and Discord.
-
-### GitHub Issues
-
-GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
-
-### Meetings
-
-Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
-
-### Discord
-
-Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
-
-## Testing
-
-Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests are implemented on a per-module basis and are intended to prevent regressions and ensure that the code works as intended by the developers.
-
-As well as being accessible to developers through the use of the `sct test` tool, the repository is tracked by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
+|Role|Description|
+|----|-----------|
+|Team Lead| |
+|Emulator Dev| |
+|Tool Dev| |
+|Game Dev| |
+|Documentor| |
 
 ## Developer Environment
 
 ### Repository Tools
 
-The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.  
+The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.
 
 These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
 
@@ -227,7 +240,16 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 ## Use Cases
 
-*TODO: Determine what qualifies for use cases.*
+### Release 1
+
+#### Developers
+
+- Will learn low level execution techniques.
+- Will learn the CHIP-8 architecture.
+- Will learn TypeScript.
+- Will improve on Object-Oriented Programming.
+
+
 
 ## Project Schedule
 
