@@ -53,7 +53,7 @@ This module is separate from input and output.
 
 ## Developer Notes
 
-Include details that other developers should be aware of when working on the item.
+
 
 ## Developer Resources
 

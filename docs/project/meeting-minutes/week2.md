@@ -6,15 +6,15 @@
 
 **Location:** *Surrey Campus*  
 **Date:**  *January 7, 2019*  
-**Time:** *HH:MM - HH:MM*
+**Time:** *12:30 - 1:30*  
 
 ## Attendance
 
-Name, *user@sfu.ca*  
-Name, *user@sfu.ca*  
-Name, *user@sfu.ca*  
-Name, *user@sfu.ca*  
-Name, *user@sfu.ca*
+Kyle Saburao, *ksaburao@sfu.ca*  
+Ethan Pini, *user@sfu.ca*  
+Harry Wang, *user@sfu.ca*  
+Dan Amarasinghe, *user@sfu.ca*  
+Anthony Pham, *user@sfu.ca*  
 
 ## Discussion
 
