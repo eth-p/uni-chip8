@@ -1,30 +1,39 @@
-# SFU-CMPT276 Product Document
+# Team CHIPotle Product Document
 
 | [<- README](../../README.md) |
 
 ## Table of Contents
 
-- [**Meeting Schedule**](#meeting-schedule)
+<!--- Only include level 3 (###) headers --->
+
+- [**Meeting Schedule**](#meeting-schedule)  
+  - [*General Plan*](#general-plan)
 - [**Project Deliverables and Tools**](#project-deliverables-and-tools)
-  - [*Deliverables*](#deliverables)  
-  - [*Development Tools*](#development-tools)  
-  - [*Far Future Ideas*](#far-future-ideas)
+  - [*Deliverables*](#deliverables)
+  - [*Development Tools*](#development-tools)
+  - [*Far Future*](#far-future)
+- [**Communication**](#communication)
+  - [*Over GitHub*](#over-github)  
+  - [*Over Meetings*](#over-meetings)  
+  - [*Over Discord*](#over-discord)  
 - [**Implementation Language**](#implementation-language)
-- [**Software Development Methodology**](#software-development-methodology)  
+- [**Software Repository**](#software-repository)
+- [**Software Development Methodology**](#software-development-methodology)
+  - [*Developer Process*](#developer-process)
+  - [*Work Breakdown*](#work-breakdown)
   - [*Project Guidelines*](#project-guidelines)
   - [*Member Roles*](#member-roles)
-- [**Software Repository**](#software-repository)
-- [**Communication**](#communication)
+  - [*Roles*](#roles)
 - [**Testing**](#testing)
-- [**Developer Environment**](#developer-environment)  
-  - [*Repository Tools*](#repository-tools)  
-  - [*Linux Environment Requirements*](#linux-environment-requirements)  
+- [**Developer Environment**](#developer-environment)
+  - [*Repository Tools*](#repository-tools)
+  - [*Linux Environment Requirements*](#linux-environment-requirements)
   - [*Windows Environment Requirements*](#windows-environment-requirements)
-  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)  
+  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
 - [**Use Cases**](#use-cases)
-- [**Work Breakdown**](#work-breakdown)
+  - [*Release 1 Use Cases*](#release-1-use-cases)
 - [**Project Schedule**](#project-schedule)
-- [**Information Sources**](#information-sources)
+- [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [*CHIP-8 Documentation*](#chip-8-Documentation)
 
 ## Meeting Schedule
@@ -44,33 +53,57 @@
 |**11**| | | | |
 |**12**| | | | |
 
+### General Plan
+
+Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned when CMPT 213 starts at 2:30 PM.
+
+These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
+
+Additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project.
+
+
 ## Project Deliverables and Tools
 
 This section contains all deliverables and tools that we are planning to create, in-progress to create, or have completed.
 
-<!--- Find a different system later on --->
-**Legend:** `ITEM (STATE, START WEEK OF CURRENT STATE)`
-
 ### Deliverables
 
-- **CHIP-8 Emulator** *(Planning, Week 2)*
-- **CHIP-8 Debugger** *(Planning, Week 2)*
+- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
+- [**CHIP-8 Debugger**](item-description/chip-8-debugger.md)
 
 ### Development Tools
 
-- **Automated Repository Tests** *(In Work, Week 1)*
-- **Local Repository Manager ([sct](#repository-tools))** *(In Work, Week 1)*
-- **Local Unit Tests** *(In Work, Week 1)*
+- **Automated Repository Tests**
+- **Local Repository Manager ([sct](#repository-tools))**
+- **Local Unit Tests**
 
 ### Far Future
 
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler** *(Idea)*
+- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
+
+## Communication
+
+Communication is done through in-person meetings, GitHub issues, and Discord.
+
+### Over GitHub
+
+GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+
+The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
+
+### Over Meetings
+
+Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+
+### Over Discord
+
+Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
 
 ## Implementation Language
 
-We will be using TypeScript to implement the CHIP-8 emulator.  
+We will be using TypeScript to implement the CHIP-8 emulator.
 
-TypeScript was chosen over JavaScript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntax and control flow errors can be flagged immediately before ever being shipped.  
+TypeScript was chosen over JavaScript because TypeScript is a statically typed, "compilied" language. Static typing will help the developers transition from familiar statically typed languages such as C++ and Java. "Compilation" support is also seen as a benefit as syntax and control flow errors can be flagged immediately before ever being shipped.
 
 *Note that we use the term "compile" loosely when referring to TypeScript. More accurately, TypeScript is **transpiled** into JavaScript. Code in TypeScript is parsed and transformed into equivalent JavaScript code, which is used in the final product.*
 
@@ -80,13 +113,51 @@ The CHIP-8 emulator and debugging engine will be designed with object-oriented p
 
 Major libraries and tools are discussed later in the document.
 
+## Testing
+
+Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests are implemented on a per-module basis and are intended to prevent regressions and ensure that the code works as intended by the developers.
+
+As well as being accessible to developers through the use of the `sct test` tool, the repository is tracked by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
+
+## Software Repository
+
+We will use GitHub to host our private repository.
+
 ## Software Development Methodology
 
-*TODO: Discuss continuous integration and member roles*
+### Developer Process
+
+#### Major Refactoring
+
+When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
+
+### Work Breakdown
+
+#### Release 0 - Documentation and Analysis
+
+We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
+
+#### Release 1 - Pre-Alpha
+
+We will be releasing an inital emulator. The emulator will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
+This emulator should be able to perform the the basic computational functions of the CHIP-8 specification.
+
+#### Release 2 - Alpha
+
+Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
+
+#### Release 3 - Beta
+
+We are targeting to begin video game development at this point.
+
+#### Release 4 - Production
+
+We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
 ### Project Guidelines
 
-- Source code will be formatted according to a team standard. 
+- Source code will remain compatible for transpilation to ES5 JavaScript.
+- Source code will be formatted according to a team standard.
 - Source code will not contain any swear words.
 
 ### Member Roles
@@ -99,36 +170,31 @@ Major libraries and tools are discussed later in the document.
 |**Anthony Pham**| | | | | |
 |**Henry Wang**| | | | | |
 
+### Roles
 
-## Software Repository
-
-We will use GitHub to host our private repository.
-
-## Communication
-
-Discord will be the primary form of communication online.
-
-## Testing
-
-On GitHub, we will use CircleCI to automatically validate incoming commits. This will check the commits against code style guidelines and unit tests, preventing developers from merging branches that would introduce regressions or bugs.
-
-Furthermore, these testing and validation tools are exposed to developers through the in-house command line script, `sct`. For further details, view the [repository tools section.](#repository-tools)
+|Role|Description|
+|----|-----------|
+|Team Lead|Directs team on project. Manages git repository.|
+|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
+|Tool Dev|Works on the build and test automation tools.|
+|Game Dev| |
+|Documentor|Documents the project.|
 
 ## Developer Environment
 
 ### Repository Tools
 
-The project repository contains in-house tools which will help developers maintain code and repository quality.  
+The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.
 
 These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
 
-`sct` is the command file to execute in the repository root directory.  
+`sct` is the command file to execute in the repository root directory.
 To view the command list in terminal, execute exactly `./sct`.
 
-A command in the following table is executed as follows: `./sct command`.  
+A command in the following table is executed as follows: `./sct command`.
 
 
-<!--- I changed the purpose text for some commands to explicitly indicate that the  
+<!--- I changed the purpose text for some commands to explicitly indicate that the
 commands work on the local repository --->
 
 |Command|Purpose|
@@ -147,10 +213,10 @@ commands work on the local repository --->
 ### Linux Environment Requirements
 
 For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
-  
+
 Please install all of the following packages before executing `./sct init`.
 
-All packages listed (**exception to nodejs**) may be installed through the `apt` command.  
+All packages listed (**exception to nodejs**) may be installed through the `apt` command.
 To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
 nodejs through `apt` will yield an outdated version.
 
@@ -158,7 +224,7 @@ nodejs through `apt` will yield an outdated version.
   - `g++`
   - `python2.7`
   - `nodejs` 10.15, or later
-  
+
 - **Tool Packages**
   - `curl`
   - `git`
@@ -172,7 +238,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine. Thus, a develop
+Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine.
 
 - **Windows Subsystem for Linux**
   - Ubuntu from the [Windows Store](https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?rtc=1&activetab=pivot:overviewtab)
@@ -183,8 +249,8 @@ Windows Subsystem for Linux allows Windows to run a bash terminal without having
   - [Git for Windows](https://git-scm.com/downloads)
   - [Visual Studio Code](https://code.visualstudio.com/)
 
-**Note:**  
-There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.  
+**Note:**
+There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.
 
 To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
@@ -193,15 +259,26 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 ## Use Cases
 
-*TODO: Determine what qualifies for use cases.*
+### Release 1 Use Cases
 
-## Work Breakdown
+#### Developers
+
+- will learn low level execution techniques.
+- will learn the CHIP-8 architecture.
+- will learn TypeScript.
+- will improve on Object-Oriented Programming.
+
+#### Users
+
+- will ...
+
+
 
 ## Project Schedule
 
 *TODO: Include a gantt chart*
 
-## Information Sources
+## All Information Sources and Citations
 
 ### CHIP-8 Documentation
 
