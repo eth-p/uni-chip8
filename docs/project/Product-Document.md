@@ -4,7 +4,8 @@
 
 ## Table of Contents
 
-- [**Meeting Schedule**](#meeting-schedule)
+- [**Meeting Schedule**](#meeting-schedule)  
+  - [*General Plan*](#general-plan)
 - [**Project Deliverables and Tools**](#project-deliverables-and-tools)
   - [*Deliverables*](#deliverables)
   - [*Development Tools*](#development-tools)
@@ -48,29 +49,29 @@
 
 Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned when CMPT 213 starts at 2:30 PM.
 
-If required additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing the structure of the interpeter project.
+These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
+
+Additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project.
+
 
 ## Project Deliverables and Tools
 
 This section contains all deliverables and tools that we are planning to create, in-progress to create, or have completed.
 
-<!--- Find a different system later on --->
-**Legend:** `ITEM (STATE, START WEEK OF CURRENT STATE)`
-
 ### Deliverables
 
-- **CHIP-8 Emulator** *(Planning, Week 2)*
-- **CHIP-8 Debugger** *(Planning, Week 2)*
+- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
+- **CHIP-8 Debugger**
 
 ### Development Tools
 
-- **Automated Repository Tests** *(In Work, Week 1)*
-- **Local Repository Manager ([sct](#repository-tools))** *(In Work, Week 1)*
-- **Local Unit Tests** *(In Work, Week 1)*
+- **Automated Repository Tests**
+- **Local Repository Manager ([sct](#repository-tools))**
+- **Local Unit Tests**
 
 ### Far Future
 
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler** *(Idea)*
+- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
 
@@ -79,6 +80,10 @@ Communication is done through in-person meetings, GitHub issues, and Discord.
 ### GitHub Issues
 
 GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+
+The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
+
+The project tracker will be used to identify all components and their associated issue ticket that fall under a specific release.
 
 ### Meetings
 
@@ -116,28 +121,36 @@ We will use GitHub to host our private repository.
 
 ### Developer Process
 
-When planning major refactors, please create an issue on GitHub so that all team members are aware of your intentions. Creating an issue will help avoid any major merge conflicts where work by one member become redundant.
+#### Major Refactoring
+
+When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
 
 ### Work Breakdown
 
-#### Release 0
+#### Release 0 - Documentation and Analysis
 
 We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
 
-#### Release 1
+#### Release 1 - Pre-Alpha
 
-We will be releasing an inital interpreter. The interpreter will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
-This interpreter should be able to perform the the basic computational functions of the CHIP-8 specification.
+We will be releasing an inital emulator. The emulator will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
+This emulator should be able to perform the the basic computational functions of the CHIP-8 specification.
 
-#### Release 2
+#### Release 2 - Alpha
 
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
 
-#### Release 3
-#### Release 4
+#### Release 3 - Beta
+
+We are targeting to begin video game development at this point.
+
+#### Release 4 - Production
+
+We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
 ### Project Guidelines
 
+- Source code will remain compatible for transpilation to ES5 JavaScript.
 - Source code will be formatted according to a team standard.
 - Source code will not contain any swear words.
 
@@ -155,11 +168,11 @@ Release 2 will include refinements to the emulator. The previous emulator will b
 
 |Role|Description|
 |----|-----------|
-|Team Lead| |
-|Emulator Dev| |
-|Tool Dev| |
+|Team Lead|Directs team on project. Manages git repository.|
+|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
+|Tool Dev|Works on the build and test automation tools.|
 |Game Dev| |
-|Documentor| |
+|Documentor|Documents the project.|
 
 ## Developer Environment
 
@@ -244,10 +257,14 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 #### Developers
 
-- Will learn low level execution techniques.
-- Will learn the CHIP-8 architecture.
-- Will learn TypeScript.
-- Will improve on Object-Oriented Programming.
+- will learn low level execution techniques.
+- will learn the CHIP-8 architecture.
+- will learn TypeScript.
+- will improve on Object-Oriented Programming.
+
+#### Users
+
+- will ...
 
 
 
