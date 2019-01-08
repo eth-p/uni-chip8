@@ -4,6 +4,8 @@
 
 ## Table of Contents
 
+<!--- Only include level 3 (###) headers --->
+
 - [**Meeting Schedule**](#meeting-schedule)  
   - [*General Plan*](#general-plan)
 - [**Project Deliverables and Tools**](#project-deliverables-and-tools)
@@ -80,13 +82,11 @@ This section contains all deliverables and tools that we are planning to create,
 
 Communication is done through in-person meetings, GitHub issues, and Discord.
 
-### GitHub Issues
+### GitHub
 
 GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
 
 The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
-
-The project tracker will be used to identify all components and their associated issue ticket that fall under a specific release.
 
 ### Meetings
 
@@ -235,7 +235,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine. Thus, a develop
+Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine.
 
 - **Windows Subsystem for Linux**
   - Ubuntu from the [Windows Store](https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?rtc=1&activetab=pivot:overviewtab)
