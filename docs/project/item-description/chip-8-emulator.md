@@ -55,7 +55,7 @@ This module is separate from input and output.
 
 ### Basic Memory Details
 
-CHIP-8 specification calls for big-endianness. Most significant bits are at the left.
+CHIP-8 specification calls for big-endianness. Most significant bits are at the left.  
 `big-endian: 0b1000 = 0d10, small-endian: 0b1000 = 0d1`
 
 #### 8-bit values
@@ -73,7 +73,7 @@ CHIP-8 specification calls for big-endianness. Most significant bits are at the 
 - `s`
   - Sound timer
   - Decrements at 60hz *iff* `s > 0`
-  - CHIP-8 outputs constant frequency sound *iff* `s > 0`
+  - CHIP-8 system outputs constant frequency sound *iff* `s > 0`
 
 #### 16-bit values
 
