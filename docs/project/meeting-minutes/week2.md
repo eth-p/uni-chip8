@@ -18,4 +18,13 @@ Anthony Pham, *user@sfu.ca*
 
 ## Discussion
 
+- We got team members to setup GitHub accounts and WSL.
+- How do we enforce big endianness in our data structures?
+  - Ethan suggests using an intermediate representation.
+- What will the team name be?
+
+
 ## Decisions
+
+- Team name will be `CHIPotle`.
+- Members will try to learn TypeScript and parse through CHIP-8 documentation. 

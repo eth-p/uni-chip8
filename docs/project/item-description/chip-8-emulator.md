@@ -55,8 +55,12 @@ This module is separate from input and output.
 
 ### Basic Memory Details
 
-CHIP-8 specification calls for big-endianness. Most significant bits are at the left.  
-`big-endian: 0b1000 = 0d10, small-endian: 0b1000 = 0d1`
+CHIP-8 specification calls for big-endianness. Most significant bytes are at the left.  
+```
+let n = 220
+big endian: 0b1101 1100
+little endian: 0b1100 1101 
+```
 
 #### 8-bit values
 
@@ -83,9 +87,6 @@ CHIP-8 specification calls for big-endianness. Most significant bits are at the 
 
 - `i`
   - Stores memory addresses
-  - Right align values smaller than 16 bits (*i.e. preserve big endianness*). Match position of least significant bit of value with least significant bit of `i`   
-  `load 0b1101 into i -> i = 0b0000 0000 0000 1101`
-  
 
 #### Arrays
 
@@ -189,4 +190,7 @@ y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 ## Developer Resources and Citations
 
 - [Wikipedia Page on Bitwise Operations](https://en.wikipedia.org/wiki/Bitwise_operation)
-- ...
+- [Wikipedia Page on CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)
+- <http://www.emulator101.com/introduction-to-chip-8.html>
+- <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
+- <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
