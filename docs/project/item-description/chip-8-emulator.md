@@ -185,12 +185,12 @@ y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 
 ### Conditional (a < b)
 ```
-1. COPY a into V[x]
-2. COPY b into V[y]
-3. COPY V[x] into V[z]
-4. COPY V[y] from V[z]
-5. IF V[0xF] == 0x01, Skip next. (0x01 means no carry, so not less than)
-6. JUMP program counter to (n + 1)
+1. COPY a into V[x] (V[x] = a)
+2. COPY b into V[y] (V[y] = b)
+3. COPY V[x] into V[z] (V[z] = V[x])
+4. SUBTRACT V[y] from V[z] (V[z] = V[y] - V[z])
+5. IF V[0xF] == 0x01, Skip next. (0x01 means no carry, so a not less than b)
+6. JUMP program counter to (n + 1) (GOTO n + 1)
 7. FIRST conditional block address
 ...
 n. LAST conditional block address
