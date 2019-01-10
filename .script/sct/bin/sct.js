@@ -51,7 +51,7 @@ function schemaToMinimist(schema) {
 		alias: Object.entries(schema)
 			.filter(([k, v]) => v.alias !== undefined)
 			.map(([k, v]) => [k, v.alias])
-			.map(([k, v]) => v instanceof Array ? v : [v])
+			.map(([k, v]) => [k, v instanceof Array ? v : [v]])
 			.map(([k, v]) => v.map(a => [a, k]))
 			.flat(1)
 			.reduce((obj, [k, v]) => ( { ... obj, [k]: v }), {}),
@@ -59,7 +59,7 @@ function schemaToMinimist(schema) {
 		unknown: (arg) => {
 			if (arg.startsWith('--')) {
 				let option = arg.substring(2).split('=')[0];
-				throw new SCTError(`Unknown command option: ${option}`, {
+				throw new CommandError(`Unknown command option: ${option}`, {
 					message: `unknown option -- '${option}'`
 				});
 			}
