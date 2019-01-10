@@ -134,7 +134,7 @@ Following constants are derived from the current opcode.
 - `y`
   - `y = (opcode & 0x00F0) >> 4`
 
-**Example**
+#### Example
 ```
 pc = 0x350
 MEM[pc] = 0x05 = 0b0000 0101
@@ -183,7 +183,19 @@ x = (opcode & 0x0F00) >> 8 = 0x0005 == 0x5 == 0b0000 0000 0000 0101 == 0b0101
 y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 ```
 
-###
+### Conditional (a < b)
+```
+1. COPY a into V[x]
+2. COPY b into V[y]
+3. COPY V[x] into V[z]
+4. COPY V[y] from V[z]
+5. IF V[0xF] == 0x01, Skip next. (0x01 means no carry, so not less than)
+6. JUMP program counter to (n + 1)
+7. FIRST conditional block address
+...
+n. LAST conditional block address
+n + 1. OUTSIDE conditional block
+```
 
 
 
