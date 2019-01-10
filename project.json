@@ -2,8 +2,8 @@
 	"modules": {
 
 		"docs": {
-			"meta": true,
 			"description": "Project documentation.",
+			"@meta": true,
 
 			"sources": [
 				"*.md",
@@ -12,8 +12,8 @@
 		},
 
 		"tools": {
-			"meta": true,
 			"description": "Project tooling.",
+			"@meta": true,
 
 			"sources": [
 				".script/**/*",
@@ -22,8 +22,8 @@
 		},
 
 		"ci": {
-			"meta": true,
 			"description": "Continuous integration.",
+			"@meta": true,
 
 			"sources": [
 				".circle/**/*"
@@ -31,8 +31,8 @@
 		},
 
 		"repo": {
-			"meta": true,
 			"description": "The repo.",
+			"@meta": true,
 
 			"sources": [
 				".editorconfig",
@@ -48,30 +48,14 @@
 
 		},
 
-		"chip-emu": {
-			"description": "The CHIP-8 emulator core.",
-
-			"sources": [
-				"src/**/*.ts"
-			],
-
-			"tests": [
-				"test/**/*.ts"
-			]
-
+		"debug": {
+			"description": "Emulator debugging utilities.",
+			"@auto": true
 		},
 
-		"chip-dbg": {
-			"description": "The CHIP-8 debugging module.",
-
-			"sources": [
-				"src/**/*.ts"
-			],
-
-			"tests": [
-				"test/**/*.ts"
-			]
-
+		"vm": {
+			"description": "The CHIP-8 virtual machine.",
+			"@auto": true
 		}
 
 	}

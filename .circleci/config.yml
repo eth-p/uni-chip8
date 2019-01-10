@@ -40,19 +40,18 @@ jobs:
 
       - restore_cache:
           name: Node Dependencies (Cached)
-          keys: ['v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}']
+          keys: ['v1-npm-cache-{{ checksum "package-lock.json" }}-{{ .Branch }}']
 
       - run:
           name: Node Dependencies
           command: |
-            cd .script &&
             npm install
 
       - save_cache:
           name: Node Dependencies (Save)
-          key: 'v1-npm-cache-{{ checksum ".script/package-lock.json" }}-{{ .Branch }}'
+          key: 'v1-npm-cache-{{ checksum "package-lock.json" }}-{{ .Branch }}'
           paths:
-          - .script/node_modules
+          - node_modules
 
       - persist_to_workspace:
           root: *workspace_root
@@ -72,7 +71,7 @@ jobs:
       - *workspace_load
       - run:
           name: Formatting
-          command: ./sct check
+          command: ./sct check --plumbing
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: build

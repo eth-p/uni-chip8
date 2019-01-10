@@ -1,18 +1,26 @@
+// ---------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 // MIT License
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Lib: Module
+// A project module.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 
 // Libraries.
+const fs       = require('fs-extra');
 const path     = require('path');
 
 // Modules.
-const Finder   = require('@/Finder');
+const Finder   = require('./Finder');
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Class:
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A project module.
+ * @type {Module}
  */
 module.exports = class Module {
 
@@ -115,11 +123,23 @@ module.exports = class Module {
 		return this._meta;
 	}
 
+	async _load() {
+		if (this._config['@auto'] === true) {
+			try {
+				let tsconfig = JSON.parse(await fs.readFile(path.join(this.getDirectory(), 'tsconfig.json')));
+				if (tsconfig.include) this._sources  = this._sources.concat(tsconfig.include);
+				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.include.map(x => `!${x}`));
+				if (tsconfig.tests)   this._tests    = this._tests.concat(tsconfig.tests);
+			} catch (ex) {
+			}
+		}
+	}
+
 	constructor(project, id, config) {
 		this._project     = project;
 		this._id          = id;
 		this._description = config.description;
-		this._meta        = config.meta ? true : false;
+		this._meta        = config['@meta'] === true;
 		this._config      = config;
 		this._sources     = config.sources instanceof Array ? config.sources : [];
 		this._tests       = config.tests instanceof Array ? config.tests : [];
@@ -127,4 +147,4 @@ module.exports = class Module {
 		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
 	}
 
-}
+};

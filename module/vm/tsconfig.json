@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"module": "umd",
+		"composite": true,
+		"module": "amd",
 		"target": "es5",
 		"sourceMap": true,
 		"alwaysStrict": true,
@@ -8,6 +9,8 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"newLine": "lf",
+		"charset": "utf-8",
+		"declaration": true,
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"removeComments": true,
@@ -15,10 +18,30 @@
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
+		"baseUrl": ".",
+		"declarationDir": "build/types",
+		"outDir": "build/out",
+		"rootDirs": [
+			"src"
+		],
+		"paths": {
+			"@debug/*": [
+				"../debug/src/*"
+			],
+			"@project/*": [
+				"../*"
+			]
+		}
 	},
 	"include": [
 		"src/**/*.ts"
 	],
-	"exclude": [
+	"tests": [
+		"test/**/*.ts"
+	],
+	"references": [
+		{
+			"path": "../debug"
+		}
 	]
 }

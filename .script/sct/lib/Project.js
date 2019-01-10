@@ -1,22 +1,25 @@
+// ---------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 // MIT License
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Lib: Project
+// The project.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 
 // Libraries.
-const findup   = require('find-up');
 const fs       = require('fs-extra');
 const git      = require('nodegit');
-const minimist = require('minimist');
 const path     = require('path');
 
 // Modules.
-const Module   = require('@/Module');
+const Module   = require('./Module');
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * The project.
+ * @type {Project}
  */
 module.exports = class Project {
 
@@ -59,10 +62,14 @@ module.exports = class Project {
 	 *
 	 * @param id {string} The module ID.
 	 * @returns {Module} The module.
-	 * @throws Error When the module doesn't exist.
+	 * @throws {SCTError} When the module doesn't exist.
 	 */
 	getModule(id) {
-		if (!(id in this._modules)) throw new Error(`Unknown module: ${id}`);
+		if (!(id in this._modules)) {
+			throw new SCTError(`Unknown project module: ${id}`, {
+				message: `unknown module -- '${id}'`
+			});
+		}
 		return this._modules[id];
 	}
 
@@ -75,33 +82,27 @@ module.exports = class Project {
 	}
 
 	async _load() {
+		let waits = [];
+
 		this._repository = undefined;
 		for (let [id, config] of Object.entries(this._config.modules)) {
 			this._modules[id] = new Module(this, id, config);
+			waits.push(this._modules[id]._load());
 		}
+
+		await Promise.all(waits);
 	}
 
+	/**
+	 * Creates a new project.
+	 *
+	 * @param directory {string} The project directory.
+	 * @param config    {object} The project configuration.
+	 */
 	constructor(directory, config) {
 		this._directory = directory;
 		this._config    = config;
 		this._modules   = {};
 	}
 
-	/**
-	 * Gets the current project.
-	 * @returns {Promise<Project>}
-	 */
-	static async get() {
-		if (this._instance != null) {
-			return this._instance;
-		}
-
-		// Load project.
-		let dir     = path.dirname(await findup('project.json'));
-		let config  = JSON.parse(await fs.readFile(path.join(dir, 'project.json'), 'utf-8'));
-		let project = this._instance = new Project(dir, config);
-		await project._load();
-		return project;
-	}
-
-}
+};

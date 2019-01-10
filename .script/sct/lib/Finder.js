@@ -1,12 +1,22 @@
+// ---------------------------------------------------------------------------------------------------------------------
 // Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
 // MIT License
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Lib: Finder
+// A class to search for files based on glob-like patterns.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 
+// Libraries.
 const fs     = require('fs-extra');
 const mm     = require('micromatch');
 const stream = require('stream');
 
+// Modules.
+const FinderResult = require('./FinderResult');
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Constants:
 // ---------------------------------------------------------------------------------------------------------------------
 
 const OPTIONS = {
@@ -15,12 +25,15 @@ const OPTIONS = {
 		basename: true,
 		unixify: true
 	}
-}
+};
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Class:
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A class to search for files based on glob-like patterns.
+ * @type {Finder}
  */
 module.exports = class Finder {
 
@@ -97,7 +110,7 @@ module.exports = class Finder {
 	}
 
 	/**
-	 * Searches for files using the static {#recurse} search method.
+	 * Searches for files using the static {#_recurse} search method.
 	 *
 	 * @returns {Promise<void>}
 	 * @private
@@ -106,11 +119,9 @@ module.exports = class Finder {
 		this._running  = true;
 		this._finished = false;
 
-		await this.constructor.recurse(this._directory, this._patterns, this._options, (data) => {
-			// Data.
-			this.stream.push(data);
+		await this.constructor._recurse(this._directory, this._patterns, this._options, (data) => {
+			this.stream.push(new FinderResult(this._directory, data));
 		}, (err) => {
-			// Errored.
 			this.stream.destroy(err);
 		}, '', 0);
 
@@ -151,7 +162,50 @@ module.exports = class Finder {
 		this.stream = new stream.Transform({objectMode: true});
 	}
 
-	static async recurse(directory, patterns, options, onData, onError, _parent) {
+	/**
+	 * Merges multiple Finder streams into a single stream.
+	 *
+	 * @param finders {Finder[]} The finders.
+	 *
+	 * @returns {Promise<Readable>} The resulting stream.
+	 */
+	static all(finders) {
+		let all = new stream.Transform({objectMode: true});
+		let waits = [];
+
+		for (let finder of finders) {
+			waits.push(new Promise((resolve, reject) => {
+				finder.on('end', resolve);
+				finder.on('error', reject);
+			}));
+
+			finder.on('data', f => all.push(f));
+			finder.start();
+		}
+
+		Promise.all(waits).then(
+			() => all.end(),
+			(err) => all.destroy(err)
+		);
+
+		return all;
+	}
+
+	/**
+	 * Recurses a directory according to patterns, and calls callbacks.
+	 * This is used internally to actually find the files.
+	 *
+	 * @param directory           {String}   The directory to search.
+	 * @param patterns            {Object}   The patterns.
+	 * @param options             {Object}   The function options.
+	 * @param options.directories {Boolean}  If true, will call onData for directories.
+	 * @param onData              {Function} Callback for when a file is found.
+	 * @param onError             {Function} Callback for when an error occurs.
+	 * @param [_parent]           {String}   Internally used for recursion.
+	 *
+	 * @private
+	 */
+	static async _recurse(directory, patterns, options, onData, onError, _parent) {
 		try {
 			let waiting = [];
 
@@ -169,7 +223,7 @@ module.exports = class Finder {
 				// It's a directory.
 				let stat = await fs.stat(rfile);
 				if (stat.isDirectory()) {
-					waiting.push(Finder.recurse(directory, patterns, options, onData, onError, `${file}/`));
+					waiting.push(Finder._recurse(directory, patterns, options, onData, onError, `${file}/`));
 					continue search;
 				}
 
@@ -200,5 +254,4 @@ module.exports = class Finder {
 		}
 	}
 
-
-}
+};

@@ -1,0 +1,132 @@
+// ---------------------------------------------------------------------------------------------------------------------
+// Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+// MIT License
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Lib: SCT
+// The standard library used for the SCT tool.
+// ---------------------------------------------------------------------------------------------------------------------
+'use strict';
+
+// Libraries.
+const findup = require('find-up');
+const fs     = require('fs-extra');
+const path   = require('path');
+
+// Modules.
+const SCTError = require('./SCTError');
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Class:
+// ---------------------------------------------------------------------------------------------------------------------
+
+let project  = null;
+let commands = [];
+
+/**
+ * The standard library used for the SCT tool.
+ * @type {SCT}
+ */
+module.exports = class SCT {
+
+	/**
+	 * Get the current project.
+	 * @returns {Project}
+	 */
+	static async getProject() {
+		if (project !== null) return project;
+
+		let dir     = path.dirname(await findup('project.json'));
+		let config  = JSON.parse(await fs.readFile(path.join(dir, 'project.json'), 'utf-8'));
+		project = new this.Project(dir, config);
+		await project._load();
+		return project;
+	}
+
+	/**
+	 * Gets a subcommand class.
+	 *
+	 * @param command {String} The command.
+	 * @returns {Promise<Command>}
+	 */
+	static async getCommand(command) {
+		// Validate subcommand name.
+		if (!/^[a-z0-9@]+$/.test(command)) {
+			throw new SCTError(`Unknown subcommand: ${command}`, {
+				message: `'${command}' is not a sct command.`
+			});
+		}
+
+		// Use cached copy.
+		let commandClass = commands[command];
+		if (commandClass != null) return commandClass;
+
+		// Check if it exists.
+		let commandPath = path.join(path.dirname(__dirname), 'cmd', `sct-${command}.js`);
+		if (!await fs.pathExists(commandPath)) {
+			throw new SCTError(`Unknown subcommand: ${command}`, {
+				message: `'${command}' is not a sct command.`
+			});
+		}
+
+		// Use require'd copy.
+		commandClass = require(commandPath);
+		if (Object.getPrototypeOf(commandClass) !== this.Command) {
+			throw new SCTError(`Unknown subcommand: ${command}`, {
+				message: `'${command}' is not a sct command.`
+			});
+		}
+
+		// Return.
+		commands[command] = commandClass;
+		return commandClass;
+	}
+
+};
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Exports:
+// ---------------------------------------------------------------------------------------------------------------------
+
+Object.defineProperties(module.exports, {
+
+	Command: {
+		enumerable: true,
+		get: () => require('./Command')
+	},
+
+	CommandUtil: {
+		enumerable: true,
+		get: () => require('./CommandUtil')
+	},
+
+	CommandError: {
+		enumerable: true,
+		get: () => require('./CommandError')
+	},
+
+	Project: {
+		enumerable: true,
+		get: () => require('./Project')
+	},
+
+	Finder: {
+		enumerable: true,
+		get: () => require('./Finder')
+	},
+
+	FileChecker: {
+		enumerable: true,
+		get: () => require('./FileChecker')
+	},
+
+	FileFormatter: {
+		enumerable: true,
+		get: () => require('./FileFormatter')
+	},
+
+	SCTError: {
+		enumerable: true,
+		value: SCTError
+	}
+
+});
