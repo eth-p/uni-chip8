@@ -76,7 +76,7 @@ jobs:
 
       - *workspace_load
       - run:
-          name: Formatting
+          name: Source Code
           command: ./sct check --plumbing
 
   # --------------------------------------------------------------------------------------------------------------
