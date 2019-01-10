@@ -185,16 +185,28 @@ y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 
 ### Conditional (a < b)
 ```
+English
 1. COPY a into V[x] (V[x] = a)
 2. COPY b into V[y] (V[y] = b)
 3. COPY V[x] into V[z] (V[z] = V[x])
 4. SUBTRACT V[y] from V[z] (V[z] = V[y] - V[z])
-5. IF V[0xF] == 0x01, Skip next. (0x01 means no carry, so a not less than b)
-6. JUMP program counter to (n + 1) (GOTO n + 1)
+5. IF V[0xF] == 0x00, Skip next. (0x00 means borrow, so a less than b)
+6. JUMP program counter to MEM[n + 1] (a >= b is result)
 7. FIRST conditional block address
 ...
 n. LAST conditional block address
 n + 1. OUTSIDE conditional block
+
+CHIP-8 Assembly
+0x200: 0x6000 + a; // SET V[0] to a.
+0x202: 0x6100 + b // SET V[1] to b.
+0x204: 0x8200); // COPY V[0] into V[2].
+0x206: 0x8215; // SUB V[1] FROM V[2]. SET IF NO BORROW.
+0x208: 0x3F00; // COND V[0xF] == 0 -> NO SUB BORROW.
+0x20A: 0x1300; // COND FAIL: JUMP TO AFTER COND BLOCK.
+0x20C: ...... // COND PASS: CONTINUE NORMALLY
+...
+0x300: ...... // AFTER COND BLOCK (PARENTHESIS EQUIVALENT)
 ```
 
 
