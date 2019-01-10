@@ -110,14 +110,18 @@ module.exports = class CommandCheck extends Command {
 		finders.pipe(chkstream);
 
 		// Wait for completion and report back.
-		console.log(chalk.yellow("Checking project..."));
-
-		await ending(chkstream);
-
-		if (failed === 0) {
-			console.log(chalk.yellow("All checks passed."));
+		if (args.plumbing) {
+			await ending(chkstream);
 		} else {
-			console.log(chalk.yellow(`${failed} check${failed > 0 ? 's' : ''} failed.`));
+			console.log(chalk.yellow("Checking project..."));
+
+			await ending(chkstream);
+
+			if (failed === 0) {
+				console.log(chalk.yellow("All checks passed."));
+			} else {
+				console.log(chalk.yellow(`${failed} check${failed > 0 ? 's' : ''} failed.`));
+			}
 		}
 
 		return failed === 0;
