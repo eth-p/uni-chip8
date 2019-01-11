@@ -138,22 +138,11 @@ module.exports = class Finder {
 	 * @param options   {object}   The options.
 	 */
 	constructor(directory, patterns, options) {
-		let mmopts = (options != null && options.matcher != null) ? options.matcher : OPTIONS.matcher;
-
 		this._running   = false;
 		this._finished  = false;
 		this._directory = directory;
 
-		this._patterns  = {
-			include: patterns
-				.filter(p => !p.startsWith('!'))
-				.map(p => mm.matcher(p, mmopts)),
-
-			exclude: patterns
-				.filter(p => p.startsWith('!'))
-				.map(p => p.substring(1))
-				.map(p => mm.matcher(p, mmopts))
-		};
+		this._patterns  = Finder.compilePatterns(patterns, options == null ? null : options.matcher);
 
 		this._options = Object.assign({
 			directories: false
@@ -189,6 +178,28 @@ module.exports = class Finder {
 		);
 
 		return all;
+	}
+
+	/**
+	 * Compile file patterns into callable functions.
+	 *
+	 * @param patterns The patterns.
+	 * @param options  The matcher options.
+	 *
+	 * @returns {{include: Function[], exclude: Function[]}}
+	 */
+	static compilePatterns(patterns, options) {
+		let mmopts = (options != null) ? options : OPTIONS.matcher;
+		return {
+			include: patterns
+				.filter(p => !p.startsWith('!'))
+				.map(p => mm.matcher(p, mmopts)),
+
+			exclude: patterns
+				.filter(p => p.startsWith('!'))
+				.map(p => p.substring(1))
+				.map(p => mm.matcher(p, mmopts))
+		};
 	}
 
 	/**

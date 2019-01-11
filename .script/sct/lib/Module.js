@@ -123,6 +123,40 @@ module.exports = class Module {
 		return this._meta;
 	}
 
+	/**
+	 * Checks if any module files have been changed since the last commit.
+	 *
+	 * @param status     {git.Status} The git status object.
+	 * @param onlyStaged {Boolean}    If true, only staged changes will be checked for.
+	 *
+	 * @returns {Promise<boolean>}
+	 */
+	async hasChanges(status, onlyStaged) {
+		let gitStatus = await (status != null ? status : (await this._project.getRepository()).getStatus());
+		let directory = this.getDirectory();
+
+		let patternsSrc  = Finder.compilePatterns(this.getSourcePatterns());
+		let patternsTest = Finder.compilePatterns(this.getTestPatterns());
+		let patterns     = [patternsSrc, patternsTest];
+
+		search: for (let file of gitStatus.filter(onlyStaged ? (f => f.inIndex()) : (f => f.inIndex() || f.inWorkingTree()))) {
+			let filePath = path.relative(directory, file.path());
+			if (filePath.startsWith('../')) continue;
+
+			for (let set of patterns) {
+				for (let exclude of set.exclude) {
+					if (exclude(filePath)) continue search;
+				}
+
+				for (let include of set.include) {
+					if (include(filePath)) return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	async _load() {
 		if (this._config['@auto'] === true) {
 			try {
