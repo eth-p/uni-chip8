@@ -89,7 +89,7 @@ module.exports = class GitUtil {
 	static async getConfig(repo) {
 		if (this._cacheConfig != null) return this._cacheConfig;
 
-		let config = repo.config();
+		let config = await repo.config();
 
 		this._cacheConfig = config;
 		return config;
@@ -117,7 +117,7 @@ module.exports = class GitUtil {
 	 * @param repo {git.Repository}    The repository.
 	 * @returns {Promise<String|null>} The user email, or null if unset.
 	 */
-	static async getUserEnmail(repo) {
+	static async getUserEmail(repo) {
 		let config = await this.getConfig(repo);
 
 		try {
