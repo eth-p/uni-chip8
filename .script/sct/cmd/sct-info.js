@@ -23,7 +23,7 @@ const StreamUtil              = require('@sct').StreamUtil;
 // Class:
 // ---------------------------------------------------------------------------------------------------------------------
 
-module.exports = class CommandCheck extends Command {
+module.exports = class CommandInfo extends Command {
 
 	name() {
 		return 'sct info';
