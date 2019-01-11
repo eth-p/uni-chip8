@@ -17,6 +17,9 @@
 
 			"sources": [
 				".script/**/*",
+				"package.json",
+				"package-lock.json",
+				".prettierrc",
 				"!*.{png,jpeg,jpg,svg}"
 			]
 		},
@@ -36,8 +39,7 @@
 
 			"sources": [
 				".editorconfig",
-				".gitattributes",
-				".gitignore",
+				".git{ignore,attributes}",
 				"project.json"
 			],
 
