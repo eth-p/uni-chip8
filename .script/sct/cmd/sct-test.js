@@ -40,7 +40,7 @@ module.exports = class CommandTest extends Command {
 	}
 
 	async run(args) {
-		let modules = await CommandUtil.getModulesFromArgs(args._, {
+		let modules = await CommandUtil.getModulesFromArgs(args, {
 			meta:      false,
 			metaError: m => `${m} is a meta-module, and cannot be tested.`
 		});
