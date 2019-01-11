@@ -88,8 +88,8 @@ function onError(error) {
 
 	// Use friendly command-line error messages if possible.
 	if (error instanceof CommandError) {
-		exit    = error.cliExit;
-		message = error.cliMessage;
+		exit = error.cliExit;
+		if (!DEBUG) message = error.cliMessage;
 	}
 
 	// Print the error.
@@ -164,7 +164,7 @@ function onError(error) {
 				}
 
 				if (argSchema != null && argSchema.type === 'boolean' && typeof(v) === 'boolean') {
-					return (v ? `--${k}` : `--no-${v}`);
+					return (v ? `--${k}` : `--no-${k}`);
 				}
 
 				return `--${k}=${v}`;
