@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Node Dependencies
           command: |
-            npm install
+            [ -d node_modules ] || npm install
 
       - run:
           name: Bypass SCT Setup
