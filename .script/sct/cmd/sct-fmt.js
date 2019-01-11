@@ -46,13 +46,13 @@ module.exports = class CommandFormat extends Command {
 			'only-modified': {
 				type: 'boolean',
 				default: false,
-				description: 'Only check modified files. (Requires Repository)',
+				description: 'Only format modified files. (Requires Repository)',
 				alias: 'modified-only'
 			},
 			'only-staged': {
 				type: 'boolean',
 				default: false,
-				description: 'Only check staged files. (Requires Repository)',
+				description: 'Only format staged files. (Requires Repository)',
 				alias: 'staged-only'
 			},
 			'dry': {
