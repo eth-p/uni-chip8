@@ -35,7 +35,7 @@ module.exports = class FileFormatter {
 	 * @param [options.prettier]  {Object} Options for the `prettier` formatter.
 	 */
 	constructor(options) {
-		let directory = options && options.directory ? options.directory : process.cwd();
+		let directory       = options && options.directory ? options.directory : process.cwd();
 		this._opts_prettier = prettier.resolveConfig.sync(directory);
 
 		if (options != null) {

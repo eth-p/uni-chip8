@@ -36,6 +36,7 @@ module.exports = class FileChecker {
 	constructor(options) {
 		this._formatter   = (options && options.formatter) ? options.formatter : new FileFormatter();
 		this._badwords    = (options && options.badwords)  ? options.badwords  : new badwords();
+		this.failures     = 0;
 		this._BUFFER_SIZE = 128;
 	}
 
@@ -47,7 +48,9 @@ module.exports = class FileChecker {
 	 * @returns {Promise<Boolean>} True if the file is correctly formatted.
 	 */
 	async checkFormatting(file) {
-		return await this._formatter.check(file);
+		let result = await this._formatter.check(file);
+		if (!result) this.failures++;
+		return result;
 	}
 
 	/**
@@ -65,6 +68,7 @@ module.exports = class FileChecker {
 			stream.on('data', (chunk) => {
 				if (this._badwords.isProfane(cache + chunk)) {
 					stream.close();
+					this.failures++;
 					return resolve(false);
 				}
 

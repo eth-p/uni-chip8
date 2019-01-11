@@ -89,6 +89,11 @@ module.exports = class SCT {
 
 Object.defineProperties(module.exports, {
 
+	AsyncTransform: {
+		enumerable: true,
+		get: () => require('./AsyncTransform')
+	},
+
 	Command: {
 		enumerable: true,
 		get: () => require('./Command')
@@ -114,6 +119,21 @@ Object.defineProperties(module.exports, {
 		get: () => require('./Finder')
 	},
 
+	FinderFilter: {
+		enumerable: true,
+		get: () => require('./FinderFilter')
+	},
+
+	FinderFilterGit: {
+		enumerable: true,
+		get: () => require('./FinderFilterGit')
+	},
+
+	FinderFilterGitModified: {
+		enumerable: true,
+		get: () => require('./FinderFilterGitModified')
+	},
+
 	FileChecker: {
 		enumerable: true,
 		get: () => require('./FileChecker')
@@ -127,6 +147,11 @@ Object.defineProperties(module.exports, {
 	SCTError: {
 		enumerable: true,
 		value: SCTError
+	},
+
+	StreamUtil: {
+		enumerable: true,
+		get: () => require('./StreamUtil')
 	}
 
 });

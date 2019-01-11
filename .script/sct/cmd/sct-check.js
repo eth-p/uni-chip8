@@ -12,18 +12,16 @@
 const badwords     = require('bad-words');
 const chalk        = require('chalk');
 const path         = require('path');
-const stream       = require('stream');
 
 // Modules.
-const Command       = require('@sct').Command;
-const CommandUtil   = require('@sct').CommandUtil;
-const Finder        = require('@sct').Finder;
-const FileFormatter = require('@sct').FileFormatter;
-const FileChecker   = require('@sct').FileChecker;
-const SCT           = require('@sct');
-
-// Functions.
-const ending = CommandUtil.ending;
+const AsyncTransform          = require('@sct').AsyncTransform;
+const Command                 = require('@sct').Command;
+const CommandUtil             = require('@sct').CommandUtil;
+const Finder                  = require('@sct').Finder;
+const FileFormatter           = require('@sct').FileFormatter;
+const FileChecker             = require('@sct').FileChecker;
+const SCT                     = require('@sct');
+const StreamUtil              = require('@sct').StreamUtil;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -51,11 +49,31 @@ module.exports = class CommandCheck extends Command {
 		return {
 			'profanity': {
 				type: 'boolean',
-				default: false
+				default: false,
+				description: 'Check profanity.'
 			},
 			'formatting': {
 				type: 'boolean',
-				default: false
+				default: false,
+				description: 'Check formatting.'
+			},
+			'only-modified': {
+				type: 'boolean',
+				default: false,
+				description: 'Only check modified files. (Requires Repository)',
+				alias: 'modified-only'
+			},
+			'only-staged': {
+				type: 'boolean',
+				default: false,
+				description: 'Only check staged files. (Requires Repository)',
+				alias: 'staged-only'
+			},
+			'verbose': {
+				type: 'boolean',
+				default: false,
+				description: 'Show all files.',
+				alias: ['v']
 			},
 			'_': {
 				value: 'module',
@@ -66,14 +84,14 @@ module.exports = class CommandCheck extends Command {
 	}
 
 	async run(args) {
-		let all     = !(args.profanity || args.formatting);
-		let modules = await CommandUtil.getModulesFromArgs(args._, {
+		let project = await SCT.getProject();
+		let modules = await CommandUtil.getModulesFromArgs(args, {
 			meta:      false,
 			metaError: m => `${m} is a meta-module, and cannot be checked.`
 		});
 
 		// Create file checker.
-		let formatter = new FileFormatter({directory: (await SCT.getProject()).getDirectory()});
+		let formatter = new FileFormatter({directory: project.getDirectory()});
 		let profanity = new badwords();
 
 		profanity.removeWords(... IGNORE_BADWORDS);
@@ -83,48 +101,47 @@ module.exports = class CommandCheck extends Command {
 			formatter: formatter
 		});
 
-		// Add checks.
-		let chkprint = args.plumbing ? this._printPlumbing : this._printPorcelain;
-		let checks   = [];
-		let failed   = 0;
+		// Handle arguments.
+		let printer = this._getPrinter(args);
+		let checks  = this._getChecks(args, checker);
+		let filters = await CommandUtil.getFiltersFromArgs(args);
 
-		if (all || args.formatting)	checks.push(async file => ['FORMATTING', await checker.checkFormatting(file)]);
-		if (all || args.profanity)  checks.push(async file => ['PROFANITY', await checker.checkProfanity(file)]);
-
-		// Create check stream.
-		let chkstream = new stream.Transform({
+		// Create stream to check files.
+		let stream = new AsyncTransform({
 			objectMode: true,
-			transform: (data, encoding, callback) => {
-				(async () => {
-					let result = await Promise.all(checks.map(f => f(data.path)));
-					if (result.find(([n, v]) => !v) !== undefined) {
-						failed++;
-						await chkprint(data.path, result);
-					}
-				})().then(data => callback(null, data), err => callback(err));
+			transform: async (data, encoding) => {
+				let result = await Promise.all(checks.map(f => f(data.path)));
+				let passed = result.find(([n, v]) => !v) === undefined;
+
+				if (args.verbose || !passed) {
+					await printer(data.path, result);
+				}
 			}
 		});
 
-		// Check project files.
-		let finders = Finder.all(modules.map(m => m.getFiles()).flat());
-		finders.pipe(chkstream);
+		// Start checking files.
+		let result = StreamUtil.chain([
+			Finder.all(modules.map(m => m.getFiles()).flat()),
+			... filters,
+			stream
+		]);
 
-		// Wait for completion and report back.
+		// Start checking.
 		if (args.plumbing) {
-			await ending(chkstream);
+			await StreamUtil.ending(result);
 		} else {
 			console.log(chalk.yellow("Checking project..."));
 
-			await ending(chkstream);
+			await StreamUtil.ending(result);
 
-			if (failed === 0) {
-				console.log(chalk.yellow("All checks passed."));
-			} else {
-				console.log(chalk.yellow(`${failed} check${failed > 0 ? 's' : ''} failed.`));
-			}
+			console.log(
+				checker.failures === 0
+				? chalk.yellow("All checks passed.")
+				: chalk.yellow(`${checker.failures} check${checker.failures > 0 ? 's' : ''} failed.`)
+			);
 		}
 
-		return failed === 0;
+		return checker.failures === 0;
 	}
 
 	async _printPlumbing(file, checks) {
@@ -132,13 +149,50 @@ module.exports = class CommandCheck extends Command {
 		process.stdout.write(`${checkfields} ${file}\n`);
 	}
 
-	async _printPorcelain(file, checks) {
+	async _printPorcelain(file, checks, verbose) {
+		let failed = false;
+		let filerel = path.relative((await SCT.getProject()).getDirectory(), file);
+
 		for (let check of checks.filter(([name, passed]) => !passed)) {
-			console.log(
-				chalk.red(check[0]) + chalk.yellow(': ')
-				+ path.relative((await SCT.getProject()).getDirectory(), file)
-			)
+			failed = true;
+			console.log(chalk.red(check[0]) + chalk.yellow(': ') + filerel);
 		}
+
+		if (verbose && !failed) {
+			console.log(chalk.green('PASS') + chalk.yellow(': ') + filerel);
+		}
+	}
+
+	/**
+	 * Gets the most appropriate printer.
+	 *
+	 * @param args {Object} The command arguments.
+	 * @returns {Function}  The printer function.
+	 * @private
+	 */
+	_getPrinter(args) {
+		return args.plumbing
+			? (...params) => this._printPlumbing(...params, args.verbose)
+			: (...params) => this._printPorcelain(...params, args.verbose);
+	}
+
+	/**
+	 * Gets an array of async check functions.
+	 *
+	 * @param args    {Object}      The command arguments.
+	 * @param checker {FileChecker} The file checker.
+	 *
+	 * @returns {Function[]} The check functions.
+	 * @private
+	 */
+	_getChecks(args, checker) {
+		let checks   = [];
+		let all      = !(args.profanity || args.formatting);
+
+		if (all || args.formatting)	checks.push(async file => ['FORMATTING', await checker.checkFormatting(file)]);
+		if (all || args.profanity)  checks.push(async file => ['PROFANITY', await checker.checkProfanity(file)]);
+
+		return checks;
 	}
 
 };

@@ -13,7 +13,9 @@
 
 /**
  * An abstract class for implementing a SCT command.
+ *
  * @type {Command}
+ * @abstract
  */
 module.exports = class Command {
 
@@ -73,8 +75,11 @@ module.exports = class Command {
 
 	/**
 	 * Runs the command.
+	 *
 	 * @param args {Object} The parsed command arguments.
 	 * @returns {number|boolean} The status code.
+	 *
+	 * @abstract
 	 */
 	async run(args) {
 		throw new Error(`Unimplemented subcommand: ${this.schema().name}`);

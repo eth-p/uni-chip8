@@ -8,8 +8,10 @@
 'use strict';
 
 // Modules.
-const CommandError = require('./CommandError');
-const SCT          = require('./SCT');
+const CommandError            = require('./CommandError');
+const FinderFilterGitModified = require('./FinderFilterGitModified');
+const FinderFilterGitStaged   = require('./FinderFilterGitStaged');
+const SCT                     = require('./SCT');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Class:
@@ -24,7 +26,7 @@ module.exports = class CommandUtil {
 	/**
 	 * Gets an array of modules from a command's arguments.
 	 *
-	 * @param args {String[]} The argument array.
+	 * @param args                {Object}          The minimist parsed arguments.
 	 * @param [options]           {Object}          The function options.
 	 * @param [options.meta]      {Boolean}         Allow meta-modules?
 	 * @param [options.metaError] {String|Function} The error message to show when a meta-module is loaded.
@@ -39,13 +41,13 @@ module.exports = class CommandUtil {
 
 		// Load all modules.
 		// This is used when no arguments are provided.
-		if (args.length === 0) {
+		if (args._.length === 0) {
 			return await project.getModules()
 				.filter(opts.meta === true ? () => true : m => !m.isMeta());
 		}
 
 		// Load user-specified modules.
-		let modules = await Promise.all(args.map(project.getModule.bind(project)));
+		let modules = await Promise.all(args._.map(project.getModule.bind(project)));
 
 		// Deny meta-modules.
 		if (options.meta === false) {
@@ -70,16 +72,42 @@ module.exports = class CommandUtil {
 	}
 
 	/**
-	 * Returns a promise that resolves when a stream ends or errors.
+	 * Gets an array of Finder filters.
 	 *
-	 * @param stream {Stream} The stream.
-	 * @returns {Promise<void>} The promise.
+	 * @param args                {Object} The minimist parsed arguments.
+	 * @param [options]           {Object} The function options.
+	 *
+	 * @returns {Promise<FinderFilter[]>} A promise for the filters.
+	 *
+	 * @throws {SCTError} When a filter requires a git repo, but there isn't any repo.
 	 */
-	static ending(stream) {
-		return new Promise((resolve, reject) => {
-			stream.on('error', reject);
-			stream.on('finish', resolve);
-		});
+	static async getFiltersFromArgs(args, options) {
+		let project        = await SCT.getProject();
+		let git_repository = null;
+		let git_index      = null;
+		let git_status     = null;
+
+		// Load git if necessary.
+		if (args['only-modified'] === true || args['only-staged'] === true) {
+			git_repository = await project.getRepository();
+			git_index      = await git_repository.refreshIndex();
+			git_status     = await git_repository.getStatus();
+		}
+
+		// Create filter options.
+		let filteropts = {
+			repository: git_repository,
+			status:     git_status,
+			index:      git_index
+		};
+
+		// Create filters.
+		let filters = [];
+
+		if (args['only-modified']) filters.push(new FinderFilterGitModified(null, filteropts));
+		if (args['only-staged'])   filters.push(new FinderFilterGitStaged(null, filteropts));
+
+		return filters;
 	}
 
 };

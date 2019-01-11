@@ -47,10 +47,10 @@ module.exports = class Project {
 		if (this._repository !== undefined) return this._repository;
 
 		try {
-			let repo = path.join(this._directory, '.gits');
+			let repo = path.join(this._directory, '.git');
 			await fs.stat(repo);
 			this._repository = await git.Repository.open(repo);
-		} catch (_) {
+		} catch (ex) {
 			this._repository = null;
 		}
 
