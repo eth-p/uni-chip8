@@ -4,7 +4,7 @@
 // MIT License
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // SCT Init: Initialize the project.
-// This tool will run Jest tests against one or more modules.
+// This tool will initialize the project and configure the repo.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 
@@ -15,8 +15,6 @@ const inquirer = require('inquirer');
 // Modules.
 const Child        = require('@sct').Child;
 const Command      = require('@sct').Command;
-const CommandError = require('@sct').CommandError;
-const CommandUtil  = require('@sct').CommandUtil;
 const SCT          = require('@sct');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -30,7 +28,7 @@ module.exports = class CommandTest extends Command {
 	}
 
 	description() {
-		return 'Run module tests.';
+		return 'Initialize the project.';
 	}
 
 	schema() {
