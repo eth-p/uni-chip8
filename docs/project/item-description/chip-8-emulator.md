@@ -209,6 +209,62 @@ CHIP-8 Assembly
 0x300: ...... // AFTER COND BLOCK (PARENTHESIS EQUIVALENT)
 ```
 
+### Raw Conditional Test Code
+```
+Please note that this has not been officially validated.
+These subroutines start at 0x210.
+///////////////////////////////////////////////////////////////////////
+// Less Than conditional subroutine
+// a < b
+// Load a into VC
+// Load b into VD
+// Store truth in VE
+
+cpu.loadOpcode(0x210, 0x8CD5); // VC -= VD
+cpu.loadOpcode(0x212, 0x3F00); // CONDITIONAL VF == 0
+// VF == 1: a >= b GOTO OUTSIDE BLOCK
+cpu.loadOpcode(0x214, 0x1218);
+     // VF == 0: a < b STAY INSIDE BLOCK
+cpu.loadOpcode(0x216, 0x6E01); // VE = 1
+cpu.loadOpcode(0x218, 0x121A); // GOTO RETURN
+// OUTSIDE BLOCK
+cpu.loadOpcode(0x21A, 0x6E00); // VE = 0
+cpu.loadOpcode(0x21C, 0x00EE); // RETURN
+///////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////
+// Greater Than conditional subroutine
+// a > b
+// Load a into VC
+// Load b into VD
+// Store truth in VE
+
+// Test VC != VD
+// 	False:
+//		Return False by default
+//	True:
+//		Test (VC -= VD) VF == 1:
+//			True:
+//				Return True (VC != VD and no borrow)
+//			False:
+//				Return False (VC != VD and borrow)
+
+cpu.loadOpcode(0x21E, 0x9CD0); // CONDITIONAL VC != VD
+// VC == VD
+cpu.loadOpcode(0x220, 0x122A); // GOTO False Exit
+// VC != VD: TEST (VC -= VD)
+cpu.loadOpcode(0x222, 0x8CD5); // VC -= VD
+cpu.loadOpcode(0x224, 0x3F01); // CONDITIONAL VF == 1
+// VF != 1 (Borrow)
+cpu.loadOpcode(0x226, 0x122A); // GOTO FALSE EXIT
+// VF == 1 (No borrow)
+cpu.loadOpcode(0x228, 0x6E01); // VE = 1
+cpu.loadOpcode(0x22A, 0x122C); // GOTO RETURN
+// FALSE EXIT FALL THROUGH
+cpu.loadOpcode(0x22C, 0x6E00); // VE = 0
+cpu.loadOpcode(0x22E, 0x00EE); // RETURN
+///////////////////////////////////////////////////////////////////////
+```
 
 
 ## Developer Resources and Citations
