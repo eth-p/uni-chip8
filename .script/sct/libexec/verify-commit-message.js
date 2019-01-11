@@ -67,7 +67,7 @@ async function verify(line, modules) {
 	if (msgChanges.endsWith('.'))              throw 'Commit message [changes] cannot end with punctuation.';
 
 	// Verify length.
-	if (line.trim().length > 80)               throw 'First line of commit message cannot exceed 80 characters.';
+	if (line.trim().length > 72)               throw 'First line of commit message cannot exceed 72 characters.';
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
