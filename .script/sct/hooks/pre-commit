@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+SCT_HOME="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+SCT_LIBEXEC="${SCT_HOME}/libexec"
+SCT="${SCT_HOME}/bin/sct.js"
+# ----------------------------------------------------------------------------------------------------------------------
+# Hook: Format changed files before commit.
+# ----------------------------------------------------------------------------------------------------------------------
+node "$SCT" fmt --plumbing --staged-only &>/dev/null || {
+	echo "Failed to format files." 1>&2
+	exit 1
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Hook: Validate changed files before commit.
+# ----------------------------------------------------------------------------------------------------------------------
+node "$SCT" check --plumbing --staged-only --no-formatting &>/dev/null || {
+	echo "Failed to commit changes."      1>&2
+	echo ""                               1>&2
+	echo "One or more checks failed."     1>&2
+	echo "Run 'sct check' for more info." 1>&2
+	exit 1
+}

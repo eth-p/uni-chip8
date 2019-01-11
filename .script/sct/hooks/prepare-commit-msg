@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+SCT_HOME="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+SCT_LIBEXEC="${SCT_HOME}/libexec"
+SCT="${SCT_HOME}/bin/sct.js"
+
+COMMIT_MESSAGE_FILE="$1"
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Hook: Add commit message template.
+# ----------------------------------------------------------------------------------------------------------------------
+node "${SCT_LIBEXEC}/prepare-commit-message.js" "$1" 2>/dev/null || {
+	echo "Unable to prepare commit message." 1>&2
+	exit 1
+}
