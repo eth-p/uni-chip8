@@ -67,6 +67,43 @@ function schemaToMinimist(schema) {
 	};
 }
 
+function onComplete(result) {
+	switch (typeof result) {
+		case 'boolean':   process.exit(result ? 0 : 1); break;
+		case 'number':    process.exit(result);         break;
+
+		case 'undefined':
+		case 'null':      process.exit(0);              break;
+
+		case 'string':
+		default:         // Um...
+	}
+
+	process.exit(254);
+}
+
+function onError(error) {
+	let exit = 1;
+	let message = `Uncaught ${error.constructor.name}: ${error.message}`;
+
+	// Use friendly command-line error messages if possible.
+	if (error instanceof CommandError) {
+		exit    = error.cliExit;
+		message = error.cliMessage;
+	}
+
+	// Print the error.
+	if (DEBUG || !(error instanceof CommandError)) {
+		console.error(chalk.red(message));
+		console.error(error.stack.split('\n').slice(1).join('\n'));
+	} else {
+		console.error(chalk.red(`${PROGRAM}: ${message}`));
+	}
+
+	// Exit.
+	process.exit(exit);
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Main:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -135,40 +172,9 @@ function schemaToMinimist(schema) {
 	);
 
 	// Run subcommand.
-	return await subcommand.run(minimist(subcommandArgv, schemaToMinimist(subcommandSchema)));
+	return await subcommand.run(minimist(
+		subcommandArgv,
+		schemaToMinimist(subcommandSchema)
+	));
 
-})(process.argv.slice(2)).then((result) => {
-
-	switch (typeof result) {
-		case 'boolean':   process.exit(result ? 0 : 1); break;
-		case 'number':    process.exit(result);         break;
-
-		case 'undefined':
-		case 'null':      process.exit(0);              break;
-
-		case 'string':
-		default:         // Um...
-	}
-
-	process.exit(254);
-
-}, (error) => {
-
-	let exit = 1;
-	let message = `Uncaught ${error.constructor.name}: ${error.message}`;
-
-	if (error instanceof CommandError) {
-		exit    = error.cliExit;
-		message = error.cliMessage;
-	}
-
-	if (DEBUG || !(error instanceof CommandError)) {
-		console.error(chalk.red(message));
-		console.error(error.stack.split('\n').slice(1).join('\n'));
-	} else {
-		console.error(chalk.red(`${PROGRAM}: ${message}`));
-	}
-
-	process.exit(exit);
-
-});
+})(process.argv.slice(2)).then(onComplete, onError);
