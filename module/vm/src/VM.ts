@@ -2,14 +2,13 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
-import VMRegisters from "./VMRegisters";
+import VMRegisters from './VMRegisters';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A software representation of CHIP-8 hardware.
  */
 export default class VM {
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -42,5 +41,4 @@ export default class VM {
 		this.memory = new Uint8Array(VM.MEMORY_MAX);
 		this.register = new VMRegisters();
 	}
-
 }

@@ -2,16 +2,15 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
-import Assert from "@debug/Assert";
+import Assert from '@debug/Assert';
 
-import { Uint16, Uint8 } from "./VMTypes";
+import {Uint16, Uint8} from './VMTypes';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * CHIP-8 hardware registers.
  */
 export default class VMRegisters {
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -40,7 +39,7 @@ export default class VMRegisters {
 	 * Equivalent to the `0xF` data register.
 	 */
 	public get flag(): Uint8 {
-		return this.data[0x0F];
+		return this.data[0x0f];
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -52,8 +51,8 @@ export default class VMRegisters {
 	 * @param value The value to set.
 	 */
 	public set flag(value: Uint8) {
-		Assert.assert(() => value >= 0x00 && value <= 0xFF);
-		this.data[0x0F] = value;
+		Assert.assert(() => value >= 0x00 && value <= 0xff);
+		this.data[0x0f] = value;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -64,5 +63,4 @@ export default class VMRegisters {
 		this.data = new Uint8Array(16);
 		this.address = 0;
 	}
-
 }
