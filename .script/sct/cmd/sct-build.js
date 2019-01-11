@@ -31,6 +31,11 @@ module.exports = class CommandBuild extends Command {
 				type: 'boolean',
 				default: false,
 				description: 'Build for release.',
+			},
+			'compatibility': {
+				type: 'boolean',
+				default: false,
+				description: 'Build for older browsers.',
 			}
 		}
 	}
