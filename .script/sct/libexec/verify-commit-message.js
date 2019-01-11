@@ -36,7 +36,7 @@ function onError(error) {
 	process.exit(1);
 }
 
-async function verifyModule(line, modules) {
+async function verify(line, modules) {
 	let ALLOWED_MODULES = ['*'].concat(modules.map(m => m.getId()));
 	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix'];
 
@@ -55,16 +55,19 @@ async function verifyModule(line, modules) {
 		throw "Commit message must be in the format of:\n[Module]: [Verb] [Changes]";
 	}
 
-	// Validate module.
+	// Verify module.
 	if (msgModule !== msgModule.toLowerCase()) throw 'Commit message [module] must be lowercase.';
 	if (!ALLOWED_MODULES.includes(msgModule))  throw 'Commit message [module] is not a project module.';
 
-	// Validate verb.
+	// Verify verb.
 	if (!/^[A-Z][a-z]+$/.test(msgVerb))        throw 'Commit message [verb] must start with an uppercase character.';
 	if (!ALLOWED_VERBS.includes(msgVerb))      throw `Commit message [verb] '${msgVerb}' is not allowed.`;
 
-	// Validate changes.
+	// Verify changes.
 	if (msgChanges.endsWith('.'))              throw 'Commit message [changes] cannot end with punctuation.';
+
+	// Verify length.
+	if (line.trim().length > 80)               throw 'First line of commit message cannot exceed 80 characters.';
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -82,7 +85,7 @@ async function verifyModule(line, modules) {
 	let summaryLine = lines.findIndex(l => !l.startsWith('#') && l.trim().length !== 0);
 
 	// Verify.
-	await verifyModule(lines[summaryLine], modules);
+	await verify(lines[summaryLine], modules);
 
 	// Clean up.
 	lines[summaryLine] = lines[summaryLine].trim();
