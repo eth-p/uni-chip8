@@ -92,6 +92,10 @@ function schemaToMinimist(schema) {
 		return;
 	}
 
+	if (args.plumbing) {
+		console.log = () => {}; // Disallow console.log.
+	}
+
 	// Get subcommand.
 	let subcommandName = args._.shift();
 	if (subcommandName == null) {
@@ -105,8 +109,29 @@ function schemaToMinimist(schema) {
 	// Generate argument passthrough.
 	let subcommandArgv = args._.concat(
 		Object.entries(args)
-			.filter(([k, v]) => !['--', '_', 'debug', 'version'].includes(k))
-			.map(([k, v]) => `--${k}=${v}`)
+			.filter(([k, v]) => !['--', '_', 'debug', 'version', 'v'].includes(k))
+			.map(([k, v]) => {
+				let argSchema = subcommandSchema[k];
+				if (argSchema == null) {
+					argSchema = Object
+						.entries(subcommandSchema)
+						.map(([arg, schema])  => [arg, schema.alias])
+						.filter(([arg, aliases]) => aliases != null)
+						.map(([arg, aliases]) => [arg, aliases instanceof Array ? aliases : [aliases]])
+						.find(([arg, aliases]) => aliases.includes(k)
+					);
+
+					if (argSchema !== undefined) {
+						argSchema = subcommandSchema[argSchema[0]];
+					}
+				}
+
+				if (argSchema != null && argSchema.type === 'boolean' && typeof(v) === 'boolean') {
+					return (v ? `--${k}` : `--no-${v}`);
+				}
+
+				return `--${k}=${v}`;
+			})
 	);
 
 	// Run subcommand.
