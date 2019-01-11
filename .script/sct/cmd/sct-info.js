@@ -30,7 +30,7 @@ module.exports = class CommandCheck extends Command {
 	}
 
 	description() {
-		return 'View project info..';
+		return 'View project info.';
 	}
 
 	schema() {
