@@ -94,6 +94,11 @@ Object.defineProperties(module.exports, {
 		get: () => require('./AsyncTransform')
 	},
 
+	Child: {
+		enumerable: true,
+		get: () => require('./Child')
+	},
+
 	Command: {
 		enumerable: true,
 		get: () => require('./Command')
