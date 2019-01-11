@@ -33,11 +33,6 @@ module.exports = class CommandTest extends Command {
 
 	schema() {
 		return {
-			'_': {
-				value: 'module',
-				type: 'string',
-				many: true
-			},
 			'install': {
 				type: 'boolean',
 				default: true,
