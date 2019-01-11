@@ -110,5 +110,24 @@ module.exports = class CommandUtil {
 		return filters;
 	}
 
+	/**
+	 * Gets the project's git repository.
+	 * This will throw an error if it can't find it.
+	 *
+	 * @returns {Promise<nodegit.Repository>} The repository object.
+	 *
+	 * @throws {CommandError} When the repository cannot be found.
+	 */
+	static async getRepository() {
+		let repo = await (await SCT.getProject()).getRepository();
+		if (repo != null) return repo;
+
+		throw new CommandError('Could not find git repository.', {
+			message: 'This command requires a git repository.',
+			code: 2
+		});
+
+	}
+
 };
 

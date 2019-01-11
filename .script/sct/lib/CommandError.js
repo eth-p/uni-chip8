@@ -30,8 +30,13 @@ module.exports = class CommandError extends Error {
 			this.cliMessage = message;
 			this.cliExit    = 254;
 		} else {
-			this.cliMessage = options.message;
-			this.cliExit    = options.exit == null ? 1 : options.exit;
+			if (options.message != null) this.cliMessage = options.message + (options.details != null? `\n${options.details}` : '');
+			if (options.details != null) this.details    = options.details;
+			if (options.exit    != null) this.cliExit    = options.exit == null ? 1 : options.exit;
+
+			if (options.cause   != null) {
+				this.stack += `\nCaused by: ` + options.cause.stack;
+			}
 		}
 	}
 

@@ -35,6 +35,13 @@ module.exports = class StreamUtil {
 		});
 	}
 
+	/**
+	 * Chains multiple streams together.
+	 * Errors will propagate downwards.
+	 *
+	 * @param streams {Stream[]} The streams to chain.
+	 * @returns {Stream} The final stream in the chain.
+	 */
 	static chain(streams) {
 		let stream = streams[0];
 		let last   = null;
