@@ -10,7 +10,9 @@
 
 // Libraries.
 const chalk    = require('chalk');
+const fs       = require('fs-extra');
 const inquirer = require('inquirer');
+const path     = require('path');
 
 // Modules.
 const Child        = require('@sct').Child;
@@ -56,8 +58,8 @@ module.exports = class CommandTest extends Command {
 			return 2;
 		}
 
-
 		await this._runRepoInstall(args, repo);
+		await this._runRepoHook(args, repo);
 		await this._runRepoConfig(args, repo);
 	}
 
@@ -66,7 +68,6 @@ module.exports = class CommandTest extends Command {
 
 		if (args['install']) await new Child('git', ['lfs', 'install'], {show: true, stdio: [null, null, 'frame']});
 		if (args['install']) await new Child('git', ['submodule', 'update', '--init', '--recursive'], {show: true, stdio: [null, 'frame', 'frame']});
-		// if (!args['install']) await _installGitHooks(repo.path());
 	}
 
 	async _runRepoConfig(args, repo) {
@@ -111,5 +112,48 @@ module.exports = class CommandTest extends Command {
 		await config.setString('user.email', answers.user_email_public ? answers.user_email : 'hidden');
 	}
 
+	async _runRepoHook(args, repo) {
+		console.log(chalk.yellow('Installing repository hooks...'));
+
+		let workPath     = repo.workdir();
+		let workHookPath = path.relative(workPath, path.join(SCT.getDirectory(), 'hooks'));
+
+		let hooks   = await fs.readdir(workHookPath);
+		let waiting = [];
+		for (let hook of hooks) {
+			waiting.push(this._installRepoHook(repo, hook));
+		}
+
+		return await Promise.all(waiting);
+	}
+
+	async _installRepoHook(repo, hook) {
+		console.log(chalk.magenta('| hook: ') + hook);
+		const MAGIC = ' # !GENERATED! SCT-HOOK';
+
+		let repoGitPath  = repo.path();
+		let repoHookPath = path.join(repoGitPath, 'hooks');
+		let workPath     = repo.workdir();
+		let workHookPath = path.relative(workPath, path.join(SCT.getDirectory(), 'hooks'));
+
+		// Install hook.
+		let hookDest = path.join(repoHookPath, hook);
+		let hookSrc  = path.join(workHookPath, hook);
+		let lines = ['#!/usr/bin/env bash'];
+
+		if (await fs.pathExists(hookDest)) {
+			lines = (await fs.readFile(hookDest, 'utf8')).split("\n");
+		}
+
+		// Modify hook file.
+		lines = lines.filter(l => !l.includes(MAGIC))
+
+		// Write hook.
+		lines.push(`"\`git rev-parse --show-toplevel\`/${hookSrc}" "$@" || exit $? ${MAGIC}`);
+		await fs.writeFile(hookDest, lines.join("\n"), {
+			encoding: 'utf8',
+			mode: 0o755
+		});
+	}
 
 };
