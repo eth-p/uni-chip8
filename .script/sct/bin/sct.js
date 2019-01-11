@@ -88,8 +88,8 @@ function onError(error) {
 
 	// Use friendly command-line error messages if possible.
 	if (error instanceof CommandError) {
-		exit = error.cliExit;
-		if (!DEBUG) message = error.cliMessage;
+		if (error.cliExit != null) exit = error.cliExit;
+		if (!DEBUG)                message = error.cliMessage;
 	}
 
 	// Print the error.

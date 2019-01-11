@@ -43,6 +43,14 @@ module.exports = class SCT {
 	}
 
 	/**
+	 * Get the directory to the SCT folder.
+	 * @returns {String}
+	 */
+	static getDirectory() {
+		return path.dirname(__dirname);
+	}
+
+	/**
 	 * Gets a subcommand class.
 	 *
 	 * @param command {String} The command.
@@ -61,7 +69,7 @@ module.exports = class SCT {
 		if (commandClass != null) return commandClass;
 
 		// Check if it exists.
-		let commandPath = path.join(path.dirname(__dirname), 'cmd', `sct-${command}.js`);
+		let commandPath = path.join(SCT.getDirectory(), 'cmd', `sct-${command}.js`);
 		if (!await fs.pathExists(commandPath)) {
 			throw new SCTError(`Unknown subcommand: ${command}`, {
 				message: `'${command}' is not a sct command.`
