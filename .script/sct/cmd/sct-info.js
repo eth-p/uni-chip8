@@ -59,12 +59,6 @@ module.exports = class CommandCheck extends Command {
 				description: 'Only check staged files. (Requires Repository)',
 				alias: 'staged-only'
 			},
-			'verbose': {
-				type: 'boolean',
-				default: false,
-				description: 'Show all files.',
-				alias: ['v']
-			},
 			'plumbing': {
 				type: 'boolean',
 				default: false,
