@@ -109,7 +109,7 @@ function schemaToMinimist(schema) {
 	// Generate argument passthrough.
 	let subcommandArgv = args._.concat(
 		Object.entries(args)
-			.filter(([k, v]) => !['--', '_', 'debug', 'version', 'v'].includes(k))
+			.filter(([k, v]) => !['--', '_', 'debug', 'version'].includes(k))
 			.map(([k, v]) => {
 				let argSchema = subcommandSchema[k];
 				if (argSchema == null) {
