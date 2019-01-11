@@ -75,6 +75,11 @@ module.exports = class CommandCheck extends Command {
 				description: 'Show all files.',
 				alias: ['v']
 			},
+			'plumbing': {
+				type: 'boolean',
+				default: false,
+				description: 'Parsable output.'
+			},
 			'_': {
 				value: 'module',
 				type: 'string',

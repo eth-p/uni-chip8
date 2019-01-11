@@ -60,6 +60,11 @@ module.exports = class CommandFormat extends Command {
 				default: false,
 				alias: 'dry-run',
 				description: 'Do not modify the files.'
+			},
+			'plumbing': {
+				type: 'boolean',
+				default: false,
+				description: 'Parsable output.'
 			}
 		}
 	}
