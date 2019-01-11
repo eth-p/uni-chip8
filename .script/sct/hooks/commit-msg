@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+SCT_HOME="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
+SCT_LIBEXEC="${SCT_HOME}/libexec"
+SCT="${SCT_HOME}/bin/sct.js"
+
+COMMIT_MESSAGE_FILE="$1"
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Hook: Verify message follows project guidelines.
+# ----------------------------------------------------------------------------------------------------------------------
+node "${SCT_LIBEXEC}/verify-commit-message.js" "$1" 2>/dev/null || {
+	exit 1
+}

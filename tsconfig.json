@@ -1,0 +1,34 @@
+{
+	"compilerOptions": {
+		"module": "amd",
+		"target": "es5",
+		"sourceMap": true,
+		"alwaysStrict": true,
+		"downlevelIteration": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"newLine": "lf",
+		"charset": "utf-8",
+		"declaration": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"removeComments": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"stripInternal": true,
+		"baseUrl": ".",
+		"outFile": "build/artifact.js"
+	},
+	"exclude": [
+		"build/**/*"
+	],
+	"references": [
+		{
+			"path": "module/vm"
+		},
+		{
+			"path": "module/debug"
+		}
+	]
+}
