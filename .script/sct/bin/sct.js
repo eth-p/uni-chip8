@@ -9,6 +9,7 @@
 'use strict';
 require('module-alias/register');
 require('array.prototype.flat').shim();
+require('string.prototype.padend').shim();
 
 // Libraries.
 const chalk    = require('chalk');
