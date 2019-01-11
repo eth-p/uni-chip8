@@ -109,7 +109,7 @@ module.exports = class CommandCheck extends Command {
 		// Create stream to check files.
 		let stream = new AsyncTransform({
 			objectMode: true,
-			transform: async (data, encoding) => {
+			transform: async (data) => {
 				let result = await Promise.all(checks.map(f => f(data.path)));
 				let passed = result.find(([n, v]) => !v) === undefined;
 

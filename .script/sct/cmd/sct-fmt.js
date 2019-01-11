@@ -12,17 +12,15 @@
 const chalk        = require('chalk');
 const fs           = require('fs-extra');
 const path         = require('path');
-const stream       = require('stream');
 
 // Modules.
-const Command       = require('@sct').Command;
-const CommandUtil   = require('@sct').CommandUtil;
-const Finder        = require('@sct').Finder;
-const FileFormatter = require('@sct').FileFormatter;
-const SCT           = require('@sct');
-
-// Functions.
-const ending = CommandUtil.ending;
+const AsyncTransform = require('@sct').AsyncTransform;
+const Command        = require('@sct').Command;
+const CommandUtil    = require('@sct').CommandUtil;
+const Finder         = require('@sct').Finder;
+const FileFormatter  = require('@sct').FileFormatter;
+const SCT            = require('@sct');
+const StreamUtil     = require('@sct').StreamUtil;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Class:
@@ -44,45 +42,64 @@ module.exports = class CommandFormat extends Command {
 				value: 'module',
 				type: 'string',
 				many: true
+			},
+			'only-modified': {
+				type: 'boolean',
+				default: false,
+				description: 'Only check modified files. (Requires Repository)',
+				alias: 'modified-only'
+			},
+			'only-staged': {
+				type: 'boolean',
+				default: false,
+				description: 'Only check staged files. (Requires Repository)',
+				alias: 'staged-only'
+			},
+			'dry': {
+				type: 'boolean',
+				default: false,
+				alias: 'dry-run',
+				description: 'Do not modify the files.'
 			}
 		}
 	}
 
 	async run(args) {
-		let modules = await CommandUtil.getModulesFromArgs(args._, {
+		let project = await SCT.getProject();
+		let modules = await CommandUtil.getModulesFromArgs(args, {
 			meta:      false,
 			metaError: m => `${m} is a meta-module, and cannot be formatted.`
 		});
 
 		// Handle arguments.
-		let fmtprint = args.plumbing ? this._printPlumbing : this._printPorcelain;
-		let fmtsave = async (file, data) => {
+		let formatter = new FileFormatter({directory: project.getDirectory()});
+		let printer   = this._getPrinter(args);
+		let filters   = await CommandUtil.getFiltersFromArgs(args);
+		let saver     = args.dry ? () => {} : async (file, data) => {
 			await fs.writeFile(file, data);
 		};
 
-		// Create formatting stream.
-		let formatter = new FileFormatter({directory: (await SCT.getProject()).getDirectory()});
-		let fmtstream = new stream.Transform({
+		// Create stream to format files.
+		let stream = new AsyncTransform({
 			objectMode: true,
-			transform: (data, encoding, callback) => {
-				(async () => {
+			transform: async (data) => {
+				let result = await formatter.format(data.path);
+				if (result.before === result.after) return null;
 
-					let result = await formatter.format(data.path);
-					if (result.before === result.after) return null;
-
-					await fmtsave(result.file, result.after);
-					await fmtprint(result.file);
-
-				})().then(data => callback(null, data), err => callback(err));
+				await saver(result.file, result.after);
+				await printer(result.file);
 			}
 		});
 
 		// Format project files.
-		let finders = Finder.all(modules.map(m => m.getFiles()).flat());
-		finders.pipe(fmtstream);
+		let result = StreamUtil.chain([
+			Finder.all(modules.map(m => m.getFiles()).flat()),
+			... filters,
+			stream
+		]);
 
 		// Wait for completion.
-		return await ending(fmtstream);
+		return await StreamUtil.ending(result);
 	}
 
 	async _printPlumbing(file) {
@@ -92,5 +109,19 @@ module.exports = class CommandFormat extends Command {
 	async _printPorcelain(file) {
 		console.log(chalk.yellow('Formatted: ') + path.relative((await SCT.getProject()).getDirectory(), file));
 	}
+
+	/**
+	 * Gets the most appropriate printer.
+	 *
+	 * @param args {Object} The command arguments.
+	 * @returns {Function}  The printer function.
+	 * @private
+	 */
+	_getPrinter(args) {
+		return args.plumbing
+			? (...params) => this._printPlumbing(...params, args.verbose)
+			: (...params) => this._printPorcelain(...params, args.verbose);
+	}
+
 
 };
