@@ -33,6 +33,7 @@
 - [**Use Cases**](#use-cases)
   - [Release 1 Use Cases](#release-1-use-cases)
 - [**Project Schedule**](#project-schedule)
+- [**Project Contributors**](#project-contributors)
 - [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [CHIP-8 Documentation](#chip-8-Documentation)
 
@@ -320,11 +321,21 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 - will ...
 
-
-
 ## Project Schedule
 
 *TODO: Include a gantt chart*
+
+## Project Contributors
+
+### Release 0
+
+- Ethan Pini
+- Kyle Saburao
+
+### Release 1
+
+- Ethan Pini
+- Kyle Saburao
 
 ## All Information Sources and Citations
 
