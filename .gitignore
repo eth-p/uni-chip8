@@ -7,6 +7,5 @@
 node_modules
 
 # Build
-/module/*/build
-/build
-/artifacts
+/module/*/out
+/out

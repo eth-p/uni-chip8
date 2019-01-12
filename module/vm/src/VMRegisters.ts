@@ -24,12 +24,6 @@ export default class VMRegisters {
 	 */
 	public data: Uint8Array;
 
-	/**
-	 * Address register.
-	 * Holds
-	 */
-	public address: Uint16;
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Getters:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
@@ -40,6 +34,14 @@ export default class VMRegisters {
 	 */
 	public get flag(): Uint8 {
 		return this.data[0x0f];
+	}
+
+	/**
+	 * Gets a register value.
+	 * @param location The register location to fetch.
+	 */
+	public getRegister(location: Uint8) {
+		return this.data[location];
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -55,12 +57,21 @@ export default class VMRegisters {
 		this.data[0x0f] = value;
 	}
 
+	/**
+	 * Sets a register value.
+	 * @param location The register location to set.
+	 * @param value The value to apply to the register
+	 */
+	public setRegister(location: Uint8, value: Uint8): void {
+		Assert.assert(() => value >= 0x00 && value <= 0xff);
+		this.data[location] = value;
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		this.data = new Uint8Array(16);
-		this.address = 0;
+		this.data = new Uint8Array(0xf);
 	}
 }

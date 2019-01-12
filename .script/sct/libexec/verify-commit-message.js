@@ -8,7 +8,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 require('module-alias/register');
-require('array.prototype.flat').shim();
 
 // Libraries.
 const fs = require('fs-extra');
