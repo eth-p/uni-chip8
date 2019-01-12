@@ -76,8 +76,8 @@ export default class VM {
 	// -------------------------------------------------------------------------------------------------------------
 
 	private loadOpcode(location: Uint16, opcode: Uint16): void {
-		this._memory[(opcode & 0xFF00) >> 8];
-		this._memory[(opcode & 0x00FF)];
+		this._memory[location] = (opcode & 0xFF00) >> 8;
+		this._memory[location + 1] = (opcode & 0x00FF);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
