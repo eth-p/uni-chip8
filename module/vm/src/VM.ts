@@ -3,7 +3,10 @@
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
 import VMRegisters from './VMRegisters';
-import {Uint16, Uint8} from './VMTypes';
+import Uint8 from '@chipotle/types/Uint8';
+import Uint16 from '@chipotle/types/Uint16';
+// import Uint8 = require('@chipotle/types/Uint8')
+// import Uint16 = require('@chipotle/types/Uint16')
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
