@@ -27,6 +27,15 @@ const OPTIONS = {
 	}
 };
 
+const EXCLUDE = [
+	'!**/node_modules/**/*',
+	'!**/.git/**/*',
+	'!**/.DS_Store',
+	'!**/._*',
+	'!**/.tmp',
+	'!**/.idea/**/*'
+];
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Class:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -195,9 +204,12 @@ module.exports = class Finder {
 				.filter(p => !p.startsWith('!'))
 				.map(p => mm.matcher(p, mmopts)),
 
-			exclude: patterns
+			exclude: patterns.concat(module.exports.EXCLUDE)
 				.filter(p => p.startsWith('!'))
 				.map(p => p.substring(1))
+				.map(p => p.endsWith('/**/*') ? p.substring(0, p.length - 1) : p) // We don't need /**/* for this impl.
+				// .map(p => p.endsWith('/**/*') ? [p.substring(0, p.length - 5), p] : p)
+				// .flat()
 				.map(p => mm.matcher(p, mmopts))
 		};
 	}
@@ -266,3 +278,5 @@ module.exports = class Finder {
 	}
 
 };
+
+module.exports.EXCLUDE = EXCLUDE;

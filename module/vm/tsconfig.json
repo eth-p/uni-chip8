@@ -1,47 +1,14 @@
 {
+	"extends": "../../tsconfig.settings.json",
 	"compilerOptions": {
-		"composite": true,
-		"module": "amd",
-		"target": "es5",
-		"sourceMap": true,
-		"alwaysStrict": true,
-		"downlevelIteration": true,
-		"experimentalDecorators": true,
-		"forceConsistentCasingInFileNames": true,
-		"newLine": "lf",
-		"charset": "utf-8",
-		"declaration": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"removeComments": true,
-		"strictFunctionTypes": true,
-		"strictNullChecks": true,
-		"strictPropertyInitialization": true,
-		"stripInternal": true,
 		"baseUrl": ".",
-		"declarationDir": "build/types",
-		"outDir": "build/out",
-		"rootDirs": [
-			"src"
-		],
-		"paths": {
-			"@debug/*": [
-				"../debug/src/*"
-			],
-			"@project/*": [
-				"../*"
-			]
-		}
+		"outDir": "out/files",
+		"declarationDir": "out/types"
 	},
 	"include": [
 		"src/**/*.ts"
 	],
 	"tests": [
 		"test/**/*.ts"
-	],
-	"references": [
-		{
-			"path": "../debug"
-		}
 	]
 }

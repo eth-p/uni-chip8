@@ -35,7 +35,7 @@ module.exports = class SCT {
 	static async getProject() {
 		if (project !== null) return project;
 
-		let dir     = path.dirname(await findup('project.json'));
+		let dir     = path.dirname(await findup('project.json', {cwd: __dirname}));
 		let config  = JSON.parse(await fs.readFile(path.join(dir, 'project.json'), 'utf-8'));
 		project = new this.Project(dir, config);
 		await project._load();
@@ -170,6 +170,26 @@ Object.defineProperties(module.exports, {
 	StreamUtil: {
 		enumerable: true,
 		get: () => require('./StreamUtil')
-	}
+	},
+
+	Task: {
+		enumerable: true,
+		get: () => require('./Task')
+	},
+
+	TaskLogger: {
+		enumerable: true,
+		get: () => require('./TaskLogger')
+	},
+
+	TaskLoggerPretty: {
+		enumerable: true,
+		get: () => require('./TaskLoggerPretty')
+	},
+
+	TaskStatus: {
+		enumerable: true,
+		get: () => require('./TaskStatus')
+	},
 
 });
