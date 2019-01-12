@@ -7,7 +7,6 @@
 The CHIP-8 emulator module.  
 This module is separate from input and output.
 
-
 ### Targeted Capabilities and Features @ Release 4
 
 - Basic CHIP-8 functionality.
@@ -15,40 +14,55 @@ This module is separate from input and output.
 ## Release History
 
 ### Release 0
+
 **Targets:**  
+
 - N/A
 
 **Developers:**  
+
 - N/A
 
 ### Release 1
+
 **Targets:**  
+
 - Implement basic structure.
 - Implement all 35 opcodes. 
 
 **Developers:**  
+
 - Ethan Pini, user@sfu.ca
 - Kyle Saburao, ksaburao@sfu.ca
 
 ### Release 2
+
 **Targets:**  
+
 - What you will be doing. 
 
 **Developers:**  
+
 - Name, user@sfu.ca
 
 ### Release 3
+
 **Targets:**  
+
 - What you will be doing. 
 
 **Developers:**  
+
 - Name, user@sfu.ca
 
 ### Release 4
+
 **Targets:**  
+
 - What you will be doing. 
 
 **Developers:**  
+
 - Name, user@sfu.ca
 
 ## Developer Notes
@@ -56,6 +70,7 @@ This module is separate from input and output.
 ### Basic Memory Details
 
 CHIP-8 specification calls for big-endianness. Most significant bytes are at the left.  
+
 ```
 let n = 220
 big endian: 0b1101 1100
@@ -112,7 +127,6 @@ little endian: 0b1100 1101
   - Top of `S` is `S[sp]`
   - When entering a new subroutine, push the current `pc` address, assuming it was double incremented after fetch/decode, to the stack, then increment `sp`.
 
-
 ### Opcodes constants
 
 Following constants are derived from the current opcode.
@@ -135,6 +149,7 @@ Following constants are derived from the current opcode.
   - `y = (opcode & 0x00F0) >> 4`
 
 #### Example
+
 ```
 pc = 0x350
 MEM[pc] = 0x05 = 0b0000 0101
@@ -184,6 +199,7 @@ y = (opcode & 0x00F0) >> 4 = 0x000A == 0xA == 0b0000 0000 0000 1010 == 0b1010
 ```
 
 ### Conditional (a < b)
+
 ```
 English
 1. COPY a into V[x] (V[x] = a)
@@ -210,7 +226,8 @@ CHIP-8 Assembly
 ```
 
 ### Raw Conditional Test Code
-```
+
+```ts
 Please note that this has not been officially validated.
 These subroutines start at 0x210.
 ///////////////////////////////////////////////////////////////////////
