@@ -50,7 +50,7 @@ module.exports = class CommandBuild extends Command {
 			},
 			'assert': {
 				type: 'boolean',
-				default: true,
+				default: null,
 				description: 'Enable assertions.',
 				alias: 'asserts'
 			},
@@ -76,6 +76,11 @@ module.exports = class CommandBuild extends Command {
 				default: false,
 				description: 'Verbose output.'
 			},
+			'sourcemaps': {
+				type: 'boolean',
+				default: true,
+				description: 'Write sourcemaps.'
+			},
 			'_': {
 				value: 'module',
 				type: 'string',
@@ -89,6 +94,9 @@ module.exports = class CommandBuild extends Command {
 			await (args.plumbing ? this._listTasksPlumbing : this._listTasksPorcelain)(await this._getModulesFromArgs(args));
 			return;
 		}
+
+		// Handle arguments.
+		if (args.assert === null) args.assert = args.release === true ? false : true;
 
 		// Get tasks to run.
 		let tasks   = await this._getTasksFromArgs(args);
@@ -123,7 +131,7 @@ module.exports = class CommandBuild extends Command {
 
 						if (args['fast-fail'] === true) {
 							dead = true;
-							reject(error);
+							reject(new CommandError('One or more build tasks failed.', {cause: error}));
 						}
 					} else {
 						logger.task(`Completed in ${this._timeDiff(task.timeStart, task.timeStop)}.`);

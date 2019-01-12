@@ -10,6 +10,7 @@
 // Libraries.
 const gulp        = require('gulp');
 const gulp_filter = require('gulp-filter');
+const stream      = require('stream');
 
 // Modules.
 const Finder     = require('./Finder');
@@ -141,6 +142,7 @@ module.exports = class Task {
 	 * @protected
 	 */
 	_gulpsrc(only) {
+		let base   = this.module.getDirectory();
 		let stream = gulp.src([].concat(
 				this.module.getSourcePatterns(),
 				this.module._excludes,
@@ -148,14 +150,23 @@ module.exports = class Task {
 				['!**/out/*']
 			),
 			{
-				base: this.module.getDirectory(),
-				cwd: this.module.getDirectory()
+				base:       base,
+				cwd:        base,
+				sourcemaps: true
 			}
 		);
 
 		if (only != null) stream = stream.pipe(gulp_filter(['!**'].concat(only)));
 
 		return stream;
+	}
+
+	/**
+	 * Returns a gulp.dest stream for the build directory.
+	 * @protected
+	 */
+	_gulpdest() {
+		return gulp.dest(this.module.getProject().getBuildDirectory());
 	}
 
 	/**

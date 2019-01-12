@@ -213,6 +213,7 @@ module.exports = class Module {
 				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.include.map(x => `!${x}`));
 				if (tsconfig.tests)   this._tests    = this._tests.concat(tsconfig.tests);
 			} catch (ex) {
+				if (ex instanceof SyntaxError) throw ex;
 			}
 		}
 	}

@@ -33,6 +33,14 @@ module.exports = class Project {
 	}
 
 	/**
+	 * Gets the build output directory.
+	 * @returns {string}
+	 */
+	getBuildDirectory() {
+		return path.join(this._directory, 'out');
+	}
+
+	/**
 	 * Gets the module directory.
 	 * @returns {string}
 	 */
