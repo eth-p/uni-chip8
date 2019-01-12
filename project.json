@@ -19,9 +19,13 @@
 				".script/**/*",
 				"package.json",
 				"package-lock.json",
-				".prettierrc",
-				"!*.{png,jpeg,jpg,svg}"
+				".prettierrc"
+			],
+
+			"exclude": [
+				"*.{png,jpeg,jpg,svg}"
 			]
+
 		},
 
 		"ci": {
@@ -51,12 +55,17 @@
 		},
 
 		"debug": {
-			"description": "Emulator debugging utilities.",
+			"description": "Common debugging utilities.",
+			"@auto": true
+		},
+
+		"types": {
+			"description": "Common type definitions.",
 			"@auto": true
 		},
 
 		"vm": {
-			"description": "The CHIP-8 virtual machine.",
+			"description": "Software representation of CHIP-8 hardware.",
 			"@auto": true
 		}
 

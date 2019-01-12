@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"composite": true,
 		"module": "amd",
 		"target": "es6",
 		"sourceMap": true,
@@ -18,17 +19,16 @@
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 		"baseUrl": ".",
-		"outFile": "out/artifact.js"
+		"declarationDir": "out/types",
+		"outDir": "out/files",
+		"rootDirs": [
+			"src"
+		]
 	},
-	"exclude": [
-		"build/**/*"
+	"include": [
+		"src/**/*.ts"
 	],
-	"references": [
-		{
-			"path": "module/vm"
-		},
-		{
-			"path": "module/debug"
-		}
+	"tests": [
+		"test/**/*.ts"
 	]
 }

@@ -6,11 +6,12 @@
 // The project.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
+const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const fs       = require('fs-extra');
-const git      = require('nodegit');
 const path     = require('path');
+const git      = lazyreq('nodegit');
 
 // Modules.
 const Module   = require('./Module');
@@ -41,7 +42,7 @@ module.exports = class Project {
 
 	/**
 	 * Gets the project repository.
-	 * @returns {Promise<git.Repository|null>}
+	 * @returns {Promise<nodegit.Repository|null>}
 	 */
 	async getRepository() {
 		if (this._repository !== undefined) return this._repository;

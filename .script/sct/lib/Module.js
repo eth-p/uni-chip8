@@ -6,13 +6,23 @@
 // A project module.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
+const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const fs       = require('fs-extra');
 const path     = require('path');
 
 // Modules.
-const Finder   = require('./Finder');
+const Finder   = lazyreq('./Finder');
+const SCT      = require('./SCT');
+const SCTError = require('./SCTError');
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Cache:
+// ---------------------------------------------------------------------------------------------------------------------
+
+let TASK_DIR  = path.join(SCT.getDirectory(), 'build');
+let TASK_LIST = null;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Class:
@@ -58,10 +68,11 @@ module.exports = class Module {
 
 	/**
 	 * Gets the patterns used to determine the source files.
+	 * @param [excludes] {Boolean} If true, will include the exclusion patterns.
 	 * @returns {string[]}
 	 */
-	getSourcePatterns() {
-		return this._sources;
+	getSourcePatterns(excludes) {
+		return excludes ? [].concat(this._sources, this._excludes) : this._sources.slice(0);
 	}
 
 	/**
@@ -69,22 +80,16 @@ module.exports = class Module {
 	 * @returns {Finder}
 	 */
 	getSourceFiles() {
-		return new Finder(this.getDirectory(), this.getSourcePatterns().concat(this._excludes, [
-			'!**/node_modules',
-			'!**/.git',
-			'!**/.DS_Store',
-			'!**/._*',
-			'!**/.tmp',
-			'!**/.idea'
-		]));
+		return new Finder(this.getDirectory(), this.getSourcePatterns(true));
 	}
 
 	/**
 	 * Gets the patterns used to determine the test files.
+	 * @param [excludes] {Boolean} If true, will include the exclusion patterns.
 	 * @returns {string[]}
 	 */
-	getTestPatterns() {
-		return this._tests;
+	getTestPatterns(excludes) {
+		return excludes ? [].concat(this._tests, this._excludes) : this._tests.slice(0);
 	}
 
 	/**
@@ -92,14 +97,7 @@ module.exports = class Module {
 	 * @returns {Finder}
 	 */
 	getTestFiles() {
-		return new Finder(this.getDirectory(), this.getTestPatterns().concat(this._excludes, [
-			'!**/node_modules',
-			'!**/.git',
-			'!**/.DS_Store',
-			'!**/._*',
-			'!**/.tmp',
-			'!**/.idea'
-		]));
+		return new Finder(this.getDirectory(), this.getTestPatterns(true));
 	}
 
 	/**
@@ -157,6 +155,56 @@ module.exports = class Module {
 		return false;
 	}
 
+	/**
+	 * Gets an array of supported build tasks for this module.
+	 * @returns {Promise<Task>}
+	 */
+	async getBuildTasks() {
+		if (this._tasks !== null) return this._tasks;
+		if (TASK_LIST === null) {
+			TASK_LIST = (await fs.readdir(TASK_DIR))
+				.filter(f => path.extname(f) === '.js')
+				.filter(f => f.startsWith('Task'))
+				.map(f => require(path.join(TASK_DIR, f)));
+		}
+
+		// Get supported task classes.
+		let tasks = TASK_LIST;
+		let supported = await Promise.all(TASK_LIST.map(task => (typeof(task.supports) !== 'function') ? true : task.supports(this)));
+
+		// Get task instances.
+		if (this._tasks === null) {
+			this._tasks = {};
+			for (let [index, task] of Object.entries(TASK_LIST)) {
+				if (!supported[index]) continue;
+
+				let taskInstance = new task(this);
+				this._tasks[taskInstance.id] = taskInstance;
+			}
+		}
+
+		// Return task instances.
+		return Object.values(this._tasks);
+	}
+
+	/**
+	 * Gets a build task for this module.
+	 *
+	 * @param task {String} The task name.
+	 * @returns {Promise<Task>} The task instance.
+	 *
+	 * @throws {SCTError} When the task does not exist or is not supported.
+	 */
+	async getBuildTask(task) {
+		await this.getBuildTasks(); // Ensure the _tasks cache exists.
+
+		if (this._tasks[task] === undefined) throw new SCTError(`Task not found for module: ${task}`, {
+			message: `'${this.getId()}:${task}' is not a build task.`
+		});
+
+		return this._tasks[task];
+	}
+
 	async _load() {
 		if (this._config['@auto'] === true) {
 			try {
@@ -179,6 +227,7 @@ module.exports = class Module {
 		this._tests       = config.tests instanceof Array ? config.tests : [];
 		this._excludes    = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
 		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
+		this._tasks       = null;
 	}
 
 };

@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"composite": true,
 		"module": "amd",
-		"target": "es5",
+		"target": "es6",
 		"sourceMap": true,
 		"alwaysStrict": true,
 		"downlevelIteration": true,
@@ -19,16 +19,26 @@
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 		"baseUrl": ".",
-		"declarationDir": "build/types",
-		"outDir": "build/out",
+		"declarationDir": "out/types",
+		"outDir": "out/files",
 		"rootDirs": [
 			"src"
-		]
+		],
+		"paths": {
+			"@types/*": [
+				"../types/src/*"
+			]
+		}
 	},
 	"include": [
 		"src/**/*.ts"
 	],
 	"tests": [
 		"test/**/*.ts"
+	],
+	"references": [
+		{
+			"path": "../types"
+		}
 	]
 }

@@ -170,6 +170,26 @@ Object.defineProperties(module.exports, {
 	StreamUtil: {
 		enumerable: true,
 		get: () => require('./StreamUtil')
-	}
+	},
+
+	Task: {
+		enumerable: true,
+		get: () => require('./Task')
+	},
+
+	TaskLogger: {
+		enumerable: true,
+		get: () => require('./TaskLogger')
+	},
+
+	TaskLoggerPretty: {
+		enumerable: true,
+		get: () => require('./TaskLoggerPretty')
+	},
+
+	TaskStatus: {
+		enumerable: true,
+		get: () => require('./TaskStatus')
+	},
 
 });
