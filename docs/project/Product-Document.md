@@ -136,8 +136,11 @@ The project repository contains [in-house tools](https://github.com/eth-p/SFU-CM
 
 #### Simple Contribution Tool
 
-`sct` is the command file to execute in the repository root directory.
-To view the command list in terminal, execute exactly `sct`.
+**sct** is the command file to execute in the repository root directory.  
+To execute sct in Non-Windows systems, use `./sct`.  
+To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt. 
+
+To view the command list in terminal, execute sct without any trailing commands or flags.
 
 A command in the following table is executed as follows: `sct command`.
 
@@ -159,7 +162,7 @@ commands work on the local repository --->
 
 For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
 
-Please install all of the following packages before executing `sct init`.
+Please install all of the following packages before executing `./sct init`.
 
 All packages listed (**exception to nodejs**) may be installed through the `apt` command.
 To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
@@ -182,28 +185,14 @@ nodejs through `apt` will yield an outdated version.
 
 ### Windows Environment Requirements
 
-#### Tentative
+Developers may use Windows machines for this project.  
+The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it. 
 
-SCT for Windows is in progress. When complete, developers will no longer require Windows Subsystem for Linux.
-
-#### Current
-
-To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine.
-
-- **Windows Subsystem for Linux**
-  - Ubuntu from the [Windows Store](https://www.microsoft.com/en-ca/p/ubuntu/9nblggh4msv6?rtc=1&activetab=pivot:overviewtab)
-  - All standard [Linux packages](#linux-environment-requirements)
-
-- **Optional**
+- **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
   - [Git for Windows](https://git-scm.com/downloads)
+- **Optional Installations**
   - [Visual Studio Code](https://code.visualstudio.com/)
-
-**Note:**
-There is currently an [outstanding, but tracked issue](https://github.com/Microsoft/WSL/issues/1932) with WSL (*Windows Subsystem for Linux*) where the Windows *Antimalware Service Executable* process will aggressively monitor an active WSL terminal [due to differences in Windows and Linux](https://github.com/Microsoft/WSL/issues/873#issuecomment-391810696). As a result, a developer may suffer performance degradation in running WSL terminal commands.
-
-To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
 ### Detailed Setup Instructions for MacOS, Ubuntu and Windows
 
