@@ -7,34 +7,34 @@
 <!--- Only include level 3 (###) headers --->
 
 - [**Meeting Schedule**](#meeting-schedule)  
-  - [*General Plan*](#general-plan)
+  - [General Plan](#general-plan)
 - [**Project Deliverables and Tools**](#project-deliverables-and-tools)
-  - [*Deliverables*](#deliverables)
-  - [*Development Tools*](#development-tools)
-  - [*Far Future*](#far-future)
+  - [Deliverables](#deliverables)
+  - [Development Tools](#development-tools)
+  - [Far Future](#far-future)
 - [**Communication**](#communication)
-  - [*Over GitHub*](#over-github)  
-  - [*Over Meetings*](#over-meetings)  
-  - [*Over Discord*](#over-discord)  
+  - [Via GitHub](#via-github)  
+  - [Via Meetings](#via-meetings)  
+  - [Via Discord](#via-discord)  
 - [**Implementation Language**](#implementation-language)
-- [**Software Repository**](#software-repository)
 - [**Software Development Methodology**](#software-development-methodology)
-  - [*Developer Process*](#developer-process)
-  - [*Work Breakdown*](#work-breakdown)
-  - [*Project Guidelines*](#project-guidelines)
-  - [*Member Roles*](#member-roles)
-  - [*Roles*](#roles)
+  - [Project Guidelines](#project-guidelines)
+  - [Developer Process](#developer-process)
+  - [Work Breakdown](#work-breakdown)
+  - [Member Roles](#member-roles)
+  - [Roles](#roles)
+- [**Software Repository**](#software-repository)
 - [**Testing**](#testing)
 - [**Developer Environment**](#developer-environment)
-  - [*Repository Tools*](#repository-tools)
-  - [*Linux Environment Requirements*](#linux-environment-requirements)
-  - [*Windows Environment Requirements*](#windows-environment-requirements)
-  - [*Detailed Setup Instructions for MacOS, Ubuntu and Windows*](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
+  - [Repository Tools](#repository-tools)
+  - [Linux Environment Requirements](#linux-environment-requirements)
+  - [Windows Environment Requirements](#windows-environment-requirements)
+  - [Detailed Setup Instructions for MacOS, Ubuntu and Windows](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
 - [**Use Cases**](#use-cases)
-  - [*Release 1 Use Cases*](#release-1-use-cases)
+  - [Release 1 Use Cases](#release-1-use-cases)
 - [**Project Schedule**](#project-schedule)
 - [**All Information Sources and Citations**](#all-information-sources-and-citations)
-  - [*CHIP-8 Documentation*](#chip-8-Documentation)
+  - [CHIP-8 Documentation](#chip-8-Documentation)
 
 ## Meeting Schedule
 
@@ -77,25 +77,27 @@ This section contains all deliverables and tools that we are planning to create,
 - **Local Repository Manager ([sct](#repository-tools))**
 - **Local Unit Tests**
 
-### Far Future
+### Future
 
+- **CHIP-8 Programs**
+- **CHIP-8 Assembler**
 - **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
 
 Communication is done through in-person meetings, GitHub issues, and Discord.
 
-### Over GitHub
+### Via GitHub
 
 GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
 
 The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
 
-### Over Meetings
+### Via Meetings
 
 Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
 
-### Over Discord
+### Via Discord
 
 Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
 
@@ -123,62 +125,7 @@ As well as being accessible to developers through the use of the `sct test` tool
 
 We will use GitHub to host our private repository.
 
-## Software Development Methodology
-
-### Developer Process
-
-#### Major Refactoring
-
-When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
-
-### Work Breakdown
-
-#### Release 0 - Documentation and Analysis
-
-We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
-
-#### Release 1 - Pre-Alpha
-
-We will be releasing an inital emulator. The emulator will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
-This emulator should be able to perform the the basic computational functions of the CHIP-8 specification.
-
-#### Release 2 - Alpha
-
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
-
-#### Release 3 - Beta
-
-We are targeting to begin video game development at this point.
-
-#### Release 4 - Production
-
-We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
-
-### Project Guidelines
-
-- Source code will remain compatible for transpilation to ES5 JavaScript.
-- Source code will be formatted according to a team standard.
-- Source code will not contain any swear words.
-
-### Member Roles
-<!--- Tentative Roles --->
-|Member|Team Lead|Emulator Dev|Tool Dev|Game Dev|Documentor|
-|------:|:---------:|:------------:|:----------:|:--------:|:---------:|
-|**Ethan Pini**| X | X | X | | X |
-|**Kyle Saburao**| X | X | | | X |
-|**Dan Amarasinghe**| | | | | |
-|**Anthony Pham**| | | | | |
-|**Henry Wang**| | | | | |
-
-### Roles
-
-|Role|Description|
-|----|-----------|
-|Team Lead|Directs team on project. Manages git repository.|
-|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
-|Tool Dev|Works on the build and test automation tools.|
-|Game Dev| |
-|Documentor|Documents the project.|
+To view documentation on git use in-respository, view [this section](#git-version-control).
 
 ## Developer Environment
 
@@ -186,12 +133,12 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.
 
-These tools have been designed to run in a bash terminal, therefore we ask that all developers have the capacity to run bash scripts on their environment. The rest of this section details basic requirements that all developers should satisfy on their development environment.
+#### Simple Contribution Tool
 
 `sct` is the command file to execute in the repository root directory.
-To view the command list in terminal, execute exactly `./sct`.
+To view the command list in terminal, execute exactly `sct`.
 
-A command in the following table is executed as follows: `./sct command`.
+A command in the following table is executed as follows: `sct command`.
 
 
 <!--- I changed the purpose text for some commands to explicitly indicate that the
@@ -199,22 +146,19 @@ commands work on the local repository --->
 
 |Command|Purpose|
 |-------|-------|
-|`@query`|Query project information|
-|`branch`|Create or switch branches|
-|`build`|Build the project|
-|`check`|Check to see if local source code passes project guidelines|
-|`commit`|Commit local changes to current branch|
-|`fmt`  |Format local source code|
-|`init` |Initialize the local repository|
-|`pull` |Pull remote changes from GitHub|
-|`push` |Push local changes to GitHub|
-|`test` |Run local unit tests|
+|build  |Build the project|
+|check  |Check source code for guideline violations|
+|fmt    |Format source code|
+|help   |View subcommand help|
+|info   |View project info|
+|init   |Initialize the project|
+|test   |Run module tests|
 
 ### Linux Environment Requirements
 
 For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
 
-Please install all of the following packages before executing `./sct init`.
+Please install all of the following packages before executing `sct init`.
 
 All packages listed (**exception to nodejs**) may be installed through the `apt` command.
 To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
@@ -237,6 +181,12 @@ nodejs through `apt` will yield an outdated version.
 
 ### Windows Environment Requirements
 
+#### Tentative
+
+SCT for Windows is in progress. When complete, developers will no longer require Windows Subsystem for Linux.
+
+#### Current
+
 To faciliate development consistency, we ask that all developers on Windows 10 enable [*Windows Subsystem for Linux.*](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 Windows Subsystem for Linux allows Windows to run a bash terminal without having to operate an entire virtual machine.
 
@@ -255,7 +205,105 @@ There is currently an [outstanding, but tracked issue](https://github.com/Micros
 To temporarily counteract this issue, the root directory of the WSL installation package and any associated major processes would be excluded from the Windows Antimalware Service. **Please consider the ramifications before attempting this fix.**
 
 ### Detailed Setup Instructions for MacOS, Ubuntu and Windows
+
 [Setup Page](../developer/Setup.md)
+
+## Software Development Methodology
+
+### Project Guidelines
+
+- Source code will remain compatible for transpilation to ES5 JavaScript.
+- Source code will be formatted according to a team standard.
+- Source code will not contain any swear words.
+- Members will contribute a fair amount of work.
+  - Noted discrepancies will be tracked for end-of-term review.
+  - All public-facing documentation will include a contributor report.
+  - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
+
+### Developer Process
+
+#### Git Version Control
+
+Developers will **NOT** attempt to work directly on the master branch. The master branch is protected and any attempts to commit directly will be automatically rejected.
+
+Please create your own development branch and work on that. Once your changes are complete, create a pull request `yourbranch -> master` in GitHub.
+
+Pull requests will be automatically tested as laid out [here](#testing).
+
+To ensure consistent commit quality, git hooks have been implemented repository wide.
+These hooks will prevent you from creating commits that violate any of the following conditions:
+
+- Formatting checks must pass.
+- Profanity checks must pass.
+- The commit message must follow this format: `[module]: [verb] [changes]`
+  - Where `[module]` is a module in `sct info --list-modules`
+  - Where `[changes]` does not end in punctuation.
+  - Where `[verb]` is one of the following:
+    - `Add`
+    - `Change`
+    - `Fix`
+    - `Move`
+    - `Refactor`
+    - `Reformat`
+    - `Rename`
+    - `Remove`
+    - `Update`
+
+Before committing changes, please run `sct check` and `sct fmt`.
+
+#### Major Refactoring
+
+When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
+
+### Work Breakdown
+
+To view what tasks to do, visit the repository issue tracker.
+Members will be assigned tasks, and will be welcome to contribute to any others.
+
+#### Release 0 - Documentation and Analysis
+
+We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
+
+#### Release 1 - Emulator I & Tools
+
+We will be releasing an inital emulator. The emulator will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
+This emulator should be able to perform the the basic computational functions of the CHIP-8 specification.
+The emulator might be able to render basic details to a HTML5 webpage.
+
+#### Release 2 - Emulator II & Tools
+
+Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
+Release 2 might include a CHIP-8 assembler to greatly improve program development.
+
+#### Release 3 - Programs
+
+We are targeting to begin video game development at this point.
+
+#### Release 4 - Production
+
+We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
+
+### Member Roles
+
+<!--- Tentative Roles --->
+|Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
+|------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
+|**Ethan Pini**| X | X | X | | | X |
+|**Kyle Saburao**| X | X | | | X | X |
+|**Dan Amarasinghe**| | | | | | |
+|**Anthony Pham**| | | | | | |
+|**Henry Wang**| | | | | | |
+
+### Roles
+
+|Role|Description|
+|----|-----------|
+|Team Lead|Directs team on project. Manages git repository.|
+|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
+|Tool Dev|Works on the build and test automation tools.|
+|Program Dev|Works with CHIP-8 Assembly to produce programs.|
+|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage.|
+|Documentor|Documents the project.|
 
 ## Use Cases
 
