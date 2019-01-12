@@ -42,7 +42,10 @@ module.exports = class TaskLoggerPretty extends TaskLogger {
 	 * @override
 	 */
 	_formatDate(date) {
-		return chalk.grey(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+		let h = date.getHours().toString().padStart(2, '0');
+		let m = date.getMinutes().toString().padStart(2, '0');
+		let s = date.getSeconds().toString().padStart(2, '0');
+		return chalk.grey(`${h}:${m}:${s}`);
 	}
 
 	/**

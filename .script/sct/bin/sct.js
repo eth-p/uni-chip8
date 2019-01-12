@@ -10,6 +10,7 @@
 require('module-alias/register');
 require('array.prototype.flat').shim();
 require('string.prototype.padend').shim();
+require('string.prototype.padstart').shim();
 
 // Libraries.
 const chalk    = require('chalk');

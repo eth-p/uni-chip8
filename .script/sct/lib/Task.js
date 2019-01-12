@@ -83,7 +83,7 @@ module.exports = class Task {
 					}, (...args) => {
 						this._status = TaskStatus.ERROR;
 						this.timeStop = new Date();
-						resolve(...args);
+						reject(...args);
 					})
 				})
 			}

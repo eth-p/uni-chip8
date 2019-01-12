@@ -30,6 +30,7 @@
 		"readdirp": "^2.2.1",
 		"stream-to-promise": "^2.2.0",
 		"string.prototype.padend": "^3.0.0",
+		"string.prototype.padstart": "^3.0.0",
 		"through2-filter": "^3.0.0",
 		"ts-jest": "^23.10.5",
 		"ts-transformer-unassert": "^2.0.1",

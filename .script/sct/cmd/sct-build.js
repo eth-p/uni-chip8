@@ -179,8 +179,8 @@ module.exports = class CommandBuild extends Command {
 	_timeDiff(a, b) {
 		let diff = a.getTime() > b.getTime() ? (b.getTime() - a.getTime()) : (b.getTime() - a.getTime());
 		if (diff < 1000)      return `${diff} ms`;
-		if (diff < 1000 * 60) return `${Math.floor(diff / 60)} s`;
-		return `${Math.floor(diff / 1000 / 60)} m, ${Math.floor(diff / 1000 % 60)} s`;
+		if (diff < 1000 * 60) return `${Math.floor(diff / 1000)} s`;
+		return `${Math.floor(diff / 1000 / 60)} m, ${Math.floor((diff / 1000) % 60)} s`;
 	}
 
 	async _listTasksPlumbing(modules) {
