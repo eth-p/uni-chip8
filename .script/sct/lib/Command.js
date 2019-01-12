@@ -77,7 +77,7 @@ module.exports = class Command {
 	 * Runs the command.
 	 *
 	 * @param args {Object} The parsed command arguments.
-	 * @returns {number|boolean} The status code.
+	 * @returns {Promise<Number|Boolean>} The status code.
 	 *
 	 * @abstract
 	 */

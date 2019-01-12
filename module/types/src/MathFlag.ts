@@ -4,11 +4,18 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An 8-bit unsigned integer.
+ * Flags to indicate the result of math operations.
  */
-export type Uint8 = number;
+enum MathFlag {
+	/**
+	 * The operation completed without any issues.
+	 */
+	OK = 0,
 
-/**
- * An 16-bit unsigned integer.
- */
-export type Uint16 = number;
+	/**
+	 * The operation caused an overflow.
+	 */
+	OVERFLOW = 1
+}
+
+export default MathFlag;

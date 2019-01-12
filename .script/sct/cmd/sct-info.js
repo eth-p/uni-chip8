@@ -10,6 +10,7 @@
 
 // Libraries.
 const chalk = require('chalk');
+const path  = require('path');
 
 // Modules.
 const Command                 = require('@sct').Command;
@@ -98,11 +99,13 @@ module.exports = class CommandInfo extends Command {
 			console.log(chalk.yellow('Files:'));
 		}
 
+		let base = project.getDirectory();
 		files.on('data', (file) => {
+			let rel = path.relative(base, file.path);
 			if (args.plumbing === true) {
-				process.stdout.write(`${file.file}\n`);
+				process.stdout.write(`${rel}\n`);
 			} else {
-				console.log(file.file);
+				console.log(rel);
 			}
 		});
 

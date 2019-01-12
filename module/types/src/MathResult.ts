@@ -2,8 +2,11 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
+import MathFlag from './MathFlag';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An error thrown when an assertion fails.
+ * The result of a math operation.
  */
-export default class AssertError extends Error {}
+type MathResult<T> = [T, MathFlag];
+export default MathResult;

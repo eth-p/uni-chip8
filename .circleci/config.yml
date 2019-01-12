@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Node Dependencies
           command: |
-            npm install
+            [ -d node_modules ] || npm install
 
       - run:
           name: Bypass SCT Setup
@@ -98,8 +98,7 @@ jobs:
       - persist_to_workspace:
           root: *workspace_root
           paths:
-            - target
-            - artifacts
+            - out
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: test
