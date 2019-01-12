@@ -3,7 +3,7 @@
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
 import VMRegisters from './VMRegisters';
-import { Uint16, Uint8 } from './VMTypes';
+import {Uint16, Uint8} from './VMTypes';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -37,13 +37,13 @@ export default class VM {
 	private _register: VMRegisters;
 
 	private _program_counter: Uint16;
-	
+
 	private _I: Uint16;
 
 	private _stack_pointer: Uint8;
 
 	private _delay_timer: Uint8;
-	
+
 	private _sound_timer: Uint8;
 
 	private _last_decrement_time: number;
@@ -76,15 +76,14 @@ export default class VM {
 	// -------------------------------------------------------------------------------------------------------------
 
 	private loadOpcode(location: Uint16, opcode: Uint16): void {
-		this._memory[location] = (opcode & 0xFF00) >> 8;
-		this._memory[location + 1] = (opcode & 0x00FF);
+		this._memory[location] = (opcode & 0xff00) >> 8;
+		this._memory[location + 1] = opcode & 0x00ff;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Forward execution:                                                                                        |
 	// -------------------------------------------------------------------------------------------------------------
 	public cycleAhead(): void {
-
 		let opcode: Uint16 = this.fetchOpcode(this._program_counter);
 		this._program_counter += 2;
 
@@ -105,6 +104,5 @@ export default class VM {
 				--this._sound_timer;
 			}
 		}
-
 	}
 }
