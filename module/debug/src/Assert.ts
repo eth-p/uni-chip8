@@ -6,31 +6,13 @@ import AssertError from './AssertError';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Configurable runtime assertions.
+ * Asserts that a statement is true.
  *
- * When building for release, these assertions will be replaced with empty functions, which should be inlined by
- * the V8 engine.
+ * @param result  The assertion statement.
+ * @param message The assertion message.
  */
-export default class Assert {
-	/**
-	 * Assert that some function returns true.
-	 *
-	 * @param fn The function to call.
-	 *
-	 * @throws AssertError When the assertion fails.
-	 */
-	public static assert(fn: () => boolean) {
-		if (!fn()) throw new AssertError('Assertion failed.');
-	}
-
-	/**
-	 * Disables assertions.
-	 * Permanently.
-	 */
-	public static disable() {
-		let nullfn = () => {};
-		for (let key of Object.keys(Assert)) {
-			(Assert as any)[key] = nullfn;
-		}
-	}
+function assert(result: boolean, message?: string): void|never {
+	if (!result) throw new AssertError(message == null ? 'Assertion failed.' : message);
 }
+
+export = assert;

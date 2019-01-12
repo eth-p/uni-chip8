@@ -4,7 +4,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An assertion error.
- * This is thrown when an assertion fails.
+ * An error thrown when an assertion fails.
  */
 export default class AssertError extends Error {}
