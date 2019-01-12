@@ -11,8 +11,9 @@ import AssertError from './AssertError';
  * @param result  The assertion statement.
  * @param message The assertion message.
  */
-function assert(result: boolean, message?: string): void|never {
-	if (!result) throw new AssertError(message == null ? 'Assertion failed.' : message);
+function assert(result: boolean, message?: string): void | never {
+	if (!result)
+		throw new AssertError(message == null ? 'Assertion failed.' : message);
 }
 
 export = assert;
