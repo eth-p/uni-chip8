@@ -17,7 +17,7 @@
   - [Via Meetings](#via-meetings)  
   - [Via Discord](#via-discord)  
 - [**Implementation Language**](#implementation-language)
-- [**Software Development Methodology**](#software-development-methodology)
+- [**Software Development Process**](#software-development-process)
   - [Project Guidelines](#project-guidelines)
   - [Developer Process](#developer-process)
   - [Work Breakdown](#work-breakdown)
@@ -209,7 +209,7 @@ To temporarily counteract this issue, the root directory of the WSL installation
 
 [Setup Page](../developer/Setup.md)
 
-## Software Development Methodology
+## Software Development Process
 
 ### Project Guidelines
 
@@ -322,9 +322,9 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
 |**Ethan Pini**| X | X | X | | | X |
 |**Kyle Saburao**| X | X | | | X | X |
-|**Dan Amarasinghe**| | | | | | |
 |**Anthony Pham**| | | | | | |
 |**Henry Wang**| | | | | | |
+|**Dan Amarasinghe**| | | | | | |
 
 ### Roles
 
