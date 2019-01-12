@@ -15,8 +15,8 @@
 - **tools:** Created `./sct check` to check for code issues.
 - **tools:** Created `./sct test` to run unit tests.
 - **tools:** Created `./sct @query` to query projectin formation.
-- **vm:** Updated VM to include other CHIP-8 fields
-- **vm:** Removed address register field from VMRegister
+- **vm:** Updated VM to include other CHIP-8 fields.
+- **vm:** Removed address register field from VMRegister.
 
 ### Documentation
 - **docs:** Added contributing guide.
