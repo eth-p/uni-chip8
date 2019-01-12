@@ -263,17 +263,48 @@ Members will be assigned tasks, and will be welcome to contribute to any others.
 
 #### Release 0 - Documentation and Analysis
 
-We will be creating the initial product document. The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).
+We will be creating the initial product document.  
+The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
+The product document will include details on each module. These details will range from who is working on it, to how to understand the module.
 
 #### Release 1 - Emulator I & Tools
 
-We will be releasing an inital emulator. The emulator will meet full functionality for all operation codes as specified on the [Wikipedia page](https://en.wikipedia.org/wiki/CHIP-8) for CHIP-8.
-This emulator should be able to perform the the basic computational functions of the CHIP-8 specification.
-The emulator might be able to render basic details to a HTML5 webpage.
+We will be releasing an inital emulator.  
+This emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
+The emulator will be able to render basic details, and output sound to a HTML5 webpage.  
+The emulator will be able to support basic, non-interactive programs such as simple looping "screensavers".
+
+##### List of Items
+
+- CHIP-8 VM
+  - Full operation code support
+  - Full graphics output
+  - Full sound output
+  - Interactive input not required
+  - CHIP-8 Webpage
+- Render CHIP-8 graphics to HTML5 webpage
+  - Render CHIP-8 counters, registers, and stack
+- **Module design:**
+  - CHIP-8 System
+    - CHIP-8 CPU
+      - CHIP-8 counters, registers, and stack
+      - CHIP-8 Opcode Jumptable
+      - CHIP-8 Timer
+    - CHIP-8 Graphics
+      - Graphics Array
+    - CHIP-8 Sound
+    - CHIP-8 Webpage
+      - HTML5 Canvas Object Renderer
+    - **Notes:**
+      - Abstraction Layers will only be able to communicate *iff* they differ by exactly one level.
+      - Abstraction Layer 0: CPU
+      - Abstraction Layer 1: System: Graphics, Sound, Input
+      - Abstraction Layer 2: Webpage
+
 
 #### Release 2 - Emulator II & Tools
 
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.
+Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
 Release 2 might include a CHIP-8 assembler to greatly improve program development.
 
 #### Release 3 - Programs
