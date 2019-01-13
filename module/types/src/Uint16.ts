@@ -224,7 +224,7 @@ export function and(a: Uint16, b: Uint16): Uint16 {
 export function bitshiftl(num: Uint16, by: number): Uint16 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	return (num << by) & 0xffff;
 }
@@ -241,7 +241,7 @@ export function bitshiftl(num: Uint16, by: number): Uint16 {
 export function bitshiftr(num: Uint16, by: number): Uint16 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	return (num >> by) & 0xffff;
 }
@@ -257,7 +257,7 @@ export function bitshiftr(num: Uint16, by: number): Uint16 {
 export function bitshiftlw(num: Uint16, by: number): Uint16 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	let shifted = num << by;
 	let wrapped = (shifted & 0xffff0000) >> 16;
@@ -281,7 +281,7 @@ export function bitshiftlw(num: Uint16, by: number): Uint16 {
 export function bitshiftrw(num: Uint16, by: number): Uint16 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	// JavaScript bitwise operations are handled as 32-bit signed ints.
 	// That proves to be a bit of an issue for the method we used in Uint8 bitshiftrw.

@@ -223,7 +223,7 @@ export function and(a: Uint8, b: Uint8): Uint8 {
 export function bitshiftl(num: Uint8, by: number): Uint8 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	return (num << by) & 0xff;
 }
@@ -240,7 +240,7 @@ export function bitshiftl(num: Uint8, by: number): Uint8 {
 export function bitshiftr(num: Uint8, by: number): Uint8 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	return (num >> by) & 0xff;
 }
@@ -256,7 +256,7 @@ export function bitshiftr(num: Uint8, by: number): Uint8 {
 export function bitshiftlw(num: Uint8, by: number): Uint8 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	let shifted = num << by;
 	let wrapped = (shifted & 0xff00) >> 8;
@@ -275,7 +275,7 @@ export function bitshiftlw(num: Uint8, by: number): Uint8 {
 export function bitshiftrw(num: Uint8, by: number): Uint8 {
 	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
 	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
-	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+	assert(by >= 0, "Parameter 'by' is negative, which results in undefined behaviour");
 
 	let shifted = (num << 8) >> by;
 	let wrapped = shifted & 0x00ff;
