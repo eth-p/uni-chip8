@@ -201,7 +201,7 @@ The requirement for *Windows Subsystem for Linux* has been deprecated; you may u
 - Source code will be formatted according to a team standard.
 - Source code will not contain any swear words.
 - Members will contribute a fair amount of work.
-  - Noted discrepancies will be tracked for end-of-term review.
+  - Unfair discrepancies will be tracked for the class end-of-term review.
   - All public-facing documentation will include a contributor report.
   - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
 
@@ -244,6 +244,8 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 
 To view what tasks to do, visit the repository issue tracker.
 Members will be assigned tasks, and will be welcome to contribute to any others.
+
+If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. If the developer cannot deliver on time, they will give their reason why (the task may be too complex, miscellaneous life events, etc.) and someone else will take over.
 
 #### Release 0 - Documentation and Analysis
 
@@ -300,14 +302,14 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ### Member Roles
 
-<!--- Tentative Roles --->
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
 |**Ethan Pini**| X | X | X | | | X |
 |**Kyle Saburao**| X | X | | | X | X |
-|**Anthony Pham**| | | | | | |
-|**Henry Wang**| | | | | | |
-|**Dan Amarasinghe**| | | | | | |
+|**Anthony Pham***| | | | | | |
+|**Henry Wang***| | | | | | |
+|**Dan Amarasinghe***| | | | | | |
+`*: Did not respond`
 
 ### Roles
 
