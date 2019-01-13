@@ -5,7 +5,7 @@
 ## Information
 
 **Location:** *SUR 3365*  
-**Date:**  *January 14, 2019*  
+**Date:** *January 14, 2019*  
 **Time:** *12:30 - 2:00*
 
 ## Attendance
