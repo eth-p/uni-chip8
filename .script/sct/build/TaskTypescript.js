@@ -101,9 +101,14 @@ module.exports = class TaskTypescript extends Task {
 		// Babel options.
 		let babelOptions = JSON.parse(JSON.stringify(options.compatibility === true ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
+		if (babelOptions.presets == null) babelOptions.presets = [];
 
 		if (options.asserts === false) {
 			babelOptions.plugins.unshift("babel-plugin-unassert");
+		}
+
+		if (options.minify === true) {
+			babelOptions.presets.push(['minify'])
 		}
 
 		// Stream.

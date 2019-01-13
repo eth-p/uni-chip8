@@ -81,6 +81,11 @@ module.exports = class CommandBuild extends Command {
 				default: true,
 				description: 'Write sourcemaps.'
 			},
+			'minify': {
+				type: 'boolean',
+				default: null,
+				description: 'Minify output files.'
+			},
 			'_': {
 				value: 'module',
 				type: 'string',
@@ -96,7 +101,8 @@ module.exports = class CommandBuild extends Command {
 		}
 
 		// Map arguments.
-		if (args.assert === null) args.assert = args.release === true ? false : true;
+		if (args.assert === null) args.assert = args.release !== true;
+		if (args.minify === null) args.minify = args.release === true;
 
 		// Map argument aliases.
 		args.asserts = args.assert;
