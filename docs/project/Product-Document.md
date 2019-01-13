@@ -43,7 +43,7 @@
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
 |**2**|January 7|Release 0| |[week2](meeting-minutes/week2.md)|
-|**3**| | | | |
+|**3**|January 14|Release 0|Documentation due by midnight|[week3](meeting-minutes/week3.md)|
 |**4**| | | | |
 |**5**| | | | |
 |**6**| | | | |
@@ -61,7 +61,6 @@ Our group plans to meet every Monday after the CMPT 276 lecture. This meeting en
 These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
 
 Additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project.
-
 
 ## Project Deliverables and Tools
 
@@ -138,15 +137,11 @@ The project repository contains [in-house tools](https://github.com/eth-p/SFU-CM
 
 **sct** is the command file to execute in the repository root directory.  
 To execute sct in Non-Windows systems, use `./sct`.  
-To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt. 
+To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt.
 
 To view the command list in terminal, execute sct without any trailing commands or flags.
 
 A command in the following table is executed as follows: `sct command`.
-
-
-<!--- I changed the purpose text for some commands to explicitly indicate that the
-commands work on the local repository --->
 
 |Command|Purpose|
 |-------|-------|
@@ -186,7 +181,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 Developers may use Windows machines for this project.  
-The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it. 
+The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it.
 
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
@@ -289,7 +284,6 @@ The emulator will be able to support basic, non-interactive programs such as sim
       - Abstraction Layer 0: CPU
       - Abstraction Layer 1: System: Graphics, Sound, Input
       - Abstraction Layer 2: Webpage
-
 
 #### Release 2 - Emulator II & Tools
 
