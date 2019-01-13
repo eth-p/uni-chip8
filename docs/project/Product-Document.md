@@ -365,3 +365,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - <http://www.emulator101.com/introduction-to-chip-8.html>
 - <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
 - <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
+
+### Documentation
+
+- [Mermaid Chart Maker](https://mermaidjs.github.io/)
