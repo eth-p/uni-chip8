@@ -42,8 +42,8 @@
 |Week|Date|Priorities|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
-|**2**|January 7|Release 0| |[week2](meeting-minutes/week2.md)|
-|**3**|January 14|Release 0|Documentation due by midnight|[week3](meeting-minutes/week3.md)|
+|**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
+|**3**|January 14|Release 0|Product Document will be finished in meeting|[Week 3](meeting-minutes/week3.md)|
 |**4**| | | | |
 |**5**| | | | |
 |**6**| | | | |
@@ -56,7 +56,7 @@
 
 ### General Plan
 
-Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned when CMPT 213 starts at 2:30 PM.
+Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned at 2:00 PM when CMPT 213 starts at 2:30 PM.
 
 These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
 
