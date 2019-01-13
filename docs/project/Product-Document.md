@@ -340,7 +340,10 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ## Project Schedule
 
-*TODO: Include a gantt chart*
+![Gantt Chart](../gantt-chart-temp.svg)
+
+**THIS CHART IS TEMPORARY**  
+**PLEASE UPDATE WITH CORRECT INFORMATION**
 
 ## Project Contributors
 
