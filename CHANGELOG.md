@@ -26,3 +26,4 @@
 - **docs:** Added meeting minutes template file.
 - **docs:** Update Product Document to reflect tentative details before Week 2 meeting.
 - **docs:** Added item description pages, and item description template page.
+- **docs:** Update Product Document to reflect tentative details before Week 3 meeting.

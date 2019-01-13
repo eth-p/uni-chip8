@@ -42,8 +42,8 @@
 |Week|Date|Priorities|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
-|**2**|January 7|Release 0| |[week2](meeting-minutes/week2.md)|
-|**3**| | | | |
+|**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
+|**3**|January 14|Release 0|Product Document will be finished in meeting|[Week 3](meeting-minutes/week3.md)|
 |**4**| | | | |
 |**5**| | | | |
 |**6**| | | | |
@@ -56,12 +56,11 @@
 
 ### General Plan
 
-Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned when CMPT 213 starts at 2:30 PM.
+Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned at 2:00 PM when CMPT 213 starts at 2:30 PM.
 
 These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
 
 Additonal meetings may be held, where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project.
-
 
 ## Project Deliverables and Tools
 
@@ -138,15 +137,11 @@ The project repository contains [in-house tools](https://github.com/eth-p/SFU-CM
 
 **sct** is the command file to execute in the repository root directory.  
 To execute sct in Non-Windows systems, use `./sct`.  
-To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt. 
+To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt.
 
 To view the command list in terminal, execute sct without any trailing commands or flags.
 
 A command in the following table is executed as follows: `sct command`.
-
-
-<!--- I changed the purpose text for some commands to explicitly indicate that the
-commands work on the local repository --->
 
 |Command|Purpose|
 |-------|-------|
@@ -186,7 +181,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 Developers may use Windows machines for this project.  
-The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it. 
+The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it.
 
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
@@ -206,7 +201,7 @@ The requirement for *Windows Subsystem for Linux* has been deprecated; you may u
 - Source code will be formatted according to a team standard.
 - Source code will not contain any swear words.
 - Members will contribute a fair amount of work.
-  - Noted discrepancies will be tracked for end-of-term review.
+  - Unfair discrepancies will be tracked for the class end-of-term review.
   - All public-facing documentation will include a contributor report.
   - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
 
@@ -250,6 +245,8 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 To view what tasks to do, visit the repository issue tracker.
 Members will be assigned tasks, and will be welcome to contribute to any others.
 
+If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. The buffer time is required for analysis for the next release, and code review in the current release.
+
 #### Release 0 - Documentation and Analysis
 
 We will be creating the initial product document.  
@@ -290,7 +287,6 @@ The emulator will be able to support basic, non-interactive programs such as sim
       - Abstraction Layer 1: System: Graphics, Sound, Input
       - Abstraction Layer 2: Webpage
 
-
 #### Release 2 - Emulator II & Tools
 
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
@@ -306,14 +302,14 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ### Member Roles
 
-<!--- Tentative Roles --->
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
 |**Ethan Pini**| X | X | X | | | X |
 |**Kyle Saburao**| X | X | | | X | X |
-|**Anthony Pham**| | | | | | |
-|**Henry Wang**| | | | | | |
-|**Dan Amarasinghe**| | | | | | |
+|**Anthony Pham***| | | | | | |
+|**Henry Wang***| | | | | | |
+|**Dan Amarasinghe***| | | | | | |
+`*: Did not respond`
 
 ### Roles
 
