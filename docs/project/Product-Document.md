@@ -245,7 +245,7 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 To view what tasks to do, visit the repository issue tracker.
 Members will be assigned tasks, and will be welcome to contribute to any others.
 
-If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. If the developer cannot deliver on time, they will give their reason why (the task may be too complex, miscellaneous life events, etc.) and someone else will take over.
+If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. The buffer time is required for analysis for the next release, and code review in the current release.
 
 #### Release 0 - Documentation and Analysis
 
