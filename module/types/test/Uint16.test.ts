@@ -9,6 +9,7 @@ describe('Constants', () => {
 	it('MIN', () => expect(Uint16.MIN).toStrictEqual(0x0000));
 	it('MAX', () => expect(Uint16.MAX).toStrictEqual(0xffff));
 	it('WRAP', () => expect(Uint16.WRAP).toStrictEqual(Uint16.MAX + 1));
+	it('BITS', () => expect(Uint16.BITS).toStrictEqual(16));
 });
 
 describe('Operations', () => {
@@ -54,5 +55,19 @@ describe('Operations', () => {
 		expect(Uint16.bitrev(0b0000000010000000)).toEqual(0b0000000100000000);
 		expect(Uint16.bitrev(0b1000000100000000)).toEqual(0b0000000010000001);
 		expect(Uint16.bitrev(0b1000000110000001)).toEqual(0b1000000110000001);
+	});
+
+	it('bitscanf', () => {
+		expect(Uint16.bitscanf(0b1000000000000000)).toEqual(15);
+		expect(Uint16.bitscanf(0b0000001000000000)).toEqual(9);
+		expect(Uint16.bitscanf(0b0000000000000001)).toEqual(0);
+		expect(Uint16.bitscanf(0b1000000000000100)).toEqual(2);
+	});
+
+	it('bitscanr', () => {
+		expect(Uint16.bitscanr(0b1000000000000000)).toEqual(15);
+		expect(Uint16.bitscanr(0b0000001000000000)).toEqual(9);
+		expect(Uint16.bitscanr(0b0000000000000001)).toEqual(0);
+		expect(Uint16.bitscanr(0b1000000000000100)).toEqual(15);
 	});
 });
