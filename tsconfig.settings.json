@@ -20,7 +20,8 @@
 		"noEmit": true,
 		"paths": {
 			"@chipotle/types/*": ["../types/src/*"],
-			"@chipotle/debug/*": ["../debug/src/*"]
+			"@chipotle/debug/*": ["../debug/src/*"],
+			"@chipotle/vm/*": ["../vm/src/*"]
 		}
 	}
 }
