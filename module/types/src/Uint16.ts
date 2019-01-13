@@ -17,6 +17,7 @@ import MathResult from './MathResult';
  * @see cast
  * @see add
  * @see sub
+ * @see bitrev
  */
 type Uint16 = number;
 export default Uint16;
@@ -92,4 +93,25 @@ export function add(a: Uint16, b: Uint16): MathResult<Uint16> {
  */
 export function sub(a: Uint16, b: Uint16): MathResult<Uint16> {
 	return wrap(<number>a - <number>b);
+}
+
+/**
+ * Reverse the bits in a Uint16.
+ *
+ * @param a The Uint16 to reverse.
+ * @returns The reversed Uint16.
+ *
+ * ## Source:
+ *
+ * Algorithm from "Reverse an N-bit quantity in parallel in 5 * lg(N) operations"
+ * at https://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious.
+ */
+export function bitrev(a: Uint16) {
+	assert(a >= MIN && a <= MAX);
+
+	a = ((a >> 1) & 0b0101010101010101) | ((a & 0b0101010101010101) << 1); // Swap every 2 bits.
+	a = ((a >> 2) & 0b0011001100110011) | ((a & 0b0011001100110011) << 2); // Swap every 4 bits.
+	a = ((a >> 4) & 0b0000111100001111) | ((a & 0b0000111100001111) << 4); // Swap every 8 bits.
+	a = ((a >> 8) & 0b0000000011111111) | ((a & 0b0000000011111111) << 8); // Swap every 16 bits.
+	return a;
 }

@@ -17,6 +17,7 @@ import MathResult from './MathResult';
  * @see cast
  * @see add
  * @see sub
+ * @see bitrev
  */
 type Uint8 = number;
 export default Uint8;
@@ -91,5 +92,28 @@ export function add(a: Uint8, b: Uint8): MathResult<Uint8> {
  * @returns The difference.
  */
 export function sub(a: Uint8, b: Uint8): MathResult<Uint8> {
+	assert(a >= MIN && a <= MAX);
+	assert(b >= MIN && b <= MAX);
+
 	return wrap(<number>a - <number>b);
+}
+
+/**
+ * Reverse the bits in a Uint8.
+ *
+ * @param a The Uint8 to reverse.
+ * @returns The reversed Uint8.
+ *
+ * ## Source:
+ *
+ * Algorithm from "Reverse an N-bit quantity in parallel in 5 * lg(N) operations"
+ * at https://graphics.stanford.edu/~seander/bithacks.html#BitReverseObvious.
+ */
+export function bitrev(a: Uint8) {
+	assert(a >= MIN && a <= MAX);
+
+	a = ((a >> 1) & 0b01010101) | ((a & 0b01010101) << 1); // Swap every 2 bits.
+	a = ((a >> 2) & 0b00110011) | ((a & 0b00110011) << 2); // Swap every 4 bits.
+	a = ((a >> 4) & 0b00001111) | ((a & 0b00001111) << 4); // Swap every 8 bits.
+	return a;
 }

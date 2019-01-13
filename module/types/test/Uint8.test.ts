@@ -40,4 +40,15 @@ describe('Operations', () => {
 		expect(Uint8.sub(255, 1)).toEqual([0xfe, MathFlag.OK]);
 		expect(Uint8.sub(10, 5)).toEqual([0x05, MathFlag.OK]);
 	});
+
+	it('bitrev', () => {
+		expect(Uint8.bitrev(0b00000000)).toEqual(0b00000000);
+		expect(Uint8.bitrev(0b10000000)).toEqual(0b00000001);
+		expect(Uint8.bitrev(0b01000000)).toEqual(0b00000010);
+		expect(Uint8.bitrev(0b00100000)).toEqual(0b00000100);
+		expect(Uint8.bitrev(0b00010000)).toEqual(0b00001000);
+		expect(Uint8.bitrev(0b00001000)).toEqual(0b00010000);
+		expect(Uint8.bitrev(0b10010000)).toEqual(0b00001001);
+		expect(Uint8.bitrev(0b10011001)).toEqual(0b10011001);
+	});
 });
