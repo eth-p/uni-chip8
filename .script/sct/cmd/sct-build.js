@@ -95,8 +95,11 @@ module.exports = class CommandBuild extends Command {
 			return;
 		}
 
-		// Handle arguments.
+		// Map arguments.
 		if (args.assert === null) args.assert = args.release === true ? false : true;
+
+		// Map argument aliases.
+		args.asserts = args.assert;
 
 		// Get tasks to run.
 		let tasks   = await this._getTasksFromArgs(args);
