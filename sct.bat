@@ -8,5 +8,5 @@ REM This tool is used for repository contribution and management.
 REM --------------------------------------------------------------------------------------------------------------------
 
 SET HERE=%~dp0
-%HERE:~0,-1%\.script\sct\bin\sct.bat %*
+%HERE:~0,-1%\.script\sct\bin\sct %*
 EXIT /B %ERRORLEVEL%
