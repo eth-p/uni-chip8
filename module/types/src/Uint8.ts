@@ -6,6 +6,7 @@
 // @eth-p: We could use Uint8Array to do the conversions, but it was actually slower in every browser except Chrome.
 // ---------------------------------------------------------------------------------------------------------------------
 import assert = require('@chipotle/debug/assert');
+
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,9 +17,14 @@ import MathResult from './MathResult';
  * @see cast
  * @see add
  * @see sub
+ * @see and
  * @see bitrev
  * @see bitscanf
  * @see bitscanr
+ * @see bitshiftl
+ * @see bitshiftlw
+ * @see bitshiftr
+ * @see bitshiftrw
  */
 type Uint8 = number;
 export default Uint8;
@@ -188,4 +194,90 @@ export function bitscanr(a: Uint8) {
 	}
 
 	return 0;
+}
+
+/**
+ * Bitwise AND two Uint8.
+ *
+ * @param a The first Uint8.
+ * @param b The second Uint8.
+ *
+ * @returns The Uint8 representing the bits in both parameters.
+ */
+export function and(a: Uint8, b: Uint8): Uint8 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+
+	return a & b;
+}
+
+/**
+ * Shift the bits in a Uint8 left.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint8 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint8.
+ */
+export function bitshiftl(num: Uint8, by: number): Uint8 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	return (num << by) & 0xff;
+}
+
+/**
+ * Shift the bits in a Uint8 right.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint8 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint8.
+ */
+export function bitshiftr(num: Uint8, by: number): Uint8 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	return (num >> by) & 0xff;
+}
+
+/**
+ * Shift the bits in a Uint8 left and wrap them around to the right.
+ *
+ * @param num The Uint8 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint8.
+ */
+export function bitshiftlw(num: Uint8, by: number): Uint8 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	let shifted = num << by;
+	let wrapped = (shifted & 0xff00) >> 8;
+	return (shifted & 0xff) | wrapped;
+}
+
+/**
+ * Shift the bits in a Uint8 right.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint8 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint8.
+ */
+export function bitshiftrw(num: Uint8, by: number): Uint8 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint8");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	let shifted = (num << 8) >> by;
+	let wrapped = shifted & 0x00ff;
+	return (shifted >> 8) | wrapped;
 }

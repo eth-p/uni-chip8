@@ -66,4 +66,32 @@ describe('Operations', () => {
 		expect(Uint8.bitscanr(0b00000001)).toEqual(0);
 		expect(Uint8.bitscanr(0b10001000)).toEqual(7);
 	});
+
+	it('and', () => {
+		expect(Uint8.and(0xff, 0x00)).toEqual(0x00);
+		expect(Uint8.and(0xf0, 0xff)).toEqual(0xf0);
+		expect(Uint8.and(0xff, 0xff)).toEqual(0xff);
+	});
+
+	it('bitshiftl', () => {
+		expect(Uint8.bitshiftl(0b10000000, 1)).toEqual(0b00000000);
+		expect(Uint8.bitshiftl(0b00000001, 1)).toEqual(0b00000010);
+	});
+
+	it('bitshiftr', () => {
+		expect(Uint8.bitshiftr(0b10000000, 1)).toEqual(0b01000000);
+		expect(Uint8.bitshiftr(0b00000001, 1)).toEqual(0b00000000);
+	});
+
+	it('bitshiftlw', () => {
+		expect(Uint8.bitshiftlw(0b00000100, 1)).toEqual(0b00001000);
+		expect(Uint8.bitshiftlw(0b10000000, 1)).toEqual(0b00000001);
+		expect(Uint8.bitshiftlw(0b10000001, 1)).toEqual(0b00000011);
+	});
+
+	it('bitshiftrw', () => {
+		expect(Uint8.bitshiftrw(0b00010000, 1)).toEqual(0b00001000);
+		expect(Uint8.bitshiftrw(0b00000001, 1)).toEqual(0b10000000);
+		expect(Uint8.bitshiftrw(0b10000001, 1)).toEqual(0b11000000);
+	});
 });

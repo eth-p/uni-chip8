@@ -70,4 +70,38 @@ describe('Operations', () => {
 		expect(Uint16.bitscanr(0b0000000000000001)).toEqual(0);
 		expect(Uint16.bitscanr(0b1000000000000100)).toEqual(15);
 	});
+
+	it('and', () => {
+		expect(Uint16.and(0xffff, 0x0000)).toEqual(0x0000);
+		expect(Uint16.and(0xffff, 0x0ff0)).toEqual(0x0ff0);
+		expect(Uint16.and(0x0000, 0xffff)).toEqual(0x0000);
+		expect(Uint16.and(0x0000, 0x0000)).toEqual(0x0000);
+		expect(Uint16.and(0xffff, 0xffff)).toEqual(0xffff);
+	});
+
+	it('bitshiftl', () => {
+		expect(Uint16.bitshiftl(0xffff, 1)).toEqual(0xfffe);
+		expect(Uint16.bitshiftl(0x0001, 1)).toEqual(0x0002);
+		expect(Uint16.bitshiftl(0x0101, 1)).toEqual(0x0202);
+	});
+
+	it('bitshiftr', () => {
+		expect(Uint16.bitshiftr(0xffff, 1)).toEqual(0x7fff);
+		expect(Uint16.bitshiftr(0x0001, 1)).toEqual(0x0000);
+		expect(Uint16.bitshiftr(0x1010, 1)).toEqual(0x0808);
+	});
+
+	it('bitshiftlw', () => {
+		expect(Uint16.bitshiftlw(0x0001, 1)).toEqual(0x0002);
+		expect(Uint16.bitshiftlw(0x0101, 1)).toEqual(0x0202);
+		expect(Uint16.bitshiftlw(0xffff, 1)).toEqual(0xffff);
+		expect(Uint16.bitshiftlw(0x8000, 1)).toEqual(0x0001);
+		expect(Uint16.bitshiftlw(0x1000, 15)).toEqual(0x0800);
+	});
+
+	it('bitshiftrw', () => {
+		expect(Uint16.bitshiftrw(0x0001, 1)).toEqual(0x8000);
+		expect(Uint16.bitshiftrw(0xffff, 1)).toEqual(0xffff);
+		expect(Uint16.bitshiftrw(0x8000, 1)).toEqual(0x4000);
+	});
 });

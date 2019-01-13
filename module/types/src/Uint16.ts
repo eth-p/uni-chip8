@@ -17,9 +17,14 @@ import MathResult from './MathResult';
  * @see cast
  * @see add
  * @see sub
+ * @see and
  * @see bitrev
  * @see bitscanf
  * @see bitscanr
+ * @see bitshiftl
+ * @see bitshiftlw
+ * @see bitshiftr
+ * @see bitshiftrw
  */
 type Uint16 = number;
 export default Uint16;
@@ -190,4 +195,102 @@ export function bitscanr(a: Uint16) {
 	}
 
 	return 0;
+}
+
+/**
+ * Bitwise AND two Uint16.
+ *
+ * @param a The first Uint16.
+ * @param b The second Uint16.
+ *
+ * @returns The Uint16 representing the bits in both parameters.
+ */
+export function and(a: Uint16, b: Uint16): Uint16 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint16");
+
+	return a & b;
+}
+
+/**
+ * Shift the bits in a Uint16 left.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint16 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint16.
+ */
+export function bitshiftl(num: Uint16, by: number): Uint16 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	return (num << by) & 0xffff;
+}
+
+/**
+ * Shift the bits in a Uint16 right.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint16 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint16.
+ */
+export function bitshiftr(num: Uint16, by: number): Uint16 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	return (num >> by) & 0xffff;
+}
+
+/**
+ * Shift the bits in a Uint16 left and wrap them around to the right.
+ *
+ * @param num The Uint16 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint16.
+ */
+export function bitshiftlw(num: Uint16, by: number): Uint16 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	let shifted = num << by;
+	let wrapped = (shifted & 0xffff0000) >> 16;
+	return (shifted & 0xffff) | wrapped;
+}
+
+/**
+ * Shift the bits in a Uint16 right.
+ * This will remove any bits that are shifted outside the range.
+ *
+ * @param num The Uint16 to shift.
+ * @param by The number of bits to shift by.
+ *
+ * @returns The shifted Uint16.
+ *
+ * ## Performance:
+ *
+ * This method has no fast implementation due to the underlying JavaScript engine.
+ * It is significantly slower than its Uint8 equivalent.
+ */
+export function bitshiftrw(num: Uint16, by: number): Uint16 {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint16");
+	assert(by < BITS, "Parameter 'by' is out of range for a Uint16");
+	assert(by > 0, "Parameter 'by' is negative, which results in undefined behaviour");
+
+	// JavaScript bitwise operations are handled as 32-bit signed ints.
+	// That proves to be a bit of an issue for the method we used in Uint8 bitshiftrw.
+	// We use a different (significantly slower) method instead.
+
+	let bdiff = 16 - by;
+	let mask = (0xffff ^ (0xffff >> by)) >> bdiff;
+	let wrapped = (num & mask) << bdiff;
+	let shifted = num >> by;
+
+	return shifted | wrapped;
 }
