@@ -2,9 +2,10 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
+import Uint8 from '@chipotle/types/Uint8';
+import Uint16 from '@chipotle/types/Uint16';
+
 import VM from '../src/VM';
-import Uint8 from '../../types/src/Uint8';
-import Uint16 from '../../types/src/Uint16';
 
 describe('VM', () => {
 	it('Load and fetch opcodes', () => {
