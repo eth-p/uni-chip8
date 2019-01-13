@@ -39,6 +39,9 @@ async function verify(line, modules) {
 	let ALLOWED_MODULES = ['*'].concat(modules.map(m => m.getId()));
 	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix', 'Reformat'];
 
+	// Ignore if it's a merge commit.
+	if (line.startsWith('Merge ')) return;
+
 	// Parse.
 	let index       = line.indexOf(':');
 	let index2      = line.indexOf(' ', index + 2);
