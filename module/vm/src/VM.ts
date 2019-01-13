@@ -2,11 +2,10 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
+import assert = require('@chipotle/debug/assert');
 import VMRegisters from './VMRegisters';
 import Uint8 from '@chipotle/types/Uint8';
 import Uint16 from '@chipotle/types/Uint16';
-// import Uint8 = require('@chipotle/types/Uint8')
-// import Uint16 = require('@chipotle/types/Uint16')
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -70,7 +69,7 @@ export default class VM {
 	// | Opcode fetcher:                                                                                           |
 	// -------------------------------------------------------------------------------------------------------------
 
-	private fetchOpcode(location: Uint16): Uint16 {
+	public fetchOpcode(location: Uint16): Uint16 {
 		return (this._memory[location] << 8) | this._memory[location + 1];
 	}
 
@@ -78,7 +77,8 @@ export default class VM {
 	// | Opcode loader:                                                                                            |
 	// -------------------------------------------------------------------------------------------------------------
 
-	private loadOpcode(location: Uint16, opcode: Uint16): void {
+	public loadOpcode(location: Uint16, opcode: Uint16): void {
+		assert(location >= 0x200 && location <= 0xffe);
 		this._memory[location] = (opcode & 0xff00) >> 8;
 		this._memory[location + 1] = opcode & 0x00ff;
 	}
