@@ -13,7 +13,7 @@ import AssertError from './AssertError';
  */
 function assert(result: boolean, message?: string): void | never {
 	if (!result)
-		throw new AssertError(message == null ? 'Assertion failed.' : message);
+		throw new AssertError(message == null ? 'Assertion failed.' : `Assertion failed: ${message}`);
 }
 
 export = assert;
