@@ -147,7 +147,7 @@ export function bitscanf(a: Uint16): number {
 	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
 
 	let index = 0;
-	let scan  = a;
+	let scan = a;
 
 	while (index <= 15) {
 		if ((scan & 1) === 1) return index;
@@ -180,7 +180,7 @@ export function bitscanr(a: Uint16) {
 	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
 
 	let index = 15;
-	let scan  = a & 0xFFFF;
+	let scan = a & 0xffff;
 
 	while (index >= 0) {
 		if ((scan & 0b1000000000000000) === 0b1000000000000000) return index;
