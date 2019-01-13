@@ -2,9 +2,9 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
-import Assert from '@debug/Assert';
-
-import {Uint16, Uint8} from './VMTypes';
+import assert = require('@chipotle/debug/assert');
+import Uint8 from '@chipotle/types/Uint8';
+import Uint16 from '@chipotle/types/Uint16';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -53,7 +53,7 @@ export default class VMRegisters {
 	 * @param value The value to set.
 	 */
 	public set flag(value: Uint8) {
-		Assert.assert(() => value >= 0x00 && value <= 0xff);
+		assert(value >= 0x00 && value <= 0xff);
 		this.data[0x0f] = value;
 	}
 
@@ -63,7 +63,7 @@ export default class VMRegisters {
 	 * @param value The value to apply to the register
 	 */
 	public setRegister(location: Uint8, value: Uint8): void {
-		Assert.assert(() => value >= 0x00 && value <= 0xff);
+		assert(value >= 0x00 && value <= 0xff);
 		this.data[location] = value;
 	}
 

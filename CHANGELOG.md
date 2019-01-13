@@ -17,6 +17,8 @@
 - **tools:** Created `./sct @query` to query projectin formation.
 - **vm:** Updated VM to include other CHIP-8 fields.
 - **vm:** Removed address register field from VMRegister.
+- **vm:** Updated VM imports to pass validation.
+- **vm:** Added preliminary tests for CHIP-8 VM.
 
 ### Documentation
 - **docs:** Added contributing guide.

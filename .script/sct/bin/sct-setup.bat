@@ -13,7 +13,7 @@ SET TMP=%HERE%\..\..\..\.tmp
 REM --------------------------------------------------------------------------------------------------------------------
 REM Setup:
 REM --------------------------------------------------------------------------------------------------------------------
-npm install
+CALL npm install
 
-IF NOT EXISTS %TMP% MKDIR %TMP%
-IF NOT EXISTS %TMP%\sct-setup MKDIR %TMP%\sct-setup
+IF NOT EXIST %TMP% MKDIR %TMP%
+IF NOT EXIST %TMP%\sct-setup COPY /y NUL %TMP%\sct-setup >NUL

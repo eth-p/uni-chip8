@@ -6,7 +6,6 @@
 // @eth-p: We could use Uint8Array to do the conversions, but it was actually slower in every browser except Chrome.
 // ---------------------------------------------------------------------------------------------------------------------
 import assert = require('@chipotle/debug/assert');
-
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
 // ---------------------------------------------------------------------------------------------------------------------

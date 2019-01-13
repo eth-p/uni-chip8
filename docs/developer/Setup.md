@@ -61,7 +61,20 @@ cd cmpt276
 
 
 
-## Setup - Windows (via WSL)
+## Setup - Windows
 
-Follow [this guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to install WSL using an Ubuntu-based distribution, then follow the [Ubuntu Linux setup instructions](#setup---ubuntu-linux).
+First, download and install the following applications.
+- **Required Installations**
+  - [NodeJS for Windows](https://nodejs.org/en/)
+  - [Git for Windows](https://git-scm.com/downloads)
 
+After, go to your preferred directory and open PowerShell with `SHIFT-(RIGHT-CLICK)`, then enter the following commands:
+```
+npm install --global windows-build-tools
+
+git clone "git@github.com:eth-p/SFU-CMPT276.git"
+
+cd SFU-CMPT276
+
+./sct init
+```
