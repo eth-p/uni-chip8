@@ -308,7 +308,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |**Kyle Saburao**| X | X | | | X | X |
 |**Anthony Pham***| | | | | | |
 |**Henry Wang***| | | | | | |
-|**Dan Amarasinghe***| | | | | | |
+|**Dan Amarasinghe**| | | | | X | X |
 `*: Did not respond`
 
 ### Roles
