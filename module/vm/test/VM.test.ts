@@ -9,9 +9,10 @@ import Uint16 from '../../types/src/Uint16';
 describe('VM', () => {
 	it('Load and fetch opcodes', () => {
 		let test_vm: VM = new VM();
-		let test_opcodes: Array<Uint8> = new Array<Uint8>();
+		let test_opcodes: Array<Uint16> = new Array<Uint16>();
 
-		for (let opcode: Uint16 = 0; opcode < 1000; ++opcode) {
+		// VM can only load 1792 program opcodes
+		for (let opcode: Uint16 = 0; opcode < 1792; ++opcode) {
 			test_opcodes.push(opcode);
 		}
 
