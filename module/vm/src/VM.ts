@@ -2,10 +2,12 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
-import assert = require('@chipotle/debug/assert');
-import VMRegisters from './VMRegisters';
+import assert from '@chipotle/debug/assert';
+
 import Uint8 from '@chipotle/types/Uint8';
 import Uint16 from '@chipotle/types/Uint16';
+
+import VMRegisters from './VMRegisters';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
