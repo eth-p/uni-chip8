@@ -332,6 +332,13 @@ Release 2 might include a CHIP-8 assembler to greatly improve program developmen
 By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
 We are targeting to begin CHIP-8 program development at this point.
 
+##### Program Ideas
+
+- Pong
+- Flappy Bird
+- Space Invaders
+- Calculator `(x op y, x and y -> [0x0, 0xF])`
+
 #### Release 4 - Production
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
@@ -341,12 +348,9 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
 |**Ethan Pini**| X | X | X | | | X |
-|**Kyle Saburao**| X | X | | | X | X |
-|**Anthony Pham** *| | | | | | |
-|**Henry Wang** *| | | | | | |
-|**Dan Amarasinghe**| | | | | X | X |  
-
-`*: Did not respond yet`
+|**Kyle Saburao**| X | X | | X | X | X |
+|**Anthony Pham**| | X | | X | | X |
+ |**Dan Amarasinghe**| | X | | X | X | X |  
 
 ### Roles
 
