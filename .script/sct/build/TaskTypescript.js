@@ -60,7 +60,7 @@ module.exports = class TaskTypescript extends Task {
 	 * @override
 	 */
 	_run(logger, options) {
-		let target   = options.release === true ? 'release' : 'debug';
+		let target   = options.release ? 'release' : 'debug';
 		let module  = this.module;
 		let project = this.module.getProject();
 
@@ -79,17 +79,12 @@ module.exports = class TaskTypescript extends Task {
 		let tsDeclDir = tsProject.config.compilerOptions.declarationDir;
 
 		// Babel options.
-		let babelOptions = JSON.parse(JSON.stringify(options.compatibility === true ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
+		let babelOptions = JSON.parse(JSON.stringify(options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 
-		if (options.asserts === false) {
-			babelOptions.plugins.unshift("babel-plugin-unassert");
-		}
-
-		if (options.minify === true) {
-			babelOptions.presets.push(['minify']);
-		}
+		if (options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
+		if (options.minify) babelOptions.presets.push(['minify']);
 
 		// Babel options: path rewriting.
 		babelOptions.plugins.push([
@@ -137,9 +132,9 @@ module.exports = class TaskTypescript extends Task {
 			.pipe(filterJavascript.restore)
 
 			// Save.
-			.pipe(gulp_if(options.sourcemaps === true, gulp_sourcemaps.write('.')))
+			.pipe(gulp_if(options.sourcemaps, gulp_sourcemaps.write('.')))
 			.pipe(this._gulpdest())
-			.pipe(gulp_if(options.verbose === true, gulp_print((f) => logger.file(f))))
+			.pipe(gulp_if(options.verbose, gulp_print((f) => logger.file(f))))
 	}
 
 };

@@ -86,6 +86,13 @@ module.exports = class CommandBuild extends Command {
 				default: null,
 				description: 'Minify output files.'
 			},
+			'modules': {
+				type: 'string',
+				value: 'pattern',
+				default: 'es6',
+				description: 'The module import/export pattern.',
+				match: ['es6', 'commonjs', 'amd']
+			},
 			'_': {
 				value: 'module',
 				type: 'string',
@@ -101,8 +108,8 @@ module.exports = class CommandBuild extends Command {
 		}
 
 		// Map arguments.
-		if (args.assert === null) args.assert = args.release !== true;
-		if (args.minify === null) args.minify = args.release === true;
+		if (args.assert === null) args.assert = !args.release;
+		if (args.minify === null) args.minify = args.release;
 
 		// Map argument aliases.
 		args.asserts = args.assert;
@@ -114,7 +121,7 @@ module.exports = class CommandBuild extends Command {
 		// Set up task registry.
 		let reg = new undertaker();
 		for (let task of tasks) {
-			let logger = loggers[task.fqid] = new (args.plumbing === true ? TaskLogger : TaskLoggerPretty)(task);
+			let logger = loggers[task.fqid] = new (args.plumbing ? TaskLogger : TaskLoggerPretty)(task);
 			reg.task(task.fqid, () => {
 				logger.task(`Started.`);
 				return task.run(logger, args);
@@ -138,7 +145,7 @@ module.exports = class CommandBuild extends Command {
 						logger.error(error);
 						failed = true;
 
-						if (args['fast-fail'] === true) {
+						if (args['fast-fail']) {
 							dead = true;
 							reject(new CommandError('One or more build tasks failed.', {cause: error}));
 						}
