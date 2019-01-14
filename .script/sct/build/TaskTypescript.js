@@ -85,6 +85,11 @@ module.exports = class TaskTypescript extends Task {
 
 		if (options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (options.minify) babelOptions.presets.push(['minify']);
+		switch (options.modules) {
+			case 'es6':      break;
+			case 'commonjs': babelOptions.plugins.push('@babel/plugin-transform-modules-commonjs'); break;
+			case 'amd':      babelOptions.plugins.push('@babel/plugin-transform-modules-amd');      break;
+		}
 
 		// Babel options: path rewriting.
 		babelOptions.plugins.push([
