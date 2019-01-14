@@ -84,6 +84,12 @@ module.exports = class TaskTypescript extends Task {
 
 		if (!options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (options.minify) babelOptions.presets.push(['minify']);
+
+		if (!options['keep:comments']) {
+			babelOptions.comments = false;
+			babelOptions.shouldPrintComment = (val) => /^[!#]/.test(val);
+		}
+
 		switch (options.modules) {
 			case 'es6':      break;
 			case 'commonjs': babelOptions.plugins.push('@babel/plugin-transform-modules-commonjs'); break;

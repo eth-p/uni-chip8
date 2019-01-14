@@ -54,6 +54,11 @@ module.exports = class CommandBuild extends Command {
 				description: 'Enable assertions.',
 				alias: 'asserts'
 			},
+			'keep:comments': {
+				type: 'boolean',
+				default: false,
+				description: 'Keep comments in source code.'
+			},
 			'list-tasks': {
 				type: 'boolean',
 				default: false,
