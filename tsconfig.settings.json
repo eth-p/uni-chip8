@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "amd",
+		"module": "commonjs",
 		"target": "es2017",
 		"sourceMap": true,
 		"alwaysStrict": true,
@@ -17,6 +17,7 @@
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
+		"preserveConstEnums": true,
 		"noEmit": true,
 		"paths": {
 			"@chipotle/types/*": ["../types/src/*"],

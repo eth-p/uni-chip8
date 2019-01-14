@@ -8,7 +8,7 @@
 'use strict';
 
 // Libraries.
-const fs       = require('fs-extra');
+const mm       = require('micromatch');
 const path     = require('path');
 const ts       = require('typescript');
 
@@ -24,9 +24,6 @@ const gulp_print      = require('gulp-print').default;
 const gulp_rename     = require('gulp-rename');
 const gulp_sourcemaps = require('gulp-sourcemaps');
 const gulp_typescript = require('gulp-typescript');
-
-// Transformers.
-const ts_transformer_import_rewrite = require('ts-transform-import-path-rewrite');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -64,39 +61,22 @@ module.exports = class TaskTypescript extends Task {
 	 */
 	_run(logger, options) {
 		let target   = options.release === true ? 'release' : 'debug';
+		let module  = this.module;
 		let project = this.module.getProject();
 
 		// Filters.
 		let filterJavascript = gulp_filter('**/*.js', {restore: true});
 
 		// TypeScript options.
-		let tsImportTransformOpts = {
-			projectBaseDir: this.module.getDirectory(),
-			rewrite: (importPath, sourcePath) => {
-				return importPath.replace('@chipotle', '..');
-			}
-		};
-
 		let tsProject = gulp_typescript.createProject(path.join(this.module.getDirectory(), 'tsconfig.json'), {
-			getCustomTransformers: program => {
-				let transforms = {
-					before:            [],
-					after:             [],
-					afterDeclarations: []
-				};
-
-				if (options.rewrites !== false) {
-					transforms.after.push(ts_transformer_import_rewrite.transformAmd(tsImportTransformOpts));
-					transforms.afterDeclarations.push(ts_transformer_import_rewrite.transformAmd(tsImportTransformOpts));
-				}
-
-				return transforms;
-			},
-
 			typescript: ts,
 			rootDir: project.getDirectory(),
-			noEmit: false // DO NOT REMOVE THIS
+			noEmit: false // DO NOT REMOVE THIS,
 		});
+
+		let tsSources = tsProject.config.include;
+		let tsOutDir  = tsProject.config.compilerOptions.outDir;
+		let tsDeclDir = tsProject.config.compilerOptions.declarationDir;
 
 		// Babel options.
 		let babelOptions = JSON.parse(JSON.stringify(options.compatibility === true ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
@@ -108,17 +88,55 @@ module.exports = class TaskTypescript extends Task {
 		}
 
 		if (options.minify === true) {
-			babelOptions.presets.push(['minify'])
+			babelOptions.presets.push(['minify']);
 		}
+
+		// Babel options: path rewriting.
+		babelOptions.plugins.push([
+			'module-resolver', {
+				root: path.join(project.getBuildDirectory(), tsOutDir),
+				cwd:  path.join(project.getBuildDirectory(), tsOutDir),
+				resolvePath: (source, current, opts) => {
+					let capture = /^@chipotle[/\\](.+)$/.exec(source);
+					if (capture === null) return source;
+					return path.join('..', capture[1]);
+				}
+			}
+		]);
 
 		// Stream.
 		return this._gulpsrc(TS_FILTER)
 
+			// Compile TypeScript.
 			.pipe(tsProject())
+			.pipe(gulp_rename(file => {
+				let joined = path.join(file.dirname, file.basename + file.extname);
+				for (let pattern of tsSources) {
+					if (mm.match(pattern, joined)) {
+						let pfxIndex  = pattern.indexOf('*');
+						let pfxString = pattern.substring(0, pfxIndex);
+
+						if (pfxIndex === -1 || !pfxString.endsWith('/')) return;
+						pfxString = pfxString.substring(0, pfxString.length - 1);
+
+						if (!file.dirname.startsWith(pfxString)) return;
+						file.dirname = file.dirname.substring(pfxString.length);
+						return;
+					}
+				}
+			}))
+
+			// Rename.
+			.pipe(gulp_rename(file => {
+				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}/${this.module.getId()}`
+			}))
+
+			// Transform JavaScript.
 			.pipe(filterJavascript)
 			.pipe(gulp_babel(babelOptions))
 			.pipe(filterJavascript.restore)
-			.pipe(gulp_rename(file => {file.dirname = `${file.basename.endsWith('.d') ? 'dev' : 'script'}/${this.module.getId()}`}))
+
+			// Save.
 			.pipe(gulp_if(options.sourcemaps === true, gulp_sourcemaps.write('.')))
 			.pipe(this._gulpdest())
 			.pipe(gulp_if(options.verbose === true, gulp_print((f) => logger.file(f))))
