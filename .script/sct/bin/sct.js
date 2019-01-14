@@ -145,6 +145,9 @@ function onError(error) {
 	let subcommand       = new (await SCT.getCommand(subcommandName));
 	let subcommandSchema = subcommand.schema();
 
+	// Change working directory.
+	process.chdir((await SCT.getProject()).getDirectory());
+
 	// Generate argument passthrough.
 	let subcommandArgv = args._.concat(
 		Object.entries(args)
