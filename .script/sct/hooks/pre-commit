@@ -5,7 +5,7 @@ SCT="${SCT_HOME}/bin/sct.js"
 # ----------------------------------------------------------------------------------------------------------------------
 # Hook: Format changed files before commit.
 # ----------------------------------------------------------------------------------------------------------------------
-node "$SCT" fmt --plumbing --staged-only  || {
+node "$SCT" fmt --plumbing --staged-only | tr '\n' '\0' | xargs -0 git add || {
 	echo "Failed to format files." 1>&2
 	exit 1
 }
@@ -13,7 +13,7 @@ node "$SCT" fmt --plumbing --staged-only  || {
 # ----------------------------------------------------------------------------------------------------------------------
 # Hook: Validate changed files before commit.
 # ----------------------------------------------------------------------------------------------------------------------
-node "$SCT" check --plumbing --staged-only --no-formatting  || {
+node "$SCT" check --plumbing --staged-only --no-formatting || {
 	echo "Failed to commit changes."      1>&2
 	echo ""                               1>&2
 	echo "One or more checks failed."     1>&2
