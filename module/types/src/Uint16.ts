@@ -9,6 +9,7 @@ import assert from '@chipotle/debug/assert';
 
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
+import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -78,6 +79,16 @@ export function wrap(value: number): MathResult<Uint16> {
 	return value < 0
 		? [WRAP + (value % WRAP), MathFlag.OVERFLOW]
 		: [value % WRAP, value > MAX ? MathFlag.OVERFLOW : MathFlag.OK];
+}
+
+/**
+ * Check if a Uint16 is within the valid range for its type.
+ *
+ * @param value The value to check.
+ * @returns True if the value is valid.
+ */
+export function isValid(value: Uint16): boolean {
+	return value >= MIN && value <= MAX;
 }
 
 /**

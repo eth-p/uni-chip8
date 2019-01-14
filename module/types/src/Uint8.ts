@@ -81,6 +81,16 @@ export function wrap(value: number): MathResult<Uint8> {
 }
 
 /**
+ * Check if a Uint8 is within the valid range for its type.
+ *
+ * @param value The value to check.
+ * @returns True if the value is valid.
+ */
+export function isValid(value: Uint8): boolean {
+	return value >= MIN && value <= MAX;
+}
+
+/**
  * Add two Uint8 numbers.
  *
  * @param a The first summand.
