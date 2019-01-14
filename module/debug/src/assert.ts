@@ -11,7 +11,7 @@ import AssertError from './AssertError';
  * @param result  The assertion statement.
  * @param message The assertion message.
  */
-function assert(result: boolean, message?: string): void | never {
+export default function assert(result: boolean, message?: string): void | never {
 	if (!result) {
 		let error = new AssertError(message == null ? 'Assertion failed.' : `Assertion failed: ${message}`);
 
@@ -27,5 +27,3 @@ function assert(result: boolean, message?: string): void | never {
 		throw error;
 	}
 }
-
-export = assert;
