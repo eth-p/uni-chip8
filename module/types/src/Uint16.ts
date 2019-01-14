@@ -1,10 +1,10 @@
-// ---------------------------------------------------------------------------------------------------------------------
-// Copyright (C) 2019 Team Chipotle
-// MIT License
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Developer Notes:
-// @eth-p: We could use Uint16Array to do the conversions, but it was actually slower in every browser except Chrome.
-// ---------------------------------------------------------------------------------------------------------------------
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+//. Developer Notes:
+//. @eth-p: We could use Uint16Array to do the conversions, but it was actually slower in every browser except Chrome.
+//. --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/debug/assert';
 
 import MathFlag from './MathFlag';
