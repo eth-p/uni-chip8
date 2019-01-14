@@ -122,6 +122,11 @@ Object.defineProperties(module.exports, {
 		get: () => require('./CommandError')
 	},
 
+	CommandRunner: {
+		enumerable: true,
+		get: () => require('./CommandRunner')
+	},
+
 	GitUtil: {
 		enumerable: true,
 		get: () => require('./GitUtil')
