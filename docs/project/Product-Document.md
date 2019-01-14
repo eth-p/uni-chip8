@@ -263,6 +263,8 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 
 ### Work Breakdown
 
+**TODO: INCLUDE TIME EXPECTED FOR EACH SECTION/ITEM**
+
 To view what tasks to do, visit the repository issue tracker.
 Members will be assigned tasks, and will be welcome to contribute to any others.
 
@@ -322,7 +324,7 @@ The emulator will be able to support basic, non-interactive programs such as sim
 
 #### Release 2 - Emulator II & Tools
 
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations 
+Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
 Release 2 might include a CHIP-8 assembler to greatly improve program development.
 
 #### Release 3 - Programs
@@ -372,7 +374,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Users
 
-- will be able to view 
+- will be able to view ...
 
 ## Project Schedule
 
