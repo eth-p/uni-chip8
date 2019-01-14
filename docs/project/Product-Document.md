@@ -317,7 +317,7 @@ The emulator will be able to support basic, non-interactive programs such as sim
   - CHIP-8 Webpage
     - HTML5 Canvas Object Renderer
   - **Notes:**
-    - Abstraction Layers will only be able to communicate *iff* they differ by exactly one level.
+    - System Abstraction Layers will only be able to communicate *iff* they differ by exactly one level.
     - Abstraction Layer 0: CPU
     - Abstraction Layer 1: System: Graphics, Sound, Input
     - Abstraction Layer 2: Webpage
