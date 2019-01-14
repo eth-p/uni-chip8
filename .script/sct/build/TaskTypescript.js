@@ -16,7 +16,6 @@ const ts       = require('typescript');
 const Task     = require('@sct').Task;
 
 // Gulp.
-const gulp            = require('gulp');
 const gulp_babel      = require('gulp-babel');
 const gulp_filter     = require('gulp-filter');
 const gulp_if         = require('gulp-if');
@@ -83,7 +82,7 @@ module.exports = class TaskTypescript extends Task {
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 
-		if (options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
+		if (!options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (options.minify) babelOptions.presets.push(['minify']);
 		switch (options.modules) {
 			case 'es6':      break;
