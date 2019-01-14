@@ -9,6 +9,7 @@ describe('Constants', () => {
 	it('MIN', () => expect(Uint8.MIN).toStrictEqual(0x00));
 	it('MAX', () => expect(Uint8.MAX).toStrictEqual(0xff));
 	it('WRAP', () => expect(Uint8.WRAP).toStrictEqual(Uint8.MAX + 1));
+	it('BITS', () => expect(Uint8.BITS).toStrictEqual(8));
 });
 
 describe('Operations', () => {
@@ -39,5 +40,58 @@ describe('Operations', () => {
 		expect(Uint8.sub(1, 3)).toEqual([0xfe, MathFlag.OVERFLOW]);
 		expect(Uint8.sub(255, 1)).toEqual([0xfe, MathFlag.OK]);
 		expect(Uint8.sub(10, 5)).toEqual([0x05, MathFlag.OK]);
+	});
+
+	it('bitrev', () => {
+		expect(Uint8.bitrev(0b00000000)).toEqual(0b00000000);
+		expect(Uint8.bitrev(0b10000000)).toEqual(0b00000001);
+		expect(Uint8.bitrev(0b01000000)).toEqual(0b00000010);
+		expect(Uint8.bitrev(0b00100000)).toEqual(0b00000100);
+		expect(Uint8.bitrev(0b00010000)).toEqual(0b00001000);
+		expect(Uint8.bitrev(0b00001000)).toEqual(0b00010000);
+		expect(Uint8.bitrev(0b10010000)).toEqual(0b00001001);
+		expect(Uint8.bitrev(0b10011001)).toEqual(0b10011001);
+	});
+
+	it('bitscanf', () => {
+		expect(Uint8.bitscanf(0b10000000)).toEqual(7);
+		expect(Uint8.bitscanf(0b00000010)).toEqual(1);
+		expect(Uint8.bitscanf(0b00000001)).toEqual(0);
+		expect(Uint8.bitscanf(0b10001000)).toEqual(3);
+	});
+
+	it('bitscanr', () => {
+		expect(Uint8.bitscanr(0b10000000)).toEqual(7);
+		expect(Uint8.bitscanr(0b00000010)).toEqual(1);
+		expect(Uint8.bitscanr(0b00000001)).toEqual(0);
+		expect(Uint8.bitscanr(0b10001000)).toEqual(7);
+	});
+
+	it('and', () => {
+		expect(Uint8.and(0xff, 0x00)).toEqual(0x00);
+		expect(Uint8.and(0xf0, 0xff)).toEqual(0xf0);
+		expect(Uint8.and(0xff, 0xff)).toEqual(0xff);
+	});
+
+	it('bitshiftl', () => {
+		expect(Uint8.bitshiftl(0b10000000, 1)).toEqual(0b00000000);
+		expect(Uint8.bitshiftl(0b00000001, 1)).toEqual(0b00000010);
+	});
+
+	it('bitshiftr', () => {
+		expect(Uint8.bitshiftr(0b10000000, 1)).toEqual(0b01000000);
+		expect(Uint8.bitshiftr(0b00000001, 1)).toEqual(0b00000000);
+	});
+
+	it('bitshiftlw', () => {
+		expect(Uint8.bitshiftlw(0b00000100, 1)).toEqual(0b00001000);
+		expect(Uint8.bitshiftlw(0b10000000, 1)).toEqual(0b00000001);
+		expect(Uint8.bitshiftlw(0b10000001, 1)).toEqual(0b00000011);
+	});
+
+	it('bitshiftrw', () => {
+		expect(Uint8.bitshiftrw(0b00010000, 1)).toEqual(0b00001000);
+		expect(Uint8.bitshiftrw(0b00000001, 1)).toEqual(0b10000000);
+		expect(Uint8.bitshiftrw(0b10000001, 1)).toEqual(0b11000000);
 	});
 });

@@ -10,6 +10,7 @@
 // Libraries.
 const gulp        = require('gulp');
 const gulp_filter = require('gulp-filter');
+const path        = require('path');
 const stream      = require('stream');
 
 // Modules.
@@ -166,7 +167,10 @@ module.exports = class Task {
 	 * @protected
 	 */
 	_gulpdest() {
-		return gulp.dest(this.module.getProject().getBuildDirectory());
+		let project = this.module.getProject();
+		return gulp.dest(project.getBuildDirectory(), {
+			cwd: project.getDirectory()
+		});
 	}
 
 	/**

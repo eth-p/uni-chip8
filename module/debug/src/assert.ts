@@ -11,9 +11,19 @@ import AssertError from './AssertError';
  * @param result  The assertion statement.
  * @param message The assertion message.
  */
-function assert(result: boolean, message?: string): void | never {
-	if (!result)
-		throw new AssertError(message == null ? 'Assertion failed.' : message);
-}
+export default function assert(result: boolean, message?: string): void | never {
+	if (!result) {
+		let error = new AssertError(message == null ? 'Assertion failed.' : `Assertion failed: ${message}`);
 
-export = assert;
+		// Remove irrelevant lines from stack trace.
+		// This makes things nice and easy to read when debugging :)
+		if (error.stack != null) {
+			let lines = error.stack.split('\n');
+			lines.splice(1, 2);
+			error.stack = lines.join('\n');
+		}
+
+		// Throw.
+		throw error;
+	}
+}

@@ -49,28 +49,55 @@ module.exports = class Command {
 	 */
 	usage() {
 		let schema = this.schema();
-		let buffer = `${this.name()}`;
+		let usage = `${this.name()}`;
+		let buffer = '';
+
+		function append(text) {
+			let llStart  = usage.lastIndexOf("\n");
+			let llLength = usage.length;
+
+			if (llStart !== -1) {
+				llLength = usage.substring(llStart).length;
+			}
+
+			if (llLength + text.length > 80) {
+				usage += `\n    ${text}`;
+			} else {
+				usage += text;
+			}
+		}
 
 		for (let [name, descr] of Object.entries(schema).filter(([k, v]) => k !== '_')) {
-			buffer += descr.required ? ` --${name}` : ` [--${name}`;
+			buffer = descr.required ? ` --${name}` : ` [--${name}`;
 			if (descr.type != null && descr.type !== 'boolean') {
-				buffer += descr.required ? `=${descr.value}` : `=${descr.value}]`;
+				let value = descr.value;
+				if (descr.match != null) {
+					value = (descr.match instanceof Array)
+						? descr.match.map(v => `"${v}"`).join('|')
+						: descr.match;
+				}
+
+				buffer += descr.required ? `=${descr.value}` : `=${value}]`;
 			} else {
 				buffer += descr.required ? '' : ']';
 			}
+
+			append(buffer);
 		}
 
 		if (schema['_'] != null) {
 			let descr = schema['_'];
-			buffer += descr.required ? ` ${descr.value}` : ` [${descr.value}`;
+			buffer = descr.required ? ` ${descr.value}` : ` [${descr.value}`;
 			if (descr.many === true) {
 				buffer += descr.required ? ` ...` : ` ...]`;
 			} else {
 				buffer += descr.required ? '' : ']';
 			}
+
+			append(buffer);
 		}
 
-		return buffer;
+		return usage;
 	}
 
 	/**

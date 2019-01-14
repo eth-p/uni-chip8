@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "amd",
+		"module": "es6",
 		"target": "es2017",
 		"sourceMap": true,
 		"alwaysStrict": true,
@@ -17,10 +17,12 @@
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
+		"preserveConstEnums": true,
 		"noEmit": true,
 		"paths": {
 			"@chipotle/types/*": ["../types/src/*"],
-			"@chipotle/debug/*": ["../debug/src/*"]
+			"@chipotle/debug/*": ["../debug/src/*"],
+			"@chipotle/vm/*": ["../vm/src/*"]
 		}
 	}
 }

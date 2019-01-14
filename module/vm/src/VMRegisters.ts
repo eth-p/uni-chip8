@@ -2,7 +2,8 @@
 // Copyright (C) 2019 Team Chipotle
 // MIT License
 // ---------------------------------------------------------------------------------------------------------------------
-import assert = require('@chipotle/debug/assert');
+import assert from '@chipotle/debug/assert';
+
 import Uint8 from '@chipotle/types/Uint8';
 import Uint16 from '@chipotle/types/Uint16';
 // ---------------------------------------------------------------------------------------------------------------------
