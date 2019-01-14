@@ -94,4 +94,11 @@ describe('Operations', () => {
 		expect(Uint8.bitshiftrw(0b00000001, 1)).toEqual(0b10000000);
 		expect(Uint8.bitshiftrw(0b10000001, 1)).toEqual(0b11000000);
 	});
+
+	it('isValid', () => {
+		expect(Uint8.isValid(Uint8.MAX)).toEqual(true);
+		expect(Uint8.isValid(Uint8.MIN)).toEqual(true);
+		expect(Uint8.isValid(Uint8.MAX + 1)).toEqual(false);
+		expect(Uint8.isValid(Uint8.MIN - 1)).toEqual(false);
+	});
 });

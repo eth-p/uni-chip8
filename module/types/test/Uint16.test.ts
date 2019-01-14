@@ -104,4 +104,11 @@ describe('Operations', () => {
 		expect(Uint16.bitshiftrw(0xffff, 1)).toEqual(0xffff);
 		expect(Uint16.bitshiftrw(0x8000, 1)).toEqual(0x4000);
 	});
+
+	it('isValid', () => {
+		expect(Uint16.isValid(Uint16.MAX)).toEqual(true);
+		expect(Uint16.isValid(Uint16.MIN)).toEqual(true);
+		expect(Uint16.isValid(Uint16.MAX + 1)).toEqual(false);
+		expect(Uint16.isValid(Uint16.MIN - 1)).toEqual(false);
+	});
 });
