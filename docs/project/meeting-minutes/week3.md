@@ -18,10 +18,16 @@ Name, *user@sfu.ca*
 
 ## Targets
 
-- Windows users will setup to the new development strategy. You will no longer need WSL.
+- Windows users will setup to the new development system. You will no longer need WSL.
 - Me and Ethan will work on VM architecture in preparation for Release 1.
 - We will finish the Product Document for Release 0.
+  - Assign 2 bullet points for [Release 0](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html) per person.
+  - They must be done by the end of the meeting.
 
 ## Discussion
 
 ## Decisions
+
+|Task|Assigned People|
+|----|---------------|
+|    |               |
