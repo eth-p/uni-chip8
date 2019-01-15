@@ -52,15 +52,15 @@ export default class ChipDisplay {
 
 	/**
 	 * Converts a coordinate pair to an index.
-	 * 
+	 *
 	 * CHIP-8 Display
 	 * __________________________
 	 * |* (0, 0)                |
 	 * |                        |
 	 * |                        |
 	 * |                        |
-	 * |              (63, 31) *| 
-	 * 
+	 * |              (63, 31) *|
+	 *
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @returns The associated index.
