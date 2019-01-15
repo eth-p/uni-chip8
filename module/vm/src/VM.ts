@@ -3,8 +3,8 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import OpAddress from './OpAddress';
+import Program from './Program';
 import VMContext from './VMContext';
-import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -16,20 +16,17 @@ export class VMBase<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
+	 * The executable program.
+	 */
+	public program: Program<A> | null;
+
+	/**
 	 * The program counter.
 	 * This should not be directly manipulated.
 	 *
 	 * @internal
 	 */
 	public program_counter: OpAddress;
-
-	/**
-	 * The program data.
-	 * This should not be directly manipulated.
-	 *
-	 * @internal
-	 */
-	public program_data: Uint8Array | null;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -40,11 +37,17 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
+		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
-		this.program_data = null;
 
 		// Copy descriptors from the architecture.
-		Object.defineProperties(arch, Object.getOwnPropertyDescriptors(arch));
+		Object.defineProperties(this, Object.getOwnPropertyDescriptors(arch));
+		Object.defineProperties(
+			this,
+			Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(arch)))
+				.filter(([prop]) => prop !== '_load')
+				.reduce((a, [prop, descr]) => (a[prop] = descr), <any>{})
+		);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

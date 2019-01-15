@@ -7,12 +7,14 @@ import {default as Uint8} from '@chipotle/types/Uint8';
 import Architecture from '@chipotle/vm/Architecture';
 import ISA from '@chipotle/vm/ISA';
 import OpAddress from '@chipotle/vm/OpAddress';
+import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import VMContext from '@chipotle/vm/VMContext';
 
 import ChipDisplay from './ChipDisplay';
 // ---------------------------------------------------------------------------------------------------------------------
 import OP_SYS from './OP_SYS';
+import VMError from '@chipotle/vm/VMError';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -36,15 +38,20 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public readonly MAX_MEMORY = 4096;
 
 	/**
+	 * The maximum number of entries in the stack.
+	 */
+	public readonly MAX_STACK = 16;
+
+	/**
 	 * The maximum number of data registers.
 	 * V0 to VF.
 	 */
 	public readonly REGISTER_MAX = 16;
 
 	/**
-	 * The maximum number of entries in the stack.
+	 * The program entry point.
 	 */
-	public readonly MAX_STACK = 16;
+	public readonly PROGRAM_ENTRY = 0x200;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
@@ -95,16 +102,6 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		return this.program_counter;
 	}
 
-	/**
-	 * A wrapper around ${VM#program_data}.
-	 * This architecture shares memory space and program data.
-	 *
-	 * @override
-	 */
-	public get program_data(this: VMContext<ChipArchitecture>): Uint8Array {
-		return this.memory;
-	}
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -120,5 +117,26 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		this.memory = new Uint8Array(this.MAX_MEMORY);
 		this.display = new ChipDisplay();
 		this.stack = new ProgramStack(this.MAX_STACK);
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Overload:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * @override
+	 */
+	protected async _load(source: ProgramSource): Promise<Uint8Array | false> {
+		if (source instanceof Uint8Array) {
+			if (source.length > this.MAX_MEMORY) {
+				throw new VMError('PROGRAM TOO LARGE');
+			}
+
+			this.memory.fill(0, 0, this.MAX_MEMORY);
+			this.memory.set(source, 0);
+			return source;
+		}
+
+		return false;
 	}
 }

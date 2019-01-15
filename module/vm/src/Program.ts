@@ -2,46 +2,56 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ISA from './ISA';
-import Op from './Op';
 import ProgramSource from './ProgramSource';
+import ProgramError from '@chipotle/vm/ProgramError';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A computer architecture.
- * This class represents the available components and instruction set of a specific computer.
+ * An executable program that can run in the virtual machine.
  */
-export default abstract class Architecture<A> {
+export default class Program<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The instruction set.
+	 * The program data.
 	 */
-	public readonly isa: Op<A>[];
+	public data: Uint8Array | null;
+
+	/**
+	 * The program loader function.
+	 */
+	protected loader: (source: ProgramSource) => Promise<Uint8Array | false>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Creates a new computer architecture.
-	 * @param isa The instruction set of the architecture.
+	 * Creates a new executable program.
+	 *
+	 * @param loader A function.
 	 */
-	protected constructor(isa: ISA<A>) {
-		this.isa = isa.map(op => new op());
+	public constructor(loader: (source: ProgramSource) => Promise<Uint8Array | false>) {
+		this.data = null;
+		this.loader = loader;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                              |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Loads a program from a program source.
-	 * This method can also be used to reinitialize hardware.
-	 *
-	 * @returns The loaded program, or false if there's no way to load the program.
+	 * Loads a program.
+	 * @param source The source of the program.
 	 */
-	protected abstract async _load(source: ProgramSource): Promise<Uint8Array | false>;
+	public async load(source: ProgramSource) {
+		let data = await this.loader(source);
+		if (data === false) {
+			throw new ProgramError(`NO PROGRAM LOADER FOR TYPE: ${(<any>source).constructor.name}`);
+		}
+
+		this.data = data;
+	}
 }

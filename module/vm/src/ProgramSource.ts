@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 
 /**
- * An error thrown when something goes wrong with the emulated program.
+ * The source of program code.
  */
-export default class ProgramError extends Error {}
+type ProgramSource = Uint8Array;
+export default ProgramSource;

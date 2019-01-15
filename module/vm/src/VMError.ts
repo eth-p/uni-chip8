@@ -4,6 +4,6 @@
 //! --------------------------------------------------------------------------------------------------------------------
 
 /**
- * An error thrown when something goes wrong with the emulated program.
+ * An error thrown when something goes wrong with the virtual machine.
  */
-export default class ProgramError extends Error {}
+export default class VMError extends Error {}
