@@ -10,5 +10,5 @@ import Op from './Op';
  * An instruction set architecture.
  * This is essentially just an array of Op class constructors.
  */
-type ISA<A extends Architecture> = {new (): Op<A>}[];
+type ISA<A> = {new (): Op<A>}[];
 export default ISA;

@@ -10,7 +10,7 @@ import Op from './Op';
  * A computer architecture.
  * This class represents the available components and instruction set of a specific computer.
  */
-export default abstract class Architecture {
+export default abstract class Architecture<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ export default abstract class Architecture {
 	/**
 	 * The instruction set.
 	 */
-	public readonly isa: Op<this>[];
+	public readonly isa: Op<A>[];
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -28,7 +28,7 @@ export default abstract class Architecture {
 	 * Creates a new computer architecture.
 	 * @param isa The instruction set of the architecture.
 	 */
-	protected constructor(isa: ISA<Architecture>) {
+	protected constructor(isa: ISA<A>) {
 		this.isa = isa.map(op => new op());
 	}
 }

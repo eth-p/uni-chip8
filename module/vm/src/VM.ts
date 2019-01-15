@@ -9,11 +9,19 @@ import VMContext from './VMContext';
 /**
  * Hello, world!
  */
-export class VMBase<A extends Architecture> {
+export class VMBase<A> {
+	// -------------------------------------------------------------------------------------------------------------
+	// | Constructor:                                                                                              |
+	// -------------------------------------------------------------------------------------------------------------
+
 	constructor(arch: A) {
 		let ctx: VMContext<A> = <VMContext<A>>(<any>this);
 		Object.assign(ctx, arch);
 	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -28,9 +36,9 @@ export class VMBase<A extends Architecture> {
  * If you need to add a static method to VM, you need to define it here as well.
  */
 interface VMClass {
-	new <A extends Architecture>(): VMContext<A>;
+	new <A>(): VMContext<A>;
 }
 
 const VM: VMClass = <any>VMBase;
-interface VM<A extends Architecture> extends VMBase<A> {}
+interface VM<A> extends VMBase<A> {}
 export default VM;

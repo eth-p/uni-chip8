@@ -14,7 +14,7 @@ import VMContext from './VMContext';
 /**
  * An executable instruction (operation).
  */
-export default abstract class Op<A extends Architecture> {
+export default abstract class Op<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------

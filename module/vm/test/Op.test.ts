@@ -15,7 +15,7 @@ const OP_P1 = 0x00f0;
 const OP_P2 = 0x000f;
 // ---------------------------------------------------------------------------------------------------------------------
 
-abstract class TestArch extends Architecture {}
+abstract class TestArch extends Architecture<TestArch> {}
 
 class TestOp extends Op<TestArch> {
 	constructor(callback?) {
