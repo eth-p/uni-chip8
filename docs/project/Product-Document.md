@@ -304,7 +304,7 @@ The emulator will be able to support basic, non-interactive programs such as sim
   - Render CHIP-8 display, counters, registers, and stack.
   - We hope to enable interactive support with key presses.
   - **Website Design Prototype**
-  ![Website Design Prototype](images/website_prototype.png)
+  ![Website Design Prototype](images/website_prototype.jpg)
 
 ##### Module design
 
