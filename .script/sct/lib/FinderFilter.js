@@ -7,10 +7,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
 
-// Libraries.
-const path    = require('path');
-const stream  = require('stream');
-
 // Modules.
 const AsyncTransform = require('./AsyncTransform');
 

@@ -11,7 +11,6 @@
 // Libraries.
 const badwords     = require('bad-words');
 const fs           = require('fs-extra');
-const path         = require('path');
 
 // Modules.
 const FileFormatter = require('./FileFormatter');

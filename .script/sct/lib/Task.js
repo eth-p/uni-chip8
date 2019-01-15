@@ -10,8 +10,6 @@
 // Libraries.
 const gulp        = require('gulp');
 const gulp_filter = require('gulp-filter');
-const path        = require('path');
-const stream      = require('stream');
 
 // Modules.
 const Finder     = require('./Finder');
