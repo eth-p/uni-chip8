@@ -2,6 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import ISA from './ISA';
 import Op from './Op';
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ export default abstract class Architecture {
 	 * Creates a new computer architecture.
 	 * @param isa The instruction set of the architecture.
 	 */
-	protected constructor(isa: {new (): Op<any>}[]) {
+	protected constructor(isa: ISA<Architecture>) {
 		this.isa = isa.map(op => new op());
 	}
 }

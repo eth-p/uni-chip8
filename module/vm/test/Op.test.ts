@@ -22,6 +22,7 @@ class TestOp extends Op<TestArch> {
 	constructor(callback?) {
 		super(
 			OP_CODE,
+			'NUL',
 			new OpMask({
 				mask: OP_MASK,
 				p1: OP_P1,
@@ -44,6 +45,7 @@ describe('Op', () => {
 	it('constructor', () => {
 		let op = new TestOp();
 		expect(op.opcode).toStrictEqual(OP_CODE);
+		expect(op.asm).toStrictEqual('NUL');
 		expect(op.mask.mask).toStrictEqual(OP_MASK);
 		expect(op.mask.p1).toStrictEqual(OP_P1);
 		expect(op.mask.p2).toStrictEqual(OP_P2);

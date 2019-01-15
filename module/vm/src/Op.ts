@@ -29,6 +29,23 @@ export default abstract class Op<A extends Architecture> {
 	 */
 	public readonly mask: OpMask;
 
+	/**
+	 * An assembly representation of the instruction.
+	 *
+	 * ## Syntax:
+	 *
+	 * ```asm
+	 * MNEMONIC PARAM_0, PARAM_1
+	 * ```
+	 *
+	 * ## Templates:
+	 *
+	 * - `<con>`      - An immediate value. (`$123`)
+	 * - `<reg>`      - A register.         (`%v0`)
+	 * - `<addr>`     - A fixed address.    (`0xBEEF`)
+	 */
+	public readonly asm: string;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -38,16 +55,17 @@ export default abstract class Op<A extends Architecture> {
 	 *
 	 * @param opcode The instruction opcode.
 	 *               Parameters should be replaced with zeros.
-	 *
+	 * @param asm  The assembly representation of the instruction.
 	 * @param mask The instruction opcode mask.
 	 */
-	constructor(opcode: OpCode, mask: OpMask) {
+	constructor(opcode: OpCode, asm: string, mask: OpMask) {
 		assert(opcode != null, "Parameter 'opcode' is null");
 		assert(mask != null, "Parameter 'mask' is null");
 		assert(isValid(opcode), "Parameter 'opcode' is out of range for OpCode");
 
 		this.opcode = opcode;
 		this.mask = mask;
+		this.asm = asm;
 
 		// Create reference back to this (for IR).
 		(<any>this.execute).op = this;
