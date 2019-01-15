@@ -7,11 +7,12 @@
 // A class to format source code files.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
+const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const fs           = require('fs-extra');
 const path         = require('path');
-const prettier     = require('prettier');
+const prettier     = lazyreq('prettier');
 
 // Modules.
 const SCT          = require('./SCT');
