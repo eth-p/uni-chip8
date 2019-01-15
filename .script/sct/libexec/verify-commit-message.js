@@ -53,7 +53,7 @@ async function verify(line, modules) {
 	let msgVerb    = line.substring(index + 1, index2).trim();
 	let msgChanges = line.substring(index2 + 1).trim();
 
-	if (index2 === -1 || msgModule === '' || msgVerb === '' || msgChanges === '' || !/^[a-z0-9\-]+$/.test(msgModule)) {
+	if (index2 === -1 || msgModule === '' || msgVerb === '' || msgChanges === '' || !/^\*|([a-z0-9\-]+)$/.test(msgModule)) {
 		throw "Commit message must be in the format of:\n[Module]: [Verb] [Changes]";
 	}
 

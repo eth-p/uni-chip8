@@ -47,6 +47,7 @@ module.exports = class CommandRunner {
 				default: Object.entries(schema)
 					.filter(([k, v]) => v.default !== undefined)
 					.map(([k, v]) => [k, v.default])
+					.map(([k, v]) => [k, typeof(v) === 'function' ? null : v])
 					.reduce((obj, [k, v]) => ({...obj, [k]: v}), {}),
 
 				alias: Object.entries(schema)
@@ -87,12 +88,13 @@ module.exports = class CommandRunner {
 			function setValue(option, description, value) {
 				args[option] = value;
 				if (description.alias != null) {
-					for (let alias of description.alias) {
+					for (let alias of [description.alias].flat()) {
 						args[alias] = value;
 					}
 				}
 			}
 
+			// Validate.
 			validation: for (let [name, description] of Object.entries(schema)) {
 				let value = args[name];
 				switch (description.type) {
@@ -128,6 +130,15 @@ module.exports = class CommandRunner {
 						break;
 					}
 
+				}
+			}
+
+			// Defaults.
+			for (let [name, description] of Object.entries(schema)) {
+				let value = args[name];
+
+				if (typeof(description.default) === 'function' && value === null) {
+					setValue(name, description, description.default(args));
 				}
 			}
 		};

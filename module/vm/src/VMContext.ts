@@ -2,11 +2,13 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import MathFlag from './MathFlag';
+import Architecture from './Architecture';
+import VM from './VM';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * The result of a math operation.
+ * An instance of a VM.
+ * This exists as an intersection between the VM class and the hardware of the provided architecture.
  */
-type MathResult<T> = [T, MathFlag];
-export default MathResult;
+export type Context<A extends Architecture> = VM<A> & A;
+export default Context;
