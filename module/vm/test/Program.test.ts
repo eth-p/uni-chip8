@@ -24,6 +24,6 @@ describe('Program', () => {
 		let prog = new Program(TestArch.prototype._load);
 		let data = new Uint8Array([1, 3, 5, 9]);
 		await prog.load(data);
-		expect(Array.from(prog.data)).toEqual([1, 3, 5, 9]);
+		expect(Array.from(prog.data!)).toEqual([1, 3, 5, 9]);
 	});
 });

@@ -13,12 +13,13 @@ const OP_CODE = 0xf300;
 const OP_MASK = 0xff00;
 const OP_P1 = 0x00f0;
 const OP_P2 = 0x000f;
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 abstract class TestArch extends Architecture<TestArch> {}
 
 class TestOp extends Op<TestArch> {
-	constructor(callback?) {
+	constructor(callback?: any) {
 		super(
 			OP_CODE,
 			'NUL',
@@ -71,6 +72,6 @@ describe('Op', () => {
 		let op = new TestOp(() => true);
 		let ir = op.decode(0xf369);
 
-		expect(ir[0](null, ir[1], ir[2])).toStrictEqual(true);
+		expect(ir[0](<any>null, ir[1], ir[2])).toStrictEqual(true);
 	});
 });
