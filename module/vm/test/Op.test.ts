@@ -2,10 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Uint16 from '../../types/src/Uint16';
-
 import Architecture from '../src/Architecture';
 import Op from '../src/Op';
+import OpCode from '../src/OpCode';
 import OpMask from '../src/OpMask';
 import Context from '../src/VMContext';
 
@@ -35,7 +34,7 @@ class TestOp extends Op<TestArch> {
 		}
 	}
 
-	execute(context: Context<TestArch>, p1: Uint16, p2: Uint16): void {
+	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {
 		// This is overridden in the constructor.
 	}
 }
