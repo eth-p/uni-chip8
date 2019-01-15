@@ -15,6 +15,7 @@
   - [Via GitHub](#via-github)  
   - [Via Meetings](#via-meetings)  
   - [Via Discord](#via-discord)  
+  - [Via SFU Emails](#via-sfu-emails)
 - [**Implementation Language**](#implementation-language)
 - [**Software Development Process**](#software-development-process)
   - [Project Guidelines](#project-guidelines)
