@@ -37,7 +37,7 @@ function onError(error) {
 
 async function verify(line, modules) {
 	let ALLOWED_MODULES = ['*'].concat(modules.map(m => m.getId()));
-	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix', 'Reformat'];
+	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix', 'Reformat', 'Replace'];
 
 	// Ignore if it's a merge commit.
 	if (line.startsWith('Merge ')) return;

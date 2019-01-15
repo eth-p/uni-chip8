@@ -7,10 +7,14 @@
 // This tool will check project files for anything that violates the style guide or code of conduct.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
+const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const badwords     = require('bad-words');
 const chalk        = require('chalk');
+const findup       = lazyreq('find-up');
+const ts           = lazyreq('typescript');
+const tslint       = lazyreq('tslint');
 const path         = require('path');
 
 // Modules.
@@ -57,6 +61,11 @@ module.exports = class CommandCheck extends Command {
 				default: false,
 				description: 'Check formatting.'
 			},
+			'lint': {
+				type: 'boolean',
+				default: false,
+				description: 'Check source code using tslint.'
+			},
 			'only-modified': {
 				type: 'boolean',
 				default: false,
@@ -96,15 +105,24 @@ module.exports = class CommandCheck extends Command {
 		});
 
 		// Create file checker.
-		let formatter = new FileFormatter({directory: project.getDirectory()});
-		let profanity = new badwords();
+		let checker = new FileChecker();
 
-		profanity.removeWords(... IGNORE_BADWORDS);
+		checker._initProfanityChecker_HOOK = () => {
+			this._badwords = new badwords();
+			this._badwords.removeWords(... IGNORE_BADWORDS);
+		};
 
-		let checker = new FileChecker({
-			badwords: profanity,
-			formatter: formatter
-		});
+		checker._initProfanityChecker_HOOK = () => {
+			this._formatter = new FileFormatter({directory: project.getDirectory()});
+		};
+
+		checker._initLintChecker_HOOK = () => {
+			let configFile = findup.sync('tslint.json', {cwd: project.getDirectory()});
+			this._tslintConfig     = tslint.Configuration.loadConfigurationFromPath(configFile);
+			// this._tslintTypescript = ts.createProgram();
+			// TODO: Create TypeScript program instance to allow type information checks.
+		};
+
 
 		// Handle arguments.
 		let printer = this._getPrinter(args);
@@ -116,7 +134,7 @@ module.exports = class CommandCheck extends Command {
 			objectMode: true,
 			transform: async (data) => {
 				let result = await Promise.all(checks.map(f => f(data.path)));
-				let passed = result.find(([n, v]) => !v) === undefined;
+				let passed = result.find(([n, v]) => !v.status) === undefined;
 
 				if (args.verbose || !passed) {
 					await printer(data.path, result);
@@ -150,7 +168,7 @@ module.exports = class CommandCheck extends Command {
 	}
 
 	async _printPlumbing(file, checks) {
-		let checkfields = checks.map(([name, passed]) => passed ? '*' : name).join(' ');
+		let checkfields = checks.map(([name, results]) => results.status ? '*' : name).join(' ');
 		process.stdout.write(`${checkfields} ${file}\n`);
 	}
 
@@ -158,9 +176,23 @@ module.exports = class CommandCheck extends Command {
 		let failed = false;
 		let filerel = path.relative((await SCT.getProject()).getDirectory(), file);
 
-		for (let check of checks.filter(([name, passed]) => !passed)) {
+		for (let check of checks.filter(([name, results]) => !results.status)) {
 			failed = true;
 			console.log(chalk.red(check[0]) + chalk.yellow(': ') + filerel);
+
+			let details = check[1].details;
+			if (details != null) {
+				for (let i = 0; i < details.length; i++) {
+					let issue  = details[i];
+					let prefix = '        ' + chalk.yellow(`[${(i+1)}]`.padEnd(4));
+
+					if (issue.line != null) {
+						prefix += `${chalk.yellow('Line')} ${chalk.blue(issue.line)}${chalk.yellow(':')}`;
+					}
+
+					console.log(`${prefix}  ${issue.message}`);
+				}
+			}
 		}
 
 		if (verbose && !failed) {
@@ -192,10 +224,11 @@ module.exports = class CommandCheck extends Command {
 	 */
 	_getChecks(args, checker) {
 		let checks   = [];
-		let all      = !(args.profanity || args.formatting);
+		let all      = !(args.profanity || args.formatting || args.lint);
 
 		if (all || args.formatting)	checks.push(async file => ['FORMATTING', await checker.checkFormatting(file)]);
 		if (all || args.profanity)  checks.push(async file => ['PROFANITY', await checker.checkProfanity(file)]);
+		if (all || args.lint)       checks.push(async file => ['TSLINT', await checker.checkLint(file)]);
 
 		return checks;
 	}

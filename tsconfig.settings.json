@@ -21,7 +21,8 @@
 		"paths": {
 			"@chipotle/types/*": ["../types/src/*"],
 			"@chipotle/debug/*": ["../debug/src/*"],
-			"@chipotle/vm/*": ["../vm/src/*"]
+			"@chipotle/vm/*": ["../vm/src/*"],
+			"@chipotle/arch-chip/*": ["../arch-chip/src/*"]
 		}
 	}
 }
