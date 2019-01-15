@@ -4,7 +4,6 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/debug/assert';
 
-import Architecture from './Architecture';
 import {default as OpCode, and, isValid} from './OpCode';
 import OpMask from './OpMask';
 import IR from './IR';
@@ -81,7 +80,7 @@ export default abstract class Op<A> {
 	 * @param opcode The opcode to check.
 	 * @returns True if the opcode is for the instruction.
 	 */
-	matches(opcode: OpCode): boolean {
+	public matches(opcode: OpCode): boolean {
 		return and(this.mask.mask, opcode) === this.opcode;
 	}
 
@@ -89,7 +88,7 @@ export default abstract class Op<A> {
 	 * Decodes the opcode into an IR.
 	 * @param opcode The opcode to decode.
 	 */
-	decode(opcode: OpCode): IR<A> {
+	public decode(opcode: OpCode): IR<A> {
 		return [<any>this.execute, this.mask.decodeParameter1(opcode), this.mask.decodeParameter2(opcode)];
 	}
 
@@ -100,7 +99,7 @@ export default abstract class Op<A> {
 	 * @param p1 The first parameter.
 	 * @param p2 The second parameter.
 	 */
-	abstract execute(context: VMContext<A>, p1: OpCode, p2: OpCode): void;
+	public abstract execute(context: VMContext<A>, p1: OpCode, p2: OpCode): void;
 
 	// TODO: [Reverse-Debugging] reverse(ir: IR, trace: TraceFrame)
 	// TODO: [Reverse-Debugging] trace(ir: IR)

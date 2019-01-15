@@ -2,8 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Architecture from './Architecture';
+import OpAddress from './OpAddress';
 import VMContext from './VMContext';
+import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -11,17 +12,52 @@ import VMContext from './VMContext';
  */
 export class VMBase<A> {
 	// -------------------------------------------------------------------------------------------------------------
+	// | Fields:                                                                                                   |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * The program counter.
+	 * This should not be directly manipulated.
+	 *
+	 * @internal
+	 */
+	public program_counter: OpAddress;
+
+	/**
+	 * The program data.
+	 * This should not be directly manipulated.
+	 *
+	 * @internal
+	 */
+	public program_data: Uint8Array | null;
+
+	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
 
-	constructor(arch: A) {
-		let ctx: VMContext<A> = <VMContext<A>>(<any>this);
-		Object.assign(ctx, arch);
+	/**
+	 * Creates a new virtual machine.
+	 * @param arch The architecture of the emulated machine.
+	 */
+	public constructor(arch: A) {
+		this.program_counter = 0;
+		this.program_data = null;
+
+		// Copy descriptors from the architecture.
+		Object.defineProperties(arch, Object.getOwnPropertyDescriptors(arch));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Jump to an address in the program.
+	 * @param to The address to jump to.
+	 */
+	public jump(to: OpAddress): void {
+		this.program_counter = to;
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
