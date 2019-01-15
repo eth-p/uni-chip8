@@ -23,14 +23,14 @@ Dan Dan Amarasinghe, *user@sfu.ca*
 
 ## Discussion
 
-- We setup repository and tools on everyone's laptop.
+- We setup local git repository and tools on everyone's laptop.
 - Assigned tasks for Release 0.
 
 ## Decisions
 
 |Task|Assigned People|
 |----|---------------|
-|Dan |Website design, chart stuff|
-|Anthony|Project Organization|
-|Henry|Introduction|
-|Everyone|4 use cases for misc. audiences|
+|Website design, chart stuff|Dan|
+|Project Organization|Anthony|
+|Introduction|Henry|
+|4 use cases for misc. audiences|Everyone|
