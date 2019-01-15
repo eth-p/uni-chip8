@@ -92,31 +92,35 @@ This section contains all deliverables and tools that we are currently planning 
 
 ## Communication
 
-Communication is done through in-person meetings, GitHub issues, and Discord.
+Group members communicate *through in-person meetings*, *Discord*, *GitHub issues*, and *SFU emails*.
 
 ### Via GitHub
 
-GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+Group members use GitHub issues for formal bug reports, feature requests, and code reviews. Features provided by GitHub help organize and manage issues through the use of **labels, assignees, and milestones**.
+
+- **Labels**: Useful for organizing and filtering different types of issues.
+- **Assignees**: Developers that are responsible for the issue.
+- **Milestones**: Group of issues that correspond to a goal or feature.
 
 The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
 
 ### Via Meetings
 
-Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+The group plans to schedule meetings on Monday every week from **12:30 pm to 2:00 pm** (Between CMPT 276 lecture and CMPT 213 lecture). Group members decide location through Discord and attempt to book rooms for major meetings. Members can leave at any time but are encouraged to the end of the meetings. It is possible to end the meetings when only one member is left attending.
 
-Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned at 2:00 PM when CMPT 213 starts at 2:30 PM.
+At the meetings (Scrum-style), group members discuss **weekly progress updates**, **issues encountered along the way**, and **planning for the following week's activities and milestones**.
 
-These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
-
-Additonal meetings may be held where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project. These meetings will not be tracked in documentation, unless requested.
-
-We will attempt to book rooms for the major meetings.
+Members may require additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, such as discussing and working on the structure of the interpreter project with no documentation needed unless requested.
 
 ### Via Discord
 
-Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
+Group members use Discord as an informal communication channel to discuss feature ideas or implementation details. Relevant discussions are added to the project documentation or used as the basis for a GitHub issue.
 
-We will post announcements on Discord.
+Group members view announcements on Discord. Members can break down into smaller groups to discuss and work on minor issues using Discord.
+
+### Via SFU emails
+
+Reserve for an emergency such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
