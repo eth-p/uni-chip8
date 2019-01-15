@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
+import assert from '@chipotle/types/assert';
 
 import {default as OpCode, bitscanf, bitscanr, and, bitshiftr, MIN, MAX} from './OpCode';
 // ---------------------------------------------------------------------------------------------------------------------

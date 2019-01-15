@@ -2,11 +2,10 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
+import assert from '@chipotle/types/assert';
 
 import OpAddress from './OpAddress';
 import ProgramError from './ProgramError';
-import Op from '@chipotle/vm/Op';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**

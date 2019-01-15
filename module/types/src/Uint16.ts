@@ -5,11 +5,9 @@
 //. Developer Notes:
 //. @eth-p: We could use Uint16Array to do the conversions, but it was actually slower in every browser except Chrome.
 //. --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
-
+import assert from './assert';
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
-import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
