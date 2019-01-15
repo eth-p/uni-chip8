@@ -1,0 +1,71 @@
+{
+	"rules": {
+		"quotemark": [
+			true,
+			"single",
+			"avoid-template",
+			"avoid-escape"
+		],
+		"no-reference": true,
+		"no-arg": true,
+		"no-duplicate-super": true,
+		"no-duplicate-variable": [
+			true,
+			"check-parameters"
+		],
+		"no-duplicate-switch-case": true,
+		"no-dynamic-delete": true,
+		"no-eval": true,
+		"no-invalid-template-strings": true,
+		"no-invalid-this": true,
+		"no-misused-new": false,
+		"no-return-await": true,
+		"no-string-throw": true,
+		"no-unsafe-finally": true,
+		"no-var-keyword": true,
+		"no-this-assignment": true,
+		"no-duplicate-imports": true,
+		"trailing-comma": [
+			true,
+			{
+				"multiline": "never",
+				"singleline": "never"
+			}
+		],
+		"prefer-for-of": true,
+		"prefer-object-spread": true,
+		"switch-default": true,
+		"new-parens": true,
+		"triple-equals": [
+			true,
+			"allow-null-check"
+		],
+		"array-type": [
+			true,
+			"array"
+		],
+		"prefer-template": [
+			true,
+			"allow-single-concat"
+		],
+		"unnecessary-bind": true,
+		"file-header": [
+			true,
+			"! -{116}",
+			"! Copyright (C) 2019 Team Chipotle",
+			"! MIT License",
+			"! -{116}"
+		],
+		"prefer-while": true,
+		"semicolon": [true, "always"]
+	},
+
+	"rules (temporarily disabled)": {
+		"no-floating-promises": true,
+		"no-use-before-declare": true,
+		"no-void-expression": true,
+		"restrict-plus-operands": true,
+		"strict-boolean-expressions": true,
+		"return-undefined": true
+	}
+}

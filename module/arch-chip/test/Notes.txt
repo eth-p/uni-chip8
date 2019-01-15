@@ -1,0 +1,2 @@
+Doing tests for instructions is going to be a bit more complicated than usual.
+Essentially, we'll be needing to manually set up a VM<?> context and IR, then call execute on it.

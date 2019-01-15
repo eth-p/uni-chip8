@@ -2,10 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Uint16 from '../../types/src/Uint16';
-
 import Architecture from '../src/Architecture';
 import Op from '../src/Op';
+import OpCode from '../src/OpCode';
 import OpMask from '../src/OpMask';
 import Context from '../src/VMContext';
 
@@ -22,6 +21,7 @@ class TestOp extends Op<TestArch> {
 	constructor(callback?) {
 		super(
 			OP_CODE,
+			'NUL',
 			new OpMask({
 				mask: OP_MASK,
 				p1: OP_P1,
@@ -34,7 +34,7 @@ class TestOp extends Op<TestArch> {
 		}
 	}
 
-	execute(context: Context<TestArch>, p1: Uint16, p2: Uint16): void {
+	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {
 		// This is overridden in the constructor.
 	}
 }
@@ -44,6 +44,7 @@ describe('Op', () => {
 	it('constructor', () => {
 		let op = new TestOp();
 		expect(op.opcode).toStrictEqual(OP_CODE);
+		expect(op.asm).toStrictEqual('NUL');
 		expect(op.mask.mask).toStrictEqual(OP_MASK);
 		expect(op.mask.p1).toStrictEqual(OP_P1);
 		expect(op.mask.p2).toStrictEqual(OP_P2);
