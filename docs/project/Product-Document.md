@@ -352,7 +352,8 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |**Ethan Pini**| X | X | X | | | X |
 |**Kyle Saburao**| X | X | | X | X | X |
 |**Anthony Pham**| | X | | X | | X |
- |**Dan Amarasinghe**| | X | | X | X | X |  
+|**Henry Wang**| | X | | X | | X |
+|**Dan Amarasinghe**| | X | | X | X | X |  
 
 ### Roles
 
