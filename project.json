@@ -54,11 +54,6 @@
 
 		},
 
-		"debug": {
-			"description": "Common debug functions.",
-			"@auto": true
-		},
-
 		"types": {
 			"description": "Common type definitions.",
 			"@auto": true
