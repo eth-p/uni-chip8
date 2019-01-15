@@ -38,20 +38,22 @@
 
 ## Meeting Schedule
 
-|Week|Date|Priorities|Notes|Minutes|
+|Week|Date|Release Priority|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
 |**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
-|**3**|January 14|Release 0|Product Document will be finished in meeting|[Week 3](meeting-minutes/week3.md)|
-|**4**| | | | |
-|**5**| | | | |
-|**6**| | | | |
-|**7**| | | | |
-|**8**| | | | |
-|**9**| | | | |
-|**10**| | | | |
-|**11**| | | | |
-|**12**| | | | |
+|**3**|January 14|Release 0| |[Week 3](meeting-minutes/week3.md)|
+|**4**|January 21|Release 1| | |
+|**5**|January 28|Release 1| | |
+|**6**|February 4|Release 1| | |
+|**7**|February 11|Release 2| | |
+|**8**|February 25|Release 2| | |
+|**9**|March 4|Release 3| | |
+|**10**|March 11|Release 3| | |
+|**11**|March 18|Release 4| | |
+|**12**|March 25|Release 4| | |
+|**13**|April 1|Release 4| | |
+|**14**|N/A|N/A|Code freeze in-effect|N/A|
 
 ## Project Deliverables and Tools
 
@@ -345,6 +347,8 @@ We are targeting to begin CHIP-8 program development at this point.
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
+**Code freeze will be in effect starting April 5th, 12:00 AM.** No new changes or modifications will be accepted into the master branch. It is expected that the entire product has been validated for final release.
+
 ### Member Roles
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
@@ -359,12 +363,12 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 |Role|Description|
 |----|-----------|
-|Team Lead|Directs team on project. Manages git repository.|
-|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
-|Tool Dev|Works on the build and test automation tools.|
-|Program Dev|Works with CHIP-8 Assembly to produce programs.|
-|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage.|
-|Documentor|Documents the project.|
+|Team Lead|Directs team on project|
+|Emulator Dev|Works on the CHIP-8 interpreter and debugger|
+|Tool Dev|Works on the build and test automation tools|
+|Program Dev|Works with CHIP-8 Assembly to produce programs|
+|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
+|Documentor|Documents the project|
 
 ## Use Cases
 
