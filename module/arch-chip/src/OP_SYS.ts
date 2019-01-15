@@ -19,7 +19,7 @@ import ChipArchitecture from './ChipArchitecture';
  * '0nnn'
  */
 export default class OP_SYS extends Op<ChipArchitecture> {
-	constructor() {
+	public constructor() {
 		super(
 			0x0000,
 			'SYS <addr>',
@@ -31,7 +31,7 @@ export default class OP_SYS extends Op<ChipArchitecture> {
 		);
 	}
 
-	execute(context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
 		// Intentional NO-OP.
 	}
 }
