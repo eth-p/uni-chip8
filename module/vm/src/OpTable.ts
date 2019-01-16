@@ -12,6 +12,9 @@ import ProgramError from './ProgramError';
 
 /**
  * A lookup table for instructions.
+ *
+ * This uses a single-depth lookup table to map opcodes to instructions.
+ * The smaller the mask of an instruction, the higher priority it will be.
  */
 export default class OpTable<A> {
 	// -------------------------------------------------------------------------------------------------------------
