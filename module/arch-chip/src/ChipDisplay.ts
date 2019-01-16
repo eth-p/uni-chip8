@@ -53,15 +53,23 @@ export default class ChipDisplay {
 	/**
 	 * Converts a coordinate pair to an index.
 	 *
+	 * CHIP-8 Display
+	 * __________________________
+	 * |* (0, 0)                |
+	 * |                        |
+	 * |                        |
+	 * |                        |
+	 * |              (63, 31) *|
+	 *
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @returns The associated index.
 	 */
 	public index(x: number, y: number): number {
-		assert(x >= 0 && x <= this.WIDTH, "Parameter 'x' is out of range for ChipDisplay");
-		assert(y >= 0 && x <= this.HEIGHT, "Parameter 'y' is out of range for ChipDisplay");
+		assert(x >= 0 && x < this.WIDTH, "Parameter 'x' is out of range for ChipDisplay");
+		assert(y >= 0 && y < this.HEIGHT, "Parameter 'y' is out of range for ChipDisplay");
 
-		return y * this.HEIGHT + x;
+		return y * this.WIDTH + x;
 	}
 
 	/**
