@@ -3,7 +3,6 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import ISA from './ISA';
-import Op from './Op';
 import ProgramSource from './ProgramSource';
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -19,7 +18,7 @@ export default abstract class Architecture<A> {
 	/**
 	 * The instruction set.
 	 */
-	public readonly isa: Op<A>[];
+	public readonly ISA: ISA<A>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -30,7 +29,7 @@ export default abstract class Architecture<A> {
 	 * @param isa The instruction set of the architecture.
 	 */
 	protected constructor(isa: ISA<A>) {
-		this.isa = isa.map(op => new op());
+		this.ISA = isa;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

@@ -2,7 +2,10 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import Architecture from './Architecture';
 import OpAddress from './OpAddress';
+import OpCache from './OpCache';
+import OpTable from './OpTable';
 import Program from './Program';
 import VMContext from './VMContext';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -28,6 +31,21 @@ export class VMBase<A> {
 	 */
 	public program_counter: OpAddress;
 
+	/**
+	 * An ascending counter for the number of cycles executed.
+	 */
+	public tick: number;
+
+	/**
+	 * The instruction lookup table.
+	 */
+	public optable: OpTable<A>;
+
+	/**
+	 * The instruction cache.
+	 */
+	public opcache: OpCache<A>;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -39,6 +57,9 @@ export class VMBase<A> {
 	public constructor(arch: A) {
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
+		this.tick = 0;
+		this.opcache = new OpCache<A>();
+		this.optable = new OpTable<A>((<Architecture<A>>(<unknown>arch)).ISA, this.opcache);
 
 		// Copy descriptors from the architecture.
 		Object.defineProperties(this, Object.getOwnPropertyDescriptors(arch));

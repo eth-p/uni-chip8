@@ -51,7 +51,7 @@ export default class ProgramStack {
 	 * @param address The address to push.
 	 */
 	push(address: OpAddress): void {
-		if (this.stack.length === this.MAX) throw new ProgramError('STACK OVERFLOW');
+		if (this.stack.length === this.MAX) throw new ProgramError(ProgramError.STACK_OVERFLOW);
 		this.stack.push(address);
 	}
 
@@ -60,7 +60,7 @@ export default class ProgramStack {
 	 * @throws ProgramError When the stack is empty.
 	 */
 	pop(): OpAddress {
-		if (this.stack.length === 0) throw new ProgramError('STACK UNDERFLOW');
+		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
 		return <OpAddress>this.stack.pop();
 	}
 
