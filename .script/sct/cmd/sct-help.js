@@ -95,8 +95,9 @@ module.exports = class CommandHelp extends Command {
 		let sandbox = {
 			module: {exports: {}},
 			require: (module) => {
-				if (module === '@sct') return SCT;
-				return () => {throw new Error('Cannot load module in shimmed command.')};
+				if (module === '@sct')        return SCT;
+				if (module === 'import-lazy') return require('import-lazy');
+				return () => {throw new Error(`Cannot load module '${module}' in shimmed command.`)};
 			}
 		};
 
