@@ -95,106 +95,25 @@ module.exports = class SCT {
 // Exports:
 // ---------------------------------------------------------------------------------------------------------------------
 
-Object.defineProperties(module.exports, {
-
-	AsyncTransform: {
-		enumerable: true,
-		get: () => require('./AsyncTransform')
-	},
-
-	Child: {
-		enumerable: true,
-		get: () => require('./Child')
-	},
-
-	Command: {
-		enumerable: true,
-		get: () => require('./Command')
-	},
-
-	CommandUtil: {
-		enumerable: true,
-		get: () => require('./CommandUtil')
-	},
-
-	CommandError: {
-		enumerable: true,
-		get: () => require('./CommandError')
-	},
-
-	CommandRunner: {
-		enumerable: true,
-		get: () => require('./CommandRunner')
-	},
-
-	GitUtil: {
-		enumerable: true,
-		get: () => require('./GitUtil')
-	},
-
-	Project: {
-		enumerable: true,
-		get: () => require('./Project')
-	},
-
-	Finder: {
-		enumerable: true,
-		get: () => require('./Finder')
-	},
-
-	FinderFilter: {
-		enumerable: true,
-		get: () => require('./FinderFilter')
-	},
-
-	FinderFilterGit: {
-		enumerable: true,
-		get: () => require('./FinderFilterGit')
-	},
-
-	FinderFilterGitModified: {
-		enumerable: true,
-		get: () => require('./FinderFilterGitModified')
-	},
-
-	FileChecker: {
-		enumerable: true,
-		get: () => require('./FileChecker')
-	},
-
-	FileFormatter: {
-		enumerable: true,
-		get: () => require('./FileFormatter')
-	},
-
-	SCTError: {
-		enumerable: true,
-		value: SCTError
-	},
-
-	StreamUtil: {
-		enumerable: true,
-		get: () => require('./StreamUtil')
-	},
-
-	Task: {
-		enumerable: true,
-		get: () => require('./Task')
-	},
-
-	TaskLogger: {
-		enumerable: true,
-		get: () => require('./TaskLogger')
-	},
-
-	TaskLoggerPretty: {
-		enumerable: true,
-		get: () => require('./TaskLoggerPretty')
-	},
-
-	TaskStatus: {
-		enumerable: true,
-		get: () => require('./TaskStatus')
-	},
-
-});
+module.exports.AsyncTransform          = require('./AsyncTransform');
+module.exports.Child                   = require('./Child');
+module.exports.Command                 = require('./Command');
+module.exports.CommandUtil             = require('./CommandUtil');
+module.exports.CommandError            = require('./CommandError');
+module.exports.CommandRunner           = require('./CommandRunner');
+module.exports.GitUtil                 = require('./GitUtil');
+module.exports.Project                 = require('./Project');
+module.exports.FileChecker             = require('./FileChecker');
+module.exports.FileFormatter           = require('./FileFormatter');
+module.exports.Finder                  = require('./Finder');
+module.exports.FinderFilter            = require('./FinderFilter');
+module.exports.FinderFilterGit         = require('./FinderFilterGit');
+module.exports.FinderFilterGitModified = require('./FinderFilterGitModified');
+module.exports.FinderFilterGitStaged   = require('./FinderFilterGitStaged');
+module.exports.SCT                     = module.exports;
+module.exports.SCTError                = require('./SCTError');
+module.exports.StreamUtil              = require('./StreamUtil');
+module.exports.Task                    = require('./Task');
+module.exports.TaskLogger              = require('./TaskLogger');
+module.exports.TaskLoggerPretty        = require('./TaskLoggerPretty');
+module.exports.TaskStatus              = require('./TaskStatus');

@@ -6,12 +6,11 @@
 // The project.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const fs       = require('fs-extra');
 const path     = require('path');
-const git      = lazyreq('nodegit');
+const git      = require('nodegit');
 
 // Modules.
 const Module   = require('./Module');

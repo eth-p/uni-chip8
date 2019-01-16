@@ -7,13 +7,12 @@
 // A class to check source code files against the project guidelines.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-const lazyreq = require('import-lazy')(require);
 
 // Libraries.
-const badwords     = lazyreq('bad-words');
-const findup       = lazyreq('find-up');
-const fs           = lazyreq('fs-extra');
-const tslint       = lazyreq('tslint');
+const badwords     = require('bad-words');
+const findup       = require('find-up');
+const fs           = require('fs-extra');
+const tslint       = require('tslint');
 
 // Modules.
 const FileFormatter = require('./FileFormatter');
