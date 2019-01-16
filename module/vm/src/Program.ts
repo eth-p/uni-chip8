@@ -3,7 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import ProgramSource from './ProgramSource';
-import ProgramError from '@chipotle/vm/ProgramError';
+import VMError from './VMError';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -49,7 +49,7 @@ export default class Program<A> {
 	public async load(source: ProgramSource) {
 		let data = await this.loader(source);
 		if (data === false) {
-			throw new ProgramError(`NO PROGRAM LOADER FOR TYPE: ${(<any>source).constructor.name}`);
+			throw new VMError(`NO PROGRAM LOADER FOR TYPE: ${(<any>source).constructor.name}`);
 		}
 
 		this.data = data;
