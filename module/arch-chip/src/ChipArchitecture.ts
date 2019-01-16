@@ -5,7 +5,7 @@
 import {default as Uint8} from '@chipotle/types/Uint8';
 
 import Architecture from '@chipotle/vm/Architecture';
-import ISA from '@chipotle/vm/ISA';
+import {default as ISA} from '@chipotle/vm/ISA';
 import OpAddress from '@chipotle/vm/OpAddress';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
@@ -19,7 +19,7 @@ import OP_SYS from './OP_SYS';
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
 // ---------------------------------------------------------------------------------------------------------------------
-export const ISA: ISA<ChipArchitecture> = [OP_SYS];
+export const INSTRUCTION_SET: ISA<ChipArchitecture> = [OP_SYS];
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -115,7 +115,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * A unique instance should be passed to the {@link VM} constructor.
 	 */
 	public constructor() {
-		super(ISA);
+		super(INSTRUCTION_SET);
 
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
 		this.memory = new Uint8Array(this.MAX_MEMORY);
