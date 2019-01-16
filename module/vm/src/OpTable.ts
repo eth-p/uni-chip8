@@ -4,8 +4,10 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/types/assert';
 
+import IR from './IR';
 import ISA from './ISA';
 import Op from './Op';
+import OpCache from './OpCache';
 import {default as OpCode, MAX as OPCODE_MAX, and, isValid, bitshiftr, bitscanf} from './OpCode';
 import ProgramError from './ProgramError';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -22,12 +24,7 @@ export default class OpTable<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The lookup table.
-	 */
-	protected readonly table: Op<A>[][];
-
-	/**
-	 * The op table.
+	 * A list of all the instructions.
 	 */
 	public readonly list: Op<A>[];
 
@@ -37,9 +34,25 @@ export default class OpTable<A> {
 	public readonly mask: OpCode;
 
 	/**
-	 * The number of places to shift the lookup mask.
+	 * The number of places to shift the masked opcode.
+	 *
+	 * ```
+	 * (opcode & mask) >> maskshift
+	 * ```
+	 *
+	 * Will return an index for the lookup table.
 	 */
 	public readonly maskshift: OpCode;
+
+	/**
+	 * The instruction lookup table.
+	 */
+	protected readonly table: Op<A>[][];
+
+	/**
+	 * The op cache.
+	 */
+	protected readonly cache: OpCache<A> | null;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -47,11 +60,17 @@ export default class OpTable<A> {
 
 	/**
 	 * Create a new instruction lookup table.
+	 *
 	 * @param isa The instruction set.
+	 * @param cache The instruction cache, if one is to be used.
 	 */
-	public constructor(isa: ISA<A>) {
+	public constructor(isa: ISA<A>, cache?: OpCache<A>) {
 		assert(isa != null, "Parameter 'isa' is null");
 		assert(isa instanceof Array, "Parameter 'isa' is invalid");
+
+		// Set the lookup function to use the cache or no-cache version.
+		this.cache = cache == null ? null : cache;
+		this.decode = cache == null ? this._decode : this._decodeWithCache;
 
 		// Get the instructions objects.
 		this.list = isa.map(op => new op());
@@ -84,7 +103,7 @@ export default class OpTable<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Look up an instruction from an opcode.
+	 * Looks up an instruction from an opcode.
 	 *
 	 * @param opcode The opcode.
 	 * @returns The instruction.
@@ -101,6 +120,37 @@ export default class OpTable<A> {
 		for (let op of lut) {
 			if (op.matches(opcode)) return op;
 		}
+
 		throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
+	}
+
+	/**
+	 * Decodes an instruction from an opcode.
+	 *
+	 * @param opcode The opcode.
+	 * @returns The IR of the instruction.
+	 *
+	 * @throws ProgramError When no matching instruction was found.
+	 */
+	public decode: (opcode: OpCode) => IR<A>;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods: Decode                                                                                           |
+	// -------------------------------------------------------------------------------------------------------------
+
+	public _decode(opcode: OpCode): IR<A> {
+		let op = this.lookup(opcode);
+		return op.decode(opcode);
+	}
+
+	public _decodeWithCache(opcode: OpCode): IR<A> {
+		let ir = this.cache!.get(opcode);
+
+		if (ir === null) {
+			ir = this._decode(opcode);
+			this.cache!.put(opcode, ir);
+		}
+
+		return ir;
 	}
 }

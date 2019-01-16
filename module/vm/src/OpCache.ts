@@ -2,45 +2,69 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ISA from './ISA';
-import ProgramSource from './ProgramSource';
+import IR from './IR';
+import OpCode from './OpCode';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A computer architecture.
- * This class represents the available components and instruction set of a specific computer.
+ * A cache for decoded instructions.
  */
-export default abstract class Architecture<A> {
+export default class OpCache<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * The instruction set.
-	 */
-	public readonly ISA: ISA<A>;
+	protected map: Map<OpCode, IR<A>>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Creates a new computer architecture.
-	 * @param isa The instruction set of the architecture.
+	 * Create a opcode cache.
 	 */
-	protected constructor(isa: ISA<A>) {
-		this.ISA = isa;
+	public constructor() {
+		this.map = new Map();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                              |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Loads a program from a program source.
-	 * This method can also be used to reinitialize hardware.
+	 * Gets the cached IR for an opcode.
 	 *
-	 * @returns The loaded program, or false if there's no way to load the program.
+	 * @param opcode The opcode.
+	 * @returns The cached IR, or null if not found.
 	 */
-	protected abstract async _load(source: ProgramSource): Promise<Uint8Array | false>;
+	public get(opcode: OpCode): IR<A> | null {
+		let entry = this.map.get(opcode);
+		if (entry === undefined) return null;
+		return entry;
+	}
+
+	/**
+	 * Adds an IR to the cache.
+	 *
+	 * @param opcode The opcode.
+	 * @param ir The IR of the opcode.
+	 */
+	public put(opcode: OpCode, ir: IR<A>): void {
+		this.map.set(opcode, ir);
+	}
+
+	/**
+	 * Invalidates a cached opcode.
+	 * @param opcode The opcode.
+	 */
+	public invalidate(opcode: OpCode): void {
+		this.map.delete(opcode);
+	}
+
+	/**
+	 * Invalidates all cached opcodes.
+	 */
+	public invalidateAll(): void {
+		this.map.clear();
+	}
 }

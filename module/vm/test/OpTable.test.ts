@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Architecture from '../src/Architecture';
 import Op from '../src/Op';
+import OpCache from '../src/OpCache';
 import OpCode from '../src/OpCode';
 import OpMask from '../src/OpMask';
 import OpTable from '../src/OpTable';
@@ -101,5 +102,18 @@ describe('OpTable', () => {
 		expect(optable1.lookup(0xd901).opcode).toEqual(0xd900);
 		expect(optable1.lookup(0xd800).opcode).toEqual(0xd000);
 		expect(() => optable1.lookup(0xf001)).toThrow();
+	});
+
+	it('decode', () => {
+		let optable1 = new OpTable([TestOpAlpha]);
+		let opcode = 0xa000;
+		let ir = optable1.lookup(opcode).decode(opcode);
+		expect(optable1.decode(opcode)).toEqual(ir);
+	});
+
+	it('decode (with cache)', () => {
+		let optable1 = new OpTable([TestOpAlpha], new OpCache<TestArch>());
+		let opcode = 0xa000;
+		expect(optable1.decode(opcode)).toStrictEqual(optable1.decode(opcode));
 	});
 });
