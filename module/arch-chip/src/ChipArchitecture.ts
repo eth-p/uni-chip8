@@ -10,11 +10,17 @@ import OpAddress from '@chipotle/vm/OpAddress';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import VMContext from '@chipotle/vm/VMContext';
+import VMError from '@chipotle/vm/VMError';
 
 import ChipDisplay from './ChipDisplay';
-// ---------------------------------------------------------------------------------------------------------------------
+
 import OP_SYS from './OP_SYS';
-import VMError from '@chipotle/vm/VMError';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ISA:
+// ---------------------------------------------------------------------------------------------------------------------
+export const ISA: ISA<ChipArchitecture> = [OP_SYS];
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -26,8 +32,6 @@ import VMError from '@chipotle/vm/VMError';
  * 64x32 Display:     display
  */
 export default class ChipArchitecture extends Architecture<ChipArchitecture> {
-	public static readonly ISA: ISA<ChipArchitecture> = [OP_SYS];
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -111,7 +115,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * A unique instance should be passed to the {@link VM} constructor.
 	 */
 	public constructor() {
-		super(ChipArchitecture.ISA);
+		super(ISA);
 
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
 		this.memory = new Uint8Array(this.MAX_MEMORY);
