@@ -418,6 +418,8 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - Ethan Pini
 - Kyle Saburao
 - Dan Amarasinghe
+- Henry Wang
+- Anthony Pham
 
 ### Release 1
 
