@@ -287,6 +287,15 @@ We will have the back-end of the project setup so that we will have a much easie
 
 We will also create a library of objects that we have determined to be useful for this project.
 
+##### Emulator Version 0 - R&D Build
+
+To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output, and timers. It can support simple non-interactive programs.
+
+The following is a bouncing ball screensaver.  
+*Please note that mp4 -> gif conversion has substantially slowed the speed of the ball.*
+
+![bouncing_ball](images/dev_bouncing_ball.gif)
+
 #### Release 1 - Emulator I & Tools
 
 We will be releasing an inital emulator.  
