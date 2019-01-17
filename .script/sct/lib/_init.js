@@ -39,7 +39,7 @@ module.exports = (options) => {
 				return laxy(original(...args));
 			};
 
-			let selfpath = `"${__filename.replace("\\", "\\\\").replace("\"", "\\\"")}"`;
+			let selfpath = `"${__filename.replace(/([\\"'])/g, "\\$1")}"`
 			Module.wrapper[0] += `require = require(${selfpath}).hookRequire(require, __filename);`;
 
 		} catch (ex) {
