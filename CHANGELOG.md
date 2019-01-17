@@ -19,6 +19,7 @@
 - **vm:** Removed address register field from VMRegister.
 - **vm:** Updated VM imports to pass validation.
 - **vm:** Added preliminary tests for CHIP-8 VM.
+- **vm:** Added conditional opcodes for memory and register values
 
 ### Documentation
 - **docs:** Added contributing guide.
