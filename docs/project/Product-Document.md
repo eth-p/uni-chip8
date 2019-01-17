@@ -37,6 +37,18 @@
 - [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [CHIP-8 Documentation](#chip-8-Documentation)
 
+## Project Introduction
+
+
+  Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
+  
+  The Telmac 1800 and COSMAC VIP were the first computers to run CHIP-8 programs and with only 4096 bytes of memory along with the
+  interpreter occupying the first 512 bytes, all programs were designed considering a limited amount of memory. The CHIP-8 is known for being able to run classic games such as Tetris,
+  Pong, or Pac-man.
+
+  The goal of our project is to build a working CHIP-8 virtual machine, an interactive website to use the CHIP-8 virtual machine, and at least two games along with useful tools for the team members. The final emulator would in theory be
+  able to run any CHIP-8 program.
+
 ## Meeting Schedule
 
 |Week|Date|Release Priority|Notes|Minutes|
@@ -203,7 +215,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 Developers may use Windows machines for this project.  
-The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it.
+The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
@@ -286,6 +298,15 @@ The product document will include details on each module. These details will ran
 We will have the back-end of the project setup so that we will have a much easier time during future releases.
 
 We will also create a library of objects that we have determined to be useful for this project.
+
+##### Emulator Version 0 - R&D Build
+
+To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output, and timers. It can support simple non-interactive programs.
+
+The following is a bouncing ball screensaver.  
+*Please note that mp4 -> gif conversion has substantially slowed the speed of the ball.*
+
+![bouncing_ball](images/dev_bouncing_ball.gif)
 
 #### Release 1 - Emulator I & Tools
 
@@ -412,6 +433,8 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - Ethan Pini
 - Kyle Saburao
 - Dan Amarasinghe
+- Henry Wang
+- Anthony Pham
 
 ### Release 1
 

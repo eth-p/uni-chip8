@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
+import assert from '@chipotle/types/assert';
 
 import {default as OpCode, bitscanf, bitscanr, and, bitshiftr, MIN, MAX} from './OpCode';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -104,21 +104,30 @@ export default class OpMask {
 		// Precompute values.
 		this.maskLSB = bitscanf(this.mask);
 		this.maskMSB = bitscanr(this.mask);
-		this.p1LSB = bitscanf(this.p1);
-		this.p1MSB = bitscanr(this.p1);
-		this.p2LSB = bitscanf(this.p2);
-		this.p2MSB = bitscanr(this.p2);
+		this.p1LSB = this.p1 === 0 ? 0 : bitscanf(this.p1);
+		this.p1MSB = this.p1 === 0 ? 0 : bitscanr(this.p1);
+		this.p2LSB = this.p2 === 0 ? 0 : bitscanf(this.p2);
+		this.p2MSB = this.p2 === 0 ? 0 : bitscanr(this.p2);
 		this.priority = this.maskMSB - this.maskLSB;
 
 		// Assertions.
 		assert(this.mask >= MIN && this.mask <= MAX, 'OpMask mask is out of range for OpCode');
-		assert(this.p1 >= MIN && this.p1 <= MAX, 'OpMask p1 is out of range for OpCode');
-		assert(this.p2 >= MIN && this.p2 <= MAX, 'OpMask p2 is out of range for OpCode');
 		assert(this.priority > 0, 'OpMask priority is negative');
-		assert(this.p1 > this.p2, 'OpMask p2 comes before OpMask p1');
-		assert((this.mask & this.p1) === 0, 'OpMask mask and p1 overlap');
-		assert((this.mask & this.p2) === 0, 'OpMask mask and p2 overlap');
-		assert((this.p1 & this.p2) === 0, 'OpMask p1 and p2 overlap');
+
+		if (this.p1 !== 0) {
+			assert(this.p1 >= MIN && this.p1 <= MAX, 'OpMask p1 is out of range for OpCode');
+			assert(this.p1 > this.p2, 'OpMask p2 comes before OpMask p1');
+			assert((this.mask & this.p1) === 0, 'OpMask mask and p1 overlap');
+		}
+
+		if (this.p2 !== 0) {
+			assert(this.p2 >= MIN && this.p2 <= MAX, 'OpMask p2 is out of range for OpCode');
+			assert((this.mask & this.p2) === 0, 'OpMask mask and p2 overlap');
+		}
+
+		if (this.p1 !== 0 && this.p2 !== 0) {
+			assert((this.p1 & this.p2) === 0, 'OpMask p1 and p2 overlap');
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

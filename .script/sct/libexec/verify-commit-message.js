@@ -7,7 +7,7 @@
 // This will ensure that the commit message follows project guidelines.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-require('module-alias/register');
+require('../lib/_init')();
 
 // Libraries.
 const fs = require('fs-extra');

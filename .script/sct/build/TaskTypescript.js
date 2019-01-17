@@ -78,7 +78,7 @@ module.exports = class TaskTypescript extends Task {
 		let tsDeclDir = tsProject.config.compilerOptions.declarationDir;
 
 		// Babel options.
-		let babelOptions = JSON.parse(JSON.stringify(options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
+		let babelOptions = JSON.parse(JSON.stringify(Object.assign({}, options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN)));
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 

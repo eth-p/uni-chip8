@@ -9,12 +9,12 @@ import VMContext from './VMContext';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * The op execute function with an `op` property on it that refers back to the Op instance.
+ * Ahe op execute function with an `op` property on it that refers back to the Op instance.
  */
-type OpExecuteFn<T extends Architecture> = ((context: VMContext<T>, p1: OpCode, p2: OpCode) => void) & {op: Op<T>};
+type OpExecuteFn<A> = ((context: VMContext<A>, p1: OpCode, p2: OpCode) => void) & {op: Op<A>};
 
 /**
  * Intermediate representation of an executable operation.
  */
-type IR<T extends Architecture> = [OpExecuteFn<T>, OpCode, OpCode];
+type IR<A> = [OpExecuteFn<A>, OpCode, OpCode];
 export default IR;

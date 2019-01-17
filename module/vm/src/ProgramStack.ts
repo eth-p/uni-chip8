@@ -2,45 +2,73 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ISA from './ISA';
-import ProgramSource from './ProgramSource';
+import assert from '@chipotle/types/assert';
+
+import OpAddress from './OpAddress';
+import ProgramError from './ProgramError';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A computer architecture.
- * This class represents the available components and instruction set of a specific computer.
+ * A program's call stack.
  */
-export default abstract class Architecture<A> {
+export default class ProgramStack {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The instruction set.
+	 * The stack.
 	 */
-	public readonly ISA: ISA<A>;
+	protected stack: OpAddress[];
+
+	/**
+	 * The maximum size of the stack.
+	 */
+	public readonly MAX: number;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Creates a new computer architecture.
-	 * @param isa The instruction set of the architecture.
+	 * Initializes the call stack.
+	 *
+	 * @param max The maximum size of the stack.
 	 */
-	protected constructor(isa: ISA<A>) {
-		this.ISA = isa;
+	public constructor(max: number) {
+		assert(max > 0, "Parameter 'max' is less than 1");
+
+		this.stack = [];
+		this.MAX = max;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                              |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Loads a program from a program source.
-	 * This method can also be used to reinitialize hardware.
-	 *
-	 * @returns The loaded program, or false if there's no way to load the program.
+	 * Push an address to the call stack.
+	 * @param address The address to push.
 	 */
-	protected abstract async _load(source: ProgramSource): Promise<Uint8Array | false>;
+	push(address: OpAddress): void {
+		if (this.stack.length === this.MAX) throw new ProgramError(ProgramError.STACK_OVERFLOW);
+		this.stack.push(address);
+	}
+
+	/**
+	 * Pops an address from the call stack.
+	 * @throws ProgramError When the stack is empty.
+	 */
+	pop(): OpAddress {
+		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
+		return <OpAddress>this.stack.pop();
+	}
+
+	/**
+	 * Returns an exact as-is copy of the program stack.
+	 * @returns The program stack.
+	 */
+	inspect(): OpAddress[] {
+		return this.stack.slice(0);
+	}
 }

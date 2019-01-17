@@ -6,14 +6,13 @@
 // A project module.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const fs       = require('fs-extra');
 const path     = require('path');
 
 // Modules.
-const Finder   = lazyreq('./Finder');
+const Finder   = require('./Finder');
 const SCT      = require('./SCT');
 const SCTError = require('./SCTError');
 

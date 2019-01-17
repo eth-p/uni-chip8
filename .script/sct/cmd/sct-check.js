@@ -7,14 +7,13 @@
 // This tool will check project files for anything that violates the style guide or code of conduct.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-const lazyreq = require('import-lazy')(require);
 
 // Libraries.
 const badwords     = require('bad-words');
 const chalk        = require('chalk');
-const findup       = lazyreq('find-up');
-const ts           = lazyreq('typescript');
-const tslint       = lazyreq('tslint');
+const findup       = require('find-up');
+const ts           = require('typescript');
+const tslint       = require('tslint');
 const path         = require('path');
 
 // Modules.
