@@ -13,17 +13,17 @@ import ChipArchitecture from './ChipArchitecture';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: COND_INEQ_REG_REG <reg> <reg>
+ * CHIP-8 INSTRUCTION: LD <reg> <con>
  *
- * Skips the next instruction if the register at <reg> is not equal to the register at <reg>
+ * Assigns the value of the register denoted by p1, to the value of p2.
  *
- * '9xy0'
+ * '8xy0'
  */
-export default class OP_COND_INEQ_REG_REG extends Op<ChipArchitecture> {
+export default class OP_LD_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
-			0x9000,
-			'COND_INEQ_REG_REG <reg> <reg>',
+			0x8000,
+			'LD <reg> <con>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,
@@ -33,8 +33,6 @@ export default class OP_COND_INEQ_REG_REG extends Op<ChipArchitecture> {
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		if (context.register_data[p1] !== context.register_data[p2]) {
-			context.program_counter += 2;
-		}
+		context.register_data[p1] = p2;
 	}
 }

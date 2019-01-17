@@ -13,17 +13,17 @@ import ChipArchitecture from './ChipArchitecture';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: COND_EQ_REG_CON <reg> <con>
+ * CHIP-8 INSTRUCTION: SNE <reg> <con>
  *
- * Skips the next instruction if the register at <reg> is equal to <con>
+ * Skips the next instruction if the register at <reg> is not equal to <con>
  *
- * '3xnn'
+ * '4xnn'
  */
-export default class OP_COND_EQ_REG_CON extends Op<ChipArchitecture> {
+export default class OP_SNE_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
-			0x3000,
-			'COND_EQ_REG_CON <reg> <con>',
+			0x4000,
+			'SNE <reg> <con>',
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0f00,
@@ -33,7 +33,7 @@ export default class OP_COND_EQ_REG_CON extends Op<ChipArchitecture> {
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		if (context.register_data[p1] === p2) {
+		if (context.register_data[p1] !== p2) {
 			context.program_counter += 2;
 		}
 	}

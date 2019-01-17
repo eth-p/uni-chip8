@@ -13,17 +13,17 @@ import ChipArchitecture from './ChipArchitecture';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: COND_EQ_REG_REG <reg> <reg>
+ * CHIP-8 INSTRUCTION: SE <reg> <reg>
  *
  * Skips the next instruction if the register at <reg> is equal to the register at <reg>
  *
  * '5xy0'
  */
-export default class OP_COND_EQ_REG_REG extends Op<ChipArchitecture> {
+export default class OP_SE_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x5000,
-			'COND_EQ_REG_REG <reg> <reg>',
+			'SE <reg> <reg>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,
