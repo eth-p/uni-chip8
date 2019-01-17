@@ -37,6 +37,18 @@
 - [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [CHIP-8 Documentation](#chip-8-Documentation)
 
+## Project Introduction
+
+
+  Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
+  
+  The Telmac 1800 and COSMAC VIP were the first computers to run CHIP-8 programs and with only 4096 bytes of memory along with the
+  interpreter occupying the first 512 bytes, all programs were designed considering a limited amount of memory. The CHIP-8 is known for being able to run classic games such as Tetris,
+  Pong, or Pac-man.
+
+  The goal of our project is to build a working CHIP-8 virtual machine, an interactive website to use the CHIP-8 virtual machine, and at least two games along with useful tools for the team members. The final emulator would in theory be
+  able to run any CHIP-8 program.
+
 ## Meeting Schedule
 
 |Week|Date|Release Priority|Notes|Minutes|
@@ -406,6 +418,8 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - Ethan Pini
 - Kyle Saburao
 - Dan Amarasinghe
+- Henry Wang
+- Anthony Pham
 
 ### Release 1
 
