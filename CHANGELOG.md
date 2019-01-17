@@ -28,3 +28,4 @@
 - **docs:** Added item description pages, and item description template page.
 - **docs:** Update Product Document to reflect tentative details before Week 3 meeting.
 - **docs:** Added temporary Gantt chart.
+- **docs:** Changed organization of the content in communication section of Product Document.
