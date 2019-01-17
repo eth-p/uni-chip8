@@ -7,7 +7,7 @@
 // This will ensure that the commit message follows project guidelines.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-require('module-alias/register');
+require('../lib/_init')();
 
 // Libraries.
 const fs = require('fs-extra');
@@ -37,7 +37,7 @@ function onError(error) {
 
 async function verify(line, modules) {
 	let ALLOWED_MODULES = ['*'].concat(modules.map(m => m.getId()));
-	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix', 'Reformat'];
+	let ALLOWED_VERBS   = ['Update', 'Add', 'Remove', 'Refactor', 'Change', 'Rename', 'Move', 'Fix', 'Reformat', 'Replace'];
 
 	// Ignore if it's a merge commit.
 	if (line.startsWith('Merge ')) return;
@@ -53,7 +53,7 @@ async function verify(line, modules) {
 	let msgVerb    = line.substring(index + 1, index2).trim();
 	let msgChanges = line.substring(index2 + 1).trim();
 
-	if (index2 === -1 || msgModule === '' || msgVerb === '' || msgChanges === '' || !/^[a-z0-9\-]+$/.test(msgModule)) {
+	if (index2 === -1 || msgModule === '' || msgVerb === '' || msgChanges === '' || !/^\*|([a-z0-9\-]+)$/.test(msgModule)) {
 		throw "Commit message must be in the format of:\n[Module]: [Verb] [Changes]";
 	}
 

@@ -67,7 +67,7 @@ module.exports = class TaskTypescript extends Task {
 		let filterJavascript = gulp_filter('**/*.js', {restore: true});
 
 		// TypeScript options.
-		let tsProject = gulp_typescript.createProject(path.join(this.module.getDirectory(), 'tsconfig.json'), {
+		let tsProject = gulp_typescript.createProject(path.join(module.getDirectory(), 'tsconfig.json'), {
 			typescript: ts,
 			rootDir: project.getDirectory(),
 			noEmit: false // DO NOT REMOVE THIS,
@@ -78,12 +78,18 @@ module.exports = class TaskTypescript extends Task {
 		let tsDeclDir = tsProject.config.compilerOptions.declarationDir;
 
 		// Babel options.
-		let babelOptions = JSON.parse(JSON.stringify(options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN));
+		let babelOptions = JSON.parse(JSON.stringify(Object.assign({}, options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN)));
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 
-		if (!options.asserts) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (options.minify) babelOptions.presets.push(['minify']);
+
+		if (!options['keep:asserts']) babelOptions.plugins.unshift("babel-plugin-unassert");
+		if (!options['keep:comments']) {
+			babelOptions.comments = false;
+			babelOptions.shouldPrintComment = (val) => /^[!#]/.test(val);
+		}
+
 		switch (options.modules) {
 			case 'es6':      break;
 			case 'commonjs': babelOptions.plugins.push('@babel/plugin-transform-modules-commonjs'); break;
@@ -127,7 +133,7 @@ module.exports = class TaskTypescript extends Task {
 
 			// Rename.
 			.pipe(gulp_rename(file => {
-				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}/${this.module.getId()}`
+				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}/${module.getId()}`
 			}))
 
 			// Transform JavaScript.

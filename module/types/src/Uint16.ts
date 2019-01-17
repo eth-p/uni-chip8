@@ -1,12 +1,11 @@
-// ---------------------------------------------------------------------------------------------------------------------
-// Copyright (C) 2019 Team Chipotle
-// MIT License
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Developer Notes:
-// @eth-p: We could use Uint16Array to do the conversions, but it was actually slower in every browser except Chrome.
-// ---------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
-
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+//. Developer Notes:
+//. @eth-p: We could use Uint16Array to do the conversions, but it was actually slower in every browser except Chrome.
+//. --------------------------------------------------------------------------------------------------------------------
+import assert from './assert';
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -58,7 +57,7 @@ export const BITS = 16;
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Cast a JavaScript number to a Uint16.
+ * Casts a JavaScript number to a Uint16.
  * This will drop decimal points and wrap accordingly.
  *
  * @param from The number to cast from.
@@ -69,7 +68,7 @@ export function cast(from: number): Uint16 {
 }
 
 /**
- * Wrap a JavaScript number to a Uint16 with result flag.
+ * Wraps a JavaScript number to a Uint16 with result flag.
  *
  * @param value The number to wrap.
  * @returns The result.
@@ -81,7 +80,17 @@ export function wrap(value: number): MathResult<Uint16> {
 }
 
 /**
- * Add two Uint16 numbers.
+ * Checks if a Uint16 is within the valid range for its type.
+ *
+ * @param value The value to check.
+ * @returns True if the value is valid.
+ */
+export function isValid(value: Uint16): boolean {
+	return value >= MIN && value <= MAX;
+}
+
+/**
+ * Adds two Uint16 numbers.
  *
  * @param a The first summand.
  * @param b The second summand.
@@ -96,7 +105,7 @@ export function add(a: Uint16, b: Uint16): MathResult<Uint16> {
 }
 
 /**
- * Subtract two Uint16 numbers.
+ * Subtracts two Uint16 numbers.
  *
  * @param a The minuend.
  * @param b The subtrahend.
@@ -111,7 +120,7 @@ export function sub(a: Uint16, b: Uint16): MathResult<Uint16> {
 }
 
 /**
- * Reverse the bits in a Uint16.
+ * Reverses the bits in a Uint16.
  *
  * @param a The Uint16 to reverse.
  * @returns The reversed Uint16.
@@ -213,7 +222,7 @@ export function and(a: Uint16, b: Uint16): Uint16 {
 }
 
 /**
- * Shift the bits in a Uint16 left.
+ * Shifts the bits in a Uint16 left.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint16 to shift.
@@ -230,7 +239,7 @@ export function bitshiftl(num: Uint16, by: number): Uint16 {
 }
 
 /**
- * Shift the bits in a Uint16 right.
+ * Shifts the bits in a Uint16 right.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint16 to shift.
@@ -247,7 +256,7 @@ export function bitshiftr(num: Uint16, by: number): Uint16 {
 }
 
 /**
- * Shift the bits in a Uint16 left and wrap them around to the right.
+ * Shifts the bits in a Uint16 left and wrap them around to the right.
  *
  * @param num The Uint16 to shift.
  * @param by The number of bits to shift by.
@@ -265,7 +274,7 @@ export function bitshiftlw(num: Uint16, by: number): Uint16 {
 }
 
 /**
- * Shift the bits in a Uint16 right.
+ * Shifts the bits in a Uint16 right.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint16 to shift.

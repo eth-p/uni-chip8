@@ -1,12 +1,11 @@
-// ---------------------------------------------------------------------------------------------------------------------
-// Copyright (C) 2019 Team Chipotle
-// MIT License
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Developer Notes:
-// @eth-p: We could use Uint8Array to do the conversions, but it was actually slower in every browser except Chrome.
-// ---------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/debug/assert';
-
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+//. Developer Notes:
+//. @eth-p: We could use Uint8Array to do the conversions, but it was actually slower in every browser except Chrome.
+//. --------------------------------------------------------------------------------------------------------------------
+import assert from './assert';
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -58,7 +57,7 @@ export const BITS = 8;
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Cast a JavaScript number to a Uint8.
+ * Casts a JavaScript number to a Uint8.
  * This will drop decimal points and wrap accordingly.
  *
  * @param from The number to cast from.
@@ -69,7 +68,7 @@ export function cast(from: number): Uint8 {
 }
 
 /**
- * Wrap a JavaScript number to a Uint8 with result flag.
+ * Wraps a JavaScript number to a Uint8 with result flag.
  *
  * @param value The number to wrap.
  * @returns The result.
@@ -81,7 +80,17 @@ export function wrap(value: number): MathResult<Uint8> {
 }
 
 /**
- * Add two Uint8 numbers.
+ * Checks if a Uint8 is within the valid range for its type.
+ *
+ * @param value The value to check.
+ * @returns True if the value is valid.
+ */
+export function isValid(value: Uint8): boolean {
+	return value >= MIN && value <= MAX;
+}
+
+/**
+ * Adds two Uint8 numbers.
  *
  * @param a The first summand.
  * @param b The second summand.
@@ -96,7 +105,7 @@ export function add(a: Uint8, b: Uint8): MathResult<Uint8> {
 }
 
 /**
- * Subtract two Uint8 numbers.
+ * Subtracts two Uint8 numbers.
  *
  * @param a The minuend.
  * @param b The subtrahend.
@@ -111,7 +120,7 @@ export function sub(a: Uint8, b: Uint8): MathResult<Uint8> {
 }
 
 /**
- * Reverse the bits in a Uint8.
+ * Reverses the bits in a Uint8.
  *
  * @param a The Uint8 to reverse.
  * @returns The reversed Uint8.
@@ -212,7 +221,7 @@ export function and(a: Uint8, b: Uint8): Uint8 {
 }
 
 /**
- * Shift the bits in a Uint8 left.
+ * Shifts the bits in a Uint8 left.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint8 to shift.
@@ -229,7 +238,7 @@ export function bitshiftl(num: Uint8, by: number): Uint8 {
 }
 
 /**
- * Shift the bits in a Uint8 right.
+ * Shifts the bits in a Uint8 right.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint8 to shift.
@@ -246,7 +255,7 @@ export function bitshiftr(num: Uint8, by: number): Uint8 {
 }
 
 /**
- * Shift the bits in a Uint8 left and wrap them around to the right.
+ * Shifts the bits in a Uint8 left and wrap them around to the right.
  *
  * @param num The Uint8 to shift.
  * @param by The number of bits to shift by.
@@ -264,7 +273,7 @@ export function bitshiftlw(num: Uint8, by: number): Uint8 {
 }
 
 /**
- * Shift the bits in a Uint8 right.
+ * Shifts the bits in a Uint8 right.
  * This will remove any bits that are shifted outside the range.
  *
  * @param num The Uint8 to shift.

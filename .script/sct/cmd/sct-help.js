@@ -96,7 +96,7 @@ module.exports = class CommandHelp extends Command {
 			module: {exports: {}},
 			require: (module) => {
 				if (module === '@sct') return SCT;
-				return () => {throw new Error('Cannot load module in shimmed command.')};
+				return () => {throw new Error(`Cannot load module '${module}' in shimmed command.`)};
 			}
 		};
 

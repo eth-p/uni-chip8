@@ -48,11 +48,16 @@ module.exports = class CommandBuild extends Command {
 				default: false,
 				description: 'Build for older browsers.',
 			},
-			'assert': {
+			'keep:asserts': {
 				type: 'boolean',
-				default: null,
+				default: (args) => !args.release,
 				description: 'Enable assertions.',
-				alias: 'asserts'
+				alias: ['asserts', 'assert']
+			},
+			'keep:comments': {
+				type: 'boolean',
+				default: false,
+				description: 'Keep comments in source code.'
 			},
 			'list-tasks': {
 				type: 'boolean',
@@ -83,7 +88,7 @@ module.exports = class CommandBuild extends Command {
 			},
 			'minify': {
 				type: 'boolean',
-				default: null,
+				default: (args) => args.release,
 				description: 'Minify output files.'
 			},
 			'modules': {
@@ -106,13 +111,6 @@ module.exports = class CommandBuild extends Command {
 			await (args.plumbing ? this._listTasksPlumbing : this._listTasksPorcelain)(await this._getModulesFromArgs(args));
 			return;
 		}
-
-		// Map arguments.
-		if (args.assert === null) args.assert = !args.release;
-		if (args.minify === null) args.minify = args.release;
-
-		// Map argument aliases.
-		args.asserts = args.assert;
 
 		// Get tasks to run.
 		let tasks   = await this._getTasksFromArgs(args);

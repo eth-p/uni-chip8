@@ -12,17 +12,17 @@
 		"declaration": true,
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
-		"removeComments": true,
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 		"preserveConstEnums": true,
 		"noEmit": true,
+		"baseUrl": ".",
 		"paths": {
-			"@chipotle/types/*": ["../types/src/*"],
-			"@chipotle/debug/*": ["../debug/src/*"],
-			"@chipotle/vm/*": ["../vm/src/*"]
+			"@chipotle/types/*": ["./module/types/src/*"],
+			"@chipotle/vm/*": ["./module/vm/src/*"],
+			"@chipotle/arch-chip/*": ["./module/arch-chip/src/*"]
 		}
 	}
 }

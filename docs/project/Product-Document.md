@@ -15,6 +15,7 @@
   - [Via GitHub](#via-github)  
   - [Via Meetings](#via-meetings)  
   - [Via Discord](#via-discord)  
+  - [Via SFU Emails](#via-sfu-emails)
 - [**Implementation Language**](#implementation-language)
 - [**Software Development Process**](#software-development-process)
   - [Project Guidelines](#project-guidelines)
@@ -50,20 +51,22 @@
 
 ## Meeting Schedule
 
-|Week|Date|Priorities|Notes|Minutes|
+|Week|Date|Release Priority|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
 |**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
-|**3**|January 14|Release 0|Product Document will be finished in meeting|[Week 3](meeting-minutes/week3.md)|
-|**4**| | | | |
-|**5**| | | | |
-|**6**| | | | |
-|**7**| | | | |
-|**8**| | | | |
-|**9**| | | | |
-|**10**| | | | |
-|**11**| | | | |
-|**12**| | | | |
+|**3**|January 14|Release 0| |[Week 3](meeting-minutes/week3.md)|
+|**4**|January 21|Release 1| | |
+|**5**|January 28|Release 1| | |
+|**6**|February 4|Release 1| | |
+|**7**|February 11|Release 2| | |
+|**8**|February 25|Release 2| | |
+|**9**|March 4|Release 3| | |
+|**10**|March 11|Release 3| | |
+|**11**|March 18|Release 4| | |
+|**12**|March 25|Release 4| | |
+|**13**|April 1|Release 4| | |
+|**14**|N/A|N/A|Code freeze in-effect|N/A|
 
 ## Project Deliverables and Tools
 
@@ -102,31 +105,35 @@ This section contains all deliverables and tools that we are currently planning 
 
 ## Communication
 
-Communication is done through in-person meetings, GitHub issues, and Discord.
+Group members communicate *through in-person meetings*, *Discord*, *GitHub issues*, and *SFU emails*.
 
 ### Via GitHub
 
-GitHub issues are used for formal bug reports, feature requests, and code reviews. We take full advantage of the features provided by GitHub to organize and manage issues through the use of tags, assignees, and milestones.
+Group members use GitHub issues for formal bug reports, feature requests, and code reviews. Features provided by GitHub help organize and manage issues through the use of **labels, assignees, and milestones**.
+
+- **Labels**: Useful for organizing and filtering different types of issues.
+- **Assignees**: Developers that are responsible for the issue.
+- **Milestones**: Group of issues that correspond to a goal or feature.
 
 The issue tracker will be used to identify components that need to be finished, and the developers assigned to them.
 
 ### Via Meetings
 
-Meetings are scheduled for weekly progress updates and planning. During these meetings, we discuss the next week of activities and milestones.
+The group plans to schedule meetings on Monday every week from **12:30 pm to 2:00 pm** (Between CMPT 276 lecture and CMPT 213 lecture). Group members decide location through Discord and attempt to book rooms for major meetings. Members can leave at any time but are encouraged to the end of the meetings. It is possible to end the meetings when only one member is left attending.
 
-Our group plans to meet every Monday after the CMPT 276 lecture. This meeting ends when only one member is left attending. Members may wish to leave the meeting any time they want, but we ask that members stay for as long as they can. The meeting must be adjourned at 2:00 PM when CMPT 213 starts at 2:30 PM.
+At the meetings (Scrum-style), group members discuss **weekly progress updates**, **issues encountered along the way**, and **planning for the following week's activities and milestones**.
 
-These meetings will be held Scrum-style, where we discuss **what we did up to the meeting**, **what we will be doing after the meeting**, and **any issues we encountered along the way**.
-
-Additonal meetings may be held where full attendance is not required. These addtional meetings are mainly focused on group-oriented work, such as discussing and working on the structure of the interpeter project. These meetings will not be tracked in documentation, unless requested.
-
-We will attempt to book rooms for the major meetings.
+Members may require additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, such as discussing and working on the structure of the interpreter project with no documentation needed unless requested.
 
 ### Via Discord
 
-Discord is used for informal communication or as a place to discuss feature ideas or implementation details. If relevent, these discussions are later added to the project documentation or used as the basis for a GitHub issue.
+Group members use Discord as an informal communication channel to discuss feature ideas or implementation details. Relevant discussions are added to the project documentation or used as the basis for a GitHub issue.
 
-We will post announcements on Discord.
+Group members view announcements on Discord. Members can break down into smaller groups to discuss and work on minor issues using Discord.
+
+### Via SFU emails
+
+Reserve for an emergency such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
@@ -315,6 +322,8 @@ The emulator will be able to support basic, non-interactive programs such as sim
 - **Basic CHIP-8 Webpage Interface**
   - Render CHIP-8 display, counters, registers, and stack.
   - We hope to enable interactive support with key presses.
+  - **Website Design Prototype**
+  ![Website Design Prototype](images/website_prototype.jpg)
 
 ##### Module design
 
@@ -344,32 +353,39 @@ Release 2 might include a CHIP-8 assembler to greatly improve program developmen
 By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
 We are targeting to begin CHIP-8 program development at this point.
 
+##### Program Ideas
+
+- Pong
+- Flappy Bird
+- Space Invaders
+- Calculator `(x op y, x and y -> [0x0, 0xF])`
+
 #### Release 4 - Production
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
+
+**Code freeze will be in effect starting April 5th, 12:00 AM.** No new changes or modifications will be accepted into the master branch. It is expected that the entire product has been validated for final release.
 
 ### Member Roles
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
 |**Ethan Pini**| X | X | X | | | X |
-|**Kyle Saburao**| X | X | | | X | X |
-|**Anthony Pham** *| | | | | | |
-|**Henry Wang** *| | | | | | |
-|**Dan Amarasinghe**| | | | | X | X |  
-
-`*: Did not respond yet`
+|**Kyle Saburao**| X | X | | X | X | X |
+|**Anthony Pham**| | X | | X | | X |
+|**Henry Wang**| | X | | X | | X |
+|**Dan Amarasinghe**| | X | | X | X | X |  
 
 ### Roles
 
 |Role|Description|
 |----|-----------|
-|Team Lead|Directs team on project. Manages git repository.|
-|Emulator Dev|Works on the CHIP-8 interpreter and debugger.|
-|Tool Dev|Works on the build and test automation tools.|
-|Program Dev|Works with CHIP-8 Assembly to produce programs.|
-|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage.|
-|Documentor|Documents the project.|
+|Team Lead|Directs team on project|
+|Emulator Dev|Works on the CHIP-8 interpreter and debugger|
+|Tool Dev|Works on the build and test automation tools|
+|Program Dev|Works with CHIP-8 Assembly to produce programs|
+|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
+|Documentor|Documents the project|
 
 ## Use Cases
 
@@ -401,6 +417,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 - Ethan Pini
 - Kyle Saburao
+- Dan Amarasinghe
 
 ### Release 1
 

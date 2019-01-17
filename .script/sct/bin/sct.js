@@ -7,10 +7,7 @@
 // This will call subcommands.
 // ---------------------------------------------------------------------------------------------------------------------
 'use strict';
-require('module-alias/register');
-require('array.prototype.flat').shim();
-require('string.prototype.padend').shim();
-require('string.prototype.padstart').shim();
+require('../lib/_init')();
 
 // Libraries.
 const chalk    = require('chalk');

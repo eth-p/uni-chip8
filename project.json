@@ -54,20 +54,19 @@
 
 		},
 
-		"debug": {
-			"description": "Common debug functions.",
-			"@auto": true
-		},
-
 		"types": {
 			"description": "Common type definitions.",
 			"@auto": true
 		},
 
 		"vm": {
-			"description": "Software representation of CHIP-8 hardware.",
+			"description": "A software virtual machine.",
+			"@auto": true
+		},
+
+		"arch-chip": {
+			"description": "Chip-8 system architecture.",
 			"@auto": true
 		}
-
 	}
 }
