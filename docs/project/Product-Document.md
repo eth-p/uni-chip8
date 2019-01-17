@@ -203,7 +203,7 @@ nodejs through `apt` will yield an outdated version.
 ### Windows Environment Requirements
 
 Developers may use Windows machines for this project.  
-The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it.
+The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
