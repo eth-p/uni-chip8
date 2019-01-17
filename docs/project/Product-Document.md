@@ -36,6 +36,18 @@
 - [**All Information Sources and Citations**](#all-information-sources-and-citations)
   - [CHIP-8 Documentation](#chip-8-Documentation)
 
+## Project Introduction
+
+  Our project is centered around emulating and creating applications for the CHIP-8, a low leveled language designed in the 1970s for 8-bit computers. The CHIP-8 is widely
+  implemented as a emulator and ran as virtual machines. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform and it's use extends 
+  from video games to graphing calculators. The Telmac 1800 and COSMAC VIP were the first computers to run CHIP-8 programs and with only 4096 bytes of memory along with the
+  interpreter occupying the first 512 bytes, all programs were designed with a limited amount of memory usage. It is most well known for running classic games such as Tetris,
+  Pong, or Pac-man.
+
+  The goal of our project is to build a working emulator, a visualizer, two or more games, along with a useful tool for developers. In the end product, the emulator would be
+  able to run any CHIP-8 program. The visualizer will show instructions being executed in the CHIP-8's memory and registers. The games we make will be able to be opened in a
+  web browser with the 8-bit, black and white graphics and beeping sound effect iconic to all CHIP-8 games of the time.
+
 ## Meeting Schedule
 
 |Week|Date|Priorities|Notes|Minutes|
