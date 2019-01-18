@@ -408,6 +408,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |**Anthony Pham**| | X | | X | | X |
 |**Henry Wang**| | X | | X | | X |
 |**Dan Amarasinghe**| | X | | X | X | X |  
+|**Firas Fakih**| | X | | X | | |
 
 ### Roles
 
