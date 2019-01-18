@@ -413,6 +413,12 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 - will be able to view ...
 
+#### Educators
+
+- Engage students in learning programming by showing how programmers implement codes into practical projects.
+- Help students better understanding of the low-level workings of CPU and memory through Chip-8 Visualizer.
+- By interacting with simple Chip-8 programs on the Chip-8 Webpage, instructors can demonstrate applications of computers.
+
 ## Project Schedule
 
 ![Gantt Chart](../gantt-chart-temp.svg)
