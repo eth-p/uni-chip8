@@ -39,7 +39,6 @@
 
 ## Project Introduction
 
-
   Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
   
   The Telmac 1800 and COSMAC VIP were the first computers to run CHIP-8 programs and with only 4096 bytes of memory along with the
@@ -282,14 +281,23 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 
 ### Work Breakdown
 
-**TODO: INCLUDE TIME EXPECTED FOR EACH SECTION/ITEM**
-
 To view what tasks to do, visit the repository issue tracker.
 Members will be assigned tasks, and will be welcome to contribute to any others.
 
 If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. The buffer time is required for analysis for the next release, and code review in the current release.
 
-#### Release 0 - Documentation, Analysis, and Back-End
+#### Release 0 - Documentation, Analysis, and Back-End (04/01/2019 - 18/01/2019)
+
+|Date|Task|Status|
+|-------|-------|-------|
+|04/01/2019|Initialize product document|Complete|
+|04/01/2019|Set up Discord server|Complete|
+|04/01/2019|Set up Github repository|Complete|
+|04/01/2019|Planning for release 0|Complete|
+|09/01/2019|Organize product document|Complete|
+|12/01/2019|Create tools|Complete|
+|13/01/2019|Tool set up for team members|Complete|
+|16/01/2019|Release product document|Overdue|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -308,7 +316,11 @@ The following is a bouncing ball screensaver.
 
 ![bouncing_ball](images/dev_bouncing_ball.gif)
 
-#### Release 1 - Emulator I & Tools
+#### Release 1 - Emulator I & Tools (19/01/2019 - 06/02/2019)
+
+|Date|Task|Status|
+|-------|-------|-------|
+|19/01/2019|Planning for release 1|In progress|
 
 We will be releasing an inital emulator.  
 This emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
@@ -352,12 +364,20 @@ The emulator will be able to support basic, non-interactive programs such as sim
     - Abstraction Layer 1: System: Graphics, Sound, Input
     - Abstraction Layer 2: Webpage
 
-#### Release 2 - Emulator II & Tools
+#### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
+
+|Date|Task|Status|
+|-------|-------|-------|
+|07/02/2019|Planning for release 2|Not started|
 
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
 Release 2 might include a CHIP-8 assembler to greatly improve program development.
 
-#### Release 3 - Programs
+#### Release 3 - Programs (28/02/2019 - 13/03/2019)
+
+|Date|Task|Status|
+|-------|-------|-------|
+|28/02/2019|Planning for release 3|Not started|
 
 By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
 We are targeting to begin CHIP-8 program development at this point.
@@ -369,7 +389,11 @@ We are targeting to begin CHIP-8 program development at this point.
 - Space Invaders
 - Calculator `(x op y, x and y -> [0x0, 0xF])`
 
-#### Release 4 - Production
+#### Release 4 - Production (14/03/2019 - 08/04/2019)
+
+|Date|Task|Status|
+|-------|-------|-------|
+|14/03/2019|Planning for release 4|Not started|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
