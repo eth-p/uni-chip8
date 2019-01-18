@@ -15,13 +15,27 @@ import VMError from '@chipotle/vm/VMError';
 import ChipDisplay from './ChipDisplay';
 
 import OP_ADD_REG_CON from './OP_ADD_REG_CON';
+import OP_LD_REG_CON from './OP_LD_REG_CON';
+import OP_SE_REG_CON from './OP_SE_REG_CON';
+import OP_SE_REG_REG from './OP_SE_REG_REG';
+import OP_SNE_REG_CON from './OP_SNE_REG_CON';
+import OP_SNE_REG_REG from './OP_SNE_REG_REG';
 import OP_JP_ADDR from './OP_JP_ADDR';
 import OP_SYS_ADDR from './OP_SYS_ADDR';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
 // ---------------------------------------------------------------------------------------------------------------------
-export const INSTRUCTION_SET: ISA<ChipArchitecture> = [OP_ADD_REG_CON, OP_JP_ADDR, OP_SYS_ADDR];
+export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
+	OP_ADD_REG_CON,
+	OP_LD_REG_CON,
+	OP_SE_REG_CON,
+	OP_SE_REG_REG,
+	OP_SNE_REG_CON,
+	OP_SNE_REG_REG,
+	OP_JP_ADDR,
+	OP_SYS_ADDR
+];
 
 // ---------------------------------------------------------------------------------------------------------------------
 

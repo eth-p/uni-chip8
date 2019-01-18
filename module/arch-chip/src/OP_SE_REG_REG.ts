@@ -13,27 +13,28 @@ import ChipArchitecture from './ChipArchitecture';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: ADD <reg> <con>
+ * CHIP-8 INSTRUCTION: SE <reg> <reg>
  *
- * Adds the value of p2 to the register denoted by p1.
- * Does not alter the carry flag (?)
+ * Skips the next instruction if the register at <reg> is equal to the register at <reg>
  *
- * '7xkk'
+ * '5xy0'
  */
-export default class OP_ADD_REG_CON extends Op<ChipArchitecture> {
+export default class OP_SE_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
-			0x7000,
-			'ADD <reg> <con>',
+			0x5000,
+			'SE <reg> <reg>',
 			new OpMask({
-				mask: 0xf000,
+				mask: 0xf00f,
 				p1: 0x0f00,
-				p2: 0x00ff
+				p2: 0x00f0
 			})
 		);
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		context.register_data[p1] = add(context.register_data[p1], p2)[0];
+		if (context.register_data[p1] === context.register_data[p2]) {
+			context.program_counter += 2;
+		}
 	}
 }
