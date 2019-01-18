@@ -116,6 +116,16 @@ module.exports = class Task {
 	}
 
 	/**
+	 * Gets the task priority.
+	 * The higher the priority, the sooner the task will run.
+	 *
+	 * @returns {number}
+	 */
+	get priority() {
+		return 0;
+	}
+
+	/**
 	 * Gets the module built by the task.
 	 * @returns {Module}
 	 */
@@ -185,13 +195,23 @@ module.exports = class Task {
 	}
 
 	/**
-	 * Check if the module supports this build task.
+	 * Checks if the module supports this build task.
 	 *
 	 * @param module {Module} The module.
-	 * @returns {Promise<Boolean>} True if the module supports the task.
+	 * @returns {Promise<Boolean>} True if the module isSupported the task.
 	 */
-	static async supports(module) {
+	static async isSupported(module) {
 		return !module.isMeta();
+	}
+
+	/**
+	 * Checks if the build task runs with the default task.
+	 *
+	 * @param module {Module} The module.
+	 * @returns {Promise<Boolean>} True if the task should run as part of the default tasks.
+	 */
+	static async isDefault(module) {
+		return true;
 	}
 
 };

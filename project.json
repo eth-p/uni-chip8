@@ -68,5 +68,9 @@
 			"description": "Chip-8 system architecture.",
 			"@auto": true
 		}
+	},
+
+	"tasks": {
+		"clean": "repo:clean"
 	}
 }
