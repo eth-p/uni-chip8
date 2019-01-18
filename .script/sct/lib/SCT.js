@@ -116,4 +116,5 @@ module.exports.StreamUtil              = require('./StreamUtil');
 module.exports.Task                    = require('./Task');
 module.exports.TaskLogger              = require('./TaskLogger');
 module.exports.TaskLoggerPretty        = require('./TaskLoggerPretty');
+module.exports.TaskRunner              = require('./TaskRunner');
 module.exports.TaskStatus              = require('./TaskStatus');

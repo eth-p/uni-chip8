@@ -156,7 +156,7 @@ module.exports = class Module {
 
 	/**
 	 * Gets an array of supported build tasks for this module.
-	 * @returns {Promise<Task>}
+	 * @returns {Promise<Task[]>}
 	 */
 	async getBuildTasks() {
 		if (this._tasks !== null) return this._tasks;
@@ -168,8 +168,9 @@ module.exports = class Module {
 		}
 
 		// Get supported task classes.
-		let tasks = TASK_LIST;
-		let supported = await Promise.all(TASK_LIST.map(task => (typeof(task.supports) !== 'function') ? true : task.supports(this)));
+		let supported = await Promise.all(
+			TASK_LIST.map(task => (typeof(task.isSupported) !== 'function') ? true : task.isSupported(this))
+		);
 
 		// Get task instances.
 		if (this._tasks === null) {
@@ -184,6 +185,17 @@ module.exports = class Module {
 
 		// Return task instances.
 		return Object.values(this._tasks);
+	}
+
+	/**
+	 * Gets an array of default build tasks for this module.
+	 * @returns {Promise<Task[]>}
+	 */
+	async getDefaultTasks() {
+		let tasks = await this.getBuildTasks();
+		return (await Promise.all(tasks.map(task => [task, task.constructor.isDefault(this)])))
+			.filter(([task, isDefault]) => isDefault)
+			.map(([task]) => task);
 	}
 
 	/**

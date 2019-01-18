@@ -146,6 +146,6 @@ module.exports = class TaskTypescript extends Task {
 			.pipe(this._gulpdest())
 			.pipe(gulp_if(options.verbose, gulp_print((f) => logger.file(f))))
 	}
-
+	
 };
 
