@@ -169,7 +169,11 @@ module.exports = class Module {
 
 		// Get supported task classes.
 		let supported = await Promise.all(
-			TASK_LIST.map(task => (typeof(task.isSupported) !== 'function') ? true : task.isSupported(this))
+			TASK_LIST.map(task => {
+				if (this._config.tasks != null && !this._config.tasks.includes(task.prototype.id)) return false;
+				if (typeof(task.isSupported) === 'function') return task.isSupported(this);
+				return true;
+			})
 		);
 
 		// Get task instances.
@@ -216,6 +220,16 @@ module.exports = class Module {
 		return this._tasks[task];
 	}
 
+	/**
+	 * Gets a build directory for this module.
+	 *
+	 * @param type {'styles'|'scripts'|'types'|'pages'} The output type.
+	 * @return {string} The build directory for the file type, relative to the project build directory.
+	 */
+	getBuildDirectory(type) {
+		return this._outputs.get(type);
+	}
+
 	async _load() {
 		if (this._config['@auto'] === true) {
 			try {
@@ -223,6 +237,11 @@ module.exports = class Module {
 				if (tsconfig.include) this._sources  = this._sources.concat(tsconfig.include);
 				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.include.map(x => `!${x}`));
 				if (tsconfig.tests)   this._tests    = this._tests.concat(tsconfig.tests);
+				if (tsconfig.compilerOptions) {
+					let compilerOpts = tsconfig.compilerOptions;
+					if (compilerOpts.outDir)         this._outputs.set('scripts', compilerOpts.outDir);
+					if (compilerOpts.declarationDir) this._outputs.set('types', compilerOpts.declarationDir)
+				}
 			} catch (ex) {
 				if (ex instanceof SyntaxError) throw ex;
 			}
@@ -240,6 +259,13 @@ module.exports = class Module {
 		this._excludes    = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
 		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
 		this._tasks       = null;
+		this._outputs     = new Map();
+
+		if (config.output != null) {
+			for (let [type, out] of Object.entries(config.output)) {
+				this._outputs.set(type, out);
+			}
+		}
 	}
 
 };
