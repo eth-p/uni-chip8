@@ -258,6 +258,7 @@ If a developer accepts a task, they will be given a due date. The due date will 
 |**Setup Tools**|04/01/2019|2 weeks|Complete|
 |**Setup Testing Platform**|04/01/2019|1 week|Complete
 |**CHIP-8 R&D Emulator**|10/01/2019|2 days|Complete|
+|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Complete|
 |**Release Product Document**|18/01/2019|2 weeks|Complete|
 
 We will be creating the initial product document.  
@@ -272,7 +273,7 @@ We will also create a library of objects that we have determined to be useful fo
 
 To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output and timers. It can support simple non-interactive programs.
 
-A bouncing DVD logo screensaver was made to show the capabilities of the prototype emulator. [YouTube Link](https://www.youtube.com/watch?v=ovqTiFKSjRg).
+A bouncing DVD logo screensaver was made to show the capabilities of the prototype emulator. [YouTube Link](https://www.youtube.com/watch?v=ovqTiFKSjRg). We credit *The Office* and Jarod Forbes for the idea.
 
 #### Release 1 - Emulator I & Tools (19/01/2019 - 06/02/2019)
 
@@ -295,12 +296,6 @@ The emulator will at minimum be able to support basic, non-interactive programs 
   - Full graphics output
   - Full sound output
   - Interactive input not officially required
-- **Demo Program**
-  - Bouncing DVD Logo wallsaver
-    - This program will demonstrate that our CHIP-8 implementation can run basic programs.
-    - We will construct a custom sprite for the DVD Logo.
-  - Developer notes
-  - We credit *The Office* and Jarod Forbes for the idea.
 - **Basic CHIP-8 Webpage Interface**
   - Render CHIP-8 display, counters, registers, and stack.
   - We hope to enable interactive support with key presses.
@@ -328,14 +323,15 @@ The emulator will at minimum be able to support basic, non-interactive programs 
 #### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
 
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
-Release 2 might include a CHIP-8 assembler to greatly improve program development.
+Release 2 may include a CHIP-8 assembler/disassembler and debugger to greatly aid program development.
 
 #### Release 3 - Programs (28/02/2019 - 13/03/2019)
 
-By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
-We are targeting to begin CHIP-8 program development at this point.
+By this point, the CHIP-8 and Webpage should be complete, or be near completion. We are targeting to begin CHIP-8 program development at this point.
 
 ##### Program Ideas
+
+These program ideas are not final.
 
 - Pong
 - Flappy Bird
@@ -395,10 +391,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ## Project Schedule
 
-<!-- ![Gantt Chart](../gantt-chart-temp.svg) -->
-
-**THIS CHART IS TEMPORARY**  
-**PLEASE UPDATE WITH CORRECT INFORMATION**
+![Gantt Chart](images/gantt-chart.svg)
 
 ## Project Contributors
 
