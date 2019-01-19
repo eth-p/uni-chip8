@@ -3,6 +3,7 @@
 ## Release 0 (Planning)
 
 ### Developer
+
 - **ci:** Added CircleCI for testing.
 - **ci:** Added automatic code checking.
 - **tools:** Created collaboration tools.
@@ -22,6 +23,7 @@
 - **vm:** Added conditional opcodes for memory and register values
 
 ### Documentation
+
 - **docs:** Added contributing guide.
 - **docs:** Added Project Document file.
 - **docs:** Added meeting minutes template file.
