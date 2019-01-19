@@ -16,8 +16,8 @@
 |Week|Date|Release Priority|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
-|**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
-|**3**|January 14|Release 0| |[Week 3](meeting-minutes/week3.md)|
+|**2**|January 7|Release 0| |[Week 2](meeting-minutes/Week-2.md)|
+|**3**|January 14|Release 0| |[Week 3](meeting-minutes/Week-3.md)|
 |**4**|January 21|Release 1| | |
 |**5**|January 28|Release 1| | |
 |**6**|February 4|Release 1| | |
@@ -36,7 +36,7 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
+- [**CHIP-8 Emulator**](item-description/Chip-8-emulator.md)
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
