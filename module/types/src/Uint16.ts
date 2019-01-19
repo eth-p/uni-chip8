@@ -246,8 +246,8 @@ export function or(a: Uint16, b: Uint16): Uint16 {
  * @returns The Uint16 representing the different bits considering both parameters.
  */
 export function xor(a: Uint16, b: Uint16) : Uint16 {
-	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
-	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint16");
 
 	return a ^ b;
 }
