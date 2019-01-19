@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import assert from '@chipotle/types/assert';
+
 import Architecture from './Architecture';
 import OpAddress from './OpAddress';
 import OpCache from './OpCache';
@@ -53,8 +55,15 @@ export class VMBase<A> {
 
 	/**
 	 * The VM's architecture.
+	 * @internal
 	 */
-	protected readonly _arch: Architecture<A>;
+	protected readonly _VM_arch: Architecture<A>;
+
+	/**
+	 * A boolean which tells whether or not the virtual machine is currently executing an instruction.
+	 * @internal
+	 */
+	protected _VM_executing: boolean;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -65,7 +74,8 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
-		this._arch = <Architecture<A>>(<unknown>arch);
+		this._VM_arch = <Architecture<A>>(<unknown>arch);
+		this._VM_executing = false;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
@@ -104,7 +114,34 @@ export class VMBase<A> {
 	 */
 	public reset(): void {
 		this.program_counter = 0;
+		this._VM_executing = false;
 		(<any>this)._reset();
+	}
+
+	/**
+	 * Executes an instruction and decrements timers.
+	 */
+	public step(): void {
+		assert(!this._VM_executing, 'The VM is already executing an instruction');
+		assert(this.program !== null, 'There is no program loaded');
+
+		this._VM_executing = true;
+
+		// Fetch and decode the opcode.
+		let opcode = this.program!.fetch(this.program_counter);
+		let ir = this.optable.decode(opcode);
+
+		// Increment the timers.
+		(<any>this)._tick();
+
+		// Execute the opcode.
+		ir[0](<VMContext<A>>(<unknown>this), ir[1], ir[2]);
+
+		// Increment the program counter.
+		this.program_counter += 2;
+
+		// Return.
+		this._VM_executing = false;
 	}
 }
 
