@@ -36,14 +36,7 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-#### Deliverables
-
 - [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
-
-- **CHIP-8 Debugger**
-
-#### Development Tools
-
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
@@ -63,6 +56,7 @@ This section contains all deliverables and tools that we are currently planning 
 
 - **CHIP-8 Programs**
 - **CHIP-8 Assembler**
+- **CHIP-8 Debugger**
 - **CHIP-8 Webpage**
 - **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
@@ -86,7 +80,7 @@ The group plans to schedule meetings on Monday every week from **12:30 pm to 2:0
 
 At the meetings (Scrum-style), group members discuss **weekly progress updates**, **issues encountered along the way**, and **planning for the following week's activities and milestones**.
 
-Members may require additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, such as discussing and working on the structure of the interpreter project with no documentation needed unless requested.
+Members may request additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, with no documentation needed unless requested.
 
 ### Via Discord
 
@@ -160,7 +154,7 @@ When planning major refactors, please create an issue ticket on GitHub so that a
 
 ### Repository Tools
 
-The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.
+The project repository contains in-house tools which will help developers maintain code and repository quality.
 
 #### Simple Contribution Tool
 
@@ -196,7 +190,6 @@ nodejs through `apt` will yield an outdated version.
   - `g++`
   - `python2.7`
   - `nodejs` 10.15, or later
-
 - **Tool Packages**
   - `curl`
   - `git`
@@ -213,7 +206,6 @@ Developers may use Windows machines for this project.
 The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 - **Required Installations**
-
   - [NodeJS for Windows](https://nodejs.org/en/)
   - [Git for Windows](https://git-scm.com/downloads)
 - **Optional Installations**
