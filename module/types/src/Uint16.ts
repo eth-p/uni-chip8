@@ -238,6 +238,21 @@ export function or(a: Uint16, b: Uint16): Uint16 {
 }
 
 /**
+ * Bitwise XOR two Uint16.
+ * 
+ * @param a The first Uint16.
+ * @param b The second Uint16.
+ * 
+ * @returns The Uint16 representing the different bits considering both parameters.
+ */
+export function xor(a: Uint16, b: Uint16) : Uint16 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+
+	return a ^ b;
+}
+
+/**
  * Shifts the bits in a Uint16 left.
  * This will remove any bits that are shifted outside the range.
  *
