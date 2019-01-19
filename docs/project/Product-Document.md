@@ -345,16 +345,16 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |**Anthony Pham**| | X | | X | | X |
 |**Henry Wang**| | X | | X | | X |
 |**Dan Amarasinghe**| | X | | X | X | X |  
-|**Firas Fakih**| | X | | X | | |
+|**Firas Fakih**| | X | | X | X | X |
 
 ### Roles
 
 |Role|Description|
 |----|-----------|
-|Team Lead|Directs team on project|
-|Emulator Dev|Works on the CHIP-8 interpreter and debugger|
+|Team Lead|Directs the project|
+|Emulator Dev|Works on the CHIP-8 and debugger|
 |Tool Dev|Works on the build and test automation tools|
-|Program Dev|Works with CHIP-8 Assembly to produce programs|
+|Program Dev|Works with CHIP-8 assembly to produce programs|
 |Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
 |Documentor|Documents the project|
 
