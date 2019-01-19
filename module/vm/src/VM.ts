@@ -5,7 +5,7 @@
 import assert from '@chipotle/types/assert';
 
 import Architecture from './Architecture';
-import OpAddress from './OpAddress';
+import {default as OpAddress, isValid} from './OpAddress';
 import OpCache from './OpCache';
 import OpTable from './OpTable';
 import Program from './Program';
@@ -105,8 +105,29 @@ export class VMBase<A> {
 	 * @param to The address to jump to.
 	 */
 	public jump(to: OpAddress): void {
+		assert(to > 0, "Parameter 'to' is out of bounds for program (under)");
+		assert(to < this.program!.data!.length, "Parameter 'to' is out of bounds for program (over)");
+		assert(isValid(to), "Parameter 'to' is out of range for OpAddress");
 		this.program_counter = to;
 	}
+  
+  /*
+	 * Jumps forwards to a relative address in the program.
+	 * @param by The number of instructions to jump.
+	 */
+	public jumpForwards(by: OpAddress): void {
+		assert(isValid(by), "Parameter 'by' is out of range for OpAddress");
+		this.jump(this.program_counter + by);
+	}
+
+	/**
+	 * Jumps backwards to a relative address in the program.
+	 * @param by The number of instructions to jump.
+	 */
+	public jumpBackwards(by: OpAddress): void {
+		assert(isValid(by), "Parameter 'by' is out of range for OpAddress");
+		this.jump(this.program_counter - by);
+  }
 
 	/**
 	 * Resets the virtual machine.
