@@ -1,11 +1,11 @@
 {
 	"extends": "../../tsconfig.settings.json",
 	"compilerOptions": {
-		"outDir": "scripts/vm",
-		"declarationDir": "types/vm"
+		"outDir": "scripts/emu",
+		"declarationDir": "types/emu"
 	},
 	"include": [
-		"src/**/*.ts"
+		"scripts/**/*.ts"
 	],
 	"tests": [
 		"test/**/*.ts"

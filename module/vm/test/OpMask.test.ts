@@ -13,6 +13,12 @@ describe('OpMask', () => {
 			p2: 0x000f
 		});
 
+		let opmask2 = new OpMask({
+			mask: 0xf00f,
+			p1: 0x0ff0,
+			p2: 0x0000
+		});
+
 		expect(opmask.mask).toStrictEqual(0xff00);
 		expect(opmask.maskLSB).toStrictEqual(8);
 		expect(opmask.maskMSB).toStrictEqual(15);
