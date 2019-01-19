@@ -18,7 +18,7 @@
 |**1**|N/A|N/A|N/A|N/A|
 |**2**|January 7|Release 0| |[Week 2](meeting-minutes/Week-2.md)|
 |**3**|January 14|Release 0| |[Week 3](meeting-minutes/Week-3.md)|
-|**4**|January 21|Release 1| | |
+|**4**|January 21|Release 1| |[Week 4](meeting-minutes/Week-4.md)|
 |**5**|January 28|Release 1| | |
 |**6**|February 4|Release 1| | |
 |**7**|February 11|Release 2| | |
