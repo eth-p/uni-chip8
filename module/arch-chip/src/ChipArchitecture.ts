@@ -9,6 +9,7 @@ import {default as ISA} from '@chipotle/vm/ISA';
 import OpAddress from '@chipotle/vm/OpAddress';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
+import TimerDescending from '@chipotle/vm/TimerDescending';
 import VMContext from '@chipotle/vm/VMContext';
 import VMError from '@chipotle/vm/VMError';
 
@@ -73,6 +74,18 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 */
 	public readonly PROGRAM_ENTRY = 0x200;
 
+	/**
+	 * The CPU clock speed.
+	 * For the Chip-8, this is 500 Hz.
+	 */
+	public readonly CLOCK_SPEED = 500;
+
+	/**
+	 * The timer clock speed.
+	 * For the Chip-8, this is 60 Hz.
+	 */
+	public readonly TIMER_SPEED = 60;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -82,18 +95,6 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * V0 to VF.
 	 */
 	public register_data: Uint8Array;
-
-	/**
-	 * The timer register.
-	 * Decrements at 60 Hz.
-	 */
-	public register_timer: Uint8;
-
-	/**
-	 * The sound register.
-	 * Decrements at 60 Hz.
-	 */
-	public register_sound: Uint8;
 
 	/**
 	 * The random access memory.
@@ -109,6 +110,18 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * The display.
 	 */
 	public display: ChipDisplay;
+
+	/**
+	 * The timer register's timer.
+	 * Decrements at 60 Hz.
+	 */
+	protected _timer_timer: TimerDescending;
+
+	/**
+	 * The sound register's timer.
+	 * Decrements at 60 Hz.
+	 */
+	protected _timer_sound: TimerDescending;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Accessors:                                                                                                |
@@ -134,6 +147,32 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		return this.program_counter;
 	}
 
+	/**
+	 * The timer register.
+	 * Decrements at 60 Hz.
+	 */
+	public get register_timer(): Uint8 {
+		return this._timer_timer.value;
+	}
+
+	public set register_timer(value: Uint8) {
+		this._timer_timer.value = value;
+		this._timer_timer.reset();
+	}
+
+	/**
+	 * The sound register.
+	 * Decrements at 60 Hz.
+	 */
+	public get register_sound(): Uint8 {
+		return this._timer_sound.value;
+	}
+
+	public set register_sound(value: Uint8) {
+		this._timer_sound.value = value;
+		this._timer_sound.reset();
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -146,8 +185,8 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		super(INSTRUCTION_SET);
 
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
-		this.register_sound = 0;
-		this.register_timer = 0;
+		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
+		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this.memory = new Uint8Array(this.MAX_MEMORY);
 		this.display = new ChipDisplay();
 		this.stack = new ProgramStack(this.MAX_STACK);
@@ -179,10 +218,18 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 */
 	protected _reset(this: VMContext<ChipArchitecture>): void {
 		this.register_data.fill(0, 0, this.REGISTER_MAX);
-		this.register_timer = 0;
 		this.register_sound = 0;
+		this.register_timer = 0;
 		this.stack.clear();
 		this.display.clear();
 		this.jump(this.PROGRAM_ENTRY);
+	}
+
+	/**
+	 * @override
+	 */
+	protected _tick(this: VMContext<ChipArchitecture>): void {
+		if (this._timer_sound.value > 0) this._timer_sound.update();
+		if (this._timer_timer.value > 0) this._timer_timer.update();
 	}
 }
