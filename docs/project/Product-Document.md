@@ -318,10 +318,24 @@ The emulator will at minimum be able to support basic, non-interactive programs 
 
 #### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
 
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
+|**CHIP-8 Debugger**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Website**|07/02/2019|2 weeks|Not started|
+
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
 Release 2 may include a CHIP-8 assembler/disassembler and debugger to greatly aid program development.
 
 #### Release 3 - Programs (28/02/2019 - 13/03/2019)
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Program: Pong**|28/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Flappy Bird**|28/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Space Invaders**|28/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Calculator**|28/02/2019|2 weeks|Not started|
 
 By this point, the CHIP-8 and Webpage should be complete, or be near completion. We are targeting to begin CHIP-8 program development at this point.
 
@@ -335,6 +349,10 @@ These program ideas are not final.
 - Calculator `(x op y, x and y -> [0x0, 0xF])`
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**General Product Refinement**|14/03/2019|Entire release|Not started|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
