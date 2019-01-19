@@ -223,7 +223,7 @@ The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 ### Project Guidelines
 
-- Source code will remain compatible for transpilation to ES5 JavaScript.
+- Source code will remain compatible for transpilation to ES6 JavaScript.
 - Source code will be formatted according to a team standard.
   - You can use *sct* to do this for you.
 - Source code will not contain any swear words.
