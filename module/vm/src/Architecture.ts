@@ -52,4 +52,12 @@ export default abstract class Architecture<A> {
 	 * @protected
 	 */
 	protected abstract _reset(this: VMContext<A>): void;
+
+	/**
+	 * Ticks down any timers.
+	 * This should be independent of the *actual* clock speed.
+	 *
+	 * @protected
+	 */
+	protected abstract _tick(this: VMContext<A>): void;
 }
