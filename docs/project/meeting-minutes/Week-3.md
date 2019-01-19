@@ -13,7 +13,7 @@
 Kyle Saburao, *ksaburao@sfu.ca*  
 Henry Wang, *user@sfu.ca*  
 Anthony Pham, *user@sfu.ca*  
-Dan Dan Amarasinghe, *user@sfu.ca*  
+Dan Amarasinghe, *user@sfu.ca*  
 
 ## Targets
 
@@ -23,7 +23,7 @@ Dan Dan Amarasinghe, *user@sfu.ca*
 
 ## Discussion
 
-- We setup local git repository and tools on everyone's laptop.
+- Kyle setup local git repository and tools on everyone's laptop.
 - Assigned tasks for Release 0.
 
 ## Decisions

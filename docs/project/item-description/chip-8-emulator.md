@@ -74,7 +74,7 @@ CHIP-8 specification calls for big-endianness. Most significant bytes are at the
 ```
 let n = 220
 big endian: 0b1101 1100
-little endian: 0b1100 1101 
+little endian: 0b1100 1101
 ```
 
 #### 8-bit values
@@ -215,8 +215,8 @@ n + 1. OUTSIDE conditional block
 
 CHIP-8 Assembly
 0x200: 0x6000 + a; // SET V[0] to a.
-0x202: 0x6100 + b // SET V[1] to b.
-0x204: 0x8200); // COPY V[0] into V[2].
+0x202: 0x6100 + b; // SET V[1] to b.
+0x204: 0x8200; // COPY V[0] into V[2].
 0x206: 0x8215; // SUB V[1] FROM V[2]. SET IF NO BORROW.
 0x208: 0x3F00; // COND: V[0xF] == 0 -> NO SUB BORROW. SKIP NEXT IF TRUE.
 0x20A: 0x1300; // COND LOGICAL FALSE: JUMP TO AFTER COND BLOCK. a >= b
@@ -241,7 +241,7 @@ cpu.loadOpcode(0x210, 0x8CD5); // VC -= VD
 cpu.loadOpcode(0x212, 0x3F00); // CONDITIONAL VF == 0
 // VF == 1: a >= b GOTO OUTSIDE BLOCK
 cpu.loadOpcode(0x214, 0x1218);
-     // VF == 0: a < b STAY INSIDE BLOCK
+// VF == 0: a < b STAY INSIDE BLOCK
 cpu.loadOpcode(0x216, 0x6E01); // VE = 1
 cpu.loadOpcode(0x218, 0x121A); // GOTO RETURN
 // OUTSIDE BLOCK

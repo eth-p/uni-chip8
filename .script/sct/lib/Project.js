@@ -14,6 +14,7 @@ const git      = require('nodegit');
 
 // Modules.
 const Module   = require('./Module');
+const SCTError = require('./SCTError');
 
 // ---------------------------------------------------------------------------------------------------------------------
 

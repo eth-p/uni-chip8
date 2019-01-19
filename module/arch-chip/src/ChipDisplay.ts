@@ -93,4 +93,11 @@ export default class ChipDisplay {
 	public get(x: number, y: number): boolean {
 		return this.buffer[this.index(x, y)];
 	}
+
+	/**
+	 * Clears the display.
+	 */
+	public clear(): void {
+		this.buffer.fill(false, 0, this.WIDTH * this.HEIGHT - 1);
+	}
 }
