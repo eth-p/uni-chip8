@@ -101,33 +101,41 @@ export class VMBase<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Jump to an address in the program.
-	 * @param to The address to jump to.
+	 * Jumps to an address in the program.
+	 * @param address The address to jump to.
 	 */
-	public jump(to: OpAddress): void {
-		assert(to > 0, "Parameter 'to' is out of bounds for program (under)");
-		assert(to < this.program!.data!.length, "Parameter 'to' is out of bounds for program (over)");
-		assert(isValid(to), "Parameter 'to' is out of range for OpAddress");
-		this.program_counter = to;
-	}
-  
-  /*
-	 * Jumps forwards to a relative address in the program.
-	 * @param by The number of instructions to jump.
-	 */
-	public jumpForwards(by: OpAddress): void {
-		assert(isValid(by), "Parameter 'by' is out of range for OpAddress");
-		this.jump(this.program_counter + by);
+	public jump(address: OpAddress): void {
+		assert(address >= 0, "Parameter 'address' is out of bounds for program (under)");
+		assert(address < this.program!.data!.length, "Parameter 'address' is out of bounds for program (over)");
+		assert(isValid(address), "Parameter 'address' is out of range for OpAddress");
+
+		// NOTE: If the VM is executing, we need to account for the fact that the PC will be
+		//       incremented after the instruction has finished executing.
+
+		this.program_counter = this._VM_executing ? address - 2 : address;
 	}
 
 	/**
-	 * Jumps backwards to a relative address in the program.
-	 * @param by The number of instructions to jump.
+	 * Jumps forwards by a specified number of opcodes.
+	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
+	 *
+	 * @param instructions The number of instructions to jump.
 	 */
-	public jumpBackwards(by: OpAddress): void {
-		assert(isValid(by), "Parameter 'by' is out of range for OpAddress");
-		this.jump(this.program_counter - by);
-  }
+	public hopForwards(instructions: OpAddress): void {
+		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
+		this.jump(this.program_counter + instructions * 2);
+	}
+
+	/**
+	 * Jumps backwards by a specified number of opcodes.
+	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
+	 *
+	 * @param instructions The number of instructions to jump.
+	 */
+	public hopBackwards(instructions: OpAddress): void {
+		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
+		this.jump(this.program_counter - instructions * 2);
+	}
 
 	/**
 	 * Resets the virtual machine.
