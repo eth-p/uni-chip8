@@ -3,6 +3,7 @@
 ## Release 0 (Planning)
 
 ### Developer
+
 - **ci:** Added CircleCI for testing.
 - **ci:** Added automatic code checking.
 - **tools:** Created collaboration tools.
@@ -22,6 +23,7 @@
 - **vm:** Added conditional opcodes for memory and register values
 
 ### Documentation
+
 - **docs:** Added contributing guide.
 - **docs:** Added Project Document file.
 - **docs:** Added meeting minutes template file.
@@ -30,3 +32,6 @@
 - **docs:** Update Product Document to reflect tentative details before Week 3 meeting.
 - **docs:** Added temporary Gantt chart.
 - **docs:** Changed organization of the content in communication section of Product Document.
+- **docs:** Added Gantt chart.
+- **docs:** Updated Product Document for Release 0 readiness.
+- **docs:** Restructured documentation to optimize use out of [markdown-folder-to-html](https://github.com/joakin/markdown-folder-to-html).

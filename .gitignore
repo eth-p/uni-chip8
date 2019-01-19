@@ -9,3 +9,6 @@ node_modules
 # Build
 /module/*/out
 /out
+
+# Documents
+_docs
