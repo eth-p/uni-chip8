@@ -39,6 +39,6 @@ export default class OP_SUB_REG_REG extends Op<ChipArchitecture> {
 		// Please validate this
 		let result: [number, MathFlag] = sub(p1, p2);
 		context.register_data[p1] = result[0];
-		context.register_data[0xf] = result[1];
+		context.register_data[0xf] = result[1] === MathFlag.OK ? 1 : 0;
 	}
 }
