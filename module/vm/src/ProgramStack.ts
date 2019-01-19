@@ -65,6 +65,14 @@ export default class ProgramStack {
 	}
 
 	/**
+	 * Clears the call stack.
+	 * THIS SHOULD ONLY BE USED FOR RESETTING THE PROGRAM!
+	 */
+	clear(): void {
+		this.stack = [];
+	}
+
+	/**
 	 * Returns an exact as-is copy of the program stack.
 	 * @returns The program stack.
 	 */

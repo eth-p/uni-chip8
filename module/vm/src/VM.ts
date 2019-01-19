@@ -32,6 +32,11 @@ export class VMBase<A> {
 	public program_counter: OpAddress;
 
 	/**
+	 * The clock speed of the virtual machine CPU.
+	 */
+	public speed: number;
+
+	/**
 	 * An ascending counter for the number of cycles executed.
 	 */
 	public tick: number;
@@ -46,6 +51,11 @@ export class VMBase<A> {
 	 */
 	public opcache: OpCache<A>;
 
+	/**
+	 * The VM's architecture.
+	 */
+	protected readonly _arch: Architecture<A>;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -55,20 +65,25 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
+		this._arch = <Architecture<A>>(<unknown>arch);
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
+		this.speed = 1;
 		this.opcache = new OpCache<A>();
 		this.optable = new OpTable<A>((<Architecture<A>>(<unknown>arch)).ISA, this.opcache);
 
 		// Copy descriptors from the architecture.
-		Object.defineProperties(this, Object.getOwnPropertyDescriptors(arch));
-		Object.defineProperties(
-			this,
-			Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(arch)))
-				.filter(([prop]) => prop !== '_load')
-				.reduce((a, [prop, descr]) => (a[prop] = descr), <any>{})
-		);
+		let inherit = {
+			...Object.getOwnPropertyDescriptors(arch),
+			...Object.getOwnPropertyDescriptors(Object.getPrototypeOf(arch))
+		};
+
+		for (let [prop, descriptor] of Object.entries(inherit)) {
+			if (prop.startsWith('_') || prop.toUpperCase() === prop) descriptor.enumerable = false;
+		}
+
+		Object.defineProperties(this, inherit);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -81,6 +96,15 @@ export class VMBase<A> {
 	 */
 	public jump(to: OpAddress): void {
 		this.program_counter = to;
+	}
+
+	/**
+	 * Resets the virtual machine.
+	 * This will reset the virtualized hardware, but not reload the program.
+	 */
+	public reset(): void {
+		this.program_counter = 0;
+		(<any>this)._reset();
 	}
 }
 

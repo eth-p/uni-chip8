@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import ISA from './ISA';
 import ProgramSource from './ProgramSource';
+import VMContext from './VMContext';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -38,9 +39,17 @@ export default abstract class Architecture<A> {
 
 	/**
 	 * Loads a program from a program source.
-	 * This method can also be used to reinitialize hardware.
 	 *
 	 * @returns The loaded program, or false if there's no way to load the program.
+	 * @protected
 	 */
 	protected abstract async _load(source: ProgramSource): Promise<Uint8Array | false>;
+
+	/**
+	 * Hard resets the architecture hardware.
+	 * This method should be used to reinitialize hardware.
+	 *
+	 * @protected
+	 */
+	protected abstract _reset(this: VMContext<A>): void;
 }
