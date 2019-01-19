@@ -17,7 +17,7 @@ import MathFlag from '@chipotle/types/MathFlag';
  * CHIP-8 INSTRUCTION: SUB <reg> <reg>
  *
  * Sets the register at the first <reg> to the subtraction of the second register from the first register.
- * Sets Vf if an underflow occurs.
+ * Sets Vf to no borrow.
  *
  * '8xy5'
  */
