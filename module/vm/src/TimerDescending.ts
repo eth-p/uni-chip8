@@ -19,8 +19,9 @@ export default class TimerDescending extends Timer {
 	 * @override
 	 */
 	public update() {
-		let updated = this.value - (this.ratio + this.error);
+		let updated = this.value - this.ratio + this.error;
+
 		this.value = updated | 0;
-		this.error = updated < 0 ? updated + this.value : updated - this.value;
+		this.error = updated - this.value;
 	}
 }

@@ -20,7 +20,8 @@ export default class TimerAscending extends Timer {
 	 */
 	public update() {
 		let updated = this.value + this.ratio + this.error;
+
 		this.value = updated | 0;
-		this.error = updated < 0 ? updated + this.value : updated - this.value;
+		this.error = updated - this.value;
 	}
 }

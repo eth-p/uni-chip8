@@ -41,7 +41,7 @@ export default abstract class Timer {
 	public constructor(cpuHz: number, timerHz: number) {
 		this.value = 0;
 		this.error = 0;
-		this.ratio = cpuHz / timerHz;
+		this.ratio = timerHz / cpuHz;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
