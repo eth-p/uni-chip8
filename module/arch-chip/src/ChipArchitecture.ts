@@ -173,4 +173,16 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 
 		return false;
 	}
+
+	/**
+	 * @override
+	 */
+	protected _reset(this: VMContext<ChipArchitecture>): void {
+		this.register_data.fill(0, 0, this.REGISTER_MAX);
+		this.register_timer = 0;
+		this.register_sound = 0;
+		this.stack.clear();
+		this.display.clear();
+		this.jump(this.PROGRAM_ENTRY);
+	}
 }
