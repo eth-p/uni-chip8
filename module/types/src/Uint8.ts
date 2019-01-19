@@ -238,13 +238,13 @@ export function or(a: Uint8, b: Uint8): Uint8 {
 
 /**
  * Bitwise XOR two Uint8.
- * 
+ *
  * @param a The first Uint8.
  * @param b The second Uint8.
- * 
+ *
  * @returns The Uint8 representing the different bits considering both parameters.
  */
-export function xor(a: Uint8, b: Uint8) : Uint8 {
+export function xor(a: Uint8, b: Uint8): Uint8 {
 	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
 	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
 
