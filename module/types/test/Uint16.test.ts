@@ -79,6 +79,14 @@ describe('Operations', () => {
 		expect(Uint16.and(0xffff, 0xffff)).toEqual(0xffff);
 	});
 
+	it('or', () => {
+		expect(Uint16.or(0x0ff0, 0x0000)).toEqual(0x0ff0);
+		expect(Uint16.or(0x0f00, 0x0000)).toEqual(0x0f00);
+		expect(Uint16.or(0x00f0, 0x0f00)).toEqual(0x0ff0);
+		expect(Uint16.or(0x0f00, 0x0ff0)).toEqual(0x0ff0);
+		expect(Uint16.or(0x0ff0, 0x0ff0)).toEqual(0x0ff0);
+	});
+
 	it('bitshiftl', () => {
 		expect(Uint16.bitshiftl(0xffff, 1)).toEqual(0xfffe);
 		expect(Uint16.bitshiftl(0x0001, 1)).toEqual(0x0002);

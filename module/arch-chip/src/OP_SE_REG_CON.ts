@@ -34,7 +34,7 @@ export default class OP_SE_REG_CON extends Op<ChipArchitecture> {
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
 		if (context.register_data[p1] === p2) {
-			context.program_counter += 2;
+			context.hopForwards(2);
 		}
 	}
 }

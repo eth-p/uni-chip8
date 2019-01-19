@@ -17,6 +17,7 @@ import MathResult from './MathResult';
  * @see add
  * @see sub
  * @see and
+ * @see or
  * @see bitrev
  * @see bitscanf
  * @see bitscanr
@@ -218,6 +219,21 @@ export function and(a: Uint8, b: Uint8): Uint8 {
 	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
 
 	return a & b;
+}
+
+/**
+ * Bitwise OR two Uint8.
+ *
+ * @param a The first Uint8.
+ * @param b The second Uint8.
+ *
+ * @returns The Uint8 representing the bits in either parameter.
+ */
+export function or(a: Uint8, b: Uint8): Uint8 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+
+	return a | b;
 }
 
 /**

@@ -2,8 +2,10 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import assert from '@chipotle/types/assert';
+
 import Architecture from './Architecture';
-import OpAddress from './OpAddress';
+import {default as OpAddress, isValid} from './OpAddress';
 import OpCache from './OpCache';
 import OpTable from './OpTable';
 import Program from './Program';
@@ -32,6 +34,11 @@ export class VMBase<A> {
 	public program_counter: OpAddress;
 
 	/**
+	 * The clock speed of the virtual machine CPU.
+	 */
+	public speed: number;
+
+	/**
 	 * An ascending counter for the number of cycles executed.
 	 */
 	public tick: number;
@@ -46,6 +53,18 @@ export class VMBase<A> {
 	 */
 	public opcache: OpCache<A>;
 
+	/**
+	 * The VM's architecture.
+	 * @internal
+	 */
+	protected readonly _VM_arch: Architecture<A>;
+
+	/**
+	 * A boolean which tells whether or not the virtual machine is currently executing an instruction.
+	 * @internal
+	 */
+	protected _VM_executing: boolean;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -55,20 +74,26 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
+		this._VM_arch = <Architecture<A>>(<unknown>arch);
+		this._VM_executing = false;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
+		this.speed = 1;
 		this.opcache = new OpCache<A>();
 		this.optable = new OpTable<A>((<Architecture<A>>(<unknown>arch)).ISA, this.opcache);
 
 		// Copy descriptors from the architecture.
-		Object.defineProperties(this, Object.getOwnPropertyDescriptors(arch));
-		Object.defineProperties(
-			this,
-			Object.entries(Object.getOwnPropertyDescriptors(Object.getPrototypeOf(arch)))
-				.filter(([prop]) => prop !== '_load')
-				.reduce((a, [prop, descr]) => (a[prop] = descr), <any>{})
-		);
+		let inherit = {
+			...Object.getOwnPropertyDescriptors(arch),
+			...Object.getOwnPropertyDescriptors(Object.getPrototypeOf(arch))
+		};
+
+		for (let [prop, descriptor] of Object.entries(inherit)) {
+			if (prop.startsWith('_') || prop.toUpperCase() === prop) descriptor.enumerable = false;
+		}
+
+		Object.defineProperties(this, inherit);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -76,11 +101,76 @@ export class VMBase<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Jump to an address in the program.
-	 * @param to The address to jump to.
+	 * Jumps to an address in the program.
+	 * @param address The address to jump to.
 	 */
-	public jump(to: OpAddress): void {
-		this.program_counter = to;
+	public jump(address: OpAddress): void {
+		assert(address >= 0, "Parameter 'address' is out of bounds for program (under)");
+		assert(address < this.program!.data!.length, "Parameter 'address' is out of bounds for program (over)");
+		assert(isValid(address), "Parameter 'address' is out of range for OpAddress");
+
+		// NOTE: If the VM is executing, we need to account for the fact that the PC will be
+		//       incremented after the instruction has finished executing.
+
+		this.program_counter = this._VM_executing ? address - 2 : address;
+	}
+
+	/**
+	 * Jumps forwards by a specified number of opcodes.
+	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
+	 *
+	 * @param instructions The number of instructions to jump.
+	 */
+	public hopForwards(instructions: OpAddress): void {
+		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
+		this.jump(this.program_counter + instructions * 2);
+	}
+
+	/**
+	 * Jumps backwards by a specified number of opcodes.
+	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
+	 *
+	 * @param instructions The number of instructions to jump.
+	 */
+	public hopBackwards(instructions: OpAddress): void {
+		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
+		this.jump(this.program_counter - instructions * 2);
+	}
+
+	/**
+	 * Resets the virtual machine.
+	 * This will reset the virtualized hardware, but not reload the program.
+	 */
+	public reset(): void {
+		this.program_counter = 0;
+		this._VM_executing = false;
+		(<any>this)._reset();
+	}
+
+	/**
+	 * Executes an instruction and decrements timers.
+	 */
+	public step(): void {
+		assert(!this._VM_executing, 'The VM is already executing an instruction');
+		assert(this.program !== null, 'There is no program loaded');
+
+		this._VM_executing = true;
+
+		// Fetch and decode the opcode.
+		let opcode = this.program!.fetch(this.program_counter);
+		let ir = this.optable.decode(opcode);
+
+		// Increment the timers.
+		(<any>this)._tick();
+
+		// Execute the opcode.
+		ir[0](<VMContext<A>>(<unknown>this), ir[1], ir[2]);
+
+		// Increment the program counter.
+		this.program_counter += 2;
+
+		// Return.
+		this._VM_executing = false;
 	}
 }
 
