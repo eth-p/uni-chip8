@@ -17,7 +17,7 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * Sets the register at the first <reg> to the bitwise-xor of both register values
  *
- * '8xy2'
+ * '8xy3'
  */
 export default class OP_XOR_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
