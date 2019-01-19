@@ -8,7 +8,7 @@
   interpreter occupying the first 512 bytes, all programs were designed considering a limited amount of memory. The CHIP-8 is known for being able to run classic games such as Tetris,
   Pong, or Pac-man.
 
-  The goal of our project is to build a working CHIP-8 virtual machine, an interactive website to use the CHIP-8 virtual machine, and at least two games along with useful tools for the team members. The final emulator would in theory be
+  The goal of our project is to build a working CHIP-8 virtual machine, an interactive website to use the CHIP-8 virtual machine, and at least two games along with useful tools for the team members. The final product would in theory be
   able to run any CHIP-8 program.
 
 ## Meeting Schedule
