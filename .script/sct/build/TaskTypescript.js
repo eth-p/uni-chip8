@@ -8,7 +8,6 @@
 'use strict';
 
 // Libraries.
-const mm       = require('micromatch');
 const path     = require('path');
 const ts       = require('typescript');
 
@@ -18,10 +17,7 @@ const Task     = require('@sct').Task;
 // Gulp.
 const gulp_babel      = require('gulp-babel');
 const gulp_filter     = require('gulp-filter');
-const gulp_if         = require('gulp-if');
-const gulp_print      = require('gulp-print').default;
 const gulp_rename     = require('gulp-rename');
-const gulp_sourcemaps = require('gulp-sourcemaps');
 const gulp_typescript = require('gulp-typescript');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -42,8 +38,8 @@ const TS_FILTER = [
 /**
  * Generates a TypeScript gulp task for a module.
  *
- * @param module    {BuildModule} The build module.
- * @param [options] {Object}      The build options.
+ * @param module    {Module} The module.
+ * @param [options] {Object} The build options.
  */
 module.exports = class TaskTypescript extends Task {
 
@@ -74,8 +70,8 @@ module.exports = class TaskTypescript extends Task {
 		});
 
 		let tsSources = tsProject.config.include;
-		let tsOutDir  = tsProject.config.compilerOptions.outDir;
-		let tsDeclDir = tsProject.config.compilerOptions.declarationDir;
+		let tsOutDir  = module.getBuildDirectory('scripts');
+		let tsDeclDir = module.getBuildDirectory('types');
 
 		// Babel options.
 		let babelOptions = JSON.parse(JSON.stringify(Object.assign({}, options.compatibility ? BABEL_OPTS_COMPATIBILITY : BABEL_OPTS_MODERN)));
@@ -114,26 +110,11 @@ module.exports = class TaskTypescript extends Task {
 
 			// Compile TypeScript.
 			.pipe(tsProject())
-			.pipe(gulp_rename(file => {
-				let joined = path.join(file.dirname, file.basename + file.extname);
-				for (let pattern of tsSources) {
-					if (mm.match(pattern, joined)) {
-						let pfxIndex  = pattern.indexOf('*');
-						let pfxString = pattern.substring(0, pfxIndex);
-
-						if (pfxIndex === -1 || !pfxString.endsWith('/')) return;
-						pfxString = pfxString.substring(0, pfxString.length - 1);
-
-						if (!file.dirname.startsWith(pfxString)) return;
-						file.dirname = file.dirname.substring(pfxString.length);
-						return;
-					}
-				}
-			}))
+			.pipe(this._gulpstrip(tsSources))
 
 			// Rename.
 			.pipe(gulp_rename(file => {
-				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}/${module.getId()}`
+				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}`
 			}))
 
 			// Transform JavaScript.
@@ -142,9 +123,7 @@ module.exports = class TaskTypescript extends Task {
 			.pipe(filterJavascript.restore)
 
 			// Save.
-			.pipe(gulp_if(options.sourcemaps, gulp_sourcemaps.write('.')))
-			.pipe(this._gulpdest())
-			.pipe(gulp_if(options.verbose, gulp_print((f) => logger.file(f))))
+			.pipe(this._gulpdest(options))
 	}
 	
 };

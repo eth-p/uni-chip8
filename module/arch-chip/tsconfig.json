@@ -1,8 +1,8 @@
 {
 	"extends": "../../tsconfig.settings.json",
 	"compilerOptions": {
-		"outDir": "scripts",
-		"declarationDir": "types"
+		"outDir": "scripts/arch-chip",
+		"declarationDir": "types/arch-chip"
 	},
 	"include": [
 		"src/**/*.ts"
