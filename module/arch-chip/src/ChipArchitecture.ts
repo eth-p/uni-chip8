@@ -84,6 +84,18 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public register_data: Uint8Array;
 
 	/**
+	 * The timer register.
+	 * Decrements at 60 Hz.
+	 */
+	public register_timer: Uint8;
+
+	/**
+	 * The sound register.
+	 * Decrements at 60 Hz.
+	 */
+	public register_sound: Uint8;
+
+	/**
 	 * The random access memory.
 	 */
 	public memory: Uint8Array;
@@ -134,6 +146,8 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		super(INSTRUCTION_SET);
 
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
+		this.register_sound = 0;
+		this.register_timer = 0;
 		this.memory = new Uint8Array(this.MAX_MEMORY);
 		this.display = new ChipDisplay();
 		this.stack = new ProgramStack(this.MAX_STACK);
