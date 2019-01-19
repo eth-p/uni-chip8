@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {add} from '@chipotle/types/Uint8';
-
 import Context from '@chipotle/vm/VMContext';
 import Op from '@chipotle/vm/Op';
 import OpCode from '@chipotle/vm/OpCode';
@@ -15,19 +13,19 @@ import ChipArchitecture from './ChipArchitecture';
 /**
  * CHIP-8 INSTRUCTION: LD <reg> <con>
  *
- * Assigns the value of the register denoted by p1, to the value of p2.
+ * Sets the value at register <reg> to <con>
  *
- * '8xy0'
+ * '6xkk'
  */
 export default class OP_LD_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
-			0x8000,
+			0x6000,
 			'LD <reg> <con>',
 			new OpMask({
-				mask: 0xf00f,
+				mask: 0xf000,
 				p1: 0x0f00,
-				p2: 0x00f0
+				p2: 0x00ff
 			})
 		);
 	}

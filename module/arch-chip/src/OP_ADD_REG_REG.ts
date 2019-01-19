@@ -10,30 +10,33 @@ import OpCode from '@chipotle/vm/OpCode';
 import OpMask from '@chipotle/vm/OpMask';
 
 import ChipArchitecture from './ChipArchitecture';
+import MathFlag from '@chipotle/types/MathFlag';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: ADD <reg> <con>
+ * CHIP-8 INSTRUCTION: ADD <reg> <reg>
  *
- * Adds the value of p2 to the register denoted by p1.
- * Does not alter the carry flag.
+ * Sets the register at the first <reg> to the sum of both values at both registers.
+ * Sets Vf if a carry occurs.
  *
- * '7xkk'
+ * '8xy4'
  */
-export default class OP_ADD_REG_CON extends Op<ChipArchitecture> {
+export default class OP_ADD_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
-			0x7000,
-			'ADD <reg> <con>',
+			0x8004,
+			'ADD <reg> <reg>',
 			new OpMask({
-				mask: 0xf000,
+				mask: 0xf00f,
 				p1: 0x0f00,
-				p2: 0x00ff
+				p2: 0x00f0
 			})
 		);
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		context.register_data[p1] = add(context.register_data[p1], p2)[0];
+		let result: [number, MathFlag] = add(p1, p2);
+		context.register_data[p1] = result[0];
+		context.register_data[0xf] = result[1];
 	}
 }

@@ -23,6 +23,13 @@ import OP_SNE_REG_CON from './OP_SNE_REG_CON';
 import OP_SNE_REG_REG from './OP_SNE_REG_REG';
 import OP_JP_ADDR from './OP_JP_ADDR';
 import OP_SYS_ADDR from './OP_SYS_ADDR';
+import OP_ADD_REG_REG from './OP_ADD_REG_REG';
+import OP_AND_REG_REG from './OP_AND_REG_REG';
+import OP_LD_REG_REG from './OP_LD_REG_REG';
+import OP_OR_REG_REG from './OP_OR_REG_REG';
+import OP_SHR_REG from './OP_SHR_REG';
+import OP_SUB_REG_REG from './OP_SUB_REG_REG';
+import OP_XOR_REG_REG from './OP_XOR_REG_REG';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
@@ -35,7 +42,14 @@ export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
 	OP_SNE_REG_CON,
 	OP_SNE_REG_REG,
 	OP_JP_ADDR,
-	OP_SYS_ADDR
+	OP_SYS_ADDR,
+	OP_ADD_REG_REG,
+	OP_AND_REG_REG,
+	OP_LD_REG_REG,
+	OP_OR_REG_REG,
+	OP_SHR_REG,
+	OP_SUB_REG_REG,
+	OP_XOR_REG_REG
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
