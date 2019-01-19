@@ -1,41 +1,4 @@
-# Team CHIPotle Product Document
-
-| [<- README](../../README.md) |
-
-## Table of Contents
-
-<!--- Only include level 3 (###) headers --->
-
-- [**Meeting Schedule**](#meeting-schedule)  
-- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
-  - [In Progress](#in-progress)
-  - [Finished](#finished)
-  - [Future](#future)
-- [**Communication**](#communication)
-  - [Via GitHub](#via-github)  
-  - [Via Meetings](#via-meetings)  
-  - [Via Discord](#via-discord)  
-  - [Via SFU Emails](#via-sfu-emails)
-- [**Implementation Language**](#implementation-language)
-- [**Software Development Process**](#software-development-process)
-  - [Project Guidelines](#project-guidelines)
-  - [Developer Process](#developer-process)
-  - [Work Breakdown](#work-breakdown)
-  - [Member Roles](#member-roles)
-  - [Roles](#roles)
-- [**Software Repository**](#software-repository)
-- [**Testing**](#testing)
-- [**Developer Environment**](#developer-environment)
-  - [Repository Tools](#repository-tools)
-  - [Linux Environment Requirements](#linux-environment-requirements)
-  - [Windows Environment Requirements](#windows-environment-requirements)
-  - [Detailed Setup Instructions for MacOS, Ubuntu and Windows](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
-- [**Use Cases**](#use-cases)
-  - [Release 1 Use Cases](#release-1-use-cases)
-- [**Project Schedule**](#project-schedule)
-- [**Project Contributors**](#project-contributors)
-- [**All Information Sources and Citations**](#all-information-sources-and-citations)
-  - [CHIP-8 Documentation](#chip-8-Documentation)
+# Team 15 CHIPotle: Product Document
 
 ## Project Introduction
 
@@ -76,7 +39,8 @@ This section contains all deliverables and tools that we are currently planning 
 #### Deliverables
 
 - [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
-- [**CHIP-8 Debugger**](item-description/chip-8-debugger.md)
+
+- **CHIP-8 Debugger**
 
 #### Development Tools
 
@@ -88,7 +52,7 @@ This section contains all deliverables and tools that we are currently planning 
 
 - **Automated Repository Tests**
   - Implemented with CircleCI and Jest
-- **Simple Contribution Tool ([sct](#repository-tools))**
+- **Simple Contribution Tool**
   - Project-specific tools to help maintain repository
 - **Local Unit Test System**
   - Implemented with Jest
@@ -130,9 +94,9 @@ Group members use Discord as an informal communication channel to discuss featur
 
 Group members view announcements on Discord. Members can break down into smaller groups to discuss and work on minor issues using Discord.
 
-### Via SFU emails
+### Via SFU Mail
 
-Reserve for an emergency such as unable to contact a team member via the above methods.
+Reserved for an emergency such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
@@ -154,11 +118,43 @@ Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests 
 
 As well as being accessible to developers through the use of the `sct test` tool, the repository is automatically tested by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
 
+![github-tests-detail](images/github-tests.jpg)
+
 ## Software Repository
 
 We will use GitHub to host our private repository.
 
-To view documentation on git use in-respository, view [this section](#git-version-control).
+Developers should **NOT** attempt to work directly on the master branch.  
+The master branch is protected and any attempts to commit directly will be automatically rejected by your git installation.
+
+Please create your own development branch and work on that. Once your changes are complete, create a pull request `yourbranch -> master` in GitHub.
+
+Pull requests will be automatically tested by CircleCI. If a pull request passes all tests (you will see green check marks), it will be avaliable for merging after team review.
+
+To ensure consistent commit quality, git hooks have been implemented repository wide.
+These hooks will prevent you from creating commits that violate any of the following conditions:
+
+- Formatting checks must pass.
+- Profanity checks must pass.
+- The commit message must follow this format: `[module]: [verb] [changes]`
+  - Where `[module]` is a module in `sct info --list-modules`
+  - Where `[changes]` does not end in punctuation.
+  - Where `[verb]` is one of the following:
+    - `Add`
+    - `Change`
+    - `Fix`
+    - `Move`
+    - `Refactor`
+    - `Reformat`
+    - `Rename`
+    - `Remove`
+    - `Update`
+
+Before committing changes, please run `sct check` and `sct fmt`.
+
+### Major Refactoring
+
+When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
 
 ## Developer Environment
 
@@ -217,6 +213,7 @@ Developers may use Windows machines for this project.
 The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 - **Required Installations**
+
   - [NodeJS for Windows](https://nodejs.org/en/)
   - [Git for Windows](https://git-scm.com/downloads)
 - **Optional Installations**
@@ -243,42 +240,6 @@ The requirement for *Windows Subsystem for Linux* has been deprecated.
   - All public-facing documentation will include a contributor report.
   - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
 
-### Developer Process
-
-#### Git Version Control
-
-Developers should **NOT** attempt to work directly on the master branch.  
-The master branch is protected and any attempts to commit directly will be automatically rejected by your git installation.
-
-Please create your own development branch and work on that. Once your changes are complete, create a pull request `yourbranch -> master` in GitHub.
-
-Pull requests will be automatically tested as laid out [here](#testing). If a pull request passes all tests (you will see green check marks), it will be avaliable for merging after team review.
-
-To ensure consistent commit quality, git hooks have been implemented repository wide.
-These hooks will prevent you from creating commits that violate any of the following conditions:
-
-- Formatting checks must pass.
-- Profanity checks must pass.
-- The commit message must follow this format: `[module]: [verb] [changes]`
-  - Where `[module]` is a module in `sct info --list-modules`
-  - Where `[changes]` does not end in punctuation.
-  - Where `[verb]` is one of the following:
-    - `Add`
-    - `Change`
-    - `Fix`
-    - `Move`
-    - `Refactor`
-    - `Reformat`
-    - `Rename`
-    - `Remove`
-    - `Update`
-
-Before committing changes, please run `sct check` and `sct fmt`.
-
-#### Major Refactoring
-
-When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
-
 ### Work Breakdown
 
 To view what tasks to do, visit the repository issue tracker.
@@ -288,16 +249,16 @@ If a developer accepts a task, they will be given a due date. The due date will 
 
 #### Release 0 - Documentation, Analysis, and Back-End (04/01/2019 - 18/01/2019)
 
-|Date|Task|Status|
-|-------|-------|-------|
-|04/01/2019|Initialize product document|Complete|
-|04/01/2019|Set up Discord server|Complete|
-|04/01/2019|Set up Github repository|Complete|
-|04/01/2019|Planning for release 0|Complete|
-|09/01/2019|Organize product document|Complete|
-|12/01/2019|Create tools|Complete|
-|13/01/2019|Tool set up for team members|Complete|
-|16/01/2019|Release product document|Overdue|
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**Start Product Document**|04/01/2019|1 day|Complete|
+|**Setup Discord Server**|04/01/2019|1 day|Complete|
+|**Setup GitHub Repository**|04/01/2019|1 day|Complete|
+|**Update Product Document**|04/01/2019|2 weeks|Complete|
+|**Setup Tools**|04/01/2019|2 weeks|Complete|
+|**Setup Testing Platform**|04/01/2019|1 week|Complete
+|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Complete|
+|**Release Product Document**|18/01/2019|2 weeks|Complete|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -309,23 +270,23 @@ We will also create a library of objects that we have determined to be useful fo
 
 ##### Emulator Version 0 - R&D Build
 
-To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output, and timers. It can support simple non-interactive programs.
+To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output and timers. It can support simple non-interactive programs.
 
-The following is a bouncing ball screensaver.  
-*Please note that mp4 -> gif conversion has substantially slowed the speed of the ball.*
-
-![bouncing_ball](images/dev_bouncing_ball.gif)
+A bouncing DVD logo screensaver was made to show the capabilities of the prototype emulator. [YouTube Link](https://www.youtube.com/watch?v=ovqTiFKSjRg).
 
 #### Release 1 - Emulator I & Tools (19/01/2019 - 06/02/2019)
 
-|Date|Task|Status|
-|-------|-------|-------|
-|19/01/2019|Planning for release 1|In progress|
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Emulator**|19/01/2019|2 weeks|In progress (early)|
+|**CHIP-8 Opcodes**|19/01/2019|1 week|In progress (early)|
+|**CHIP-8 Website**|19/01/2019|2 weeks|Not started|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|Not started|
 
-We will be releasing an inital emulator.  
-This emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
-The emulator will be able to render basic details, and output sound to a HTML5 webpage.  
-The emulator will be able to support basic, non-interactive programs such as simple looping "screensavers".
+We will be releasing an initial minimum-viable-product emulator.  
+The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
+The emulator will be able to render the screen, memory details and output sound to a HTML5 webpage.  
+The emulator will at minimum be able to support basic, non-interactive programs such as simple looping "screensavers".
 
 ##### List of Items
 
@@ -360,24 +321,16 @@ The emulator will be able to support basic, non-interactive programs such as sim
     - HTML5 Canvas Object Renderer
   - **Notes:**
     - System Abstraction Layers will only be able to communicate *iff* they differ by exactly one level.
-    - Abstraction Layer 0: CPU
-    - Abstraction Layer 1: System: Graphics, Sound, Input
-    - Abstraction Layer 2: Webpage
+      - Abstraction Layer 0: CPU
+      - Abstraction Layer 1: System: Graphics, Sound, Input
+      - Abstraction Layer 2: Webpage
 
 #### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
-
-|Date|Task|Status|
-|-------|-------|-------|
-|07/02/2019|Planning for release 2|Not started|
 
 Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
 Release 2 might include a CHIP-8 assembler to greatly improve program development.
 
 #### Release 3 - Programs (28/02/2019 - 13/03/2019)
-
-|Date|Task|Status|
-|-------|-------|-------|
-|28/02/2019|Planning for release 3|Not started|
 
 By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
 We are targeting to begin CHIP-8 program development at this point.
@@ -390,10 +343,6 @@ We are targeting to begin CHIP-8 program development at this point.
 - Calculator `(x op y, x and y -> [0x0, 0xF])`
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
-
-|Date|Task|Status|
-|-------|-------|-------|
-|14/03/2019|Planning for release 4|Not started|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
@@ -436,17 +385,17 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Users
 
-- will be able to view ...
+- will be able to enjoy at minimum, simple programs designed for the CHIP-8.
 
 #### Educators
 
-- Engage students in learning programming by showing how programmers implement codes into practical projects.
-- Help students better understanding of the low-level workings of CPU and memory through Chip-8 Visualizer.
-- By interacting with simple Chip-8 programs on the Chip-8 Webpage, instructors can demonstrate applications of computers.
+- will engage students in learning programming by showing how programmers implement codes into practical projects.
+- will help students better understand the low-level workings of CPU and memory through CHIP-8 Visualizer.
+- will aid instructors through interaction with simple CHIP-8 programs to demonstrate applications of computers.
 
 ## Project Schedule
 
-![Gantt Chart](../gantt-chart-temp.svg)
+<!-- ![Gantt Chart](../gantt-chart-temp.svg) -->
 
 **THIS CHART IS TEMPORARY**  
 **PLEASE UPDATE WITH CORRECT INFORMATION**
@@ -460,13 +409,14 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - Dan Amarasinghe
 - Henry Wang
 - Anthony Pham
+- Firas Fakih
 
 ### Release 1
 
 - Ethan Pini
 - Kyle Saburao
 
-## All Information Sources and Citations
+## Information Sources and Citations
 
 ### CHIP-8 Documentation
 
@@ -475,6 +425,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
 - <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
 
-### Documentation
+### Documentation Creation
 
 - [Mermaid Chart Maker](https://mermaidjs.github.io/)
+- [markdown-folder-to-html](https://github.com/joakin/markdown-folder-to-html)
