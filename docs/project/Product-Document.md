@@ -234,12 +234,16 @@ The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 ### Work Breakdown
 
-To view what tasks to do, visit the repository issue tracker.
-Members will be assigned tasks, and will be welcome to contribute to any others.
+We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus. Potential developer tools such as an assembler/disassembler will come before CHIP-8 program development, so that we will not have to directly write machine code for CHIP-8 programs.
 
-If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. The buffer time is required for analysis for the next release, and code review in the current release.
+Unit tests will have to be written at the same time as development. We do not want to have to write all relevant tests during the final days of release.
 
-#### Release 0 - Documentation, Analysis, and Back-End (04/01/2019 - 18/01/2019)
+To view what tasks to do, visit the GitHub issue tracker.
+Members will be assigned tasks and will be welcome to contribute to any others.
+
+If a developer accepts a task, they will be given a due date. The due date will at the latest target several days before the Release. This buffer time is required for analysis for the next release, and code review in the current release.
+
+#### Release 0 - Documentation, General Analysis, and Back-End (04/01/2019 - 18/01/2019)
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
