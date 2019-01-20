@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Uint16 from '@chipotle/types/Uint16';
+import {default as Uint16, and} from '@chipotle/types/Uint16';
 import assert from '@chipotle/types/assert';
 
 /**
@@ -44,7 +44,7 @@ export default class IndexRegister {
 			updatedValue >= 0x0 && updatedValue < 0x1000,
 			'Parameter address is out of bounds. (Must be in [0, 4095])'
 		);
-		this._value = updatedValue;
+		this._value = and(updatedValue, 0xfff); // Enforce 12 bits
 	}
 
 	/**
