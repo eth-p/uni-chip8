@@ -11,7 +11,7 @@ import ChipArchitecture from './ChipArchitecture';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: LD I <con>
+ * CHIP-8 INSTRUCTION: JP V0 <con>
  *
  * Jumps the program counter to nnn offset by the value at v0.
  *
