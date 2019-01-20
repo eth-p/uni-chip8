@@ -31,6 +31,6 @@ export default class OP_LD_I_CON extends Op<ChipArchitecture> {
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		context.index_register = p1;
+		context.register_index = p1;
 	}
 }
