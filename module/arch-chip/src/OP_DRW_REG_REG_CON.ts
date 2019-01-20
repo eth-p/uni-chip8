@@ -5,11 +5,11 @@
 import Context from '@chipotle/vm/VMContext';
 import Op from '@chipotle/vm/Op';
 import OpCode from '@chipotle/vm/OpCode';
-import ChipDisplay from '@chipotle/arch-chip/ChipDisplay';
 import OpMask from '@chipotle/vm/OpMask';
 
 import ChipArchitecture from './ChipArchitecture';
 import {bitshiftr, and, default as Uint8, xor} from '@chipotle/types/Uint8';
+import assert from '@chipotle/types/assert';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -41,6 +41,16 @@ export default class OP_DRW_REG_REG_CON extends Op<ChipArchitecture> {
 		let x_coord_start: Uint8 = bitshiftr(p1, 4);
 		let y_coord_start: Uint8 = and(p1, 0xf);
 		let draw_height: Uint8 = p2;
+
+		assert(
+			x_coord_start >= 0 && x_coord_start < context.display.WIDTH,
+			'Sprite x coordinate start is out of bounds'
+		);
+		assert(
+			y_coord_start >= 0 && y_coord_start < context.display.HEIGHT,
+			'Sprite y coordinate start is out of bounds'
+		);
+		assert(draw_height >= 0 && draw_height <= context.display.SPRITE_HEIGHT_MAX, 'Sprite height is invalid');
 
 		for (let y_offset: Uint8 = 0; y_offset < draw_height; ++y_offset) {
 			let sprite_row: Uint8 = context.memory[context.register_index + y_offset];
