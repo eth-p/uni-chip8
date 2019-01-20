@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {add} from '@chipotle/types/Uint8';
-
 import Context from '@chipotle/vm/VMContext';
 import Op from '@chipotle/vm/Op';
 import OpCode from '@chipotle/vm/OpCode';

@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {add} from '@chipotle/types/Uint8';
-
 import Context from '@chipotle/vm/VMContext';
 import Op from '@chipotle/vm/Op';
 import OpCode from '@chipotle/vm/OpCode';
@@ -17,7 +15,7 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * Skips the next instruction if the register at <reg> is equal to <con>
  *
- * '3xnn'
+ * '3xkk'
  */
 export default class OP_SE_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
