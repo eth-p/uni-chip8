@@ -30,6 +30,9 @@ import OP_OR_REG_REG from './OP_OR_REG_REG';
 import OP_SHR_REG from './OP_SHR_REG';
 import OP_SUB_REG_REG from './OP_SUB_REG_REG';
 import OP_XOR_REG_REG from './OP_XOR_REG_REG';
+import OP_SUBN_REG_REG from './OP_SUBN_REG_REG';
+import OP_SHL_REG from './OP_SHL_REG';
+import OP_RND_REG_CON from './OP_RND_REG_CON';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
@@ -49,7 +52,10 @@ export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
 	OP_OR_REG_REG,
 	OP_SHR_REG,
 	OP_SUB_REG_REG,
-	OP_XOR_REG_REG
+	OP_XOR_REG_REG,
+	OP_SUBN_REG_REG,
+	OP_SHL_REG,
+	OP_RND_REG_CON
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
