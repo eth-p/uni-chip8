@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {default as Uint8} from '@chipotle/types/Uint8';
+import {default as Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
 import {default as ISA} from '@chipotle/vm/ISA';
@@ -12,6 +13,7 @@ import ProgramStack from '@chipotle/vm/ProgramStack';
 import TimerDescending from '@chipotle/vm/TimerDescending';
 import VMContext from '@chipotle/vm/VMContext';
 import VMError from '@chipotle/vm/VMError';
+import IndexRegister from '@chipotle/vm/IndexRegister';
 
 import ChipDisplay from './ChipDisplay';
 
@@ -143,6 +145,11 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 */
 	protected _timer_sound: TimerDescending;
 
+	/**
+	 * The index register, also known as "I".
+	 */
+	protected _index_register: IndexRegister;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Accessors:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -193,6 +200,20 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		this._timer_sound.reset();
 	}
 
+	/**
+	 * Setter alias to the index register.
+	 */
+	public set index_register(value: Uint16) {
+		this._index_register.value = value;
+	}
+
+	/**
+	 * Getter alias to the index register.
+	 */
+	public get index_register(): Uint16 {
+		return this._index_register.value;
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -204,6 +225,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public constructor() {
 		super(INSTRUCTION_SET);
 
+		this._index_register = new IndexRegister();
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
@@ -240,6 +262,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		this.register_data.fill(0, 0, this.REGISTER_MAX);
 		this.register_sound = 0;
 		this.register_timer = 0;
+		this.index_register = 0;
 		this.stack.clear();
 		this.display.clear();
 		this.jump(this.PROGRAM_ENTRY);
