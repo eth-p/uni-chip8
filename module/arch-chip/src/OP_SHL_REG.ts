@@ -4,7 +4,8 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Context from '@chipotle/vm/VMContext';
 import Op from '@chipotle/vm/Op';
-import OpCode, {bitshiftl} from '@chipotle/vm/OpCode';
+import OpCode from '@chipotle/vm/OpCode';
+import {bitshiftl} from '@chipotle/types/Uint8';
 import OpMask from '@chipotle/vm/OpMask';
 
 import ChipArchitecture from './ChipArchitecture';
@@ -32,9 +33,7 @@ export default class OP_SHL_REG extends Op<ChipArchitecture> {
 	}
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		context.register_data[0xf] = context.register_data[p1] & 0b10000000;
-		context.register_data[p1] = bitshiftl(p1, 1) & 0xff;
-		// VSCode is reporting that Uint16 bitshiftr takes priority.
-		// Remasking in the event that it actually does.
+		context.register_flag = context.register_data[p1] & 0b10000000;
+		context.register_data[p1] = bitshiftl(p1, 1);
 	}
 }
