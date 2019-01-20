@@ -37,6 +37,7 @@ import OP_SHL_REG from './OP_SHL_REG';
 import OP_RND_REG_CON from './OP_RND_REG_CON';
 import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
 import OP_LD_I_CON from './OP_LD_I_CON';
+import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
@@ -61,7 +62,8 @@ export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
 	OP_SHL_REG,
 	OP_RND_REG_CON,
 	OP_JP_ADDR_CON,
-	OP_LD_I_CON
+	OP_LD_I_CON,
+	OP_DRW_REG_REG_CON
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
