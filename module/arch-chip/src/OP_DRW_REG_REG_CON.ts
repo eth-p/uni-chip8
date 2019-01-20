@@ -32,7 +32,7 @@ export default class OP_DRW_REG_REG_CON extends Op<ChipArchitecture> {
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0ff0,
-				p2: 0x00f0
+				p2: 0x000f
 			})
 		);
 	}
