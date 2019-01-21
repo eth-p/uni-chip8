@@ -13,7 +13,6 @@ import ProgramStack from '@chipotle/vm/ProgramStack';
 import TimerDescending from '@chipotle/vm/TimerDescending';
 import VMContext from '@chipotle/vm/VMContext';
 import VMError from '@chipotle/vm/VMError';
-import IndexRegister from '@chipotle/vm/IndexRegister';
 
 import ChipDisplay from './ChipDisplay';
 
@@ -125,6 +124,11 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public register_data: Uint8Array;
 
 	/**
+	 * The index register, also known as "I".
+	 */
+	public register_index: Uint16;
+
+	/**
 	 * The random access memory.
 	 */
 	public memory: Uint8Array;
@@ -150,11 +154,6 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * Decrements at 60 Hz.
 	 */
 	protected _timer_sound: TimerDescending;
-
-	/**
-	 * The index register, also known as "I".
-	 */
-	protected _register_index: IndexRegister;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Accessors:                                                                                                |
@@ -206,20 +205,6 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		this._timer_sound.reset();
 	}
 
-	/**
-	 * Setter alias to the index register.
-	 */
-	public set register_index(value: Uint16) {
-		this._register_index.value = value;
-	}
-
-	/**
-	 * Getter alias to the index register.
-	 */
-	public get register_index(): Uint16 {
-		return this._register_index.value;
-	}
-
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -231,8 +216,8 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public constructor() {
 		super(INSTRUCTION_SET);
 
-		this._register_index = new IndexRegister();
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
+		this.register_index = 0;
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this.memory = new Uint8Array(this.MAX_MEMORY);
