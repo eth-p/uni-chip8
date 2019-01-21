@@ -2,23 +2,20 @@
 
 | [Back](reference.md) | [Home](../index.md) |
 
-## Assert Directive (AT&T Syntax)
+## Define Directive (AT&T Syntax)
 
-Asserts something.
-This can be used to narrow macro parameters.
+Defines a named value.
 
 **Syntax:**
 
 ```
-.assert <condition ...>
+.define <name> <register>
+.define <name> <constant>
 ```
 
 **Example:**
 
 ```asm
-.macro x f
-	.assert type \f is constant
-	.assert expr \f < 3
-	; Do something with \f
-.end
+.define flag %VF
+.define MAGIC $0xF3
 ```
