@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {default as Uint8} from '@chipotle/types/Uint8';
+import {default as Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
 import {default as ISA} from '@chipotle/vm/ISA';
@@ -33,6 +34,9 @@ import OP_XOR_REG_REG from './OP_XOR_REG_REG';
 import OP_SUBN_REG_REG from './OP_SUBN_REG_REG';
 import OP_SHL_REG from './OP_SHL_REG';
 import OP_RND_REG_CON from './OP_RND_REG_CON';
+import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
+import OP_LD_I_CON from './OP_LD_I_CON';
+import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
@@ -55,7 +59,10 @@ export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
 	OP_XOR_REG_REG,
 	OP_SUBN_REG_REG,
 	OP_SHL_REG,
-	OP_RND_REG_CON
+	OP_RND_REG_CON,
+	OP_JP_ADDR_CON,
+	OP_LD_I_CON,
+	OP_DRW_REG_REG_CON
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -115,6 +122,11 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * V0 to VF.
 	 */
 	public register_data: Uint8Array;
+
+	/**
+	 * The index register, also known as "I".
+	 */
+	public register_index: Uint16;
 
 	/**
 	 * The random access memory.
@@ -205,6 +217,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		super(INSTRUCTION_SET);
 
 		this.register_data = new Uint8Array(this.REGISTER_MAX);
+		this.register_index = 0;
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this.memory = new Uint8Array(this.MAX_MEMORY);
@@ -240,6 +253,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 		this.register_data.fill(0, 0, this.REGISTER_MAX);
 		this.register_sound = 0;
 		this.register_timer = 0;
+		this.register_index = 0;
 		this.stack.clear();
 		this.display.clear();
 		this.jump(this.PROGRAM_ENTRY);

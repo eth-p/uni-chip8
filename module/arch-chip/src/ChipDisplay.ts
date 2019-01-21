@@ -25,6 +25,17 @@ export default class ChipDisplay {
 	 */
 	public readonly HEIGHT = 32;
 
+	/**
+	 * The width of a sprite.
+	 */
+	public readonly SPRITE_WIDTH = 8;
+
+	/**
+	 * The maximum height of a sprite.
+	 * See http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.4
+	 */
+	public readonly SPRITE_HEIGHT_MAX = 15;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
