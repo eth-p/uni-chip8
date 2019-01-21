@@ -24,7 +24,7 @@ export default class OP_ADD_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x7000,
-			'ADD <reg> <con>',
+			'ADD <reg#dest> <con>',
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0f00,

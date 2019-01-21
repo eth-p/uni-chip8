@@ -30,7 +30,7 @@ export default class OP_SUBN_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x8007,
-			'SUBN <reg> <reg>',
+			'SUBN <reg#> <reg>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,

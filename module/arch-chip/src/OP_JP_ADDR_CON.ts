@@ -21,7 +21,7 @@ export default class OP_ADDR_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0xb000,
-			'JP V0 <con>',
+			'JP <reg=V0> <con>',
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0fff,

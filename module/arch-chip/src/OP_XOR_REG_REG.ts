@@ -23,7 +23,7 @@ export default class OP_XOR_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x8003,
-			'XOR <reg> <reg>',
+			'XOR <reg#dest> <reg>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,

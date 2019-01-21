@@ -23,7 +23,7 @@ export default class OP_OR_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x8001,
-			'OR <reg> <reg>',
+			'OR <reg#dest> <reg>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,

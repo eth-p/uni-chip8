@@ -25,7 +25,7 @@ export default class OP_SUB_REG_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x8005,
-			'SUB <reg> <reg>',
+			'SUB <reg#dest> <reg>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,

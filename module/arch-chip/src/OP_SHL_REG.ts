@@ -23,7 +23,7 @@ export default class OP_SHL_REG extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0x800e,
-			'SHL <reg>',
+			'SHL <reg#dest>',
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,

@@ -21,7 +21,7 @@ export default class OP_LD_I_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0xa000,
-			'LD I <con>',
+			'LD <reg#dest=I> <con>',
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0fff

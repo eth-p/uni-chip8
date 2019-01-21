@@ -21,7 +21,7 @@ export default class OP_RND_REG_CON extends Op<ChipArchitecture> {
 	public constructor() {
 		super(
 			0xc000,
-			'RND <reg> <con>',
+			'RND <reg#dest> <con>',
 			new OpMask({
 				mask: 0xf000,
 				p1: 0x0f00,
