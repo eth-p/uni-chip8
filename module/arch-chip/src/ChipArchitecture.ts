@@ -7,7 +7,6 @@ import {default as Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
 import {default as ISA} from '@chipotle/vm/ISA';
-import OpAddress from '@chipotle/vm/OpAddress';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import TimerDescending from '@chipotle/vm/TimerDescending';
@@ -83,35 +82,41 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	/**
 	 *  The maximum size of the Chip-8's memory.
 	 */
-	public readonly MAX_MEMORY = 4096;
+	public static readonly MAX_MEMORY = 4096;
+	public readonly MAX_MEMORY: number = (<any>this.constructor).MAX_MEMORY;
 
 	/**
 	 * The maximum number of entries in the stack.
 	 */
-	public readonly MAX_STACK = 16;
+	public static readonly MAX_STACK = 16;
+	public readonly MAX_STACK: number = (<any>this.constructor).MAX_STACK;
 
 	/**
 	 * The maximum number of data registers.
 	 * V0 to VF.
 	 */
-	public readonly REGISTER_MAX = 16;
+	public static readonly MAX_DATA_REGISTERS = 16;
+	public readonly MAX_DATA_REGISTERS: number = (<any>this.constructor).MAX_DATA_REGISTERS;
 
 	/**
 	 * The program entry point.
 	 */
-	public readonly PROGRAM_ENTRY = 0x200;
+	public static readonly PROGRAM_ENTRY = 0x200;
+	public readonly PROGRAM_ENTRY: number = (<any>this.constructor).PROGRAM_ENTRY;
 
 	/**
 	 * The CPU clock speed.
 	 * For the Chip-8, this is 500 Hz.
 	 */
-	public readonly CLOCK_SPEED = 500;
+	public static readonly CLOCK_SPEED = 500;
+	public readonly CLOCK_SPEED: number = (<any>this.constructor).CLOCK_SPEED;
 
 	/**
 	 * The timer clock speed.
 	 * For the Chip-8, this is 60 Hz.
 	 */
-	public readonly TIMER_SPEED = 60;
+	public static readonly TIMER_SPEED = 60;
+	public readonly TIMER_SPEED: number = (<any>this.constructor).TIMER_SPEED;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
@@ -172,14 +177,6 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	}
 
 	/**
-	 * The address register.
-	 * This stores a pointer to the currently-executing instruction.
-	 */
-	public get register_addr(this: VMContext<ChipArchitecture>): OpAddress {
-		return this.program_counter;
-	}
-
-	/**
 	 * The timer register.
 	 * Decrements at 60 Hz.
 	 */
@@ -216,7 +213,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	public constructor() {
 		super(INSTRUCTION_SET);
 
-		this.register_data = new Uint8Array(this.REGISTER_MAX);
+		this.register_data = new Uint8Array(this.MAX_DATA_REGISTERS);
 		this.register_index = 0;
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
@@ -250,7 +247,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * @override
 	 */
 	protected _reset(this: VMContext<ChipArchitecture>): void {
-		this.register_data.fill(0, 0, this.REGISTER_MAX);
+		this.register_data.fill(0, 0, this.MAX_DATA_REGISTERS);
 		this.register_sound = 0;
 		this.register_timer = 0;
 		this.register_index = 0;

@@ -30,7 +30,7 @@ export default class OP_AND_REG_REG extends Op<ChipArchitecture> {
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		context.register_data[p1] = and(context.register_data[p1], context.register_data[p2]);
 	}
 }

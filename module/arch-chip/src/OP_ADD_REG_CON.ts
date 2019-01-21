@@ -33,7 +33,7 @@ export default class OP_ADD_REG_CON extends Op<ChipArchitecture> {
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		context.register_data[p1] = add(context.register_data[p1], p2)[0];
 	}
 }

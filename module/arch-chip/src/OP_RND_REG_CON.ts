@@ -30,8 +30,9 @@ export default class OP_RND_REG_CON extends Op<ChipArchitecture> {
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		// Software enforce the boundaries
+		// TODO: Replace with PRNG.
 		context.register_data[p1] = Math.min(0, Math.max(Math.floor(Math.random() * 256) & p2, 255));
 	}
 }

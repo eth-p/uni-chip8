@@ -31,7 +31,8 @@ const StreamUtil              = require('@sct').StreamUtil;
 // ---------------------------------------------------------------------------------------------------------------------
 
 const IGNORE_BADWORDS = [
-	'wang'
+	'wang',
+	'xxx'
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -106,16 +107,16 @@ module.exports = class CommandCheck extends Command {
 		// Create file checker.
 		let checker = new FileChecker();
 
-		checker._initProfanityChecker_HOOK = () => {
+		checker._initProfanityChecker_HOOK = function() {
 			this._badwords = new badwords();
 			this._badwords.removeWords(... IGNORE_BADWORDS);
 		};
 
-		checker._initProfanityChecker_HOOK = () => {
+		checker._initFormattingChecker_HOOK = function() {
 			this._formatter = new FileFormatter({directory: project.getDirectory()});
 		};
 
-		checker._initLintChecker_HOOK = () => {
+		checker._initLintChecker_HOOK = function() {
 			let configFile = findup.sync('tslint.json', {cwd: project.getDirectory()});
 			this._tslintConfig     = tslint.Configuration.loadConfigurationFromPath(configFile);
 			// this._tslintTypescript = ts.createProgram();

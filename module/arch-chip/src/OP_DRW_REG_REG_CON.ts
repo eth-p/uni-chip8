@@ -8,8 +8,7 @@ import OpCode from '@chipotle/vm/OpCode';
 import OpMask from '@chipotle/vm/OpMask';
 
 import ChipArchitecture from './ChipArchitecture';
-import {bitshiftr, and, default as Uint8, xor} from '@chipotle/types/Uint8';
-import assert from '@chipotle/types/assert';
+import ChipSprite from './ChipSprite';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -31,49 +30,17 @@ export default class OP_DRW_REG_REG_CON extends Op<ChipArchitecture> {
 			'DRW <reg> <reg> <con>',
 			new OpMask({
 				mask: 0xf000,
-				p1: 0x0ff0,
-				p2: 0x000f
+				p1: 0x0f00,
+				p2: 0x00f0,
+				p3: 0x000f
 			})
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
-		let x_coord_start: Uint8 = bitshiftr(p1, 4);
-		let y_coord_start: Uint8 = and(p1, 0xf);
-		let draw_height: Uint8 = p2;
-
-		assert(
-			x_coord_start >= 0 && x_coord_start < context.display.WIDTH,
-			'Sprite x coordinate start is out of bounds'
-		);
-		assert(
-			y_coord_start >= 0 && y_coord_start < context.display.HEIGHT,
-			'Sprite y coordinate start is out of bounds'
-		);
-		assert(draw_height >= 0 && draw_height <= context.display.SPRITE_HEIGHT_MAX, 'Sprite height is invalid');
-
-		for (let y_offset: Uint8 = 0; y_offset < draw_height; ++y_offset) {
-			let sprite_row: Uint8 = context.memory[context.register_index + y_offset];
-			for (let x_offset: Uint8 = 0; x_offset < context.display.SPRITE_WIDTH; ++x_offset) {
-				// Automatically wrap around sprite pixels.
-				let x: Uint8 = (x_coord_start + x_offset) % context.display.WIDTH;
-				let y: Uint8 = (y_coord_start + y_offset) % context.display.HEIGHT;
-
-				// Rendering from sprite MSB to LSB.
-				let current_sprite_state: Uint8 = and(
-					bitshiftr(sprite_row, context.display.SPRITE_WIDTH - 1 - x_offset),
-					0b1
-				);
-				let original_display_state: Uint8 = context.display.get(x, y) ? 1 : 0;
-				let new_display_state: boolean = xor(current_sprite_state, original_display_state) === 1 ? true : false;
-
-				context.display.set(x, y, new_display_state);
-
-				// Collision detection
-				if (original_display_state === 1 && new_display_state === false) {
-					context.register_flag = 1;
-				}
-			}
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+		let collide = context.display.draw(p1, p2, new ChipSprite(context.program!.data!, context.register_index, p3));
+		if (collide) {
+			context.register_flag = 1;
 		}
 	}
 }

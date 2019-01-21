@@ -19,6 +19,13 @@ describe('OpMask', () => {
 			p2: 0x0000
 		});
 
+		let opmask3 = new OpMask({
+			mask: 0xf000,
+			p1: 0x0f00,
+			p2: 0x00f0,
+			p3: 0x000f
+		});
+
 		expect(opmask.mask).toStrictEqual(0xff00);
 		expect(opmask.maskLSB).toStrictEqual(8);
 		expect(opmask.maskMSB).toStrictEqual(15);
@@ -29,6 +36,7 @@ describe('OpMask', () => {
 		expect(opmask.p2).toStrictEqual(0x000f);
 		expect(opmask.p2LSB).toStrictEqual(0);
 		expect(opmask.p2MSB).toStrictEqual(3);
+		expect(opmask3.p3).toStrictEqual(0x000f);
 	});
 
 	it('decodeParameter1', () => {
@@ -55,5 +63,19 @@ describe('OpMask', () => {
 		expect(opmask.decodeParameter2(0xffff)).toStrictEqual(0x000f);
 		expect(opmask.decodeParameter2(0xfff0)).toStrictEqual(0x0000);
 		expect(opmask.decodeParameter2(0xbeef)).toStrictEqual(0x000f);
+	});
+
+	it('decodeParameter3', () => {
+		let opmask = new OpMask({
+			mask: 0xf000,
+			p1: 0x0f00,
+			p2: 0x00f0,
+			p3: 0x000f
+		});
+
+		expect(opmask.decodeParameter3(0xf00d)).toStrictEqual(0x000d);
+		expect(opmask.decodeParameter3(0xffff)).toStrictEqual(0x000f);
+		expect(opmask.decodeParameter3(0xfff0)).toStrictEqual(0x0000);
+		expect(opmask.decodeParameter3(0xbeef)).toStrictEqual(0x000f);
 	});
 });
