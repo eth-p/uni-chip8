@@ -11,7 +11,11 @@ import {default as Uint8, bitscanf, bitscanr, BITS as UINT8_BITS} from '@chipotl
 /**
  * Chip-8 sprite.
  *
- * An 8x`n` sprite represented by the bits in `n` integers.
+ * ```
+ * 01101110 => | SS PPP |
+ * 01001110 => | S  PPP |
+ * 11001000 => |SS  P   |
+ * ```
  */
 export default class ChipSprite {
 	// -------------------------------------------------------------------------------------------------------------
@@ -21,13 +25,15 @@ export default class ChipSprite {
 	/**
 	 * The width of a sprite.
 	 */
-	public readonly MAX_WIDTH = 8;
+	public static readonly MAX_WIDTH = 8;
+	public readonly MAX_WIDTH: number = (<any>this.constructor).MAX_WIDTH;
 
 	/**
 	 * The maximum height of a sprite.
 	 * See http://devernay.free.fr/hacks/chip8/C8TECH10.HTM#2.4
 	 */
-	public readonly MAX_HEIGHT = 15;
+	public static readonly MAX_HEIGHT = 15;
+	public readonly MAX_HEIGHT: number = (<any>this.constructor).MAX_HEIGHT;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |

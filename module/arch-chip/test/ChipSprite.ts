@@ -8,13 +8,11 @@ import ChipSprite from '../src/ChipSprite';
 // ---------------------------------------------------------------------------------------------------------------------
 describe('ChipSprite Constants', () => {
 	it('MAX_WIDTH', () => {
-		let CS = new ChipSprite([0]);
-		expect(CS.MAX_WIDTH).toStrictEqual(8);
+		expect(ChipSprite.MAX_WIDTH).toStrictEqual(8);
 	});
 
 	it('MAX_HEIGHT', () => {
-		let CS = new ChipSprite([0]);
-		expect(CS.MAX_HEIGHT).toStrictEqual(15);
+		expect(ChipSprite.MAX_HEIGHT).toStrictEqual(15);
 	});
 });
 
