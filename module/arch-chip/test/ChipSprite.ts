@@ -39,10 +39,10 @@ describe('ChipSprite', () => {
 		let sprite = new ChipSprite([0b00001000, 0b10000000]);
 		let bitfield = sprite.toBitfield();
 
-		expect(bitfield).toBeInstanceOf(Array);
-		expect(bitfield.length).toStrictEqual(2);
-		expect(bitfield[0]).toBeInstanceOf(Bitfield);
-		expect(bitfield.map(x => x.toString())).toEqual(['00001000', '10000000']);
+		expect(bitfield).toBeInstanceOf(Bitfield);
+		expect(bitfield.bits).toStrictEqual(16);
+		expect(bitfield.length).toStrictEqual(16);
+		expect(bitfield.toString()).toEqual('00001000 10000000');
 	});
 
 	it('toString', () => {

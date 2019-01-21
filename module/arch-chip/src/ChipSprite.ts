@@ -97,17 +97,18 @@ export default class ChipSprite {
 		let rightOffset = 7 - Math.min(...buffer.map(x => (x === 0 ? Number.MAX_SAFE_INTEGER : bitscanf(x))));
 
 		return buffer
-			.map(x => new Bitfield(x, UINT8_BITS).toArray())
+			.map(x => Bitfield.from(x, UINT8_BITS))
 			.map(x => x.slice(leftOffset, rightOffset + 1))
 			.map(x => x.map(y => (y ? 'X' : ' ')).join(''))
 			.join('\n');
 	}
 
 	/**
-	 * Creates an array of bitfields that represent the sprite.
-	 * @returns An array of bitfields, one per line.
+	 * Creates a bitfield that represents the sprite.
+	 * @returns A large variable-length bitfield.
 	 */
-	public toBitfield(): Bitfield[] {
-		return Array.from(this.buffer).map(x => new Bitfield(x, UINT8_BITS));
+	public toBitfield(): Bitfield {
+		let typed = this.buffer instanceof Uint8Array ? this.buffer : new Uint8Array(this.buffer);
+		return Bitfield.from(typed);
 	}
 }
