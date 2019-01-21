@@ -54,6 +54,14 @@ describe('Bitfield', () => {
 		expect(bf8.bits).toEqual(8);
 	});
 
+	it('from(Uint8Array)', () => {
+		let ui8a = new Uint8Array([0xff, 0xfe, 0x13, 0x01]);
+
+		let bf8 = Bitfield.from(ui8a);
+		expect(bf8.bits).toEqual(ui8a.length * 8);
+		expect(Array.from(bf8.toTyped())).toEqual(Array.from(ui8a));
+	});
+
 	it('toString', () => {
 		let bf8 = Bitfield.from(0b11000101, 8);
 		let bf16 = Bitfield.from(0b1100010100000001, 16);

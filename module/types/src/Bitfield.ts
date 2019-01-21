@@ -163,6 +163,14 @@ export default class Bitfield extends Array {
 	public static from(array: boolean[]): Bitfield;
 
 	/**
+	 * Creates a bitfield from a Uint8Array.
+	 *
+	 * @param array The typed array.
+	 * @returns The corresponding bitfield.
+	 */
+	public static from(array: Uint8Array): Bitfield;
+
+	/**
 	 * Creates a bitfield from a number.
 	 *
 	 * @param number The number.
@@ -171,13 +179,31 @@ export default class Bitfield extends Array {
 	 */
 	public static from(number: number, bits: number): Bitfield;
 
-	public static from(from: boolean[] | number, param?: number): Bitfield {
+	public static from(from: Uint8Array | boolean[] | number, param?: number): Bitfield {
 		let bitfield;
 
 		if (from instanceof Array) {
+			// From boolean array.
 			bitfield = new Bitfield(from.length);
 			bitfield.splice(0, from.length, ...from);
+		} else if (from instanceof Uint8Array) {
+			// From typed array.
+			bitfield = new Bitfield(from.length * 8);
+			let temp = new Bitfield(8);
+			for (let i = 0; i < from.length; i++) {
+				let bi = i * 8;
+				temp.assign(from[i]);
+				bitfield[bi + 0] = temp[0];
+				bitfield[bi + 1] = temp[1];
+				bitfield[bi + 2] = temp[2];
+				bitfield[bi + 3] = temp[3];
+				bitfield[bi + 4] = temp[4];
+				bitfield[bi + 5] = temp[5];
+				bitfield[bi + 6] = temp[6];
+				bitfield[bi + 7] = temp[7];
+			}
 		} else if (typeof from === 'number' && typeof param === 'number') {
+			// From number.
 			assert(param! > 0 && param! <= 32, "Parameter 'bits' is invalid");
 
 			bitfield = new Bitfield(param);
