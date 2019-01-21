@@ -10,12 +10,24 @@
 
 ## Attendance
 
-Name, *user@sfu.ca*
+Kyle, *ksaburao@sfu.ca*
+Ethan, *epini@sfu.ca*
+firas, *ffakih@sfu.ca*
+Anthony, *khanhp@sfu.ca*
+Dan, *damarasi@sfu.ca*
+Henry, *zhw@sfu.ca*W
+
 
 ## Targets
 
 - Discussion for Release 1.
+- We will work on the script for the Release 0 presentation.
 
 ## Discussion
 
+- Everyone has been assigned a part to write about in the presentation script.
+
 ## Decisions
+
+- We worked on the script for the Release 0 presentation.
+- It has been completed.
