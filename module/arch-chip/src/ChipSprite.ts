@@ -5,7 +5,7 @@
 import assert from '@chipotle/types/assert';
 
 import Bitfield from '@chipotle/types/Bitfield';
-import {default as Uint8, bitscanf, bitscanr, BITS as UINT8_BITS} from '@chipotle/types/Uint8';
+import {default as Uint8, bitscanf, bitscanr, BITS, MIN, MAX} from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -78,6 +78,12 @@ export default class ChipSprite {
 		this.height = this.buffer.length;
 
 		assert(this.buffer.length <= this.MAX_HEIGHT, 'Invalid sprite buffer');
+		assert(
+			Array.from(this.buffer)
+				.map(x => x >= MIN && x <= MAX)
+				.find(x => !x) === undefined,
+			'Invalid sprite buffer contents'
+		);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -97,7 +103,7 @@ export default class ChipSprite {
 		let rightOffset = 7 - Math.min(...buffer.map(x => (x === 0 ? Number.MAX_SAFE_INTEGER : bitscanf(x))));
 
 		return buffer
-			.map(x => Bitfield.from(x, UINT8_BITS))
+			.map(x => Bitfield.from(x, BITS))
 			.map(x => x.slice(leftOffset, rightOffset + 1))
 			.map(x => x.map(y => (y ? 'X' : ' ')).join(''))
 			.join('\n');
