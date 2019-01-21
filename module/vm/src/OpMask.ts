@@ -29,7 +29,7 @@ export default class OpMask {
 
 	/**
 	 * The bitmask for the first instruction parameter.
-	 * This is used to extract a the first parameter from an opcode.
+	 * This is used to extract the first parameter from an opcode.
 	 *
 	 * ## Example:
 	 *
@@ -39,13 +39,23 @@ export default class OpMask {
 
 	/**
 	 * The bitmask for the second instruction parameter.
-	 * This is used to extract a the second parameter from an opcode.
+	 * This is used to extract the second parameter from an opcode.
 	 *
 	 * ## Example:
 	 *
 	 * `0x000F` will extract bits 12 through 15 and calculate their bitshifted value.
 	 */
 	readonly p2: OpCode;
+
+	/**
+	 * The bitmask for the third instruction parameter.
+	 * This is used to extract the third parameter from an opcode.
+	 *
+	 * ## Example:
+	 *
+	 * `0x000F` will extract bits 12 through 15 and calculate their bitshifted value.
+	 */
+	readonly p3: OpCode;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields: Precomputed Values                                                                                |
@@ -73,12 +83,12 @@ export default class OpMask {
 	readonly p1LSB: OpCode;
 
 	/**
-	 * The index of the first non-zero most-significant-bit in {@link #p2}.
+	 * The index of the first non-zero most-significant-bit in {@link #p1}.
 	 */
 	readonly p1MSB: OpCode;
 
 	/**
-	 * The index of the first non-zero most-significant-bit in {@link #p1}.
+	 * The index of the first non-zero most-significant-bit in {@link #p2}.
 	 */
 	readonly p2LSB: OpCode;
 
@@ -86,6 +96,16 @@ export default class OpMask {
 	 * The index of the first non-zero most-significant-bit in {@link #p2}.
 	 */
 	readonly p2MSB: OpCode;
+
+	/**
+	 * The index of the first non-zero most-significant-bit in {@link #p3}.
+	 */
+	readonly p3LSB: OpCode;
+
+	/**
+	 * The index of the first non-zero most-significant-bit in {@link #p3}.
+	 */
+	readonly p3MSB: OpCode;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -98,8 +118,9 @@ export default class OpMask {
 	 */
 	constructor(masks: OpMaskCtor) {
 		this.mask = masks.mask;
-		this.p1 = masks.p1;
-		this.p2 = masks.p2;
+		this.p1 = masks.p1 === undefined ? 0 : masks.p1;
+		this.p2 = masks.p2 === undefined ? 0 : masks.p2;
+		this.p3 = masks.p3 === undefined ? 0 : masks.p3;
 
 		// Precompute values.
 		this.maskLSB = bitscanf(this.mask);
@@ -108,6 +129,8 @@ export default class OpMask {
 		this.p1MSB = this.p1 === 0 ? 0 : bitscanr(this.p1);
 		this.p2LSB = this.p2 === 0 ? 0 : bitscanf(this.p2);
 		this.p2MSB = this.p2 === 0 ? 0 : bitscanr(this.p2);
+		this.p3LSB = this.p3 === 0 ? 0 : bitscanf(this.p3);
+		this.p3MSB = this.p3 === 0 ? 0 : bitscanr(this.p3);
 		this.priority = this.maskMSB - this.maskLSB;
 
 		// Assertions.
@@ -117,16 +140,31 @@ export default class OpMask {
 		if (this.p1 !== 0) {
 			assert(this.p1 >= MIN && this.p1 <= MAX, 'OpMask p1 is out of range for OpCode');
 			assert(this.p1 > this.p2, 'OpMask p2 comes before OpMask p1');
+			assert(this.p1 > this.p3, 'OpMask p3 comes before OpMask p1');
 			assert((this.mask & this.p1) === 0, 'OpMask mask and p1 overlap');
 		}
 
 		if (this.p2 !== 0) {
 			assert(this.p2 >= MIN && this.p2 <= MAX, 'OpMask p2 is out of range for OpCode');
+			assert(this.p2 > this.p3, 'OpMask p3 comes before OpMask p2');
 			assert((this.mask & this.p2) === 0, 'OpMask mask and p2 overlap');
+		}
+
+		if (this.p3 !== 0) {
+			assert(this.p3 >= MIN && this.p3 <= MAX, 'OpMask p3 is out of range for OpCode');
+			assert((this.mask & this.p3) === 0, 'OpMask mask and p3 overlap');
 		}
 
 		if (this.p1 !== 0 && this.p2 !== 0) {
 			assert((this.p1 & this.p2) === 0, 'OpMask p1 and p2 overlap');
+		}
+
+		if (this.p2 !== 0 && this.p3 !== 0) {
+			assert((this.p2 & this.p3) === 0, 'OpMask p2 and p3 overlap');
+		}
+
+		if (this.p1 !== 0 && this.p3 !== 0) {
+			assert((this.p1 & this.p3) === 0, 'OpMask p1 and p3 overlap');
 		}
 	}
 
@@ -155,6 +193,17 @@ export default class OpMask {
 	public decodeParameter2(opcode: OpCode): OpCode {
 		return bitshiftr(and(opcode, this.p2), this.p2LSB);
 	}
+
+	/**
+	 * Decodes the third parameter from an opcode.
+	 * This will bitshift the parameter to align its LSB (e.g. 0bxx00 -> 0b00xx).
+	 *
+	 * @param opcode The opcode to decode.
+	 * @returns The decoded parameter.
+	 */
+	public decodeParameter3(opcode: OpCode): OpCode {
+		return bitshiftr(and(opcode, this.p3), this.p3LSB);
+	}
 }
 
 /**
@@ -172,10 +221,15 @@ interface OpMaskCtor {
 	/**
 	 * @see OpMask#p1
 	 */
-	readonly p1: OpCode;
+	readonly p1?: OpCode;
 
 	/**
 	 * @see OpMask#p2
 	 */
-	readonly p2: OpCode;
+	readonly p2?: OpCode;
+
+	/**
+	 * @see OpMask#p3
+	 */
+	readonly p3?: OpCode;
 }

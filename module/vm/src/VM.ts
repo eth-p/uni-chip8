@@ -164,7 +164,7 @@ export class VMBase<A> {
 		(<any>this)._tick();
 
 		// Execute the opcode.
-		ir[0](<VMContext<A>>(<unknown>this), ir[1], ir[2]);
+		ir[0](<VMContext<A>>(<unknown>this), ir[1], ir[2], ir[3]);
 
 		// Increment the program counter.
 		this.program_counter += 2;
