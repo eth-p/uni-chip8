@@ -37,6 +37,9 @@ This section contains all deliverables and tools that we are currently planning 
 ### In Progress
 
 - [**CHIP-8 Emulator**](item-description/Chip-8-emulator.md)
+  - Opcodes
+  - General Architecture
+  - Cycle Forwards
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
@@ -297,6 +300,8 @@ The emulator will at minimum be able to support basic, non-interactive programs 
   - We hope to enable interactive support with key presses.
   - **Website Design Prototype**
   ![Website Design Prototype](images/website_prototype.jpg)
+  - **Kyle's CHIP-8 Prototype**
+    - [Link](https://macedir.github.io/chip8/)
 
 ##### Module design
 
