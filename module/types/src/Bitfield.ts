@@ -4,28 +4,22 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from './assert';
 
-import {default as Uint8, BITS as UINT8_BITS} from './Uint8';
-import {default as Uint16, BITS as UINT16_BITS} from './Uint16';
+import Uint8 from './Uint8';
+import Uint16 from './Uint16';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An indexed bitfield representation of an 8 or 16 bit number.
+ * A variable-length indexed bitfield.
  */
-export default class Bitfield {
+export default class Bitfield extends Array {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The underlying value of the bitfield.
+	 * The number of bits in the bitfield.
 	 */
-	protected value: Uint8 | Uint16;
-
-	/**
-	 * The length of the bitfield.
-	 * This is the number of bits.
-	 */
-	public readonly length: number;
+	public readonly bits: number;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields: Array-Like                                                                                        |
@@ -43,76 +37,116 @@ export default class Bitfield {
 	/**
 	 * Creates a new bitfield.
 	 *
-	 * @param value The initial value of the bitfield.
-	 * @param width The number of bits to observe.
+	 * @param bits The number of bits.
 	 */
-	public constructor(value: Uint8 | Uint16, width: number) {
-		assert(width === UINT8_BITS || width === UINT16_BITS, "Invalid 'width' for Uint8 or Uint16");
-		assert(value >= 0 && value <= 1 << width, `Invalid 'value' for a unsigned ${width}-bit integer`);
-		this.value = value;
-		this.length = width;
+	public constructor(bits: number) {
+		super(bits);
+		this.bits = this.length;
 
-		Object.getPrototypeOf(this).constructor.defineIndices(this);
+		if (typeof bits === 'number') {
+			assert(bits >= 0, "Parameter 'bits' must be greater than zero");
+			this.fill(false, 0, this.bits);
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Assign this bitfield to a specific number value.
+	 *
+	 * @param number The number.
+	 * @throws TypeError When the bitfield is too large to accept a number.
+	 */
+	public assign(number: number): void {
+		if (this.bits < 0 || this.bits > 32) {
+			throw new TypeError(`Cannot assign a ${this.bits}-bit bitfield from a number.`);
+		}
+
+		for (let i = this.bits - 1; i >= 0; i--) {
+			this[this.bits - 1 - i] = (number & (1 << i)) > 0;
+		}
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Casting:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Creates a binary string from the bitfield.
+	 * Every eighth place is separated by a space.
+	 *
+	 * ```
+	 * 00000000 11111111
+	 * 00000000 1
+	 * ```
+	 *
 	 * @returns A binary string representing the bitfield.
 	 */
 	public toString(): string {
-		return this.toArray()
-			.map(bit => (bit ? '1' : '0'))
-			.join('');
-	}
+		let buffer = '';
 
-	/**
-	 * Creates a boolean array from the bitfield.
-	 * @returns A boolean array.
-	 */
-	public toArray(): boolean[] {
-		return Array.from(this);
+		for (let i = 0; i < this.bits; i++) {
+			if (i % 8 === 0 && i !== 0) {
+				buffer += ` ${this[i] ? '1' : '0'}`;
+			} else {
+				buffer += this[i] ? '1' : '0';
+			}
+		}
+
+		return buffer;
 	}
 
 	/**
 	 * Creates a number from the bitfield.
-	 * @returns A number.
+	 *
+	 * @returns An 8-bit unsigned integer.
+	 * @throws TypeError When working with bitfields larger
 	 */
 	public toNumber(): number {
-		return this.value;
-	}
-
-	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                                  |
-	// -------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * Creates an iterator for the bitfield.
-	 * @returns An iterator.
-	 */
-	*[Symbol.iterator](): Iterator<boolean> {
-		// tslint:disable-next-line:prefer-for-of
-		for (let index = 0; index < this.length; index++) {
-			yield this[index];
+		if (this.bits < 0 || this.bits > 32) {
+			throw new TypeError(`Cannot convert a ${this.bits}-bit bitfield to a number.`);
 		}
+
+		let number = 0;
+		for (let i = 0; i < this.bits; i++) {
+			number = (number << 1) | (this[i] ? 1 : 0);
+		}
+
+		return number;
 	}
 
 	/**
-	 * Converts the bitfield to a primitive value.
-	 * @param hint The type of primitive to convert to.
+	 * Creates a typed array from the bitfield.
+	 * @returns A Uint8Array array.
 	 */
-	[Symbol.toPrimitive](hint: 'number' | 'string' | 'default'): any {
-		switch (hint) {
-			case 'number':
-				return this.toNumber();
-			case 'string':
-				return this.toString();
-			case 'default':
-			default:
-				return this.toString();
+	public toTyped(): Uint8Array {
+		let typed = new Uint8Array(Math.ceil(this.bits / 8) | 0);
+
+		for (let index = 0; index < typed.length; index++) {
+			let bitIndex = index * 8;
+			typed[index] =
+				(this[bitIndex + 0] ? 0b10000000 : 0) |
+				(this[bitIndex + 1] ? 0b01000000 : 0) |
+				(this[bitIndex + 2] ? 0b00100000 : 0) |
+				(this[bitIndex + 3] ? 0b00010000 : 0) |
+				(this[bitIndex + 4] ? 0b00001000 : 0) |
+				(this[bitIndex + 5] ? 0b00000100 : 0) |
+				(this[bitIndex + 6] ? 0b00000010 : 0) |
+				(this[bitIndex + 7] ? 0b00000001 : 0);
+		}
+
+		return typed;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Special:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
+
+	*[Symbol.iterator](): IterableIterator<boolean> {
+		for (let i = 0; i < this.bits; i++) {
+			yield this[i];
 		}
 	}
 
@@ -125,60 +159,33 @@ export default class Bitfield {
 	 *
 	 * @param array The boolean array.
 	 * @returns The corresponding bitfield.
-	 *
-	 * @throws TypeError When array length is not 8 or 16.
 	 */
-	public static from(array: boolean[]): Bitfield {
-		if (array.length !== 8 && array.length !== 16) {
-			throw new TypeError(`Cannot create bitfield from array of length ${array.length}`);
-		}
+	public static from(array: boolean[]): Bitfield;
 
-		let bitfield = new Bitfield(0, array.length);
-		for (let i = 0; i < array.length; i++) {
-			bitfield[i] = array[i];
+	/**
+	 * Creates a bitfield from a number.
+	 *
+	 * @param number The number.
+	 * @param bits The number of bits to use.
+	 * @returns The corresponding bitfield.
+	 */
+	public static from(number: number, bits: number): Bitfield;
+
+	public static from(from: boolean[] | number, param?: number): Bitfield {
+		let bitfield;
+
+		if (from instanceof Array) {
+			bitfield = new Bitfield(from.length);
+			bitfield.splice(0, from.length, ...from);
+		} else if (typeof from === 'number' && typeof param === 'number') {
+			assert(param! > 0 && param! <= 32, "Parameter 'bits' is invalid");
+
+			bitfield = new Bitfield(param);
+			bitfield.assign(from);
+		} else {
+			throw new TypeError('Unknown overload');
 		}
 
 		return bitfield;
-	}
-
-	/**
-	 * Defines index getters and setters for the bitfield.
-	 * @param bitfield The bitfield.
-	 */
-	protected static defineIndices(bitfield: Bitfield): void {
-		let props: any = {};
-		for (let i = 0; i < bitfield.length; i++) {
-			let shifted = bitfield.length - 1 - i;
-			props[i] = {
-				enumerable: true,
-				configurable: true,
-
-				get: this.getShifted.bind(bitfield, shifted),
-				set: this.setShifted.bind(bitfield, shifted)
-			};
-		}
-
-		Object.defineProperties(bitfield, props);
-	}
-
-	/**
-	 * Gets the bit value at a precalculated index.
-	 * @param index The precalcuated index.
-	 */
-	protected static getShifted(this: Bitfield, index: number): boolean {
-		return ((this.value >> index) & 1) === 1;
-	}
-
-	/**
-	 * Sets the bit value at a precalculated index.
-	 * @param index The precalculated index.
-	 * @param value The value of the bit.
-	 */
-	protected static setShifted(this: Bitfield, index: number, value: boolean): void {
-		if (value) {
-			this.value = this.value | (1 << index);
-		} else {
-			this.value = this.value & (1 << index);
-		}
 	}
 }

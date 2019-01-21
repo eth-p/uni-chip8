@@ -8,42 +8,80 @@ import * as Uint16 from '../src/Uint16';
 // ---------------------------------------------------------------------------------------------------------------------
 describe('Bitfield', () => {
 	it('constructor', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		expect((<any>bf8).value).toStrictEqual(0b10001001);
-		expect(bf8.length).toStrictEqual(Uint8.BITS);
+		let bf8 = new Bitfield(8);
+		expect(bf8.length).toStrictEqual(8);
+		expect(bf8.bits).toStrictEqual(8);
 
-		let bf16 = new Bitfield(0b1000100100010001, Uint16.BITS);
-		expect((<any>bf16).value).toStrictEqual(0b1000100100010001);
-		expect(bf16.length).toStrictEqual(Uint16.BITS);
+		let bf16 = new Bitfield(16);
+		expect(bf16.length).toStrictEqual(16);
+		expect(bf16.bits).toStrictEqual(16);
 	});
 
-	it('toArray', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		expect(bf8.toArray()).toEqual([true, false, false, false, true, false, false, true]);
+	it('bits', () => {
+		let bf8 = new Bitfield(8);
+		expect(bf8.bits).toStrictEqual(8);
 	});
 
-	it('toNumber', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		expect(bf8.toNumber()).toStrictEqual(0b10001001);
+	it('set[]', () => {
+		let bf8 = new Bitfield(8);
+		bf8[0] = true;
+		bf8[1] = true;
+		bf8[5] = true;
+		expect(Array.from(bf8)).toEqual([true, true, false, false, false, true, false, false]);
+	});
+
+	it('get[]', () => {
+		let bf8 = new Bitfield(8);
+		bf8[0] = true;
+		expect(bf8[0]).toStrictEqual(true);
+	});
+
+	it('assign', () => {
+		let bf8 = new Bitfield(8);
+		bf8.assign(0b11101011);
+		expect(Array.from(bf8)).toEqual([true, true, true, false, true, false, true, true]);
+	});
+
+	it('from(number, number)', () => {
+		let bf8 = Bitfield.from(0b11101011, 8);
+		expect(Array.from(bf8)).toEqual([true, true, true, false, true, false, true, true]);
+		expect(bf8.bits).toEqual(8);
+	});
+
+	it('from(boolean[])', () => {
+		let bf8 = Bitfield.from([true, true, true, false, true, false, true, true]);
+		expect(Array.from(bf8)).toEqual([true, true, true, false, true, false, true, true]);
+		expect(bf8.bits).toEqual(8);
 	});
 
 	it('toString', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		expect(bf8.toString()).toStrictEqual('10001001');
+		let bf8 = Bitfield.from(0b11000101, 8);
+		let bf16 = Bitfield.from(0b1100010100000001, 16);
+
+		expect(bf8.toString()).toStrictEqual('11000101');
+		expect(bf16.toString()).toStrictEqual('11000101 00000001');
+	});
+
+	it('toNumber', () => {
+		let bf8 = Bitfield.from(0b10001001, 8);
+		expect(bf8.toNumber()).toStrictEqual(0b10001001);
+	});
+
+	it('toTyped', () => {
+		let bf16 = Bitfield.from(0b1100010100000001, 16);
+		let bf16a = bf16.toTyped();
+		expect(bf16a).toBeInstanceOf(Uint8Array);
+		expect(bf16a[0]).toStrictEqual(0b11000101);
+		expect(bf16a[1]).toStrictEqual(0b00000001);
 	});
 
 	it('[Symbol.iterator]', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		let fsm = [true, false, false, false, true, false, false, true];
+		let bf8 = Bitfield.from(0b11000101, 8);
+		bf8[8] = false;
+
+		let fsm = [true, true, false, false, false, true, false, true];
 		for (let bit of bf8) {
 			expect(bit).toStrictEqual(<boolean>fsm.shift());
 		}
-	});
-
-	it('[Symbol.toPrimitive]', () => {
-		let bf8 = new Bitfield(0b10001001, Uint8.BITS);
-		expect(`${bf8}`).toStrictEqual('10001001');
-		expect(bf8 + '').toStrictEqual('10001001');
-		expect(+bf8).toStrictEqual(0b10001001);
 	});
 });
