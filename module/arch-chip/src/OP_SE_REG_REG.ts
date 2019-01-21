@@ -30,7 +30,7 @@ export default class OP_SE_REG_REG extends Op<ChipArchitecture> {
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		if (context.register_data[p1] === context.register_data[p2]) {
 			context.hopForwards(2);
 		}

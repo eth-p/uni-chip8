@@ -27,12 +27,12 @@ export default class OP_SHR_REG extends Op<ChipArchitecture> {
 			new OpMask({
 				mask: 0xf00f,
 				p1: 0x0f00,
-				p2: 0x00f0
+				p2: 0x00f0 // FIXME: What is this used for?
 			})
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		context.register_flag = context.register_data[p1] & 0b00000001;
 		context.register_data[p1] = bitshiftr(p1, 1);
 	}
