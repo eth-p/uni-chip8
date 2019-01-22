@@ -11,19 +11,19 @@ describe('Bitmask', () => {
 		expect(bm.mask).toStrictEqual(0b10000001);
 		expect(bm.lsb).toStrictEqual(0);
 		expect(bm.msb).toStrictEqual(7);
-		expect(bm.width).toStrictEqual(7);
+		expect(bm.width).toStrictEqual(8);
 
 		let bm2 = new Bitmask(0b01000010);
 		expect(bm2.mask).toStrictEqual(0b01000010);
 		expect(bm2.lsb).toStrictEqual(1);
 		expect(bm2.msb).toStrictEqual(6);
-		expect(bm2.width).toStrictEqual(5);
+		expect(bm2.width).toStrictEqual(6);
 
 		let bm3 = new Bitmask(0b1000000001000010);
 		expect(bm3.mask).toStrictEqual(0b1000000001000010);
 		expect(bm3.lsb).toStrictEqual(1);
 		expect(bm3.msb).toStrictEqual(15);
-		expect(bm3.width).toStrictEqual(14);
+		expect(bm3.width).toStrictEqual(15);
 	});
 
 	it('extract', () => {
@@ -39,7 +39,11 @@ describe('Bitmask', () => {
 		expect(bm.emplace(0b10, 0x00)).toStrictEqual(0b00100000);
 		expect(bm.emplace(0b01, 0x00)).toStrictEqual(0b00010000);
 		expect(bm.emplace(0b11, 0x01)).toStrictEqual(0b00110001);
-		expect(bm.emplace(0b00, 0xff)).toStrictEqual(0b11001111);
+		expect(bm.emplace(0x00, 0xff)).toStrictEqual(0b11001111);
+
+		let bm2 = new Bitmask(0xf0);
+		expect(bm2.emplace(0x00, 0xff)).toStrictEqual(0x0f);
+		expect(bm2.emplace(0xf0, 0x00)).toStrictEqual(0xf0);
 	});
 
 	it('overlaps', () => {

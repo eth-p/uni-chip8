@@ -23,6 +23,11 @@ export default class Bitmask {
 	public readonly mask: Uint;
 
 	/**
+	 * The bitmask for the shifted value.
+	 */
+	public readonly vmask: Uint;
+
+	/**
 	 * The index of the least-significant (rightmost) bit in the mask.
 	 */
 	public readonly lsb: Uint;
@@ -53,7 +58,8 @@ export default class Bitmask {
 		this.mask = mask;
 		this.lsb = mask === 0 ? 0 : bitscanf(mask);
 		this.msb = mask === 0 ? 0 : bitscanr(mask);
-		this.width = this.msb - this.lsb;
+		this.width = mask === 0 ? 0 : this.msb - this.lsb + 1;
+		this.vmask = bitshiftr(mask, this.lsb);
 
 		assert(this.width >= 0, 'Bitmask width is negative?');
 	}
@@ -81,6 +87,7 @@ export default class Bitmask {
 	 * @param to The number.
 	 */
 	public emplace(value: Uint, to: Uint): Uint {
+		assert((value & ~this.vmask) === 0, "Parameter 'value' contains non-masked bits");
 		return this.mask === 0 ? to : (to & ~this.mask) | bitshiftl(value, this.lsb);
 	}
 
