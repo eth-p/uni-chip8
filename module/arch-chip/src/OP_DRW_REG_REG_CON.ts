@@ -39,8 +39,6 @@ export default class OP_DRW_REG_REG_CON extends Op<ChipArchitecture> {
 
 	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		let collide = context.display.draw(p1, p2, new ChipSprite(context.program!.data!, context.register_index, p3));
-		if (collide) {
-			context.register_flag = 1;
-		}
+		context.register_flag = collide === true ? 1 : 0;
 	}
 }
