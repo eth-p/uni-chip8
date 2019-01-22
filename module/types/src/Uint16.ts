@@ -28,6 +28,7 @@ import MathResult from './MathResult';
  */
 type Uint16 = number;
 export default Uint16;
+export {Uint16};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // | Constants:                                                                                                        |
