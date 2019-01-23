@@ -8,7 +8,7 @@ import assert from './assert';
 /**
  * A variable-length indexed bitfield.
  */
-export default class Bitfield extends Array {
+class Bitfield extends Array {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -212,3 +212,7 @@ export default class Bitfield extends Array {
 		return bitfield;
 	}
 }
+
+//! --------------------------------------------------------------------------------------------------------------------
+export default Bitfield;
+export {Bitfield};

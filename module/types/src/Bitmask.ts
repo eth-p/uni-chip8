@@ -12,7 +12,7 @@ import {default as Uint, bitscanf, bitscanr, bitshiftl, bitshiftr, MIN, MAX, BIT
  * A bitwise mask.
  * Only supports up to 16 bits.
  */
-export default class Bitmask {
+class Bitmask {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -159,3 +159,7 @@ export default class Bitmask {
 		}
 	}
 }
+
+//! --------------------------------------------------------------------------------------------------------------------
+export default Bitmask;
+export {Bitmask};
