@@ -8,7 +8,6 @@ import MathFlag from '@chipotle/types/MathFlag';
 
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
-import Operation from '@chipotle/isa/Operation';
 
 import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -21,7 +20,7 @@ import Chip from './Chip';
  *
  * '8xy5'
  */
-export default class OP_SUB_REG_REG extends Operation implements Chip.Interpreter {
+export default class OP_SUB_REG_REG extends Chip.Operation {
 	public constructor() {
 		super('SUB', 0x8005, [
 			{

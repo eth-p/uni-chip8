@@ -4,7 +4,6 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
 
-import Operation from '@chipotle/isa/Operation';
 import OperandType from '@chipotle/isa/OperandType';
 
 import Chip from './Chip';
@@ -23,7 +22,7 @@ import ChipSprite from './ChipSprite';
  *
  * 'dxyn'
  */
-export default class OP_DRW_REG_REG_CON extends Operation implements Chip.Interpreter {
+export default class OP_DRW_REG_REG_CON extends Chip.Operation {
 	public constructor() {
 		super('DRW', 0xd000, [
 			{

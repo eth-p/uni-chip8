@@ -5,7 +5,6 @@
 import {and} from '@chipotle/types/Uint8';
 import Uint16 from '@chipotle/types/Uint16';
 
-import Operation from '@chipotle/isa/Operation';
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
@@ -19,7 +18,7 @@ import Chip from '@chipotle/arch-chip/Chip';
  *
  * '8xy2'
  */
-export default class OP_AND_REG_REG extends Operation implements Chip.Interpreter {
+export default class OP_AND_REG_REG extends Chip.Operation {
 	public constructor() {
 		super('AND', 0x8002, [
 			{

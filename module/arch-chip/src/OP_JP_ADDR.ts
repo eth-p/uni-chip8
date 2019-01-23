@@ -4,7 +4,6 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
 
-import Operation from '@chipotle/isa/Operation';
 import OperandType from '@chipotle/isa/OperandType';
 
 import Chip from './Chip';
@@ -17,7 +16,7 @@ import Chip from './Chip';
  *
  * '1nnn'
  */
-export default class OP_JP_ADDR extends Operation implements Chip.Interpreter {
+export default class OP_JP_ADDR extends Chip.Operation {
 	public constructor() {
 		super('JP', 0x1000, [
 			{

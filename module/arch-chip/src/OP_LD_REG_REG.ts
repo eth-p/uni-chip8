@@ -7,7 +7,6 @@ import Uint16 from '@chipotle/types/Uint16';
 
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
-import Operation from '@chipotle/isa/Operation';
 
 import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -19,7 +18,7 @@ import Chip from './Chip';
  *
  * '8xy0'
  */
-export default class OP_LD_REG_CON extends Operation implements Chip.Interpreter {
+export default class OP_LD_REG_CON extends Chip.Operation {
 	public constructor() {
 		super('LD', 0x8000, [
 			{

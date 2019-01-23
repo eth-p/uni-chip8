@@ -7,7 +7,6 @@ import Uint16 from '@chipotle/types/Uint16';
 
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
-import Operation from '@chipotle/isa/Operation';
 
 import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -19,7 +18,7 @@ import Chip from './Chip';
  *
  * '8xy3'
  */
-export default class OP_XOR_REG_REG extends Operation implements Chip.Interpreter {
+export default class OP_XOR_REG_REG extends Chip.Operation {
 	public constructor() {
 		super('XOR', 0x8003, [
 			{
