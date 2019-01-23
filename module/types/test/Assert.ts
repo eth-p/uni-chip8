@@ -2,17 +2,15 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import AssertError from './AssertError';
+import assert from '../src/assert';
+import AssertError from '../src/AssertError';
 // ---------------------------------------------------------------------------------------------------------------------
+describe('assert', () => {
+	it('assert (boolean)', () => {
+		expect(() => assert(false)).toThrowError(AssertError);
+	});
 
-/**
- * Asserts that a statement is true.
- *
- * @param result  The assertion statement.
- * @param message The assertion message.
- */
-export default function assert(result: boolean, message?: string): void | never {
-	if (!result) {
-		throw new AssertError(message == null ? 'Assertion failed.' : `Assertion failed: ${message}`).shave(1);
-	}
-}
+	it('assert (boolean, string)', () => {
+		expect(() => assert(false, 'hi')).toThrowError('hi');
+	});
+});
