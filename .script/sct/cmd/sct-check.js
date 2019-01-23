@@ -70,13 +70,13 @@ module.exports = class CommandCheck extends Command {
 				type: 'boolean',
 				default: false,
 				description: 'Only check modified files. (Requires Repository)',
-				alias: 'modified-only'
+				alias: ['modified-only', 'm']
 			},
 			'only-staged': {
 				type: 'boolean',
 				default: false,
 				description: 'Only check staged files. (Requires Repository)',
-				alias: 'staged-only'
+				alias: ['staged-only', 's']
 			},
 			'verbose': {
 				type: 'boolean',

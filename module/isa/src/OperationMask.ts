@@ -4,8 +4,8 @@
 //! --------------------------------------------------------------------------------------------------------------------
 
 /**
- * An integer which represents the memory location of an instruction.
- * For the Chip-8 and Super Chip-48 architectures, instructions are 16 bits long.
+ * A mask for separating an opcode from an instruction.
  */
-export {default} from '@chipotle/types/Uint16';
-export * from '@chipotle/types/Uint16';
+export {default} from '@chipotle/types/Bitmask';
+export {default as OperationMask} from '@chipotle/types/Bitmask';
+export * from '@chipotle/types/Bitmask';

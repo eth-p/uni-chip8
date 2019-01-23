@@ -6,8 +6,13 @@
 			"@meta": true,
 
 			"sources": [
-				"*.md",
+				"./*.md",
 				"docs/**/*.md"
+			],
+
+			"exclude": [
+				"**/node_modules",
+				"**/.tmp"
 			]
 		},
 
@@ -17,9 +22,9 @@
 
 			"sources": [
 				".script/**/*",
-				"package.json",
-				"package-lock.json",
-				".prettierrc"
+				"./package.json",
+				"./package-lock.json",
+				"./.prettierrc"
 			],
 
 			"exclude": [
@@ -73,6 +78,28 @@
 
 			"tasks": [
 				"typescript"
+			]
+		},
+
+		"isa": {
+			"description": "A software virtual machine.",
+			"@auto": true,
+
+			"tasks": [
+				"typescript"
+			]
+		},
+
+		"asm": {
+			"description": "An assembler and disassembler.",
+			"@auto": true,
+
+			"tasks": [
+				"typescript"
+			],
+
+			"sources": [
+				"docs/**/*.md"
 			]
 		},
 

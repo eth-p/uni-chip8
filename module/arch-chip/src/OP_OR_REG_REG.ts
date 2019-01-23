@@ -3,13 +3,12 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {or} from '@chipotle/types/Uint8';
+import Uint16 from '@chipotle/types/Uint16';
 
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import OperandType from '@chipotle/isa/OperandType';
+import OperandTags from '@chipotle/isa/OperandTags';
 
-import ChipArchitecture from './ChipArchitecture';
+import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -19,20 +18,22 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * '8xy1'
  */
-export default class OP_OR_REG_REG extends Op<ChipArchitecture> {
+export default class OP_OR_REG_REG extends Chip.Operation {
 	public constructor() {
-		super(
-			0x8001,
-			'OR <reg> <reg>',
-			new OpMask({
-				mask: 0xf00f,
-				p1: 0x0f00,
-				p2: 0x00f0
-			})
-		);
+		super('OR', 0x8001, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x00f0,
+				type: OperandType.REGISTER
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
 		context.register_data[p1] = or(context.register_data[p1], context.register_data[p2]);
 	}
 }

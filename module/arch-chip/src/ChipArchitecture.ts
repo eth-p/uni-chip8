@@ -6,12 +6,13 @@ import {default as Uint8} from '@chipotle/types/Uint8';
 import {default as Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
-import {default as ISA} from '@chipotle/vm/ISA';
+import Interpreted from '@chipotle/vm/Interpreted';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import TimerDescending from '@chipotle/vm/TimerDescending';
 import VMContext from '@chipotle/vm/VMContext';
 import VMError from '@chipotle/vm/VMError';
+import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
 
 import ChipDisplay from './ChipDisplay';
 
@@ -40,7 +41,7 @@ import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
 // ---------------------------------------------------------------------------------------------------------------------
-export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
+export const INSTRUCTION_SET = new VMInstructionSet<ChipArchitecture>([
 	OP_ADD_REG_CON,
 	OP_LD_REG_CON,
 	OP_SE_REG_CON,
@@ -62,7 +63,7 @@ export const INSTRUCTION_SET: ISA<ChipArchitecture> = [
 	OP_JP_ADDR_CON,
 	OP_LD_I_CON,
 	OP_DRW_REG_REG_CON
-];
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------
 

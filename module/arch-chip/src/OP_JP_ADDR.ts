@@ -2,12 +2,11 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import Uint16 from '@chipotle/types/Uint16';
 
-import ChipArchitecture from './ChipArchitecture';
+import OperandType from '@chipotle/isa/OperandType';
+
+import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,19 +16,17 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * '1nnn'
  */
-export default class OP_JP_ADDR extends Op<ChipArchitecture> {
+export default class OP_JP_ADDR extends Chip.Operation {
 	public constructor() {
-		super(
-			0x1000,
-			'JP <addr>',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0fff
-			})
-		);
+		super('JP', 0x1000, [
+			{
+				mask: 0x0fff,
+				type: OperandType.ROM_ADDRESS
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: never, p3: never): void {
 		context.jump(p1);
 	}
 }

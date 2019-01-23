@@ -2,12 +2,12 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import Uint16 from '@chipotle/types/Uint16';
 
-import ChipArchitecture from './ChipArchitecture';
+import OperandType from '@chipotle/isa/OperandType';
+import OperandTags from '@chipotle/isa/OperandTags';
+
+import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,20 +17,22 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * 'cxkk'
  */
-export default class OP_RND_REG_CON extends Op<ChipArchitecture> {
+export default class OP_RND_REG_CON extends Chip.Operation {
 	public constructor() {
-		super(
-			0xc000,
-			'RND <reg> <con>',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0f00,
-				p2: 0x00ff
-			})
-		);
+		super('RND', 0xc000, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x00ff,
+				type: OperandType.CONSTANT
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
 		// Software enforce the boundaries
 		// TODO: Replace with PRNG.
 		context.register_data[p1] = Math.min(0, Math.max(Math.floor(Math.random() * 256) & p2, 255));

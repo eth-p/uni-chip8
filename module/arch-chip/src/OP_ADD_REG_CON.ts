@@ -3,13 +3,12 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {add} from '@chipotle/types/Uint8';
+import Uint16 from '@chipotle/types/Uint16';
 
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import OperandTags from '@chipotle/isa/OperandTags';
+import OperandType from '@chipotle/isa/OperandType';
 
-import ChipArchitecture from './ChipArchitecture';
+import Chip from '@chipotle/arch-chip/Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -20,20 +19,22 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * '7xkk'
  */
-export default class OP_ADD_REG_CON extends Op<ChipArchitecture> {
+export default class OP_ADD_REG_CON extends Chip.Operation {
 	public constructor() {
-		super(
-			0x7000,
-			'ADD <reg> <con>',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0f00,
-				p2: 0x00ff
-			})
-		);
+		super('ADD', 0x7000, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x00ff,
+				type: OperandType.CONSTANT
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
 		context.register_data[p1] = add(context.register_data[p1], p2)[0];
 	}
 }

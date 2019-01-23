@@ -26,7 +26,6 @@ describe('TimerAscending', () => {
 			timer.update();
 		}
 
-		console.log(timer);
 		expect(timer.value).toEqual(2);
 		expect((<any>timer).error).toBeCloseTo(0, Number.EPSILON);
 	});

@@ -2,7 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ISA from './ISA';
+import InstructionSet from '@chipotle/isa/InstructionSet';
+
+import Interpreted from './/Interpreted';
 import ProgramSource from './ProgramSource';
 import VMContext from './VMContext';
 // ---------------------------------------------------------------------------------------------------------------------
@@ -11,7 +13,7 @@ import VMContext from './VMContext';
  * A computer architecture.
  * This class represents the available components and instruction set of a specific computer.
  */
-export default abstract class Architecture<A> {
+abstract class Architecture<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -19,7 +21,7 @@ export default abstract class Architecture<A> {
 	/**
 	 * The instruction set.
 	 */
-	public readonly ISA: ISA<A>;
+	public readonly ISA: InstructionSet<Interpreted<A>>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -29,12 +31,12 @@ export default abstract class Architecture<A> {
 	 * Creates a new computer architecture.
 	 * @param isa The instruction set of the architecture.
 	 */
-	protected constructor(isa: ISA<A>) {
+	protected constructor(isa: InstructionSet<Interpreted<A>>) {
 		this.ISA = isa;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                              |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -61,3 +63,8 @@ export default abstract class Architecture<A> {
 	 */
 	protected abstract _tick(this: VMContext<A>): void;
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+export default Architecture;
+export {Architecture};

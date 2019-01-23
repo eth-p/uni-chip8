@@ -2,12 +2,13 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
 
-import ChipArchitecture from './ChipArchitecture';
+import Uint16 from '@chipotle/types/Uint16';
+
+import OperandType from '@chipotle/isa/OperandType';
+import OperandTags from '@chipotle/isa/OperandTags';
+
+import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,20 +18,22 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * '8xy0'
  */
-export default class OP_LD_REG_CON extends Op<ChipArchitecture> {
+export default class OP_LD_REG_CON extends Chip.Operation {
 	public constructor() {
-		super(
-			0x8000,
-			'LD <reg> <con>',
-			new OpMask({
-				mask: 0xf00f,
-				p1: 0x0f00,
-				p2: 0x00f0
-			})
-		);
+		super('LD', 0x8000, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x00f0,
+				type: OperandType.REGISTER
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
 		context.register_data[p1] = context.register_data[p2];
 	}
 }
