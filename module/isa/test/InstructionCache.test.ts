@@ -40,6 +40,16 @@ describe('InstuctionCache', () => {
 		expect(opcache.get(0x0000)).toStrictEqual(<any>null);
 	});
 
+	it('size', () => {
+		let opcache = new InstructionCache<Uint16[]>();
+		let opcode = 0xa000;
+
+		let ir = TestOp.decode(opcode);
+		expect(opcache.size).toStrictEqual(0);
+		opcache.put(opcode, ir);
+		expect(opcache.size).toStrictEqual(1);
+	});
+
 	it('invalidate', () => {
 		let opcache = new InstructionCache<Uint16[]>();
 		let opcode = 0xa000;
