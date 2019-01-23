@@ -6,12 +6,10 @@ import {default as Uint8} from '@chipotle/types/Uint8';
 import {default as Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
-import Interpreted from '@chipotle/vm/Interpreted';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
-import TimerDescending from '@chipotle/vm/TimerDescending';
+import TimerDescending from '@chipotle/vm/Timer';
 import VMContext from '@chipotle/vm/VMContext';
-import VMError from '@chipotle/vm/VMError';
 import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
 
 import ChipDisplay from './ChipDisplay';
@@ -37,6 +35,7 @@ import OP_RND_REG_CON from './OP_RND_REG_CON';
 import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
 import OP_LD_I_CON from './OP_LD_I_CON';
 import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
+import ProgramError from '@chipotle/vm/ProgramError';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
@@ -104,6 +103,13 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 */
 	public static readonly PROGRAM_ENTRY = 0x200;
 	public readonly PROGRAM_ENTRY: number = (<any>this.constructor).PROGRAM_ENTRY;
+
+	/**
+	 * The program load offset.
+	 * This is where byte 0x0000 of the program will load into.
+	 */
+	public static readonly PROGRAM_LOAD_OFFSET = 0x200;
+	public readonly PROGRAM_LOAD_OFFSET: number = (<any>this.constructor).PROGRAM_LOAD_OFFSET;
 
 	/**
 	 * The CPU clock speed.
@@ -232,12 +238,12 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 */
 	protected async _load(source: ProgramSource): Promise<Uint8Array | false> {
 		if (source instanceof Uint8Array) {
-			if (source.length > this.MAX_MEMORY) {
-				throw new VMError('PROGRAM TOO LARGE');
+			if (source.length > this.MAX_MEMORY - this.PROGRAM_LOAD_OFFSET) {
+				throw new ProgramError(ProgramError.ROM_TOO_LARGE);
 			}
 
 			this.memory.fill(0, 0, this.MAX_MEMORY);
-			this.memory.set(source, 0);
+			this.memory.set(source, this.PROGRAM_LOAD_OFFSET);
 			return source;
 		}
 
@@ -261,7 +267,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * @override
 	 */
 	protected _tick(this: VMContext<ChipArchitecture>): void {
-		if (this._timer_sound.value > 0) this._timer_sound.update();
-		if (this._timer_timer.value > 0) this._timer_timer.update();
+		if (this._timer_sound.value > 0) this._timer_sound.descend();
+		if (this._timer_timer.value > 0) this._timer_timer.descend();
 	}
 }

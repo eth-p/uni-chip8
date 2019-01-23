@@ -16,4 +16,5 @@ export default class ProgramError extends ErrorChain {
 	public static STACK_UNDERFLOW = 'STACK UNDERFLOW';
 	public static STACK_OVERFLOW = 'STACK OVERFLOW';
 	public static UNKNOWN_OPCODE = 'UNKNOWN OPCODE';
+	public static ROM_TOO_LARGE = 'ROM TOO LARGE';
 }
