@@ -2,118 +2,65 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Architecture from '../src/Architecture';
-import Op from '../src/Op';
-import OpCache from '../src/OpCache';
-import OpCode from '../src/OpCode';
-import OpMask from '../src/OpMask';
-import OpTable from '../src/OpTable';
-import Context from '../src/VMContext';
+import Operation from '../src/Operation';
+import OperandType from '../src/OperandType';
+import InstructionSet from '@chipotle/isa/InstructionSet';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-abstract class TestArch extends Architecture<TestArch> {}
-
-class TestOpAlpha extends Op<TestArch> {
-	constructor() {
-		super(
-			0xa000,
-			'ALPHA',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0000,
-				p2: 0x0000
-			})
-		);
+const TestOpAlpha = new Operation('ALPHA', 0xf000, [
+	{
+		mask: 0x0fff,
+		type: OperandType.CONSTANT
 	}
+]);
 
-	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {}
-}
-
-class TestOpBeta extends Op<TestArch> {
-	constructor() {
-		super(
-			0xb000,
-			'BETA',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0000,
-				p2: 0x0000
-			})
-		);
+const TestOpBeta = new Operation('BETA', 0xd000, [
+	{
+		mask: 0x0fff,
+		type: OperandType.CONSTANT
 	}
+]);
 
-	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {}
-}
-
-class TestOpGamma extends Op<TestArch> {
-	constructor() {
-		super(
-			0xd900,
-			'GAMMA',
-			new OpMask({
-				mask: 0xff00,
-				p1: 0x00f0,
-				p2: 0x000f
-			})
-		);
+const TestOpGamma = new Operation('GAMMA', 0xfe00, [
+	{
+		mask: 0x01ff,
+		type: OperandType.CONSTANT
 	}
+]);
 
-	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {}
-}
-
-class TestOpDelta extends Op<TestArch> {
-	constructor() {
-		super(
-			0xd000,
-			'GAMMA',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0000,
-				p2: 0x0000
-			})
-		);
+const TestOpDelta = new Operation('DELTA', 0xd00d, [
+	{
+		mask: 0x0ff0,
+		type: OperandType.CONSTANT
 	}
-
-	execute(context: Context<TestArch>, p1: OpCode, p2: OpCode): void {}
-}
+]);
 
 // ---------------------------------------------------------------------------------------------------------------------
-describe('OpTable', () => {
+describe('InstructionSet', () => {
 	it('constructor', () => {
-		let optable1 = new OpTable([TestOpAlpha, TestOpBeta, TestOpGamma]);
-		expect(optable1.mask).toEqual(0xf000);
-		expect(optable1.maskshift).toEqual(12);
-		expect((<any>optable1).table[0xa].length).toEqual(1);
-		expect((<any>optable1).table[0xb].length).toEqual(1);
-		expect((<any>optable1).table[0xd].length).toEqual(1);
+		let set = new InstructionSet([TestOpAlpha, TestOpBeta]);
+		expect((<any>set).mask).toStrictEqual(0xf000);
+		expect((<any>set).maskshift).toStrictEqual(12);
+		expect((<any>set).table[0xd].length).toEqual(1);
+		expect((<any>set).table[0xf].length).toEqual(1);
 
-		let optable2 = new OpTable([TestOpGamma]);
-		expect(optable2.mask).toEqual(0xff00);
-		expect(optable2.maskshift).toEqual(8);
+		let set2 = new InstructionSet([TestOpAlpha, TestOpBeta, TestOpGamma, TestOpDelta]);
+		expect((<any>set2).mask).toStrictEqual(0xf000);
+		expect((<any>set2).maskshift).toStrictEqual(12);
+		expect((<any>set2).table[0xf].length).toEqual(2);
 	});
 
 	it('lookup', () => {
-		let optable1 = new OpTable([TestOpAlpha, TestOpBeta, TestOpDelta, TestOpGamma]);
-		expect(optable1.lookup(0xa000).opcode).toEqual(0xa000);
-		expect(optable1.lookup(0xaf01).opcode).toEqual(0xa000);
-		expect(optable1.lookup(0xb000).opcode).toEqual(0xb000);
-		expect(optable1.lookup(0xbf01).opcode).toEqual(0xb000);
-		expect(optable1.lookup(0xd901).opcode).toEqual(0xd900);
-		expect(optable1.lookup(0xd800).opcode).toEqual(0xd000);
-		expect(() => optable1.lookup(0xf001)).toThrow();
-	});
-
-	it('decode', () => {
-		let optable1 = new OpTable([TestOpAlpha]);
-		let opcode = 0xa000;
-		let ir = optable1.lookup(opcode).decode(opcode);
-		expect(optable1.decode(opcode)).toEqual(ir);
-	});
-
-	it('decode (with cache)', () => {
-		let optable1 = new OpTable([TestOpAlpha], new OpCache<TestArch>());
-		let opcode = 0xa000;
-		expect(optable1.decode(opcode)).toStrictEqual(optable1.decode(opcode));
+		let set2 = new InstructionSet([TestOpAlpha, TestOpBeta, TestOpGamma, TestOpDelta]);
+		expect((<any>set2).mask).toStrictEqual(0xf000);
+		expect((<any>set2).maskshift).toStrictEqual(12);
+		expect((<any>set2).table[0xf].length).toEqual(2);
+		expect(set2.lookup(0xf000).mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xf111).mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xf011).mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xd001).mnemonic).toStrictEqual('BETA');
+		expect(set2.lookup(0xfeed).mnemonic).toStrictEqual('GAMMA');
+		expect(set2.lookup(0xdeed).mnemonic).toStrictEqual('DELTA');
 	});
 });
