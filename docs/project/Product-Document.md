@@ -40,6 +40,7 @@ This section contains all deliverables and tools that we are currently planning 
   - Opcodes
   - General Architecture
   - Cycle Forwards
+- [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values

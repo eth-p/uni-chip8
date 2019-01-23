@@ -42,6 +42,7 @@
 
 - **arch-chip:** Implemented opcodes.
 - **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
+- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
 
 ### Documentation
 
