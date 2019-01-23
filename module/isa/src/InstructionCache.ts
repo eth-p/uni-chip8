@@ -2,19 +2,18 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import IR from './IR';
-import OpCode from './OpCode';
+import Instruction from './Instruction';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A cache for decoded instructions.
  */
-export default class OpCache<A> {
+export default class InstructionCache<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected map: Map<OpCode, IR<A>>;
+	protected map: Map<Instruction, A>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -43,37 +42,37 @@ export default class OpCache<A> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Gets the cached IR for an opcode.
+	 * Gets the cached value for an instruction.
 	 *
-	 * @param opcode The opcode.
-	 * @returns The cached IR, or null if not found.
+	 * @param instruction The instruction.
+	 * @returns The cached value, or null if not found.
 	 */
-	public get(opcode: OpCode): IR<A> | null {
-		let entry = this.map.get(opcode);
+	public get(instruction: Instruction): A | null {
+		let entry = this.map.get(instruction);
 		if (entry === undefined) return null;
 		return entry;
 	}
 
 	/**
-	 * Adds an IR to the cache.
+	 * Sets a cached value to the cache.
 	 *
-	 * @param opcode The opcode.
-	 * @param ir The IR of the opcode.
+	 * @param instruction The instruction.
+	 * @param value The value to cache.
 	 */
-	public put(opcode: OpCode, ir: IR<A>): void {
-		this.map.set(opcode, ir);
+	public put(instruction: Instruction, value: A): void {
+		this.map.set(instruction, value);
 	}
 
 	/**
-	 * Invalidates a cached opcode.
-	 * @param opcode The opcode.
+	 * Invalidates a cached instruction.
+	 * @param instruction The instruction.
 	 */
-	public invalidate(opcode: OpCode): void {
-		this.map.delete(opcode);
+	public invalidate(instruction: Instruction): void {
+		this.map.delete(instruction);
 	}
 
 	/**
-	 * Invalidates all cached opcodes.
+	 * Invalidates all cached instructions.
 	 */
 	public invalidateAll(): void {
 		this.map.clear();

@@ -14,7 +14,7 @@ import Operation from './Operation';
  * This uses a single-depth lookup table to map instructions to operations.
  * The smaller the mask, the higher the priority.
  */
-class InstructionSet<T = void> {
+class InstructionSet<I = void> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ class InstructionSet<T = void> {
 	 * @param instruction The instruction.
 	 * @returns The corresponding operation, or null if not found.
 	 */
-	public lookup(instruction: Instruction): (Operation & T) | null {
+	public lookup(instruction: Instruction): (Operation & I) | null {
 		assert(isValid(instruction), "Parameter 'instruction' is out of range for Instruction");
 
 		let index = bitshiftr(and(this.mask, instruction), this.maskshift);
@@ -106,7 +106,7 @@ class InstructionSet<T = void> {
 		if (lut == null) return null;
 
 		for (let op of lut) {
-			if (op.matches(instruction)) return <Operation & T>op;
+			if (op.matches(instruction)) return <Operation & I>op;
 		}
 
 		return null;
