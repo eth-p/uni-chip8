@@ -24,13 +24,12 @@ export default class OP_LD_I_CON extends Op<ChipArchitecture> {
 			'LD I <con>',
 			new OpMask({
 				mask: 0xf000,
-				p1: 0x0fff,
-				p2: 0x0000
+				p1: 0x0fff
 			})
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		context.register_index = p1;
 	}
 }

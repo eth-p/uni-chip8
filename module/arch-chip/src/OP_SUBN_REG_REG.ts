@@ -39,7 +39,7 @@ export default class OP_SUBN_REG_REG extends Op<ChipArchitecture> {
 		);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode): void {
+	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
 		let result: [number, MathFlag] = sub(p2, p1);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OK ? 1 : 0;

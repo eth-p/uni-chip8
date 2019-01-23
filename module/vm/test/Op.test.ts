@@ -72,6 +72,6 @@ describe('Op', () => {
 		let op = new TestOp(() => true);
 		let ir = op.decode(0xf369);
 
-		expect(ir[0](<any>null, ir[1], ir[2])).toStrictEqual(true);
+		expect(ir[0](<any>null, ir[1], ir[2], ir[3])).toStrictEqual(true);
 	});
 });

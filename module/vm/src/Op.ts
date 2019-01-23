@@ -89,7 +89,12 @@ export default abstract class Op<A> {
 	 * @param opcode The opcode to decode.
 	 */
 	public decode(opcode: OpCode): IR<A> {
-		return [<any>this.execute, this.mask.decodeParameter1(opcode), this.mask.decodeParameter2(opcode)];
+		return [
+			<any>this.execute,
+			this.mask.decodeParameter1(opcode),
+			this.mask.decodeParameter2(opcode),
+			this.mask.p3 === 0 ? 0 : this.mask.decodeParameter3(opcode)
+		];
 	}
 
 	/**
@@ -98,8 +103,9 @@ export default abstract class Op<A> {
 	 * @param context The virtual machine context.
 	 * @param p1 The first parameter.
 	 * @param p2 The second parameter.
+	 * @param p3 The third parameter.
 	 */
-	public abstract execute(context: VMContext<A>, p1: OpCode, p2: OpCode): void;
+	public abstract execute(context: VMContext<A>, p1: OpCode, p2: OpCode, p3: OpCode): void;
 
 	// TODO: [Reverse-Debugging] reverse(ir: IR, trace: TraceFrame)
 	// TODO: [Reverse-Debugging] trace(ir: IR)
