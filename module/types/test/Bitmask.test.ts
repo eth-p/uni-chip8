@@ -43,7 +43,8 @@ describe('Bitmask', () => {
 
 		let bm2 = new Bitmask(0xf0);
 		expect(bm2.emplace(0x00, 0xff)).toStrictEqual(0x0f);
-		expect(bm2.emplace(0xf0, 0x00)).toStrictEqual(0xf0);
+		expect(bm2.emplace(0x0f, 0x00)).toStrictEqual(0xf0);
+		expect(() => bm2.emplace(0xf0, 0x00)).toThrow();
 	});
 
 	it('overlaps', () => {
