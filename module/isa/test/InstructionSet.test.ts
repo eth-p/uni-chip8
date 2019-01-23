@@ -4,7 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Operation from '../src/Operation';
 import OperandType from '../src/OperandType';
-import InstructionSet from '@chipotle/isa/InstructionSet';
+import InstructionSet from '../src/InstructionSet';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -56,11 +56,11 @@ describe('InstructionSet', () => {
 		expect((<any>set2).mask).toStrictEqual(0xf000);
 		expect((<any>set2).maskshift).toStrictEqual(12);
 		expect((<any>set2).table[0xf].length).toEqual(2);
-		expect(set2.lookup(0xf000).mnemonic).toStrictEqual('ALPHA');
-		expect(set2.lookup(0xf111).mnemonic).toStrictEqual('ALPHA');
-		expect(set2.lookup(0xf011).mnemonic).toStrictEqual('ALPHA');
-		expect(set2.lookup(0xd001).mnemonic).toStrictEqual('BETA');
-		expect(set2.lookup(0xfeed).mnemonic).toStrictEqual('GAMMA');
-		expect(set2.lookup(0xdeed).mnemonic).toStrictEqual('DELTA');
+		expect(set2.lookup(0xf000)!.mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xf111)!.mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xf011)!.mnemonic).toStrictEqual('ALPHA');
+		expect(set2.lookup(0xd001)!.mnemonic).toStrictEqual('BETA');
+		expect(set2.lookup(0xfeed)!.mnemonic).toStrictEqual('GAMMA');
+		expect(set2.lookup(0xdeed)!.mnemonic).toStrictEqual('DELTA');
 	});
 });
