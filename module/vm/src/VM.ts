@@ -2,14 +2,22 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/types/assert';
+import Instruction from '@chipotle/isa/Instruction';
+import InstructionCache from '@chipotle/isa/InstructionCache';
+import InstructionSet from '@chipotle/isa/InstructionSet';
+
+import Uint16 from '@chipotle/types/Uint16';
 
 import Architecture from './Architecture';
-import {default as OpAddress, isValid} from './OpAddress';
-import OpCache from './OpCache';
-import OpTable from './OpTable';
+import IR from './IR';
+import Interpreted from './Interpreted';
 import Program from './Program';
+import {ProgramAddress, isValid} from './ProgramAddress';
+import ProgramError from './ProgramError';
 import VMContext from './VMContext';
+
+import assert from '@chipotle/types/assert';
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -31,7 +39,7 @@ export class VMBase<A> {
 	 *
 	 * @internal
 	 */
-	public program_counter: OpAddress;
+	public program_counter: ProgramAddress;
 
 	/**
 	 * The clock speed of the virtual machine CPU.
@@ -46,12 +54,12 @@ export class VMBase<A> {
 	/**
 	 * The instruction lookup table.
 	 */
-	public optable: OpTable<A>;
+	public isa: InstructionSet<Interpreted<A>>;
 
 	/**
 	 * The instruction cache.
 	 */
-	public opcache: OpCache<A>;
+	public opcache: InstructionCache<IR<A>>;
 
 	/**
 	 * The VM's architecture.
@@ -76,12 +84,12 @@ export class VMBase<A> {
 	public constructor(arch: A) {
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
+		this.isa = (<Architecture<A>>(<unknown>arch)).ISA;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
 		this.speed = 1;
-		this.opcache = new OpCache<A>();
-		this.optable = new OpTable<A>((<Architecture<A>>(<unknown>arch)).ISA, this.opcache);
+		this.opcache = new InstructionCache<IR<A>>();
 
 		// Copy descriptors from the architecture.
 		let inherit = {
@@ -97,6 +105,44 @@ export class VMBase<A> {
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
+	// | Methods: Protected                                                                                        |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Decodes an instruction into an IR.
+	 * This will attempt to use a cached value if one exists.
+	 *
+	 * @param instruction The instruction to decode.
+	 * @returns The intermediate representation of the instruction.
+	 *
+	 * @throws ProgramError When the instruction could not be decoded.
+	 */
+	protected decode(instruction: Instruction): IR<A> {
+		let ir: IR<A> | null = this.opcache.get(instruction);
+		if (ir !== null) return ir;
+
+		// Instruction wasn't located in the cache.
+		// The IR will need to be created now.
+		let operation = this.isa.lookup(instruction);
+		if (operation === null) throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
+
+		// Decode the operands and create an IR.
+		let operands: (Uint16 | undefined)[] = operation.decode(instruction);
+		let executefn: IR<A>[0] = <any>operation.execute;
+		executefn.op = operation;
+
+		operands[0] = operands[0] === undefined ? undefined : operands[0];
+		operands[1] = operands[1] === undefined ? undefined : operands[1];
+		operands[2] = operands[2] === undefined ? undefined : operands[2];
+
+		ir = <IR<A>>[executefn].concat(<any>operands);
+
+		// Cache the IR and return it.
+		this.opcache.put(instruction, ir);
+		return ir;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
@@ -104,7 +150,7 @@ export class VMBase<A> {
 	 * Jumps to an address in the program.
 	 * @param address The address to jump to.
 	 */
-	public jump(address: OpAddress): void {
+	public jump(address: ProgramAddress): void {
 		assert(address >= 0, "Parameter 'address' is out of bounds for program (under)");
 		assert(address < this.program!.data!.length, "Parameter 'address' is out of bounds for program (over)");
 		assert(isValid(address), "Parameter 'address' is out of range for OpAddress");
@@ -121,7 +167,7 @@ export class VMBase<A> {
 	 *
 	 * @param instructions The number of instructions to jump.
 	 */
-	public hopForwards(instructions: OpAddress): void {
+	public hopForwards(instructions: ProgramAddress): void {
 		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
 		this.jump(this.program_counter + instructions * 2);
 	}
@@ -132,7 +178,7 @@ export class VMBase<A> {
 	 *
 	 * @param instructions The number of instructions to jump.
 	 */
-	public hopBackwards(instructions: OpAddress): void {
+	public hopBackwards(instructions: ProgramAddress): void {
 		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
 		this.jump(this.program_counter - instructions * 2);
 	}
@@ -157,14 +203,15 @@ export class VMBase<A> {
 		this._VM_executing = true;
 
 		// Fetch and decode the opcode.
-		let opcode = this.program!.fetch(this.program_counter);
-		let ir = this.optable.decode(opcode);
+		let cache = this.opcache;
+		let instruction = this.program!.fetch(this.program_counter);
+		let ir: IR<A> = this.decode(instruction);
 
 		// Increment the timers.
 		(<any>this)._tick();
 
 		// Execute the opcode.
-		ir[0](<VMContext<A>>(<unknown>this), ir[1], ir[2], ir[3]);
+		ir[0](<VMContext<A>>(<unknown>this), ir[1]!, ir[2]!, ir[3]!);
 
 		// Increment the program counter.
 		this.program_counter += 2;
@@ -190,5 +237,7 @@ interface VMClass {
 }
 
 const VM: VMClass = <any>VMBase;
+
 interface VM<A> extends VMBase<A> {}
+
 export default VM;
