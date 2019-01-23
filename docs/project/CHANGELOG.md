@@ -35,3 +35,15 @@
 - **docs:** Added Gantt chart.
 - **docs:** Updated Product Document for Release 0 readiness.
 - **docs:** Restructured documentation to optimize use out of [markdown-folder-to-html](https://github.com/joakin/markdown-folder-to-html).
+
+## Release 1
+
+### Developer
+
+- **arch-chip:** Implemented opcodes.
+- **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
+- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
+
+### Documentation
+
+- **docs:** Added test CHIP-8 to product document.
