@@ -41,7 +41,6 @@ export default class OP_SUBN_REG_REG extends Chip.Operation {
 	}
 
 	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
-		// FIXME: Same implementation as SUB <reg> <reg>, but different description?
 		let result: [number, MathFlag] = sub(p2, p1);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OK ? 1 : 0;
