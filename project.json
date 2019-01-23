@@ -81,6 +81,15 @@
 			]
 		},
 
+		"isa": {
+			"description": "A software virtual machine.",
+			"@auto": true,
+
+			"tasks": [
+				"typescript"
+			]
+		},
+
 		"asm": {
 			"description": "An assembler and disassembler.",
 			"@auto": true,
