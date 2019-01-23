@@ -41,7 +41,7 @@ import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
 // ---------------------------------------------------------------------------------------------------------------------
-export const INSTRUCTION_SET = new VMInstructionSet<Interpreted<ChipArchitecture>>([
+export const INSTRUCTION_SET = new VMInstructionSet<ChipArchitecture>([
 	OP_ADD_REG_CON,
 	OP_LD_REG_CON,
 	OP_SE_REG_CON,
