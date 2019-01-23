@@ -2,12 +2,12 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import Uint16 from '@chipotle/types/Uint16';
 
-import ChipArchitecture from './ChipArchitecture';
+import Operation from '@chipotle/isa/Operation';
+import OperandType from '@chipotle/isa/OperandType';
+
+import Chip from './Chip';
 import ChipSprite from './ChipSprite';
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -23,21 +23,25 @@ import ChipSprite from './ChipSprite';
  *
  * 'dxyn'
  */
-export default class OP_DRW_REG_REG_CON extends Op<ChipArchitecture> {
+export default class OP_DRW_REG_REG_CON extends Operation implements Chip.Interpreter {
 	public constructor() {
-		super(
-			0xd000,
-			'DRW <reg> <reg> <con>',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0f00,
-				p2: 0x00f0,
-				p3: 0x000f
-			})
-		);
+		super('DRW', 0xd000, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER
+			},
+			{
+				mask: 0x00f0,
+				type: OperandType.REGISTER
+			},
+			{
+				mask: 0x000f,
+				type: OperandType.CONSTANT
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: Uint16): void {
 		let collide = context.display.draw(p1, p2, new ChipSprite(context.program!.data!, context.register_index, p3));
 		if (collide) {
 			context.register_flag = 1;

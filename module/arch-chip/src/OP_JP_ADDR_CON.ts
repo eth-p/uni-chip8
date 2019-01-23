@@ -2,12 +2,13 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
+import Uint16 from '@chipotle/types/Uint16';
 
-import ChipArchitecture from './ChipArchitecture';
+import OperandTags from '@chipotle/isa/OperandTags';
+import OperandType from '@chipotle/isa/OperandType';
+import Operation from '@chipotle/isa/Operation';
+
+import Chip from './Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,20 +18,22 @@ import ChipArchitecture from './ChipArchitecture';
  *
  * 'bnnn'
  */
-export default class OP_ADDR_CON extends Op<ChipArchitecture> {
+export default class OP_JP_ADDR_CON extends Operation implements Chip.Interpreter {
 	public constructor() {
-		super(
-			0xb000,
-			'JP <reg=V0> <con>',
-			new OpMask({
-				mask: 0xf000,
-				p1: 0x0fff,
-				p2: 0x0000
-			})
-		);
+		super('JP', 0x1000, [
+			{
+				mask: 0x0000,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_EXACT]: 'V0'}
+			},
+			{
+				mask: 0x0fff,
+				type: OperandType.ROM_ADDRESS
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
-		context.jump(p1 + context.register_data[0x0]);
+	public execute(this: void, context: Chip.Context, p1: never, p2: Uint16, p3: never): void {
+		context.jump(p2 + context.register_data[0x0]);
 	}
 }

@@ -3,14 +3,14 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {add} from '@chipotle/types/Uint8';
-
-import Context from '@chipotle/vm/VMContext';
-import Op from '@chipotle/vm/Op';
-import OpCode from '@chipotle/vm/OpCode';
-import OpMask from '@chipotle/vm/OpMask';
-
-import ChipArchitecture from './ChipArchitecture';
 import MathFlag from '@chipotle/types/MathFlag';
+import Uint16 from '@chipotle/types/Uint16';
+
+import Operation from '@chipotle/isa/Operation';
+import OperandType from '@chipotle/isa/OperandType';
+import OperandTags from '@chipotle/isa/OperandTags';
+
+import Chip from '@chipotle/arch-chip/Chip';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -21,22 +21,25 @@ import MathFlag from '@chipotle/types/MathFlag';
  *
  * '8xy4'
  */
-export default class OP_ADD_REG_REG extends Op<ChipArchitecture> {
+export default class OP_ADD_REG_REG extends Operation implements Chip.Interpreter {
 	public constructor() {
-		super(
-			0x8004,
-			'ADD <reg#dest> <reg>',
-			new OpMask({
-				mask: 0xf00f,
-				p1: 0x0f00,
-				p2: 0x00f0
-			})
-		);
+		super('ADD', 0x8004, [
+			{
+				mask: 0x0f00,
+				type: OperandType.REGISTER,
+				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x00f0,
+				type: OperandType.REGISTER
+			}
+		]);
 	}
 
-	public execute(this: void, context: Context<ChipArchitecture>, p1: OpCode, p2: OpCode, p3: OpCode): void {
+	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
 		let result: [number, MathFlag] = add(p1, p2);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OVERFLOW ? 1 : 0;
+		let x = p3 + 2;
 	}
 }
