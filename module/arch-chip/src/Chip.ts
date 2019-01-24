@@ -2,8 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {default as Uint8} from '@chipotle/types/Uint8';
-import {default as Uint16} from '@chipotle/types/Uint16';
+import {Uint8} from '@chipotle/types/Uint8';
+import {Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
 import ProgramSource from '@chipotle/vm/ProgramSource';
@@ -38,9 +38,13 @@ import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 import ProgramError from '@chipotle/vm/ProgramError';
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ISA:
+// Constants:
 // ---------------------------------------------------------------------------------------------------------------------
-export const INSTRUCTION_SET = new VMInstructionSet<Chip>([
+
+/**
+ * The CHIP-8 instruction set.
+ */
+const ISA = new VMInstructionSet<Chip>([
 	OP_ADD_REG_CON,
 	OP_LD_REG_CON,
 	OP_SE_REG_CON,
@@ -64,6 +68,28 @@ export const INSTRUCTION_SET = new VMInstructionSet<Chip>([
 	OP_DRW_REG_REG_CON
 ]);
 
+/**
+ * The CHIP-8 built-in font.
+ */
+const FONT = [
+	[/* 0 */ 0xf0, 0x90, 0x90, 0x90, 0xf0],
+	[/* 1 */ 0x20, 0x60, 0x20, 0x20, 0x70],
+	[/* 2 */ 0xf0, 0x10, 0xf0, 0x80, 0xf0],
+	[/* 3 */ 0xf0, 0x10, 0xf0, 0x10, 0xf0],
+	[/* 4 */ 0x90, 0x90, 0xf0, 0x10, 0x10],
+	[/* 5 */ 0xf0, 0x80, 0xf0, 0x10, 0xf0],
+	[/* 6 */ 0xf0, 0x80, 0xf0, 0x90, 0xf0],
+	[/* 7 */ 0xf0, 0x10, 0x20, 0x40, 0x40],
+	[/* 8 */ 0xf0, 0x90, 0xf0, 0x90, 0xf0],
+	[/* 9 */ 0xf0, 0x90, 0xf0, 0x10, 0xf0],
+	[/* A */ 0xf0, 0x90, 0xf0, 0x90, 0x90],
+	[/* B */ 0xe0, 0x90, 0xe0, 0x90, 0xe0],
+	[/* C */ 0xf0, 0x80, 0x80, 0x80, 0xf0],
+	[/* D */ 0xe0, 0x90, 0x90, 0x90, 0xe0],
+	[/* E */ 0xf0, 0x80, 0xf0, 0x80, 0xf0],
+	[/* F */ 0xf0, 0x80, 0xf0, 0x80, 0x80]
+];
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -74,7 +100,7 @@ export const INSTRUCTION_SET = new VMInstructionSet<Chip>([
  * 4k Memory:         memory
  * 64x32 Display:     display
  */
-export default class Chip extends Architecture<Chip> {
+class Chip extends Architecture<Chip> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -125,6 +151,14 @@ export default class Chip extends Architecture<Chip> {
 	public static readonly TIMER_SPEED = 60;
 	public readonly TIMER_SPEED: number = (<any>this.constructor).TIMER_SPEED;
 
+	public static readonly ROM: Uint8Array = (() => {
+		let rom = new Uint8Array(0x200);
+
+		rom.set([]);
+
+		return rom;
+	})();
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -139,11 +173,6 @@ export default class Chip extends Architecture<Chip> {
 	 * The index register, also known as "I".
 	 */
 	public register_index: Uint16;
-
-	/**
-	 * The random access memory.
-	 */
-	public memory: Uint8Array;
 
 	/**
 	 * The call stack.
@@ -218,36 +247,47 @@ export default class Chip extends Architecture<Chip> {
 	 * A unique instance should be passed to the {@link VM} constructor.
 	 */
 	public constructor() {
-		super(INSTRUCTION_SET);
+		super(ISA);
 
 		this.register_data = new Uint8Array(this.MAX_DATA_REGISTERS);
 		this.register_index = 0;
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
-		this.memory = new Uint8Array(this.MAX_MEMORY);
 		this.display = new ChipDisplay();
 		this.stack = new ProgramStack(this.MAX_STACK);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Overload:                                                                                                 |
+	// | Implement:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * @override
 	 */
 	protected async _load(source: ProgramSource): Promise<Uint8Array | false> {
-		if (source instanceof Uint8Array) {
-			if (source.length > this.MAX_MEMORY - this.PROGRAM_LOAD_OFFSET) {
-				throw new ProgramError(ProgramError.ROM_TOO_LARGE);
-			}
-
-			this.memory.fill(0, 0, this.MAX_MEMORY);
-			this.memory.set(source, this.PROGRAM_LOAD_OFFSET);
-			return source;
+		if (!(source instanceof Uint8Array)) {
+			return false;
 		}
 
-		return false;
+		// Check if the ROM is too large.
+		if (source.length > this.MAX_MEMORY - this.PROGRAM_LOAD_OFFSET) {
+			throw new ProgramError(ProgramError.ROM_TOO_LARGE);
+		}
+
+		// Create an array to use as the program.
+		let buffer = new Uint8Array(this.MAX_MEMORY);
+		buffer.fill(0, 0, this.MAX_MEMORY);
+
+		// Copy the ROM.
+		buffer.set(source, this.PROGRAM_LOAD_OFFSET);
+
+		// Copy the font.
+		for (let i = 0; i <= 0x0f; i++) {
+			buffer.set(FONT[i], 5 * i);
+		}
+
+		// Return.
+		return buffer;
 	}
 
 	/**
@@ -271,3 +311,10 @@ export default class Chip extends Architecture<Chip> {
 		if (this._timer_timer.value > 0) this._timer_timer.descend();
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+export default Chip;
+export {Chip};
+export {ISA};
+export {FONT};
