@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {Instruction, or} from '@chipotle/isa/Instruction';
+import {Instruction, bitshiftl, or} from '@chipotle/isa/Instruction';
 
 import ProgramAddress from './ProgramAddress';
 import ProgramSource from './ProgramSource';
@@ -69,6 +69,6 @@ export default class Program<A> {
 	public fetch(address: ProgramAddress): Instruction {
 		assert(address < this.data!.length - 1, "Parameter 'address' is out of bounds for program (over)");
 		assert(address >= 0, "Parameter 'address' is out of bounds for program (over)");
-		return or(this.data![address], this.data![address + 1]);
+		return or(bitshiftl(this.data![address], 8), this.data![address + 1]);
 	}
 }

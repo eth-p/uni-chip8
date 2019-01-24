@@ -6,7 +6,7 @@ import Uint16 from '@chipotle/types/Uint16';
 
 import OperandType from '@chipotle/isa/OperandType';
 
-import Chip from './Chip';
+import {Operation, Context} from './Operation';
 import ChipSprite from './ChipSprite';
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ import ChipSprite from './ChipSprite';
  *
  * 'dxyn'
  */
-export default class OP_DRW_REG_REG_CON extends Chip.Operation {
+export default class OP_DRW_REG_REG_CON extends Operation {
 	public constructor() {
 		super('DRW', 0xd000, [
 			{
@@ -40,7 +40,11 @@ export default class OP_DRW_REG_REG_CON extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: Uint16): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p1 = operands[0];
+		const p2 = operands[1];
+		const p3 = operands[2];
+
 		let collide = context.display.draw(p1, p2, new ChipSprite(context.program!.data!, context.register_index, p3));
 		context.register_flag = collide === true ? 1 : 0;
 	}

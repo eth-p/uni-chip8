@@ -9,7 +9,7 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
 
-import Chip from '@chipotle/arch-chip/Chip';
+import {Operation, Context} from '@chipotle/arch-chip/Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -20,7 +20,7 @@ import Chip from '@chipotle/arch-chip/Chip';
  *
  * '8xy4'
  */
-export default class OP_ADD_REG_REG extends Chip.Operation {
+export default class OP_ADD_REG_REG extends Operation {
 	public constructor() {
 		super('ADD', 0x8004, [
 			{
@@ -35,10 +35,12 @@ export default class OP_ADD_REG_REG extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p1 = operands[0];
+		const p2 = operands[1];
+
 		let result: [number, MathFlag] = add(p1, p2);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OVERFLOW ? 1 : 0;
-		let x = p3 + 2;
 	}
 }

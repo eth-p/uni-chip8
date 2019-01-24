@@ -4,17 +4,14 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
-import InstructionSet from '@chipotle/isa/InstructionSet';
-
-import Uint16 from '@chipotle/types/Uint16';
 
 import Architecture from './Architecture';
 import IR from './IR';
-import Interpreted from './Interpreted';
 import Program from './Program';
 import {ProgramAddress, isValid} from './ProgramAddress';
 import ProgramError from './ProgramError';
 import VMContext from './VMContext';
+import VMInstructionSet from './VMInstructionSet';
 
 import assert from '@chipotle/types/assert';
 
@@ -31,7 +28,7 @@ export class VMBase<A> {
 	/**
 	 * The executable program.
 	 */
-	public program: Program<A> | null;
+	public program: Program<A>;
 
 	/**
 	 * The program counter.
@@ -54,7 +51,7 @@ export class VMBase<A> {
 	/**
 	 * The instruction lookup table.
 	 */
-	public isa: InstructionSet<Interpreted<A>>;
+	protected isa: VMInstructionSet<A>;
 
 	/**
 	 * The instruction cache.
@@ -84,7 +81,7 @@ export class VMBase<A> {
 	public constructor(arch: A) {
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
-		this.isa = (<Architecture<A>>(<unknown>arch)).ISA;
+		this.isa = (<Architecture<A>>(<unknown>arch)).isa;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
@@ -127,15 +124,11 @@ export class VMBase<A> {
 		if (operation === null) throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
 
 		// Decode the operands and create an IR.
-		let operands: (Uint16 | undefined)[] = operation.decode(instruction);
-		let executefn: IR<A>[0] = <any>operation.execute;
-		executefn.op = operation;
-
-		operands[0] = operands[0] === undefined ? undefined : operands[0];
-		operands[1] = operands[1] === undefined ? undefined : operands[1];
-		operands[2] = operands[2] === undefined ? undefined : operands[2];
-
-		ir = <IR<A>>[executefn].concat(<any>operands);
+		ir = {
+			operation: operation,
+			operands: operation.decode(instruction),
+			execute: operation.execute
+		};
 
 		// Cache the IR and return it.
 		this.opcache.put(instruction, ir);
@@ -152,7 +145,7 @@ export class VMBase<A> {
 	 */
 	public jump(address: ProgramAddress): void {
 		assert(address >= 0, "Parameter 'address' is out of bounds for program (under)");
-		assert(address < this.program!.data!.length, "Parameter 'address' is out of bounds for program (over)");
+		assert(address < this.program.data!.length, "Parameter 'address' is out of bounds for program (over)");
 		assert(isValid(address), "Parameter 'address' is out of range for OpAddress");
 
 		// NOTE: If the VM is executing, we need to account for the fact that the PC will be
@@ -203,15 +196,14 @@ export class VMBase<A> {
 		this._VM_executing = true;
 
 		// Fetch and decode the opcode.
-		let cache = this.opcache;
-		let instruction = this.program!.fetch(this.program_counter);
+		let instruction = this.program.fetch(this.program_counter);
 		let ir: IR<A> = this.decode(instruction);
 
 		// Increment the timers.
 		(<any>this)._tick();
 
 		// Execute the opcode.
-		ir[0](<VMContext<A>>(<unknown>this), ir[1]!, ir[2]!, ir[3]!);
+		ir.execute(<VMContext<A>>(<unknown>this), ir.operands);
 
 		// Increment the program counter.
 		this.program_counter += 2;
@@ -233,7 +225,7 @@ export class VMBase<A> {
  * If you need to add a static method to VM, you need to define it here as well.
  */
 interface VMClass {
-	new <A>(): VMContext<A>;
+	new <A>(arch: A): VMContext<A>;
 }
 
 const VM: VMClass = <any>VMBase;

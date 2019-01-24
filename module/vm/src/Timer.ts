@@ -8,7 +8,7 @@
  *
  * This timer is calculated based on a ratio between a main clock speed and a timer clock speed.
  */
-export default abstract class Timer {
+export default class Timer {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -63,5 +63,20 @@ export default abstract class Timer {
 	/**
 	 * Ticks the timer forwards by one main clock cycle.
 	 */
-	public abstract update(): void;
+	public ascend() {
+		let updated = this.value + this.ratio + this.error;
+
+		this.value = updated | 0;
+		this.error = updated - this.value;
+	}
+
+	/**
+	 * Ticks the timer backwards by one main clock cycle.
+	 */
+	public descend() {
+		let updated = this.value - this.ratio + this.error;
+
+		this.value = updated | 0;
+		this.error = updated - this.value;
+	}
 }

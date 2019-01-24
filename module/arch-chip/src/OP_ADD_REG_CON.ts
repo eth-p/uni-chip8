@@ -8,7 +8,7 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
-import Chip from '@chipotle/arch-chip/Chip';
+import {Operation, Context} from '@chipotle/arch-chip/Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -19,7 +19,7 @@ import Chip from '@chipotle/arch-chip/Chip';
  *
  * '7xkk'
  */
-export default class OP_ADD_REG_CON extends Chip.Operation {
+export default class OP_ADD_REG_CON extends Operation {
 	public constructor() {
 		super('ADD', 0x7000, [
 			{
@@ -34,7 +34,10 @@ export default class OP_ADD_REG_CON extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p1 = operands[0];
+		const p2 = operands[1];
+
 		context.register_data[p1] = add(context.register_data[p1], p2)[0];
 	}
 }

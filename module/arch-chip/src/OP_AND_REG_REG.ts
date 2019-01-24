@@ -8,7 +8,7 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
-import Chip from '@chipotle/arch-chip/Chip';
+import {Operation, Context} from '@chipotle/arch-chip/Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -18,7 +18,7 @@ import Chip from '@chipotle/arch-chip/Chip';
  *
  * '8xy2'
  */
-export default class OP_AND_REG_REG extends Chip.Operation {
+export default class OP_AND_REG_REG extends Operation {
 	public constructor() {
 		super('AND', 0x8002, [
 			{
@@ -33,7 +33,10 @@ export default class OP_AND_REG_REG extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p1 = operands[0];
+		const p2 = operands[1];
+
 		context.register_data[p1] = and(context.register_data[p1], context.register_data[p2]);
 	}
 }
