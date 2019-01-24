@@ -176,7 +176,7 @@ module.exports = class Task {
 				cwd:           base,
 				allowEmpty:    true,
 				read:          only == null
-			});
+			}).pipe(gulp_plumber());
 		} else {
 			stream = gulp.src(srcpat, {
 				base:       base,
