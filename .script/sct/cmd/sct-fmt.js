@@ -89,6 +89,7 @@ module.exports = class CommandFormat extends Command {
 			objectMode: true,
 			transform: async (data) => {
 				let result = await formatter.format(data.path);
+				if (result === null) return null;
 				if (result.before === result.after) return null;
 
 				await saver(result.file, result.after);

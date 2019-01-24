@@ -81,7 +81,7 @@ module.exports = class FileFormatter {
 				return pugbeautify(data, this._opts_pugbeautify) === data;
 
 			default:
-				throw new SCTError(`Cannot format '${ext}' files.`);
+				return true;
 		}
 	}
 
@@ -91,7 +91,7 @@ module.exports = class FileFormatter {
 	 *
 	 * @param file {String} The file.
 	 *
-	 * @returns {Promise<{before: String, after: String}>} The formatted source code.
+	 * @returns {Promise<{before: String, after: String}|null>} The formatted source code.
 	 */
 	async format(file) {
 		let ext  = path.extname(file);
@@ -128,7 +128,7 @@ module.exports = class FileFormatter {
 				};
 
 			default:
-				throw new SCTError(`Cannot format '${ext}' files.`);
+				return null;
 		}
 	}
 
