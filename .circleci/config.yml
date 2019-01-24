@@ -144,6 +144,39 @@ workflows:
   version: 2
 
   # ------------------------------------------------------------------------------------------------------------------
+  # Build: development
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  development:
+
+    jobs:
+      - init:
+          filters:
+            tags:
+              ignore: /.*/
+      - validate:
+          requires: [init]
+          filters:
+            tags:
+              ignore: /.*/
+      - build:
+          requires: [init, validate]
+          args: '--keep:comments --keep:asserts'
+          filters:
+            tags:
+              ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          filters:
+            tags:
+              ignore: /.*/
+
+
+  # ------------------------------------------------------------------------------------------------------------------
   # Build: release
   # Pipeline:
   #
@@ -188,36 +221,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
-
-
-  # ------------------------------------------------------------------------------------------------------------------
-  # Build: development
-  # Pipeline:
-  #
-  #   init -> validate -> build -> test
-  #
-  # ------------------------------------------------------------------------------------------------------------------
-
-  development:
-
-    jobs:
-      - init:
-          filters:
-            tags:
-              ignore: /.*/
-      - validate:
-          requires: [init]
-          filters:
-            tags:
-              ignore: /.*/
-      - build:
-          requires: [init, validate]
-          filters:
-            tags:
-              ignore: /.*/
-      - test:
-          requires: [init, validate, build]
-          filters:
-            tags:
               ignore: /.*/
