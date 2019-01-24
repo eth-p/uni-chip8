@@ -100,7 +100,7 @@ jobs:
           command: mkdir -p target artifacts || true
       - run:
           name: Build
-          command: ./sct build {{ parameters.args }}
+          command: ./sct build << parameters.args >>
       - persist_to_workspace:
           root: *workspace_root
           paths:
