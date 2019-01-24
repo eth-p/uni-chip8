@@ -2,11 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import InstructionSet from '@chipotle/isa/InstructionSet';
-
-import Interpreted from './/Interpreted';
 import ProgramSource from './ProgramSource';
 import VMContext from './VMContext';
+import VMInstructionSet from './VMInstructionSet';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -21,7 +19,7 @@ abstract class Architecture<A> {
 	/**
 	 * The instruction set.
 	 */
-	public readonly ISA: InstructionSet<Interpreted<A>>;
+	public readonly isa: VMInstructionSet<A>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -31,8 +29,8 @@ abstract class Architecture<A> {
 	 * Creates a new computer architecture.
 	 * @param isa The instruction set of the architecture.
 	 */
-	protected constructor(isa: InstructionSet<Interpreted<A>>) {
-		this.ISA = isa;
+	protected constructor(isa: VMInstructionSet<A>) {
+		this.isa = isa;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

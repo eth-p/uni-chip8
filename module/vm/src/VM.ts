@@ -4,15 +4,14 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
-import InstructionSet from '@chipotle/isa/InstructionSet';
 
 import Architecture from './Architecture';
 import IR from './IR';
-import Interpreted from './Interpreted';
 import Program from './Program';
 import {ProgramAddress, isValid} from './ProgramAddress';
 import ProgramError from './ProgramError';
 import VMContext from './VMContext';
+import VMInstructionSet from './VMInstructionSet';
 
 import assert from '@chipotle/types/assert';
 
@@ -52,7 +51,7 @@ export class VMBase<A> {
 	/**
 	 * The instruction lookup table.
 	 */
-	public isa: InstructionSet<Interpreted<A>>;
+	protected isa: VMInstructionSet<A>;
 
 	/**
 	 * The instruction cache.
@@ -82,7 +81,7 @@ export class VMBase<A> {
 	public constructor(arch: A) {
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
-		this.isa = (<Architecture<A>>(<unknown>arch)).ISA;
+		this.isa = (<Architecture<A>>(<unknown>arch)).isa;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
 		this.tick = 0;
