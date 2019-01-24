@@ -28,7 +28,7 @@ export class VMBase<A> {
 	/**
 	 * The executable program.
 	 */
-	public program: Program<A> | null;
+	public program: Program<A>;
 
 	/**
 	 * The program counter.
@@ -145,7 +145,7 @@ export class VMBase<A> {
 	 */
 	public jump(address: ProgramAddress): void {
 		assert(address >= 0, "Parameter 'address' is out of bounds for program (under)");
-		assert(address < this.program!.data!.length, "Parameter 'address' is out of bounds for program (over)");
+		assert(address < this.program.data!.length, "Parameter 'address' is out of bounds for program (over)");
 		assert(isValid(address), "Parameter 'address' is out of range for OpAddress");
 
 		// NOTE: If the VM is executing, we need to account for the fact that the PC will be
@@ -196,7 +196,7 @@ export class VMBase<A> {
 		this._VM_executing = true;
 
 		// Fetch and decode the opcode.
-		let instruction = this.program!.fetch(this.program_counter);
+		let instruction = this.program.fetch(this.program_counter);
 		let ir: IR<A> = this.decode(instruction);
 
 		// Increment the timers.
