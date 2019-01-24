@@ -196,7 +196,6 @@ export class VMBase<A> {
 		this._VM_executing = true;
 
 		// Fetch and decode the opcode.
-		let cache = this.opcache;
 		let instruction = this.program!.fetch(this.program_counter);
 		let ir: IR<A> = this.decode(instruction);
 
@@ -226,7 +225,7 @@ export class VMBase<A> {
  * If you need to add a static method to VM, you need to define it here as well.
  */
 interface VMClass {
-	new <A>(): VMContext<A>;
+	new <A>(arch: A): VMContext<A>;
 }
 
 const VM: VMClass = <any>VMBase;
