@@ -40,7 +40,7 @@ import ProgramError from '@chipotle/vm/ProgramError';
 // ---------------------------------------------------------------------------------------------------------------------
 // ISA:
 // ---------------------------------------------------------------------------------------------------------------------
-export const INSTRUCTION_SET = new VMInstructionSet<ChipArchitecture>([
+export const INSTRUCTION_SET = new VMInstructionSet<Chip>([
 	OP_ADD_REG_CON,
 	OP_LD_REG_CON,
 	OP_SE_REG_CON,
@@ -74,7 +74,7 @@ export const INSTRUCTION_SET = new VMInstructionSet<ChipArchitecture>([
  * 4k Memory:         memory
  * 64x32 Display:     display
  */
-export default class ChipArchitecture extends Architecture<ChipArchitecture> {
+export default class Chip extends Architecture<Chip> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -175,11 +175,11 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	 * The flag register.
 	 * This is an alias for the VF register.
 	 */
-	public get register_flag(this: VMContext<ChipArchitecture>): Uint8 {
+	public get register_flag(this: VMContext<Chip>): Uint8 {
 		return this.register_data[0xf];
 	}
 
-	public set register_flag(this: VMContext<ChipArchitecture>, value: Uint8) {
+	public set register_flag(this: VMContext<Chip>, value: Uint8) {
 		this.register_data[0xf] = value;
 	}
 
@@ -253,7 +253,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	/**
 	 * @override
 	 */
-	protected _reset(this: VMContext<ChipArchitecture>): void {
+	protected _reset(this: VMContext<Chip>): void {
 		this.register_data.fill(0, 0, this.MAX_DATA_REGISTERS);
 		this.register_sound = 0;
 		this.register_timer = 0;
@@ -266,7 +266,7 @@ export default class ChipArchitecture extends Architecture<ChipArchitecture> {
 	/**
 	 * @override
 	 */
-	protected _tick(this: VMContext<ChipArchitecture>): void {
+	protected _tick(this: VMContext<Chip>): void {
 		if (this._timer_sound.value > 0) this._timer_sound.descend();
 		if (this._timer_timer.value > 0) this._timer_timer.descend();
 	}

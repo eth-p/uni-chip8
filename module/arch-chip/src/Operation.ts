@@ -9,7 +9,7 @@ import VMContext from '@chipotle/vm/VMContext';
 
 import ISA_Operation from '@chipotle/isa/Operation';
 
-import ChipArchitecture from './ChipArchitecture';
+import Chip from './Chip';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ import ChipArchitecture from './ChipArchitecture';
  * An instruction set {@link ISA_Operation operation} that can be {@link Interpreted interpreted} by the virtual
  * machine.
  */
-abstract class Operation extends ISA_Operation implements Interpreted<ChipArchitecture> {
+abstract class Operation extends ISA_Operation implements Interpreted<Chip> {
 	/**
 	 * @inheritDoc
 	 */
@@ -26,9 +26,9 @@ abstract class Operation extends ISA_Operation implements Interpreted<ChipArchit
 
 namespace Operation {
 	/**
-	 * An alias for {@link VMContext}<{@link ChipArchitecture}>.
+	 * An alias for {@link VMContext}<{@link Chip}>.
 	 */
-	export type Context = VMContext<ChipArchitecture>;
+	export type Context = VMContext<Chip>;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
