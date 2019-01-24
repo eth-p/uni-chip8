@@ -77,6 +77,15 @@
       font-family: monospace;
       clear: both;
     }
+
+    #screen {
+      border: 1px solid black;
+      border-radius: 2px;
+      width: 640px;
+      height: 320px;
+      float: left;
+      margin: 30px auto;
+    }
   </style>
   <link rel="stylesheet" href="../../Desktop/cmpt276/myDEV/retro.css">
   <link rel="icon">
@@ -125,6 +134,7 @@
         </div>
       </div>
     </div>
+    <script async="" src="//www.google-analytics.com/analytics.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
@@ -135,9 +145,9 @@
   <div class="">
     <div class="container">
       <div class="row">
-        <div class="col-md-12"><canvas id="CHIP8" width="640" height="320" style="border: 1px solid black;" class=""></canvas>
+        <div class="col-md-12"><canvas id="screen"></canvas>
           <div id="panel" class="">
-            <select id="rom-selector" class="bg-dark text-white" style="	text-shadow: 0px 0px 4px black, 0px 0px 4px black;">
+            <select id="rom-selector" class="bg-dark text-white form-control-sm text-uppercase" style="	text-shadow: 0px 0px 4px black, 0px 0px 4px black;">
               <option value="">Select ROM...</option>
             </select>
             <div class="key" data-key="1">1</div>
@@ -165,7 +175,7 @@
   </div>
   <div id="info" class="text-white"> Original CHIP-8 keyboard layout is mapped to PC keyboard as follows:<br><br> |1|2|3|C| =&gt; |1|2|3|4|<br> |4|5|6|D| =&gt; |Q|W|E|R|<br> |7|8|9|E| =&gt; |A|S|D|F|<br> |A|0|B|F| =&gt; |Z|X|C|V|<br>
   </div>
- 
+  
 </body>
 
 </html>
