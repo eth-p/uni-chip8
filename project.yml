@@ -1,0 +1,130 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# PROJECT CONFIGURATION
+# ----------------------------------------------------------------------------------------------------------------------
+# Yaml References:
++common:
+  - &code
+    '@meta': false
+    '@auto': true
+    tasks:
+      - typescript
+
+  - &website
+    '@meta': false
+    '@auto': true
+    tasks:
+      - typescript
+      - sass
+      - pug
+    sources:
+      - "styles/**/*.scss"
+      - "pages/**/*.pug"
+
+  - &meta
+    '@meta': true
+    exclude:
+      - '**/node_modules'
+      - '**/.tmp'
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Modules:
+# ----------------------------------------------------------------------------------------------------------------------
+modules:
+
+  # .--------------.
+  # | META MODULES |
+  # .--------------.
+
+  repo:
+    <<: *meta
+    description: "Project repository."
+    sources:
+      - '.editorconfig'
+      - '.git{ignore,attributes}'
+      - 'project.json'
+
+    tasks:
+      - clean
+
+  docs:
+    <<: *meta
+    description: "Project documentation."
+    sources:
+      - './*.md'
+      - 'docs/**/*.md'
+
+  tools:
+    <<: *meta
+    description: "Project tooling."
+    sources:
+      - '.script/**/*'
+      - './package.json'
+      - './package-lock.json'
+      - './.prettierrc'
+    exclude:
+      - '*.{png,jpeg,jpg,svg}'
+
+  ci:
+    <<: *meta
+    description: "Project continuous integration."
+    sources:
+      - '.circle/**/*'
+
+  # .--------------.
+  # | CODE MODULES |
+  # .--------------.
+
+  types:
+    <<: *code
+    description: "Library: Common type definitions and classes."
+
+  isa:
+    <<: *code
+    description: "Library: Virtual machine instruction set architecture."
+
+  asm:
+    <<: *code
+    description: "Library: Assembler and disassembler."
+    sources:
+      - "docs/**/*.md"
+
+  vm:
+    <<: *code
+    description: "Module: Virtual machine."
+
+  arch-chip:
+    <<: *code
+    description: "CHIP-8: System architecture."
+
+  # .--------------.
+  # | WEB MODULES  |
+  # .--------------.
+
+  web:
+    <<: *website
+    description: "Website: Template data and miscellaneous pages."
+    output:
+      styles: "styles"
+      pages:  "."
+
+  web-asm:
+    <<: *website
+    description: "Website: CHIP-8 assembler."
+    output:
+      styles: "styles"
+      pages:  "assembler"
+
+  web-emu:
+    <<: *website
+    description: "Website: CHIP-8 assembler."
+    output:
+      styles: "styles"
+      pages:  "emulator"
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Task Aliases:
+# ----------------------------------------------------------------------------------------------------------------------
+tasks:
+  clean: "repo:clean"

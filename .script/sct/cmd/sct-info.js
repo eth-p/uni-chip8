@@ -128,6 +128,8 @@ module.exports = class CommandInfo extends Command {
 					module.isMeta()
 						? chalk.magenta('(Meta)')
 						: chalk.yellow('(Code)')
+				) + " -- " + (
+					module.getDescription()
 				));
 			}
 		}
