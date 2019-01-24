@@ -6,8 +6,6 @@ import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
 import InstructionSet from '@chipotle/isa/InstructionSet';
 
-import Uint16 from '@chipotle/types/Uint16';
-
 import Architecture from './Architecture';
 import IR from './IR';
 import Interpreted from './Interpreted';
@@ -127,15 +125,11 @@ export class VMBase<A> {
 		if (operation === null) throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
 
 		// Decode the operands and create an IR.
-		let operands: (Uint16 | undefined)[] = operation.decode(instruction);
-		let executefn: IR<A>[0] = <any>operation.execute;
-		executefn.op = operation;
-
-		operands[0] = operands[0] === undefined ? undefined : operands[0];
-		operands[1] = operands[1] === undefined ? undefined : operands[1];
-		operands[2] = operands[2] === undefined ? undefined : operands[2];
-
-		ir = <IR<A>>[executefn].concat(<any>operands);
+		ir = {
+			operation: operation,
+			operands: operation.decode(instruction),
+			execute: operation.execute
+		};
 
 		// Cache the IR and return it.
 		this.opcache.put(instruction, ir);
@@ -211,7 +205,7 @@ export class VMBase<A> {
 		(<any>this)._tick();
 
 		// Execute the opcode.
-		ir[0](<VMContext<A>>(<unknown>this), ir[1]!, ir[2]!, ir[3]!);
+		ir.execute(<VMContext<A>>(<unknown>this), ir.operands);
 
 		// Increment the program counter.
 		this.program_counter += 2;

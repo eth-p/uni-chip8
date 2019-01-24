@@ -11,6 +11,12 @@ import Interpreted from './Interpreted';
 /**
  * Intermediate representation of an executable operation.
  */
-type IR<A> = [Interpreted<A>['execute'] & {op: Operation}, Uint16?, Uint16?, Uint16?];
+interface IR<A> {
+	execute: Interpreted<A>['execute'];
+	operation: Operation;
+	operands: Uint16[];
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 export default IR;
 export {IR};
