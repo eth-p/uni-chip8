@@ -26,4 +26,11 @@ describe('Program', () => {
 		await prog.load(data);
 		expect(Array.from(prog.data!)).toEqual([1, 3, 5, 9]);
 	});
+
+	it('fetch', async () => {
+		let prog = new Program(TestArch.prototype._load);
+		let data = new Uint8Array([0xf0, 0x0d]);
+		await prog.load(data);
+		expect(prog.fetch(0x00)).toStrictEqual(0xf00d);
+	});
 });
