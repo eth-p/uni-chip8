@@ -14,6 +14,8 @@ const gulp_print      = require('gulp-print').default;
 const gulp_read       = require('gulp-read');
 const gulp_rename     = require('gulp-rename');
 const gulp_sourcemaps = require('gulp-sourcemaps');
+const gulp_watch      = require('gulp-watch');
+const gulp_plumber    = require('gulp-plumber');
 const mm              = require('micromatch');
 const mississippi     = require('mississippi');
 const path            = require('path');
@@ -160,19 +162,29 @@ module.exports = class Task {
 	 */
 	_gulpsrc(only) {
 		let base   = this.module.getDirectory();
-		let stream = gulp.src([].concat(
-				this.module.getSourcePatterns(),
-				this.module._excludes,
-				Finder.EXCLUDE,
-				['!**/out/*']
-			),
-			{
+		let stream = null;
+		let srcpat = [].concat(
+			this.module.getSourcePatterns(),
+			this.module._excludes,
+			Finder.EXCLUDE,
+			['!**/out/*']);
+
+		if (this.watch) {
+			stream = gulp_watch(srcpat, {
+				ignoreInitial: false,
+				base:          base,
+				cwd:           base,
+				allowEmpty:    true,
+				read:          only == null
+			});
+		} else {
+			stream = gulp.src(srcpat, {
 				base:       base,
 				cwd:        base,
 				allowEmpty: true,
 				read:       only == null
-			}
-		);
+			});
+		}
 
 		// Filtered.
 		if (only != null) {

@@ -26,7 +26,7 @@ const SCTError = require('./SCTError');
 module.exports = class TaskRunner {
 
 	/**
-	 * Creates a new task logger.
+	 * Creates a new task runner.
 	 *
 	 * @param tasks  {Task[]} The tasks to run.
 	 * @param args   {*} The task arguments.

@@ -96,6 +96,11 @@ module.exports = class CommandBuild extends Command {
 				description: 'The module import/export pattern.',
 				match: ['es6', 'commonjs', 'amd']
 			},
+			'watch': {
+				type: 'boolean',
+				default: false,
+				description: 'Watch for and rebuild on changes.'
+			},
 			'_': {
 				value: 'module',
 				type: 'string',
@@ -111,6 +116,8 @@ module.exports = class CommandBuild extends Command {
 		}
 
 		let tasks   = await this._getTasksFromArgs(args);
+		if (args.watch) tasks.forEach(t => t.watch = true);
+
 		let runner  = new TaskRunner(tasks, args, args.plumbing ? TaskLogger : TaskLoggerPretty);
 		return runner.run(args['fast-fail']);
 	}
