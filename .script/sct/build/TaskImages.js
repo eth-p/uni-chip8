@@ -11,18 +11,21 @@
 const path = require('path');
 
 // Modules.
-const Task     = require('@sct').Task;
+const Task = require('@sct').Task;
 
 // Gulp.
-const gulp_pug    = require('gulp-pug');
 const gulp_rename = require('gulp-rename');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
 // ---------------------------------------------------------------------------------------------------------------------
 
-const PUG_FILTER = [
-	'**/*.pug'
+const IMAGES_FILTER = [
+	'**/*.png',
+	'**/*.svg',
+	'**/*.jpg',
+	'**/*.jpeg',
+	'**/*.webp'
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -30,19 +33,19 @@ const PUG_FILTER = [
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Generates a Pug gulp task for a module.
+ * Generates an image copying gulp task for a module.
  *
  * @param module    {Module} The module.
  * @param [options] {Object} The build options.
  */
-module.exports = class TaskPug extends Task {
+module.exports = class TaskImages extends Task {
 
 	get id() {
-		return 'pug';
+		return 'images';
 	}
 
 	get description() {
-		return 'Builds the module pages.'
+		return 'Builds the module images.'
 	}
 
 	/**
@@ -53,14 +56,10 @@ module.exports = class TaskPug extends Task {
 		let module  = this.module;
 		let project = this.module.getProject();
 
-		let out = module.getBuildDirectory('pages');
+		let out = module.getBuildDirectory('images');
 
 		// Stream.
-		return this._gulpsrc(PUG_FILTER)
-			// Compile Pug.
-			.pipe(gulp_pug())
-
-			// Save.
+		return this._gulpsrc(IMAGES_FILTER)
 			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
 			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
 			.pipe(this._gulpdest(options))
