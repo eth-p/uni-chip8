@@ -57,13 +57,12 @@ module.exports = class TaskSass extends Task {
 
 		// Stream.
 		return this._gulpsrc(SASS_FILTER)
-			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
-			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
-
 			// Compile SCSS.
 			.pipe(gulp_sass({outputStyle: options.minify ? 'compressed' : 'expanded'}))
 
 			// Save.
+			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
+			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
 			.pipe(this._gulpdest(options))
 	}
 

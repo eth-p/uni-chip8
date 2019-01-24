@@ -17,8 +17,8 @@
       - sass
       - pug
     sources:
-      - "styles/**/*.scss"
-      - "pages/**/*.pug"
+      - "styles/**/*.{scss,css}"
+      - "pages/**/*.{pug,html}"
 
   - &meta
     '@meta': true
