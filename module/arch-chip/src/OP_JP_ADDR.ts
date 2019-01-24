@@ -6,7 +6,7 @@ import Uint16 from '@chipotle/types/Uint16';
 
 import OperandType from '@chipotle/isa/OperandType';
 
-import Chip from './Chip';
+import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -16,7 +16,7 @@ import Chip from './Chip';
  *
  * '1nnn'
  */
-export default class OP_JP_ADDR extends Chip.Operation {
+export default class OP_JP_ADDR extends Operation {
 	public constructor() {
 		super('JP', 0x1000, [
 			{
@@ -26,7 +26,7 @@ export default class OP_JP_ADDR extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: never, p3: never): void {
-		context.jump(p1);
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		context.jump(operands[0]);
 	}
 }

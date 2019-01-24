@@ -10,34 +10,28 @@ import VMContext from '@chipotle/vm/VMContext';
 import ISA_Operation from '@chipotle/isa/Operation';
 
 import ChipArchitecture from './ChipArchitecture';
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A namespace containing type aliases and classes to help implement the CHIP-8 architecture.
+ * An instruction set {@link ISA_Operation operation} that can be {@link Interpreted interpreted} by the virtual
+ * machine.
  */
-namespace Chip {
+abstract class Operation extends ISA_Operation implements Interpreted<ChipArchitecture> {
+	/**
+	 * @inheritDoc
+	 */
+	public abstract execute(this: void, context: Operation.Context, operands: Uint16[]): void;
+}
+
+namespace Operation {
 	/**
 	 * An alias for {@link VMContext}<{@link ChipArchitecture}>.
 	 */
 	export type Context = VMContext<ChipArchitecture>;
-
-	/**
-	 * An instruction set {@link ISA_Operation operation} that can be {@link Interpreted interpreted} by the virtual
-	 * machine.
-	 */
-	export abstract class Operation extends ISA_Operation implements Interpreted<ChipArchitecture> {
-		/**
-		 * @inheritDoc
-		 */
-		public abstract execute(
-			this: void,
-			context: Chip.Context,
-			p1: Uint16 | never,
-			p2: Uint16 | never,
-			p3: Uint16 | never
-		): void;
-	}
 }
 
-export default Chip;
-export {Chip};
+// ---------------------------------------------------------------------------------------------------------------------
+type Context = Operation.Context;
+export default Operation;
+export {Operation, Context};

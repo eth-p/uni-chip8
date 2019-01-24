@@ -7,7 +7,7 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
 
-import Chip from './Chip';
+import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,7 +17,7 @@ import Chip from './Chip';
  *
  * 'annn'
  */
-export default class OP_LD_I_CON extends Chip.Operation {
+export default class OP_LD_I_CON extends Operation {
 	public constructor() {
 		super('LD', 0xa000, [
 			{
@@ -32,7 +32,8 @@ export default class OP_LD_I_CON extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: never, p2: Uint16, p3: never): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p2 = operands[1];
 		context.register_index = p2;
 	}
 }

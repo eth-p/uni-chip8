@@ -9,7 +9,7 @@ import MathFlag from '@chipotle/types/MathFlag';
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
-import Chip from './Chip';
+import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -25,7 +25,7 @@ import Chip from './Chip';
  *
  * '8xy7'
  */
-export default class OP_SUBN_REG_REG extends Chip.Operation {
+export default class OP_SUBN_REG_REG extends Operation {
 	public constructor() {
 		super('SUBN', 0x8007, [
 			{
@@ -40,7 +40,10 @@ export default class OP_SUBN_REG_REG extends Chip.Operation {
 		]);
 	}
 
-	public execute(this: void, context: Chip.Context, p1: Uint16, p2: Uint16, p3: never): void {
+	public execute(this: void, context: Context, operands: Uint16[]): void {
+		const p1 = operands[0];
+		const p2 = operands[1];
+
 		let result: [number, MathFlag] = sub(p2, p1);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OK ? 1 : 0;
