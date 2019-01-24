@@ -78,7 +78,11 @@ module.exports = class TaskTypescript extends Task {
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 
-		if (options.minify) babelOptions.presets.push(['minify']);
+		if (options.minify) {
+			babelOptions.presets.push(['minify', {
+				builtIns: false
+			}]);
+		}
 
 		if (!options['keep:asserts']) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (!options['keep:comments']) {
