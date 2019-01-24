@@ -5,11 +5,13 @@
 +common:
   - &code
     '@meta': false
+    '@auto': true
     tasks:
       - typescript
 
   - &website
     '@meta': false
+    '@auto': true
     tasks:
       - typescript
       - sass
@@ -74,6 +76,7 @@ modules:
   # .--------------.
 
   types:
+    <<: *code
     description: "Library: Common type definitions and classes."
 
   isa:
