@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-$background: #484c51;
+$background: #212429;
 $accent-1: #5ba2e0;
 $accent-2: #eac349;
 $text: #fff;
@@ -10,7 +10,6 @@ $text-dim: #bbb;
 
 $header-height: 45px;
 $header-padding: 8px;
-$header-background: #212429;
 $header-border: transparent;
 
 $content-padding: 16px;
@@ -25,6 +24,15 @@ $card-dark-background: #484c51;
 $card-dark-border: #474c54;
 $card-dark-text: #aaa;
 $card-radius: 8px;
+
+$toolbar-height: 40px;
+$toolbar-padding: 8px;
+$toolbar-border: #353a42;
+$toolbar-button-background: #393c40;
+$toolbar-button-background-hover: #53575d;
+$toolbar-button-border: #474e59;
+$toolbar-button-text: $text-dim;
+$toolbar-button-text-hover: $text;
 
 $animation-time: 0.2s;
 
@@ -41,7 +49,7 @@ body {
 body {
 	display: flex;
 	flex-direction: column;
-	background: $header-background;
+	background: $background;
 	color: $text;
 
 	font-family: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
@@ -67,7 +75,7 @@ header {
 	-moz-user-select: none;
 	-ms-user-select: none;
 
-	background: $header-background;
+	background: $background;
 	border-bottom: $header-border 1px solid;
 
 	> * {
@@ -79,9 +87,8 @@ header {
 		flex-shrink: 0;
 		flex-grow: 0;
 
-		padding: ($header-padding + 2) $header-padding;
-
 		img {
+			padding: ($header-padding + 2) $header-padding;
 			height: $header-height - ($header-padding * 2) - 4;
 			width: auto;
 		}
@@ -137,8 +144,6 @@ header {
 	font-size: 15px;
 	display: block;
 	flex: 1 1 auto;
-
-	background: $background;
 
 	body.seamless & {
 		margin: $header-padding;
@@ -226,5 +231,68 @@ main .card {
 		background: $card-dark-background;
 		color: $card-dark-text;
 		border-color: $card-dark-border;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Toolbar
+// ---------------------------------------------------------------------------------------------------------------------
+
+.toolbar {
+	display: flex;
+	flex-direction: row;
+
+	> :not(.toolbar-spacer) {
+		padding: $toolbar-padding ($toolbar-padding / 2);
+
+		&:first-child {
+			padding-left: $toolbar-padding;
+		}
+
+		&:last-child {
+			padding-right: $toolbar-padding;
+		}
+	}
+
+	.toolbar-spacer {
+		flex-grow: 1;
+	}
+
+	input[type='color'],
+	input[type='button'] {
+		cursor: pointer;
+	}
+
+	input[type='button'] {
+		outline: none;
+		border: $toolbar-button-border 1px solid;
+		color: $toolbar-button-text;
+		background: $toolbar-button-background;
+		transition: background-color $animation-time ease, color $animation-time ease;
+
+		&:hover {
+			background: $toolbar-button-background-hover;
+			color: $toolbar-button-text-hover;
+		}
+	}
+
+	input[type='color'] {
+		width: 30px;
+		padding: 0;
+		margin: 0;
+		background: none;
+		border: 0;
+		color: transparent;
+	}
+}
+
+main > .toolbar {
+	min-height: $toolbar-height;
+	background: $background;
+	border-top: $toolbar-border 1px solid;
+	border-bottom: $toolbar-border 1px solid;
+
+	input {
+		height: $toolbar-height - ($toolbar-padding * 2);
 	}
 }

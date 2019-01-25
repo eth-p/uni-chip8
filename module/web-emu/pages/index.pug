@@ -1,4 +1,23 @@
-head
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/toolbar
 
-body
-	p Test
+- stylesheets.push('/assets/styles/emulator.css')
+
++page
+	+toolbar
+		+item
+			input(type="button" value="Load")
+
+		+item
+			input(type="button" value="Settings")
+
+		+item.spacer
+
+		+item
+			input(type="color" value="#ffffff")#color-screen-text
+			input(type="color" value="#000000")#color-screen-background
+

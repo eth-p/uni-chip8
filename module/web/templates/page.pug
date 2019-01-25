@@ -8,9 +8,14 @@
 		return attr.split(' ').filter(x => params.includes(x)).join(' ');
 	}
 
+-
+	stylesheets = [];
+
 mixin page
 	head
 		link(rel="stylesheet" href="/assets/styles/main.css")
+		for stylesheet in stylesheets
+			link(rel="stylesheet" href=stylesheet)
 		meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1")
 		meta(name="theme-color" content="#222222")
 
