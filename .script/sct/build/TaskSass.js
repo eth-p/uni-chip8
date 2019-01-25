@@ -11,7 +11,8 @@
 const path = require('path');
 
 // Modules.
-const Task     = require('@sct').Task;
+const Task           = require('@sct').Task;
+const AsyncTransform = require('@sct').AsyncTransform;
 
 // Gulp.
 const gulp_rename = require('gulp-rename');
@@ -59,6 +60,14 @@ module.exports = class TaskSass extends Task {
 		return this._gulpsrc(SASS_FILTER)
 			// Compile SCSS.
 			.pipe(gulp_sass({outputStyle: options.minify ? 'compressed' : 'expanded'}))
+
+			// Remove empty.
+			.pipe(new AsyncTransform({objectMode: true, transform: async (file) => {
+				let ext = path.extname(file.path);
+				if (ext.toLowerCase() !== '.css') return file;
+				if (file.contents.toString().replace(/\/\*.*\*\//g, '').trim().length === 0) return null;
+				return file;
+			}}))
 
 			// Save.
 			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
