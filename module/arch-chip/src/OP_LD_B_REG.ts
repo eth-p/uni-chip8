@@ -37,11 +37,12 @@ export default class OP_LD_B_REG extends Operation {
 	}
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
-		let p2: number = operands[1];
+		const p2: number = operands[1];
+		let value: number = context.register_data[p2];
 		if (context.program.data !== null) {
 			for (let offset: number = 0; offset < 3; ++offset) {
-				context.program.data[context.register_index + (2 - offset)] = p2 % 10;
-				p2 /= 10;
+				context.program.data[context.register_index + (2 - offset)] = value % 10;
+				value /= 10;
 			}
 		}
 	}
