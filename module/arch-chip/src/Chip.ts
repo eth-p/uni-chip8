@@ -35,7 +35,6 @@ import OP_RND_REG_CON from './OP_RND_REG_CON';
 import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
 import OP_LD_I_CON from './OP_LD_I_CON';
 import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
-
 import OP_ADD_I_REG from './OP_ADD_I_REG';
 import OP_CALL_ADDR from './OP_CALL_ADDR';
 import OP_LD_DT_REG from './OP_LD_DT_REG';
