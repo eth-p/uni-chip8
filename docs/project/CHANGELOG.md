@@ -35,7 +35,7 @@
 - **docs:** Added Gantt chart.
 - **docs:** Updated Product Document for Release 0 readiness.
 - **docs:** Restructured documentation to optimize use out of [markdown-folder-to-html](https://github.com/joakin/markdown-folder-to-html).
-
+- 
 ## Release 1
 
 ### Developer
@@ -47,3 +47,4 @@
 ### Documentation
 
 - **docs:** Added test CHIP-8 to product document.
+- **docs:** Added link to assembler documentation in product document.
