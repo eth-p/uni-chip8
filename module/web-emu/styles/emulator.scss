@@ -121,29 +121,68 @@
 // Settings:
 // ---------------------------------------------------------------------------------------------------------------------
 
+#emulator-settings .desktop-window {
+	min-height: 300px;
+	min-width: 50%;
+	max-width: 80%;
+}
+
 #emulator-settings .toolbar {
+	$active-background: $desktop-window-background;
+	$active-text: $desktop-window-title-text;
+	$inactive-background: darken($desktop-window-background, 5);
+	$inactive-text: $text-dim;
+	$border: $desktop-window-border;
+
 	border-bottom: none;
+	background: $inactive-background;
 
 	@include user-select(none);
 
-	.toolbar-item:not(:last-child) {
-		border-right: $desktop-window-border 1px solid;
+	&::after {
+		content: '';
+		flex: 1 1 auto;
+		border-bottom: $border 1px solid;
+	}
+
+	.toolbar-item {
+		&:first-child {
+			border-left: none;
+		}
 	}
 
 	.toolbar-item {
 		padding: $toolbar-padding;
-		border-bottom: $desktop-window-border 1px solid;
+		border-bottom: $border 1px solid;
+		border-left: $border 1px solid;
+		border-right: $border 1px solid;
 
 		&.active {
-			color: $desktop-window-title-text;
-			background: $desktop-window-background;
+			color: $active-text;
+			background: $active-background;
 			border-bottom-color: transparent;
 		}
 
 		&:not(.active) {
-			opacity: 0.7;
-			background: darken($desktop-window-background, 10);
+			background: $inactive-background;
 			border-right-color: transparent;
+			border-left-color: transparent;
+			transition: $animation-time ease;
+			transition-property: color, border, background;
+			cursor: pointer;
+
+			&:hover {
+				color: $active-text;
+				background: $active-background;
+				opacity: 1;
+
+				border-left-color: $border;
+				border-right-color: $border;
+
+				&:first-child {
+					border-left-color: transparent;
+				}
+			}
 		}
 	}
 }

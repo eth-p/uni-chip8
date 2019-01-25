@@ -37,14 +37,17 @@ include ../components/emulator-screen
 			+desktop-window
 				.title Settings
 				+toolbar
-					+item.active General
-					+item Keybind
-					+item Debug
+					+item(data-pane="emulator-settings-pane-general") General
+					+item(data-pane="emulator-settings-pane-keybind") Keybind
+					+item(data-pane="emulator-settings-pane-debug") Debug
 
 				.content
-					+section()#emulator-settings-pane-general
-					+section()#emulator-settings-pane-keybind
-					+section#emulator-settings-pane-debug
+					+section.hide#emulator-settings-pane-general
+						h1 GENERAL
+					+section.hide#emulator-settings-pane-keybind
+						h1 KEYBIND
+					+section.hide#emulator-settings-pane-debug
+						h1 DEBUG
 						input(type="checkbox")#setting-debug-mode
 
 		+desktop-content#emulator-layout
