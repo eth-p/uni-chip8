@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Bitfield from '@chipotle/types/Bitfield';
+// import Bitfield from '@chipotle/types/Bitfield';
 
 import ChipDisplay from '../src/ChipDisplay';
 import ChipSprite from '../src/ChipSprite';
