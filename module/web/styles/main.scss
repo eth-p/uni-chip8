@@ -2,28 +2,29 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-$background: #333;
-$accent-1: #eac349;
-$accent-2: #f00;
-$text: #eee;
-$text-dim: #aaa;
+$background: #484c51;
+$accent-1: #5ba2e0;
+$accent-2: #eac349;
+$text: #fff;
+$text-dim: #bbb;
 
 $header-height: 45px;
 $header-padding: 8px;
-$header-background: #222;
-$header-border: #000;
+$header-background: #212429;
+$header-border: transparent;
 
 $content-padding: 16px;
 
 $card-width: 250px;
 $card-padding: 10px;
 $card-shadow: #1113;
-$card-light-background: #ccc;
+$card-light-background: #73787d;
 $card-light-border: #fff;
 $card-light-text: #333;
-$card-dark-background: #444;
-$card-dark-border: #111;
+$card-dark-background: #484c51;
+$card-dark-border: #474c54;
 $card-dark-text: #aaa;
+$card-radius: 8px;
 
 $animation-time: 0.2s;
 
@@ -55,7 +56,8 @@ body {
 // ---------------------------------------------------------------------------------------------------------------------
 header {
 	display: flex;
-	height: $header-height + 1;
+	height: $header-height;
+	z-index: 20;
 
 	flex-direction: row;
 	flex-grow: 0;
@@ -124,7 +126,7 @@ header {
 
 	// Not seamless.
 	body.seamless & {
-		border-bottom: none;
+		border-bottom-color: transparent;
 	}
 }
 
@@ -132,6 +134,7 @@ header {
 // Content:
 // ---------------------------------------------------------------------------------------------------------------------
 #wrapper {
+	font-size: 15px;
 	display: block;
 	flex: 1 1 auto;
 
@@ -187,6 +190,7 @@ main .card {
 	width: $card-width;
 
 	border: transparent 1px solid;
+	border-radius: $card-radius;
 	box-shadow: $card-shadow 1px 1px 1px;
 
 	> a {
@@ -198,6 +202,8 @@ main .card {
 	.card-image > img {
 		width: 100%;
 		height: auto;
+
+		border-radius: $card-radius $card-radius 0 0;
 	}
 
 	.card-data {
