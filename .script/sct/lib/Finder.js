@@ -144,7 +144,7 @@ module.exports = class Finder {
 	 *
 	 * @param directory {string}   The directory to search.
 	 * @param patterns  {string[]} The matching patterns.
-	 * @param options   {object}   The options.
+	 * @param [options] {object}   The options.
 	 */
 	constructor(directory, patterns, options) {
 		this._running   = false;

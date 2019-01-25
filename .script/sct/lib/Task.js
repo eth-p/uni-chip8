@@ -157,10 +157,11 @@ module.exports = class Task {
 
 	/**
 	 * Returns a gulp.src stream for the source files of this task's module.
-	 * @param [only] {String[]} Only match these files.
+	 * @param [only]    {String[]} Only match these files.
+	 * @param [options] {*}        Options.
 	 * @protected
 	 */
-	_gulpsrc(only) {
+	_gulpsrc(only, options) {
 		let base   = this.module.getDirectory();
 		let stream = null;
 		let srcpat = [].concat(
@@ -168,6 +169,10 @@ module.exports = class Task {
 			this.module._excludes,
 			Finder.EXCLUDE,
 			['!**/out/*']);
+
+		if (options != null && options.patterns != null) {
+			srcpat = options.patterns;
+		}
 
 		if (this.watch) {
 			stream = gulp_watch(srcpat, {
@@ -229,15 +234,19 @@ module.exports = class Task {
 		return gulp_rename(file => {
 			let joined = path.join(file.dirname, file.basename + file.extname);
 			for (let pattern of patterns) {
-				if (mm.isMatch(joined, pattern)) {
-					let pfxIndex  = pattern.indexOf('*');
-					let pfxString = pattern.substring(0, pfxIndex);
+				let src = typeof(pattern) === 'string' ? pattern : Object.keys(pattern)[0];
+				let dest = typeof(pattern) === 'string' ? null : Object.values(pattern)[0];
+
+				if (mm.isMatch(joined, src)) {
+					let pfxIndex  = src.indexOf('*');
+					let pfxString = src.substring(0, pfxIndex);
 
 					if (pfxIndex === -1 || !pfxString.endsWith('/')) return;
 					pfxString = pfxString.substring(0, pfxString.length - 1);
 
 					if (!file.dirname.startsWith(pfxString)) return;
-					file.dirname = file.dirname.substring(pfxString.length);
+					let dir = file.dirname.substring(pfxString.length);
+					file.dirname = dest == null ? dir : path.join(dest, dir);
 					return;
 				}
 			}

@@ -92,6 +92,14 @@ module.exports = class Module {
 	}
 
 	/**
+	 * Gets the patterns used to determine copied library files.
+	 * @returns {{[string]: string}[]}
+	 */
+	getCopyPatterns() {
+		return this._copy;
+	}
+
+	/**
 	 * Gets a Finder for the test files.
 	 * @returns {Finder}
 	 */
@@ -249,17 +257,18 @@ module.exports = class Module {
 	}
 
 	constructor(project, id, config) {
-		this._project     = project;
-		this._id          = id;
-		this._description = config.description;
-		this._meta        = config['@meta'] === true;
-		this._config      = config;
-		this._sources     = config.sources instanceof Array ? config.sources : [];
-		this._tests       = config.tests instanceof Array ? config.tests : [];
-		this._excludes    = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
-		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
-		this._tasks       = null;
-		this._outputs     = new Map();
+		this._project        = project;
+		this._id             = id;
+		this._description    = config.description;
+		this._meta           = config['@meta'] === true;
+		this._config         = config;
+		this._sources        = config.sources instanceof Array ? config.sources : [];
+		this._tests          = config.tests instanceof Array ? config.tests : [];
+		this._excludes       = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
+		this._copy           = config.copy instanceof Array ? config.copy : [];
+		this._directory      = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
+		this._tasks          = null;
+		this._outputs        = new Map();
 
 		if (config.output != null) {
 			for (let [type, out] of Object.entries(config.output)) {
