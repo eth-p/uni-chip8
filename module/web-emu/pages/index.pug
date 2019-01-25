@@ -23,7 +23,7 @@ include ../components/emulator-screen
 			input(type="button" value="Pause")#control-pause
 
 		+item
-			input(type="button" value="Settings")#control-settings
+			input(type="button" value="Settings" data-action="emulator-settings-show")
 
 		+item.spacer
 
@@ -36,7 +36,7 @@ include ../components/emulator-screen
 		+desktop-overlay#emulator-settings.centered.visible.blocking
 			+desktop-window
 				+desktop-window-title("Settings")
-					input(type="button" value="cancel" data-action="emulator-settings-reset")
+					input(type="button" value="cancel" data-action="emulator-settings-cancel")
 					input(type="button" value="save" data-action="emulator-settings-save")
 
 				+toolbar
