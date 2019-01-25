@@ -92,7 +92,7 @@ module.exports = class CommandBuild extends Command {
 			'modules': {
 				type: 'string',
 				value: 'pattern',
-				default: 'es6',
+				default: 'amd',
 				description: 'The module import/export pattern.',
 				match: ['es6', 'commonjs', 'amd']
 			},
