@@ -25,6 +25,13 @@ export default class OP_LD_REG_K extends Operation {
 				mask: 0x0f00,
 				type: OperandType.REGISTER,
 				tags: {[OperandTags.IS_DESTINATION]: true}
+			},
+			{
+				mask: 0x0000,
+				type: OperandType.REGISTER,
+				tags: {
+					[OperandTags.IS_EXACT]: 'K'
+				}
 			}
 		]);
 	}

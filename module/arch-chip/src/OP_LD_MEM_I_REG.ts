@@ -22,6 +22,14 @@ export default class OP_LD_MEM_I_REG extends Operation {
 	public constructor() {
 		super('LD', 0xf055, [
 			{
+				mask: 0x0000,
+				type: OperandType.REGISTER,
+				tags: {
+					[OperandTags.IS_EXACT]: '[I]',
+					[OperandTags.IS_DESTINATION]: true
+				}
+			},
+			{
 				mask: 0x0f00,
 				type: OperandType.REGISTER
 			}
@@ -29,9 +37,9 @@ export default class OP_LD_MEM_I_REG extends Operation {
 	}
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
-		const p1 = operands[0];
+		const p2 = operands[1];
 		if (context.program.data !== null) {
-			for (let offset = 0; offset <= p1; ++offset) {
+			for (let offset = 0; offset <= p2; ++offset) {
 				context.program.data[context.register_index + offset] = context.register_data[offset];
 			}
 		}
