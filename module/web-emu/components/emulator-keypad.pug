@@ -2,10 +2,9 @@
 -// Copyright (C) 2019 Team Chipotle
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
-include ../templates/page
-include ../components/card
-
-+page.padded
-	h1 About Us
-	| TODO
-
+mixin emulator-keypad
+	div&attributes(attributes)#emulator-keypad.keypad
+		for row in [['0', '1', '2', '3'], ['4', '5', '6', '7'], ['8', '9', 'A', 'B'], ['C', 'D', 'E', 'F']]
+			div.keypad-row
+				for col in row
+					input(type="button" value=col)

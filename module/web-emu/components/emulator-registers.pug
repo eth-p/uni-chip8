@@ -2,10 +2,12 @@
 -// Copyright (C) 2019 Team Chipotle
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
-include ../templates/page
-include ../components/card
+mixin emulator-register(name)
+	div.emulator-register
+		div.register-name=name
+		div.register-value='??'
 
-+page.padded
-	h1 About Us
-	| TODO
-
+mixin emulator-registers
+	div&attributes(attributes)#emulator-registers
+		+emulator-register('V0')
+		+emulator-register('V1')

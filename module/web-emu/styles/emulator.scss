@@ -2,8 +2,116 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/theme.scss';
+
 .toolbar {
 	input[type='color'] {
 		margin: 0 1px;
 	}
+}
+
+#emulator-layout {
+	display: flex;
+
+	> * {
+		display: flex;
+		flex-direction: column;
+	}
+
+	// Desktop Layout:
+	@media only screen and (min-width: $layout-boundary) {
+		flex-direction: row;
+
+		.emulator-interface {
+			flex: 4 0 auto;
+		}
+
+		.emulator-debugger {
+			flex: 3 1 auto;
+		}
+	}
+
+	// Mobile Layout:
+	@media only screen and (max-width: $layout-boundary) {
+		flex-direction: column;
+
+		.emulator-interface {
+			height: 100%;
+		}
+
+		.emulator-debugger {
+			flex: 1 1 auto;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Screen:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-screen {
+	grid-column-start: program;
+	flex: 1 0 auto;
+
+	.screen {
+		min-width: 128px;
+		min-height: 64px;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Keypad:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-keypad {
+	grid-column-start: program;
+	flex: 1 0 auto;
+
+	&.keypad,
+	.keypad {
+		display: flex;
+		flex-direction: column;
+
+		.keypad-row {
+			display: flex;
+			flex-direction: row;
+			flex: 1 1 auto;
+		}
+
+		input[type='button'] {
+			width: 100%;
+			padding: 0;
+			margin: 0;
+
+			outline: none;
+			background: $toolbar-button-background;
+			color: $toolbar-button-text;
+			border: $toolbar-button-border 1px solid;
+			transition: background-color $animation-time ease, color $animation-time ease;
+			cursor: pointer;
+
+			&:hover {
+				background: $toolbar-button-background-hover;
+				color: $toolbar-button-text-hover;
+			}
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Registers:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-registers {
+	width: 100%;
+	grid-column-start: debug;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Disassembler:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-disassembler {
+	width: 100%;
+	grid-column-start: debug;
 }

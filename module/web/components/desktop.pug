@@ -1,11 +1,15 @@
 -// --------------------------------------------------------------------------------------------------------------------
 -// Copyright (C) 2019 Team Chipotle
--// MIT License
+-//  MIT License
 -// --------------------------------------------------------------------------------------------------------------------
-include ../templates/page
-include ../components/card
+mixin desktop
+	.desktop&attributes(attributes)
+		block
 
-+page.padded
-	h1 About Us
-	| TODO
+mixin desktop-content
+	.desktop-content&attributes(attributes)
+		block
 
+mixin desktop-overlay
+	.desktop-overlay&attributes(attributes)
+		block

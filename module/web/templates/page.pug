@@ -1,7 +1,7 @@
--//! -------------------------------------------------------------------------------------------------------------------
--//! Copyright (C) 2019 Team Chipotle
--//! MIT License
--//! -------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// Copyright (C) 2019 Team Chipotle
+// MIT License
+// ---------------------------------------------------------------------------------------------------------------------
 -
 	function extract(attr, ...params) {
 		if (attr == null) return null;
@@ -10,6 +10,7 @@
 
 -
 	stylesheets = [];
+	scripts = [];
 
 mixin page
 	head
@@ -18,19 +19,23 @@ mixin page
 			link(rel="stylesheet" href=stylesheet)
 		meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1")
 		meta(name="theme-color" content="#222222")
+		for script in scripts
+			script(data-main=script data-many)
+		script(data-main="/assets/lib/require-many.js" src="/assets/lib/require.js" async)
 
 	body(class=extract(attributes.class, 'seamless', 'padded'))
-		header
-			div#logo
-				a(href="/")
-					img(src="/assets/images/logo.svg" alt="Team Chipotle")
+		#page
+			header
+				div#logo
+					a(href="/")
+						img(src="/assets/images/logo.svg" alt="Team Chipotle")
 
-			div#links
-				a(href="/emulator") Emulator
-				a(href="/tools/assembler") Assembler
-				a(href="/about") About
+				div#links
+					a(href="/emulator") Emulator
+					a(href="/tools/assembler") Assembler
+					a(href="/about") About
 
-		#wrapper(class=extract(attributes.class, 'centered'))
-			main
-				block
+			#wrapper(class=extract(attributes.class, 'centered', 'filled'))
+				main
+					block
 

@@ -1,23 +1,44 @@
-//! --------------------------------------------------------------------------------------------------------------------
-//! Copyright (C) 2019 Team Chipotle
-//! MIT License
-//! --------------------------------------------------------------------------------------------------------------------
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
 include ../../web/templates/page
+include ../../web/components/desktop
 include ../../web/components/toolbar
+include ../components/emulator-keypad
+include ../components/emulator-disassembler
+include ../components/emulator-registers
+include ../components/emulator-screen
 
 - stylesheets.push('/assets/styles/emulator.css')
+- scripts.push('/scripts/web-emu/ui.js')
 
-+page
++page.filled
 	+toolbar
 		+item
-			input(type="button" value="Load")
+			input(type="button" value="Load")#control-load
 
 		+item
-			input(type="button" value="Settings")
+			input(type="button" value="Pause")#control-pause
+
+		+item
+			input(type="button" value="Settings")#control-settings
 
 		+item.spacer
 
 		+item
-			input(type="color" value="#ffffff")#color-screen-text
-			input(type="color" value="#000000")#color-screen-background
+			input(type="color" value="#ffffff")#setting-screen-text
+			input(type="color" value="#000000")#setting-screen-background
+
+	+desktop
+
+		+desktop-overlay#emulator-settings
+
+		+desktop-content#emulator-layout
+			.emulator-interface
+				+emulator-screen
+				+emulator-keypad
+			.emulator-debugger
+				+emulator-registers
+				+emulator-disassembler
 

@@ -2,39 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-$background: #212429;
-$accent-1: #5ba2e0;
-$accent-2: #eac349;
-$text: #fff;
-$text-dim: #bbb;
-
-$header-height: 45px;
-$header-padding: 8px;
-$header-border: transparent;
-
-$content-padding: 16px;
-
-$card-width: 250px;
-$card-padding: 10px;
-$card-shadow: #1113;
-$card-light-background: #73787d;
-$card-light-border: #fff;
-$card-light-text: #333;
-$card-dark-background: #484c51;
-$card-dark-border: #474c54;
-$card-dark-text: #aaa;
-$card-radius: 8px;
-
-$toolbar-height: 40px;
-$toolbar-padding: 8px;
-$toolbar-border: #353a42;
-$toolbar-button-background: #393c40;
-$toolbar-button-background-hover: #53575d;
-$toolbar-button-border: #474e59;
-$toolbar-button-text: $text-dim;
-$toolbar-button-text-hover: $text;
-
-$animation-time: 0.2s;
+@import 'theme.scss';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Body:
@@ -43,12 +11,10 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-	min-height: 100%;
+	height: 100%;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
 	background: $background;
 	color: $text;
 
@@ -57,6 +23,12 @@ body {
 
 	--accent-1: #{$accent-1};
 	--accent-2: #{$accent-2};
+}
+
+#page {
+	display: flex;
+	flex-flow: column nowrap;
+	min-height: 100%;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -68,8 +40,7 @@ header {
 	z-index: 20;
 
 	flex-direction: row;
-	flex-grow: 0;
-	flex-shrink: 0;
+	flex: none;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -159,6 +130,24 @@ header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+#wrapper.filled {
+	display: flex;
+
+	main {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+
+		> * {
+			flex: 0 0;
+		}
+
+		> *:last-child {
+			flex-grow: 1;
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -294,5 +283,31 @@ main > .toolbar {
 
 	input {
 		height: $toolbar-height - ($toolbar-padding * 2);
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Desktop
+// ---------------------------------------------------------------------------------------------------------------------
+
+.desktop {
+	display: flex;
+	position: relative;
+
+	.desktop-overlay {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		&.visible {
+			display: block;
+		}
+	}
+
+	.desktop-content {
+		flex: 1 0 auto;
 	}
 }

@@ -1,0 +1,43 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+// Main:
+$background: #212429;
+$accent-1: #5ba2e0;
+$accent-2: #eac349;
+$text: #fff;
+$text-dim: #bbb;
+$animation-time: 0.2s;
+
+$layout-boundary: 800px; // The cutoff point between mobile and desktop.
+
+// Header:
+$header-height: 45px;
+$header-padding: 8px;
+$header-border: transparent;
+
+// Content:
+$content-padding: 16px;
+
+// Card:
+$card-width: 250px;
+$card-padding: 10px;
+$card-shadow: #1113;
+$card-light-background: #73787d;
+$card-light-border: #fff;
+$card-light-text: #333;
+$card-dark-background: #484c51;
+$card-dark-border: #474c54;
+$card-dark-text: #aaa;
+$card-radius: 8px;
+
+// Toolbar:
+$toolbar-height: 40px;
+$toolbar-padding: 8px;
+$toolbar-border: #353a42;
+$toolbar-button-background: #393c40;
+$toolbar-button-background-hover: #53575d;
+$toolbar-button-border: #474e59;
+$toolbar-button-text: $text-dim;
+$toolbar-button-text-hover: $text;
