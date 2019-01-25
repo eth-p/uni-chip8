@@ -35,7 +35,6 @@ export function show(pane: SettingsPane) {
 
 	for (let element of settings_tabs) {
 		element.classList.remove('active');
-		console.log(element);
 		if (element.getAttribute('data-pane') === pane) {
 			element.classList.add('active');
 		}

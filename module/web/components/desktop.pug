@@ -17,3 +17,10 @@ mixin desktop-overlay
 mixin desktop-window(depth)
 	.desktop-window(class=`${depth == null ? 1 : depth}z`)&attributes(attributes)
 		block
+
+mixin desktop-window-title(title)
+	.desktop-window-title
+		.title=title
+		.buttons
+			block
+

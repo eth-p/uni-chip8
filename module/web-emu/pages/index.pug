@@ -35,7 +35,10 @@ include ../components/emulator-screen
 
 		+desktop-overlay#emulator-settings.centered.visible.blocking
 			+desktop-window
-				.title Settings
+				+desktop-window-title("Settings")
+					input(type="button" value="cancel" data-action="emulator-settings-reset")
+					input(type="button" value="save" data-action="emulator-settings-save")
+
 				+toolbar
 					+item(data-pane="emulator-settings-pane-general") General
 					+item(data-pane="emulator-settings-pane-keybind") Keybind

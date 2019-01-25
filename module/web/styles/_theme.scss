@@ -50,7 +50,15 @@ $desktop-overlay-background: rgba(0, 0, 0, 0.3);
 $desktop-window-background: #3a3d41;
 $desktop-window-border: #555a64;
 $desktop-window-text: #bbb;
-$desktop-window-title-background: #484c51;
-$desktop-window-title-text: #ddd;
 $desktop-window-radius: 0;
 $desktop-window-padding: 10px;
+
+$desktop-window-title-background: #484c51;
+$desktop-window-title-text: #ddd;
+
+$desktop-window-title-button-border: transparent;
+$desktop-window-title-button-border-hover: #2e3033;
+$desktop-window-title-button-background: transparent;
+$desktop-window-title-button-background-hover: #3d4148;
+$desktop-window-title-button-text: #bbb;
+$desktop-window-title-button-text-hover: #ddd;
