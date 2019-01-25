@@ -3,6 +3,7 @@
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
 include ../../web/templates/page
+include ../../web/components/common
 include ../../web/components/desktop
 include ../../web/components/toolbar
 include ../components/emulator-keypad
@@ -32,7 +33,19 @@ include ../components/emulator-screen
 
 	+desktop
 
-		+desktop-overlay#emulator-settings
+		+desktop-overlay#emulator-settings.centered.visible.blocking
+			+desktop-window
+				.title Settings
+				+toolbar
+					+item.active General
+					+item Keybind
+					+item Debug
+
+				.content
+					+section()#emulator-settings-pane-general
+					+section()#emulator-settings-pane-keybind
+					+section#emulator-settings-pane-debug
+						input(type="checkbox")#setting-debug-mode
 
 		+desktop-content#emulator-layout
 			.emulator-interface

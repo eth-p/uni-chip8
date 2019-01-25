@@ -2,7 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-@import '../../web/styles/theme.scss';
+@import '../../web/styles/_theme';
+@import '../../web/styles/_mixin';
 
 .toolbar {
 	input[type='color'] {
@@ -114,4 +115,38 @@
 #emulator-disassembler {
 	width: 100%;
 	grid-column-start: debug;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Settings:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-settings .toolbar {
+	border-bottom: none;
+
+	@include user-select(none);
+
+	.toolbar-item:not(:last-child) {
+		border-right: $desktop-window-border 1px solid;
+	}
+
+	.toolbar-item {
+		padding: $toolbar-padding;
+		border-bottom: $desktop-window-border 1px solid;
+
+		&.active {
+			color: $desktop-window-title-text;
+			background: $desktop-window-background;
+			border-bottom-color: transparent;
+		}
+
+		&:not(.active) {
+			opacity: 0.7;
+			background: darken($desktop-window-background, 10);
+			border-right-color: transparent;
+		}
+	}
+}
+
+#emulator-settings .content {
 }

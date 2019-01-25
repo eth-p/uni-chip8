@@ -20,6 +20,9 @@ $header-border: transparent;
 // Content:
 $content-padding: 16px;
 
+// Common:
+$section-title-text: $accent-2;
+
 // Card:
 $card-width: 250px;
 $card-padding: 10px;
@@ -41,3 +44,13 @@ $toolbar-button-background-hover: #53575d;
 $toolbar-button-border: #474e59;
 $toolbar-button-text: $text-dim;
 $toolbar-button-text-hover: $text;
+
+// Desktop:
+$desktop-overlay-background: rgba(0, 0, 0, 0.3);
+$desktop-window-background: #3a3d41;
+$desktop-window-border: #555a64;
+$desktop-window-text: #bbb;
+$desktop-window-title-background: #484c51;
+$desktop-window-title-text: #ddd;
+$desktop-window-radius: 0;
+$desktop-window-padding: 10px;

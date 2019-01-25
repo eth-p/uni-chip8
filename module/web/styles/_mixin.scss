@@ -1,0 +1,14 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+
+/**
+ * A mixin for user-select.
+ * @param $value The user-select value.
+ */
+@mixin user-select($value) {
+	-webkit-user-select: $value;
+	-moz-user-select: $value;
+	-ms-user-select: $value;
+}
