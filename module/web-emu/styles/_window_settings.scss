@@ -1,0 +1,107 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/_theme';
+@import '../../web/styles/_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Settings:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-settings .desktop-window {
+	min-height: 400px;
+	width: 80%;
+	max-width: 400px;
+}
+
+#emulator-settings .toolbar {
+	$active-background: $desktop-window-background;
+	$active-text: $desktop-window-title-text;
+	$inactive-background: darken($desktop-window-background, 5);
+	$inactive-text: $text-dim;
+	$border: $desktop-window-border;
+
+	border-bottom: none;
+	background: $inactive-background;
+
+	@include user-select(none);
+
+	&::after {
+		content: '';
+		flex: 1 1 auto;
+		border-bottom: $border 1px solid;
+	}
+
+	.toolbar-item {
+		&:first-child {
+			border-left: none;
+		}
+	}
+
+	.toolbar-item {
+		padding: $toolbar-padding;
+		border-bottom: $border 1px solid;
+		border-left: $border 1px solid;
+		border-right: $border 1px solid;
+
+		&.active {
+			color: $active-text;
+			background: $active-background;
+			border-bottom-color: transparent;
+		}
+
+		&:not(.active) {
+			background: $inactive-background;
+			border-right-color: transparent;
+			border-left-color: transparent;
+			transition: $animation-time ease;
+			transition-property: color, border, background;
+			cursor: pointer;
+
+			&:hover {
+				color: $active-text;
+				background: $active-background;
+				opacity: 1;
+
+				border-left-color: $border;
+				border-right-color: $border;
+
+				&:first-child {
+					border-left-color: transparent;
+				}
+			}
+		}
+	}
+}
+
+#emulator-settings .emulator-setting {
+	display: flex;
+	align-items: center;
+
+	padding: 4px;
+
+	label {
+		flex: 1 1 auto;
+		display: block;
+
+		padding: 4px;
+		width: 100%;
+
+		font-size: 14px;
+
+		.label {
+			font-size: 15px;
+			@include user-select(none);
+		}
+
+		.description {
+			opacity: 0.5;
+			font-size: 14px;
+		}
+	}
+
+	input {
+		flex: 0 1 auto;
+	}
+}

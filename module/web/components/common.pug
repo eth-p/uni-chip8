@@ -4,5 +4,6 @@
 -// --------------------------------------------------------------------------------------------------------------------
 mixin section(title)
 	.section&attributes(attributes)
-		div.title=title
+		if title != null
+			div.title=title
 		block

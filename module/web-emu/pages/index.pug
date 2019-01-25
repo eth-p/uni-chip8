@@ -14,6 +14,14 @@ include ../components/emulator-screen
 - stylesheets.push('/assets/styles/emulator.css')
 - scripts.push('/scripts/web-emu/ui.js')
 
+mixin setting(type, key, name)
+	.emulator-setting(data-setting=key)
+		input(id=`--settings-id-${key}`, type=(type === 'boolean' ? 'checkbox' : 'text'))
+		label(for=`--settings-id-${key}`)
+			.label=name
+			.description
+				block
+
 +page.filled
 	+toolbar
 		+item
@@ -46,12 +54,20 @@ include ../components/emulator-screen
 
 				.content
 					+section.hide#emulator-settings-pane-general
-						h1 GENERAL
+						+setting('boolean', 'show-keypad', 'Show Keypad')
+
 					+section.hide#emulator-settings-pane-keybind
 						h1 KEYBIND
+						| TODO
+
 					+section.hide#emulator-settings-pane-debug
-						h1 DEBUG
-						input(type="checkbox")#setting-debug-mode
+						.warning These options will reduce performance.
+
+						+setting('boolean', 'enable-debugger', 'Enable Debugger')
+							| This enables the debugger and vizualizer.
+
+						+setting('boolean', 'show-registers', 'Show Registers')
+						+setting('boolean', 'show-disassembler', 'Show Disassembler')
 
 		+desktop-content#emulator-layout
 			.emulator-interface

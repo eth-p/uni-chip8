@@ -23,6 +23,7 @@ main {
 			color: $section-title-text;
 		}
 	}
+
 	// *-----------------------------------------------------------------------------------------------------------*
 	// | HIDE                                                                                                      |
 	// | The component is hidden.                                                                                  |
@@ -52,5 +53,19 @@ main {
 		&.wrap-padded > * {
 			margin: $content-padding;
 		}
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | WARNING                                                                                                   |
+	// | A warning box.                                                                                            |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	.warning {
+		margin: $box-margin;
+		padding: $box-padding;
+
+		color: $box-warning-text;
+		background-color: $box-warning-background;
+		border: $box-warning-border 1px solid;
 	}
 }
