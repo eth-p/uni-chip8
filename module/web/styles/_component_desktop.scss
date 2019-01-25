@@ -1,0 +1,111 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Desktop
+// ---------------------------------------------------------------------------------------------------------------------
+
+.desktop {
+	display: flex;
+	position: relative;
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | OVERLAY                                                                                                   |
+	// | An overlay is a layer that covers the entire desktop.                                                     |
+	// |                                                                                                           |
+	// | .visible - The overlay is visible.                                                                        |
+	// | .centered - The overlay content is centered.                                                              |
+	// | .blocking - The overlay blocks everything under it.                                                       |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	.desktop-overlay {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+
+		pointer-events: none;
+
+		> * {
+			pointer-events: auto;
+		}
+
+		&.visible {
+			display: block;
+		}
+
+		&.visible.centered {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&.blocking {
+			pointer-events: all;
+			background: $desktop-overlay-background;
+		}
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | CONTENT                                                                                                   |
+	// | The bottom-layer of desktop content.                                                                      |
+	// | This will determine the desktop height.                                                                   |
+	// |                                                                                                           |
+	// | .frameless - Do not use the default frame.                                                                |
+	// *-----------------------------------------------------------------------------------------------------------*
+	.desktop-content {
+		flex: 1 0 auto;
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | WINDOW                                                                                                    |
+	// | A template for a window.                                                                                  |
+	// |                                                                                                           |
+	// | .frameless - Do not use the default frame.                                                                |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	.desktop-window {
+		color: $desktop-window-text;
+
+		&:not(.frameless) {
+			background: $desktop-window-background;
+			border: $desktop-window-border 1px solid;
+			border-radius: $desktop-window-radius;
+		}
+
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+
+		> .toolbar {
+			background: $desktop-window-title-background;
+			border-bottom: $desktop-window-border 1px solid;
+		}
+
+		> .title {
+			font-size: 18px;
+			margin: 0;
+
+			font-weight: normal;
+			background: $desktop-window-title-background;
+			padding: ($desktop-window-padding / 2) $desktop-window-padding;
+			border-bottom: $desktop-window-border 1px solid;
+			color: $desktop-window-title-text;
+		}
+
+		&.frameless .title {
+			background: none;
+			border: none;
+		}
+
+		> .content {
+			font-size: 15px;
+			padding: $desktop-window-padding;
+		}
+	}
+}
