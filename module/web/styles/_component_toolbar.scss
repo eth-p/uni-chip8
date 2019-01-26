@@ -78,6 +78,13 @@ main > .toolbar {
 	border-top: $toolbar-border 1px solid;
 	border-bottom: $toolbar-border 1px solid;
 
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+
+	> * {
+		white-space: nowrap;
+	}
+
 	input {
 		height: $toolbar-height - ($toolbar-padding * 2);
 	}

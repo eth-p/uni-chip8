@@ -48,6 +48,9 @@ header {
 	background: $background;
 	border-bottom: $header-border 1px solid;
 
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+
 	> * {
 		height: $header-height;
 		line-height: $header-height - ($header-padding * 2) + 2;
