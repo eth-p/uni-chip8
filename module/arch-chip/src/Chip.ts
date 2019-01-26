@@ -35,6 +35,15 @@ import OP_RND_REG_CON from './OP_RND_REG_CON';
 import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
 import OP_LD_I_CON from './OP_LD_I_CON';
 import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
+import OP_ADD_I_REG from './OP_ADD_I_REG';
+import OP_CALL_ADDR from './OP_CALL_ADDR';
+import OP_LD_DT_REG from './OP_LD_DT_REG';
+import OP_LD_MEM_I_REG from './OP_LD_MEM_I_REG';
+import OP_LD_REG_DT from './OP_LD_REG_DT';
+import OP_LD_REG_K from './OP_LD_REG_K';
+import OP_LD_REG_MEM_I from './OP_LD_REG_MEM_I';
+import OP_LD_ST_REG from './OP_LD_ST_REG';
+
 import ProgramError from '@chipotle/vm/ProgramError';
 import ChipKeyboard from '@chipotle/arch-chip/ChipKeyboard';
 
@@ -66,7 +75,15 @@ const ISA = new VMInstructionSet<Chip>([
 	OP_RND_REG_CON,
 	OP_JP_ADDR_CON,
 	OP_LD_I_CON,
-	OP_DRW_REG_REG_CON
+	OP_DRW_REG_REG_CON,
+	OP_ADD_I_REG,
+	OP_CALL_ADDR,
+	OP_LD_DT_REG,
+	OP_LD_MEM_I_REG,
+	OP_LD_REG_DT,
+	OP_LD_REG_K,
+	OP_LD_REG_MEM_I,
+	OP_LD_ST_REG
 ]);
 
 /**
