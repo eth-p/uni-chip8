@@ -37,9 +37,8 @@ export default class OP_LD_REG_K extends Operation {
 	}
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
-		// TODO: Requires keyboard access through context
-		if (false) {
-			context.hopBackwards(1);
-		}
+		context.await('input', (event, key) => {
+			context.register_data[operands[0]] = Number.parseInt(key, 16) | 0;
+		});
 	}
 }
