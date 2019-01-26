@@ -10,17 +10,10 @@ include ../components/emulator-keypad
 include ../components/emulator-disassembler
 include ../components/emulator-registers
 include ../components/emulator-screen
+include ../components/setting
 
 - stylesheets.push('/assets/styles/emulator.css')
 - scripts.push('/scripts/web-emu/ui.js')
-
-mixin setting(type, key, name)
-	.emulator-setting(data-setting=key)
-		input(id=`--settings-id-${key}`, type=(type === 'boolean' ? 'checkbox' : 'text'))
-		label(for=`--settings-id-${key}`)
-			.label=name
-			.description
-				block
 
 +page.filled
 	+toolbar
@@ -36,8 +29,8 @@ mixin setting(type, key, name)
 		+item.spacer
 
 		+item
-			input(type="color" value="#ffffff")#setting-screen-text
-			input(type="color" value="#000000")#setting-screen-background
+			input(type="color" value="#ffffff" data-setting='screen_foreground')
+			input(type="color" value="#000000" data-setting='screen_background')
 
 	+desktop
 
@@ -54,7 +47,10 @@ mixin setting(type, key, name)
 
 				.content
 					+section.hide#emulator-settings-pane-general
-						+setting('boolean', 'show-keypad', 'Show Keypad')
+						+setting([1, 1500], 'cpu_speed', 'Clock Speed')
+							div The clock speed of the emulated device.
+							div This is usually 500 Hz for the CHIP-8.
+						+setting('boolean', 'show_keypad', 'Show Keypad')
 
 					+section.hide#emulator-settings-pane-keybind
 						h1 KEYBIND
@@ -63,11 +59,11 @@ mixin setting(type, key, name)
 					+section.hide#emulator-settings-pane-debug
 						.warning These options will reduce performance.
 
-						+setting('boolean', 'enable-debugger', 'Enable Debugger')
+						+setting('boolean', 'enable_debugger', 'Enable Debugger')
 							| This enables the debugger and vizualizer.
 
-						+setting('boolean', 'show-registers', 'Show Registers')
-						+setting('boolean', 'show-disassembler', 'Show Disassembler')
+						+setting('boolean', 'show_registers', 'Show Registers')
+						+setting('boolean', 'show_disassembler', 'Show Disassembler')
 
 		+desktop-content#emulator-layout
 			.emulator-interface

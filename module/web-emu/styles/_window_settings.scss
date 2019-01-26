@@ -103,5 +103,19 @@
 
 	input {
 		flex: 0 1 auto;
+		width: 22px;
+		margin: 0;
+	}
+
+	&.multiline {
+		flex-direction: column;
+		padding: 0 26px;
+
+		input {
+			margin-top: 4px;
+			width: 100%;
+		}
+
+		margin-bottom: 14px;
 	}
 }

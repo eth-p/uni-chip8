@@ -1,0 +1,25 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+mixin setting-input(type, key)
+	if type instanceof Array
+		input(id=`--settings-id-${key}`, type="number" min=type[0] max=type[1] data-setting=key)
+	else if type === 'boolean'
+		input(id=`--settings-id-${key}`, type=(type === 'boolean' ? 'checkbox' : 'text') data-setting=key)
+
+mixin setting(type, key, name)
+	- large_setting = false
+	- if (type instanceof Array) large_setting = true
+
+	.emulator-setting&attributes({class: large_setting ? 'multiline' : ''})
+		if !large_setting
+			+setting-input(type, key)
+
+		label(for=`--settings-id-${key}`)
+			.label=name
+			.description
+				block
+
+		if large_setting
+			+setting-input(type, key)

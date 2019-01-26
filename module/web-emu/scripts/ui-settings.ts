@@ -3,11 +3,13 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import dom_ready from '@chipotle/web/dom_ready';
+import settings from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Variables:
 let settings_overlay: Element;
 let settings_tabs: Element[];
 let settings_panes: Element[];
+let settings_fields: HTMLInputElement[];
 let control_show_settings: Element[];
 let control_save_settings: Element[];
 let control_cancel_settings: Element[];
@@ -58,9 +60,65 @@ export function hideSettings() {
 	settings_overlay.classList.remove('visible');
 }
 
-export function settingsApply() {}
+/**
+ * Applies the changed settings.
+ */
+export function settingsApply() {
+	settings.save();
+}
 
-export function settingsCancel() {}
+/**
+ * Cancels the changed settings.
+ */
+export function settingsUndo() {
+	for (let element of settings_fields) {
+		let setting = element.getAttribute('data-setting')!;
+		let value = (<any>settings)[setting];
+		switch (element.getAttribute('type')) {
+			case 'checkbox':
+				element.checked = value;
+				break;
+
+			default:
+				element.value = value;
+				break;
+		}
+	}
+}
+
+function changeListener(event: Event) {
+	let input = <HTMLInputElement>event.target;
+	let type = input.getAttribute('type')!;
+	let value: any = input.value;
+	input.classList.remove('invalid');
+
+	switch (type) {
+		case 'number':
+			if (!/^[\d]+$/.test(value)) {
+				input.classList.add('invalid');
+				return;
+			}
+
+			value = parseInt(value, 10);
+			break;
+
+		case 'color':
+			if (!/^#[0-9a-fA-F]{6}$/.test(value)) {
+				input.classList.add('invalid');
+				return;
+			}
+			break;
+
+		case 'checkbox':
+			value = input.checked;
+			break;
+
+		default:
+			break;
+	}
+
+	(<any>settings)[input.getAttribute('data-setting')!] = value;
+}
 
 // Setup.
 dom_ready(() => {
@@ -71,6 +129,7 @@ dom_ready(() => {
 	settings_overlay = document.querySelector('#emulator-settings')!;
 	settings_tabs = Array.from(settings_overlay.querySelectorAll('.desktop-window > .toolbar > .toolbar-item'));
 	settings_panes = Array.from(settings_overlay.querySelectorAll('.desktop-window > .content > .section'));
+	settings_fields = Array.from(document.querySelectorAll('input[data-setting]'));
 
 	// Add tabbed pane support.
 	const toolbar = settings_overlay.querySelector('.desktop-window > .toolbar')!;
@@ -84,12 +143,13 @@ dom_ready(() => {
 		}
 	});
 
-	// Add control button support.
+	// Add control support.
+	settings_fields.forEach(input => input.addEventListener('change', changeListener));
 	control_show_settings.forEach(btn => btn.addEventListener('click', () => showSettings()));
 
 	control_cancel_settings.forEach(btn =>
 		btn.addEventListener('click', () => {
-			settingsCancel();
+			settingsUndo();
 			hideSettings();
 		})
 	);
@@ -102,5 +162,6 @@ dom_ready(() => {
 	);
 
 	// Show default.
+	settingsUndo();
 	showPane(SettingsPane.GENERAL);
 });
