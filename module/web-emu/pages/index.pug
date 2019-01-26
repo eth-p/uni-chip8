@@ -10,6 +10,7 @@ include ../components/emulator-keypad
 include ../components/emulator-disassembler
 include ../components/emulator-registers
 include ../components/emulator-screen
+include ../components/emulator-stack
 include ../components/setting
 
 - stylesheets.push('/assets/styles/emulator.css')
@@ -29,7 +30,7 @@ include ../components/setting
 
 		+item.spacer
 
-		+item
+		+item#debug-controls
 			input(type="button" value="Prev" data-action="emulator-debug-step-prev")
 			input(type="button" value="Next" data-action="emulator-debug-step-next")
 
@@ -78,5 +79,6 @@ include ../components/setting
 				+emulator-keypad
 			.emulator-debugger
 				+emulator-registers
+				+emulator-stack
 				+emulator-disassembler
 
