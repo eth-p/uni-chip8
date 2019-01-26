@@ -2,11 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/types/assert';
-
-import Bitfield from '@chipotle/types/Bitfield';
-import {default as Uint8, bitscanf, bitscanr, BITS, MIN, MAX} from '@chipotle/types/Uint8';
-// ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Chip-8 sprite.
@@ -17,7 +12,7 @@ import {default as Uint8, bitscanf, bitscanr, BITS, MIN, MAX} from '@chipotle/ty
  * 11001000 => |SS  P   |
  * ```
  */
-export default class ChipKeyobard {
+class ChipKeyboard {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -74,3 +69,7 @@ export default class ChipKeyobard {
 		this.KEY_F = false;
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default ChipKeyboard;
+export {ChipKeyboard};
