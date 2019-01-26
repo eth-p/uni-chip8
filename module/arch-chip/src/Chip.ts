@@ -43,6 +43,9 @@ import OP_LD_REG_DT from './OP_LD_REG_DT';
 import OP_LD_REG_K from './OP_LD_REG_K';
 import OP_LD_REG_MEM_I from './OP_LD_REG_MEM_I';
 import OP_LD_ST_REG from './OP_LD_ST_REG';
+import OP_CLS from './OP_CLS';
+import OP_LD_B_REG from './OP_LD_B_REG';
+import OP_RET from './OP_RET';
 
 import ProgramError from '@chipotle/vm/ProgramError';
 import ChipKeyboard from '@chipotle/arch-chip/ChipKeyboard';
@@ -83,7 +86,10 @@ const ISA = new VMInstructionSet<Chip>([
 	OP_LD_REG_DT,
 	OP_LD_REG_K,
 	OP_LD_REG_MEM_I,
-	OP_LD_ST_REG
+	OP_LD_ST_REG,
+	OP_CLS,
+	OP_LD_B_REG,
+	OP_RET
 ]);
 
 /**
