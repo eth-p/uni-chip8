@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import Emitter from '@chipotle/types/Emitter';
+
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
 
@@ -20,7 +22,7 @@ import assert from '@chipotle/types/assert';
 /**
  * The base class of a VM.
  */
-export class VMBase<A> {
+export class VMBase<A> extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -79,6 +81,8 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
+		super();
+
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
 		this.isa = (<Architecture<A>>(<unknown>arch)).isa;
