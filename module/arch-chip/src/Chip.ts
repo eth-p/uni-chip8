@@ -36,6 +36,7 @@ import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
 import OP_LD_I_CON from './OP_LD_I_CON';
 import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 import ProgramError from '@chipotle/vm/ProgramError';
+import ChipKeyboard from '@chipotle/arch-chip/ChipKeyboard';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -175,6 +176,11 @@ class Chip extends Architecture<Chip> {
 	public register_index: Uint16;
 
 	/**
+	 * The keyboard.
+	 */
+	public keyboard: ChipKeyboard;
+
+	/**
 	 * The call stack.
 	 */
 	public stack: ProgramStack;
@@ -254,6 +260,7 @@ class Chip extends Architecture<Chip> {
 		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this.display = new ChipDisplay();
+		this.keyboard = new ChipKeyboard();
 		this.stack = new ProgramStack(this.MAX_STACK);
 	}
 
@@ -298,6 +305,7 @@ class Chip extends Architecture<Chip> {
 		this.register_sound = 0;
 		this.register_timer = 0;
 		this.register_index = 0;
+		this.keyboard.reset();
 		this.stack.clear();
 		this.display.clear();
 		this.jump(this.PROGRAM_ENTRY);
