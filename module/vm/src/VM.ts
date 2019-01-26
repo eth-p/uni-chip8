@@ -192,8 +192,9 @@ export class VMBase<A> extends Emitter {
 	/**
 	 * Tells the virtual machine to pause until an event is received.
 	 * @param expect The desired event.
+	 * @param callback The function to execute when the event is called.
 	 */
-	public await(expect: string): void {
+	public await(expect: string, callback: (event: string, ...args: any[]) => void): void {
 		if (this._VM_awaiting) throw new VMError('Called await() when already awaiting event');
 
 		this._VM_awaiting = true;
@@ -201,6 +202,7 @@ export class VMBase<A> extends Emitter {
 			if (expect === args[0]) {
 				this._VM_awaiting = false;
 				this.emit = Emitter.prototype.emit;
+				callback(...args);
 			}
 
 			Emitter.prototype.emit.apply(this, args);

@@ -164,10 +164,11 @@ describe('VM', () => {
 
 	it('await', async () => {
 		let called = false;
+		let callback = false;
 		let testvm = new VM(new Test(() => (called = true)));
 		let loaded = await testvm.program.load(new Uint8Array([0x0d, 0xef]));
 
-		testvm.await('test');
+		testvm.await('test', event => (callback = event === 'test'));
 		testvm.step();
 		expect(called).toStrictEqual(false);
 
@@ -178,6 +179,7 @@ describe('VM', () => {
 		expect(called).toStrictEqual(false);
 		testvm.emit('test');
 		testvm.step();
+		expect(callback).toStrictEqual(true);
 		expect(called).toStrictEqual(true);
 	});
 });
