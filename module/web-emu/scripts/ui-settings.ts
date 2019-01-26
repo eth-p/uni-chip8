@@ -19,9 +19,9 @@ let control_cancel_settings: Element[];
  * An enum of valid settings panes.
  */
 export enum SettingsPane {
-	GENERAL = 'emulator-settings-pane-general',
-	KEYBIND = 'emulator-settings-pane-keybind',
-	DEBUG = 'emulator-settings-pane-debug'
+	GENERAL = 'settings-pane-general',
+	KEYBIND = 'settings-pane-keybind',
+	DEBUG = 'settings-pane-debug'
 }
 
 /**
@@ -130,9 +130,9 @@ function changeListener(event: Event) {
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
 	// Get HTML elements.
-	control_show_settings = Array.from(document.querySelectorAll('[data-action="emulator-settings-show"]'));
-	control_save_settings = Array.from(document.querySelectorAll('[data-action="emulator-settings-save"]'));
-	control_cancel_settings = Array.from(document.querySelectorAll('[data-action="emulator-settings-cancel"]'));
+	control_show_settings = Array.from(document.querySelectorAll('[data-action="window-settings-show"]'));
+	control_save_settings = Array.from(document.querySelectorAll('[data-action="settings-save"]'));
+	control_cancel_settings = Array.from(document.querySelectorAll('[data-action="settings-cancel"]'));
 	settings_overlay = document.querySelector('#emulator-settings')!;
 	settings_tabs = Array.from(settings_overlay.querySelectorAll('.desktop-window > .toolbar > .toolbar-item'));
 	settings_panes = Array.from(settings_overlay.querySelectorAll('.desktop-window > .content > .section'));

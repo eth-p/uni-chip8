@@ -121,7 +121,7 @@
 }
 
 #emulator-settings {
-	#emulator-settings-pane-keybind:not(.hide) {
+	#settings-pane-keybind:not(.hide) {
 		display: grid;
 		grid-template-columns: 25% 25% 25% 25%;
 	}
