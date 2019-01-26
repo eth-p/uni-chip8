@@ -18,13 +18,20 @@ include ../components/setting
 +page.filled
 	+toolbar
 		+item
-			input(type="button" value="Load")#control-load
+			input(type="button" value="Load" data-action="emulator-load-show")
+			input(type="button" value="Reset" data-action="emulator-reset")
 
 		+item
-			input(type="button" value="Pause")#control-pause
+			input(type="button" value="Pause" data-action="emulator-pause")
 
 		+item
 			input(type="button" value="Settings" data-action="emulator-settings-show")
+
+		+item.spacer
+
+		+item
+			input(type="button" value="Prev" data-action="emulator-debug-step-prev")
+			input(type="button" value="Next" data-action="emulator-debug-step-next")
 
 		+item.spacer
 
