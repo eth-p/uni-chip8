@@ -3,9 +3,10 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {Settings, Setting} from '@chipotle/web/Settings';
+
 // ---------------------------------------------------------------------------------------------------------------------
 class EmulatorSettings extends Settings {
-	@Setting(500)
+	@Setting(500, {validator: speed => speed >= 1 && speed <= 1500})
 	public cpu_speed?: number;
 
 	@Setting(true)
@@ -18,12 +19,15 @@ class EmulatorSettings extends Settings {
 	public show_disassembler?: boolean;
 
 	@Setting(false)
+	public show_stack?: boolean;
+
+	@Setting(false)
 	public enable_debugger?: boolean;
 
-	@Setting('#ffffff')
+	@Setting('#ffffff', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_foreground?: string;
 
-	@Setting('#000000')
+	@Setting('#000000', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_background?: string;
 
 	@Setting('0')
@@ -74,6 +78,7 @@ class EmulatorSettings extends Settings {
 	@Setting('F')
 	public keybind_key_F?: string;
 }
+
 // ---------------------------------------------------------------------------------------------------------------------
 const settings = new EmulatorSettings('emulator');
 export default settings;

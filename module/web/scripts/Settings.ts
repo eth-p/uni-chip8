@@ -9,7 +9,7 @@ import Emitter from '@chipotle/types/Emitter';
 /**
  * A decorator for specifying a configurable setting.
  */
-function Setting(value: any, options?: SettingsEntry) {
+function Setting(value: any, options?: {validator: SettingsEntry['validator']}) {
 	return function(target: any, property: string | symbol) {
 		target.constructor.entries.set(
 			property,
