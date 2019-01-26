@@ -10,6 +10,12 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #emulator-registers {
-	width: 100%;
-	grid-column-start: debug;
+	.registers-grid {
+		display: grid;
+		grid-template-columns: 25% 25% 25% 25%;
+	}
+
+	.register-vz {
+		display: flex;
+	}
 }

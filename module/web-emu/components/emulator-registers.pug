@@ -3,11 +3,12 @@
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
 mixin emulator-register(name)
-	div.emulator-register
+	div.register-vz(data-visualizer=`register-${name}`)
 		div.register-name=name
 		div.register-value='??'
 
 mixin emulator-registers
 	div&attributes(attributes)#emulator-registers
-		+emulator-register('V0')
-		+emulator-register('V1')
+		.registers-grid
+			for register in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+				+emulator-register(`V${register}`)

@@ -19,7 +19,7 @@ include ../components/setting
 - shims[':scope'] = true;
 
 +page.filled
-	+toolbar
+	+toolbar#toolbar
 		+item
 			input(type="button" value="Load" data-action="window-load-show")
 			input(type="button" value="Reset" data-action="emulator-reset")
@@ -32,7 +32,7 @@ include ../components/setting
 
 		+item.spacer
 
-		+item#debug-controls
+		+item.requires-debugger
 			input(type="button" value="Prev" data-action="emulator-debug-step-prev")
 			input(type="button" value="Next" data-action="emulator-debug-step-next")
 
@@ -63,14 +63,21 @@ include ../components/setting
 						+setting([1, 1500], 'cpu_speed', 'Clock Speed')
 							div The clock speed of the emulated device.
 							div This is usually 500 Hz for the CHIP-8.
+							div Accepts: <code>1 - 1500</code> Hz.
 
 					- // Keybind Settings
 					+window-pane("settings-controls")
 						+setting('boolean', 'show_keypad', 'Show Keypad')
-						h2 Keybinds
-						.settings-controls
+						h2 CHIP-8 Keybinds
+						.settings-grid
 							for key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
 								+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
+						h2 Emulator Keybinds
+						.settings-grid.g3
+							+setting('keybind', 'keybind_control_pause', 'Pause')
+							+setting('keybind', 'keybind_control_turbo', 'Turbo')
+							+setting('keybind', 'keybind_control_step_next', 'Step Forwards').requires-debugger
+							+setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
 
 
 
@@ -81,9 +88,9 @@ include ../components/setting
 						+setting('boolean', 'enable_debugger', 'Enable Debugger')
 							| This enables the debugger and vizualizer.
 
-						+setting('boolean', 'show_registers', 'Show Registers')
-						+setting('boolean', 'show_stack', 'Show Stack')
-						+setting('boolean', 'show_disassembler', 'Show Disassembler')
+						+setting('boolean', 'show_registers', 'Show Registers').requires-debugger
+						+setting('boolean', 'show_stack', 'Show Stack').requires-debugger
+						+setting('boolean', 'show_disassembler', 'Show Disassembler').requires-debugger
 
 		- // Layout
 		+desktop-content#emulator-layout

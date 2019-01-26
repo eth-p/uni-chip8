@@ -77,6 +77,18 @@ class EmulatorSettings extends Settings {
 
 	@Setting('F')
 	public keybind_key_F?: string;
+
+	@Setting('Space')
+	public keybind_control_turbo?: string;
+
+	@Setting('P')
+	public keybind_control_pause?: string;
+
+	@Setting(',')
+	public keybind_control_step_prev?: string;
+
+	@Setting('.')
+	public keybind_control_step_next?: string;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

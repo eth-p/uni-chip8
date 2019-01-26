@@ -70,8 +70,17 @@
 }
 
 #emulator-settings {
-	[data-pane='settings-controls']:not(.hide) .settings-controls {
+	[data-pane='settings-controls']:not(.hide) .settings-grid {
 		display: grid;
 		grid-template-columns: 25% 25% 25% 25%;
+
+		&.g3 {
+			grid-template-columns: 33% 33% 33%;
+		}
+
+		.multiline {
+			padding: 4px;
+			margin: 0;
+		}
 	}
 }
