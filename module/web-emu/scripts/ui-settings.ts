@@ -47,6 +47,20 @@ export function settingsUndo() {
 	}
 }
 
+/**
+ * Refreshes components that depend the debugger.
+ */
+export function componentRefesh() {
+	let value = settings.enable_debugger;
+	document.querySelectorAll('.requires-debugger').forEach(el => {
+		if (value) {
+			el.classList.remove('no-debugger');
+		} else {
+			el.classList.add('no-debugger');
+		}
+	});
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Key Display Map:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -251,4 +265,10 @@ dom_ready(() => {
 	// Show default.
 	settingsUndo();
 	settings_window.setPane('settings-general');
+	componentRefesh();
+});
+
+settings.addListener('update', setting => {
+	if (setting !== 'enable_debugger') return;
+	componentRefesh();
 });

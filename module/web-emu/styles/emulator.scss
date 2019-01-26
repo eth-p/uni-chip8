@@ -5,49 +5,56 @@
 @import '../../web/styles/_theme';
 @import '../../web/styles/_mixin';
 
-.toolbar {
-	input[type='color'] {
-		margin: 0 1px;
+main {
+	.toolbar {
+		input[type='color'] {
+			margin: 0 1px;
+		}
 	}
-}
 
-#emulator-layout {
-	display: flex;
-
-	> * {
+	#emulator-layout {
 		display: flex;
-		flex-direction: column;
+
+		> * {
+			display: flex;
+			flex-direction: column;
+		}
+
+		// Desktop Layout:
+		@media only screen and (min-width: $layout-boundary) {
+			flex-direction: row;
+
+			.emulator-interface {
+				flex: 4 0 auto;
+			}
+
+			.emulator-debugger {
+				flex: 3 1 auto;
+			}
+		}
+
+		// Mobile Layout:
+		@media only screen and (max-width: $layout-boundary) {
+			flex-direction: column;
+
+			.emulator-interface {
+				height: 100%;
+			}
+
+			.emulator-debugger {
+				flex: 1 1 auto;
+			}
+		}
 	}
 
-	// Desktop Layout:
-	@media only screen and (min-width: $layout-boundary) {
-		flex-direction: row;
-
-		.emulator-interface {
-			flex: 4 0 auto;
-		}
-
-		.emulator-debugger {
-			flex: 3 1 auto;
-		}
+	.toolbar .requires-debugger.no-debugger {
+		display: none !important;
 	}
 
-	// Mobile Layout:
-	@media only screen and (max-width: $layout-boundary) {
-		flex-direction: column;
-
-		.emulator-interface {
-			height: 100%;
-		}
-
-		.emulator-debugger {
-			flex: 1 1 auto;
-		}
+	.emulator-setting.requires-debugger.no-debugger {
+		pointer-events: none;
+		opacity: 0.25;
 	}
-}
-
-#toolbar .requires-debugger .no-debugger {
-	display: none;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
