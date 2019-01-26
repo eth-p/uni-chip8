@@ -25,6 +25,54 @@ class EmulatorSettings extends Settings {
 
 	@Setting('#000000')
 	public screen_background?: string;
+
+	@Setting('0')
+	public keybind_key_0?: string;
+
+	@Setting('1')
+	public keybind_key_1?: string;
+
+	@Setting('2')
+	public keybind_key_2?: string;
+
+	@Setting('3')
+	public keybind_key_3?: string;
+
+	@Setting('4')
+	public keybind_key_4?: string;
+
+	@Setting('5')
+	public keybind_key_5?: string;
+
+	@Setting('6')
+	public keybind_key_6?: string;
+
+	@Setting('7')
+	public keybind_key_7?: string;
+
+	@Setting('8')
+	public keybind_key_8?: string;
+
+	@Setting('9')
+	public keybind_key_9?: string;
+
+	@Setting('A')
+	public keybind_key_A?: string;
+
+	@Setting('B')
+	public keybind_key_B?: string;
+
+	@Setting('C')
+	public keybind_key_C?: string;
+
+	@Setting('D')
+	public keybind_key_D?: string;
+
+	@Setting('E')
+	public keybind_key_E?: string;
+
+	@Setting('F')
+	public keybind_key_F?: string;
 }
 // ---------------------------------------------------------------------------------------------------------------------
 const settings = new EmulatorSettings('emulator');

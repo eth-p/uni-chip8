@@ -71,6 +71,7 @@ export function settingsApply() {
  * Cancels the changed settings.
  */
 export function settingsUndo() {
+	settings.load();
 	for (let element of settings_fields) {
 		let setting = element.getAttribute('data-setting')!;
 		let value = (<any>settings)[setting];
@@ -120,7 +121,13 @@ function changeListener(event: Event) {
 	(<any>settings)[input.getAttribute('data-setting')!] = value;
 }
 
-// Setup.
+// ---------------------------------------------------------------------------------------------------------------------
+// Handlers:
+// ---------------------------------------------------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Setup:
+// ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
 	// Get HTML elements.
 	control_show_settings = Array.from(document.querySelectorAll('[data-action="emulator-settings-show"]'));

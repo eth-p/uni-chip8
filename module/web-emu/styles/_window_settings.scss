@@ -10,7 +10,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #emulator-settings .desktop-window {
-	min-height: 400px;
+	height: 400px;
 	width: 80%;
 	max-width: 400px;
 }
@@ -117,5 +117,12 @@
 		}
 
 		margin-bottom: 14px;
+	}
+}
+
+#emulator-settings {
+	#emulator-settings-pane-keybind:not(.hide) {
+		display: grid;
+		grid-template-columns: 25% 25% 25% 25%;
 	}
 }

@@ -5,8 +5,12 @@
 mixin setting-input(type, key)
 	if type instanceof Array
 		input(id=`--settings-id-${key}`, type="number" min=type[0] max=type[1] data-setting=key)
+
 	else if type === 'boolean'
 		input(id=`--settings-id-${key}`, type=(type === 'boolean' ? 'checkbox' : 'text') data-setting=key)
+
+	else if type === 'keybind'
+		input(id=`--settings-id-${key}`, type="text" data-setting=key).keybind-setting
 
 mixin setting(type, key, name)
 	- large_setting = false

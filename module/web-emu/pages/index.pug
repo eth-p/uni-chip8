@@ -53,8 +53,8 @@ include ../components/setting
 						+setting('boolean', 'show_keypad', 'Show Keypad')
 
 					+section.hide#emulator-settings-pane-keybind
-						h1 KEYBIND
-						| TODO
+						for key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+							+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
 
 					+section.hide#emulator-settings-pane-debug
 						.warning These options will reduce performance.
