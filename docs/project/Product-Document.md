@@ -41,6 +41,7 @@ This section contains all deliverables and tools that we are currently planning 
   - General Architecture
   - Cycle Forwards
 - [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
+- [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
