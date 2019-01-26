@@ -9,70 +9,10 @@
 // Settings:
 // ---------------------------------------------------------------------------------------------------------------------
 
-#emulator-settings .desktop-window {
+#emulator-settings .window {
 	height: 400px;
 	width: 80%;
 	max-width: 400px;
-}
-
-#emulator-settings .toolbar {
-	$active-background: $desktop-window-background;
-	$active-text: $desktop-window-title-text;
-	$inactive-background: darken($desktop-window-background, 5);
-	$inactive-text: $text-dim;
-	$border: $desktop-window-border;
-
-	border-bottom: none;
-	background: $inactive-background;
-
-	@include user-select(none);
-
-	&::after {
-		content: '';
-		flex: 1 1 auto;
-		border-bottom: $border 1px solid;
-	}
-
-	.toolbar-item {
-		&:first-child {
-			border-left: none;
-		}
-	}
-
-	.toolbar-item {
-		padding: $toolbar-padding;
-		border-bottom: $border 1px solid;
-		border-left: $border 1px solid;
-		border-right: $border 1px solid;
-
-		&.active {
-			color: $active-text;
-			background: $active-background;
-			border-bottom-color: transparent;
-		}
-
-		&:not(.active) {
-			background: $inactive-background;
-			border-right-color: transparent;
-			border-left-color: transparent;
-			transition: $animation-time ease;
-			transition-property: color, border, background;
-			cursor: pointer;
-
-			&:hover {
-				color: $active-text;
-				background: $active-background;
-				opacity: 1;
-
-				border-left-color: $border;
-				border-right-color: $border;
-
-				&:first-child {
-					border-left-color: transparent;
-				}
-			}
-		}
-	}
 }
 
 #emulator-settings .emulator-setting {
@@ -121,7 +61,7 @@
 }
 
 #emulator-settings {
-	#settings-pane-keybind:not(.hide) {
+	[data-pane='settings-keybind']:not(.hide) {
 		display: grid;
 		grid-template-columns: 25% 25% 25% 25%;
 	}

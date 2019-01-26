@@ -24,6 +24,7 @@
       - "images/**/*.{png,svg,webp,jpg,jpeg}"
     copy:
       - "scripts-lib/**/*.js": "assets/lib/"
+      - "scripts-shim/**/*.js": "assets/shim/"
 
   - &website.output
     styles: "assets/styles"

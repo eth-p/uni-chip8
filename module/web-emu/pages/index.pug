@@ -6,6 +6,7 @@ include ../../web/templates/page
 include ../../web/components/common
 include ../../web/components/desktop
 include ../../web/components/toolbar
+include ../../web/components/window
 include ../components/emulator-keypad
 include ../components/emulator-disassembler
 include ../components/emulator-registers
@@ -15,6 +16,7 @@ include ../components/setting
 
 - stylesheets.push('/assets/styles/emulator.css')
 - scripts.push('/scripts/web-emu/ui.js')
+- shims[':scope'] = true;
 
 +page.filled
 	+toolbar
@@ -44,31 +46,33 @@ include ../components/setting
 
 		- // Settings Window
 		+desktop-overlay#emulator-settings.centered.visible.blocking
-			+desktop-window
-				+desktop-window-title("Settings")
+			+window.tabbed
+				+window-title("Settings")
 					input(type="button" value="cancel" data-action="settings-cancel")
 					input(type="button" value="save" data-action="settings-save")
 
-				+toolbar
-					+item(data-pane="settings-pane-general") General
-					+item(data-pane="settings-pane-keybind") Keybind
-					+item(data-pane="settings-pane-debug") Debug
+				+window-tabs
+					+window-tab("settings-general") General
+					+window-tab("settings-keybind") Keybind
+					+window-tab("settings-debug") Debug
 
-				.content
+				+window-content
+
 					- // General Settings
-					+section.hide#settings-pane-general
+					+window-pane("settings-general")
 						+setting([1, 1500], 'cpu_speed', 'Clock Speed')
 							div The clock speed of the emulated device.
 							div This is usually 500 Hz for the CHIP-8.
+
 						+setting('boolean', 'show_keypad', 'Show Keypad')
 
 					- // Keybind Settings
-					+section.hide#settings-pane-keybind
+					+window-pane("settings-keybind")
 						for key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
 							+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
 
 					- // Debug Settings
-					+section.hide#settings-pane-debug
+					+window-pane("settings-debug")
 						.warning These options will reduce performance.
 
 						+setting('boolean', 'enable_debugger', 'Enable Debugger')

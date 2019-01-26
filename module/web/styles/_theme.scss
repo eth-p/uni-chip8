@@ -53,18 +53,20 @@ $toolbar-button-text-hover: $text;
 
 // Desktop:
 $desktop-overlay-background: rgba(0, 0, 0, 0.3);
-$desktop-window-background: #3a3d41;
-$desktop-window-border: #555a64;
-$desktop-window-text: #bbb;
-$desktop-window-radius: 0;
-$desktop-window-padding: 10px;
 
-$desktop-window-title-background: #484c51;
-$desktop-window-title-text: #ddd;
+// Window:
+$window-background: #3a3d41;
+$window-border: #555a64;
+$window-text: #bbb;
+$window-radius: 0;
+$window-padding: 10px;
 
-$desktop-window-title-button-border: transparent;
-$desktop-window-title-button-border-hover: #2e3033;
-$desktop-window-title-button-background: transparent;
-$desktop-window-title-button-background-hover: #3d4148;
-$desktop-window-title-button-text: #bbb;
-$desktop-window-title-button-text-hover: #ddd;
+$window-title-background: #484c51;
+$window-title-text: #ddd;
+
+$window-title-button-border: transparent;
+$window-title-button-border-hover: #2e3033;
+$window-title-button-background: transparent;
+$window-title-button-background-hover: #3d4148;
+$window-title-button-text: #bbb;
+$window-title-button-text-hover: #ddd;

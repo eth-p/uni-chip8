@@ -2,63 +2,17 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import UIWindow from '@chipotle/web/UIWindow';
 import dom_ready from '@chipotle/web/dom_ready';
 import settings from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Variables:
-let settings_overlay: Element;
-let settings_tabs: Element[];
-let settings_panes: Element[];
+let settings_window: UIWindow;
 let settings_fields: HTMLInputElement[];
 let control_show_settings: Element[];
 let control_save_settings: Element[];
 let control_cancel_settings: Element[];
 // ---------------------------------------------------------------------------------------------------------------------
-
-/**
- * An enum of valid settings panes.
- */
-export enum SettingsPane {
-	GENERAL = 'settings-pane-general',
-	KEYBIND = 'settings-pane-keybind',
-	DEBUG = 'settings-pane-debug'
-}
-
-/**
- * Shows a specific settings pane.
- * This will not throw any error if the pane is invalid.
- *
- * @param pane The pane to display.
- */
-export function showPane(pane: SettingsPane) {
-	for (let element of settings_panes) {
-		element.classList.add('hide');
-		if (element.id === pane) {
-			element.classList.remove('hide');
-		}
-	}
-
-	for (let element of settings_tabs) {
-		element.classList.remove('active');
-		if (element.getAttribute('data-pane') === pane) {
-			element.classList.add('active');
-		}
-	}
-}
-
-/**
- * Shows the settings window.
- */
-export function showSettings() {
-	settings_overlay.classList.add('visible');
-}
-
-/**
- * Hides the settings window.
- */
-export function hideSettings() {
-	settings_overlay.classList.remove('visible');
-}
 
 /**
  * Applies the changed settings.
@@ -133,42 +87,28 @@ dom_ready(() => {
 	control_show_settings = Array.from(document.querySelectorAll('[data-action="window-settings-show"]'));
 	control_save_settings = Array.from(document.querySelectorAll('[data-action="settings-save"]'));
 	control_cancel_settings = Array.from(document.querySelectorAll('[data-action="settings-cancel"]'));
-	settings_overlay = document.querySelector('#emulator-settings')!;
-	settings_tabs = Array.from(settings_overlay.querySelectorAll('.desktop-window > .toolbar > .toolbar-item'));
-	settings_panes = Array.from(settings_overlay.querySelectorAll('.desktop-window > .content > .section'));
 	settings_fields = Array.from(document.querySelectorAll('input[data-setting]'));
-
-	// Add tabbed pane support.
-	const toolbar = settings_overlay.querySelector('.desktop-window > .toolbar')!;
-	toolbar.addEventListener('click', evt => {
-		if (evt.target == null) return;
-
-		const target = <Element>evt.target;
-		const pane = target.getAttribute('data-pane');
-		if (pane != null) {
-			showPane(<any>pane);
-		}
-	});
+	settings_window = new UIWindow(<HTMLElement>document.querySelector('#emulator-settings'));
 
 	// Add control support.
 	settings_fields.forEach(input => input.addEventListener('change', changeListener));
-	control_show_settings.forEach(btn => btn.addEventListener('click', () => showSettings()));
+	control_show_settings.forEach(btn => btn.addEventListener('click', () => settings_window.show()));
 
 	control_cancel_settings.forEach(btn =>
 		btn.addEventListener('click', () => {
 			settingsUndo();
-			hideSettings();
+			settings_window.hide();
 		})
 	);
 
 	control_save_settings.forEach(btn =>
 		btn.addEventListener('click', () => {
 			settingsApply();
-			hideSettings();
+			settings_window.hide();
 		})
 	);
 
 	// Show default.
 	settingsUndo();
-	showPane(SettingsPane.GENERAL);
+	settings_window.setPane('settings-general');
 });

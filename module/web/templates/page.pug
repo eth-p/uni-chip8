@@ -11,6 +11,9 @@
 -
 	stylesheets = [];
 	scripts = [];
+	shims = {
+		':scope': false
+	}
 
 mixin page
 	head
@@ -22,6 +25,9 @@ mixin page
 		for script in scripts
 			script(data-main=script data-many)
 		script(data-main="/assets/lib/require-many.js" src="/assets/lib/require.js" async)
+
+		if shims[':scope']
+			script(src="/assets/shim/scopedQuerySelectorShim.js")
 
 	body(class=extract(attributes.class, 'seamless', 'padded'))
 		#page
