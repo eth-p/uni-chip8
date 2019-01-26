@@ -13,6 +13,12 @@
 	height: 400px;
 	width: 80%;
 	max-width: 400px;
+
+	h2 {
+		margin: 10px 0 5px;
+		font-size: 16px;
+		font-weight: normal;
+	}
 }
 
 #emulator-settings .emulator-setting {
@@ -21,6 +27,7 @@
 
 	padding: 4px;
 
+	// Settings label.
 	label {
 		flex: 1 1 auto;
 		display: block;
@@ -41,12 +48,14 @@
 		}
 	}
 
+	// Simple settings (e.g. checkbox).
 	input {
 		flex: 0 1 auto;
 		width: 22px;
 		margin: 0;
 	}
 
+	// Multiline settings (e.g. textbox).
 	&.multiline {
 		flex-direction: column;
 		padding: 0 26px;
@@ -61,7 +70,7 @@
 }
 
 #emulator-settings {
-	[data-pane='settings-keybind']:not(.hide) {
+	[data-pane='settings-controls']:not(.hide) .settings-controls {
 		display: grid;
 		grid-template-columns: 25% 25% 25% 25%;
 	}

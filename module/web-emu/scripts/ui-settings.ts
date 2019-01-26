@@ -13,7 +13,6 @@ let control_show_settings: Element[];
 let control_save_settings: Element[];
 let control_cancel_settings: Element[];
 // ---------------------------------------------------------------------------------------------------------------------
-
 /**
  * Applies the changed settings.
  */
@@ -29,6 +28,8 @@ export function settingsUndo() {
 	for (let element of settings_fields) {
 		let setting = element.getAttribute('data-setting')!;
 		let value = (<any>settings)[setting];
+
+		// Apply value to attribute on element.
 		switch (element.getAttribute('type')) {
 			case 'checkbox':
 				element.checked = value;
@@ -41,12 +42,22 @@ export function settingsUndo() {
 	}
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Handlers:
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * An event listener that applies input changes to the settings.
+ * @param event The input event.
+ */
 function changeListener(event: Event) {
 	let input = <HTMLInputElement>event.target;
 	let type = input.getAttribute('type')!;
+	let key = input.getAttribute('data-setting')!;
+	let setting = settings.getEntry(key)!;
 	let value: any = input.value;
-	input.classList.remove('invalid');
 
+	// Cast value.
 	switch (type) {
 		case 'number':
 			if (!/^[\d]+$/.test(value)) {
@@ -72,12 +83,16 @@ function changeListener(event: Event) {
 			break;
 	}
 
+	// Validate value.
+	if (setting.validator != null && !setting.validator(value)) {
+		input.classList.add('invalid');
+		return;
+	}
+
+	// Apply value.
+	input.classList.remove('invalid');
 	(<any>settings)[input.getAttribute('data-setting')!] = value;
 }
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Handlers:
-// ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:

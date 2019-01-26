@@ -53,7 +53,7 @@ include ../components/setting
 
 				+window-tabs
 					+window-tab("settings-general") General
-					+window-tab("settings-keybind") Keybind
+					+window-tab("settings-controls") Controls
 					+window-tab("settings-debug") Debug
 
 				+window-content
@@ -64,12 +64,15 @@ include ../components/setting
 							div The clock speed of the emulated device.
 							div This is usually 500 Hz for the CHIP-8.
 
-						+setting('boolean', 'show_keypad', 'Show Keypad')
-
 					- // Keybind Settings
-					+window-pane("settings-keybind")
-						for key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
-							+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
+					+window-pane("settings-controls")
+						+setting('boolean', 'show_keypad', 'Show Keypad')
+						h2 Keybinds
+						.settings-controls
+							for key in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+								+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
+
+
 
 					- // Debug Settings
 					+window-pane("settings-debug")
@@ -79,6 +82,7 @@ include ../components/setting
 							| This enables the debugger and vizualizer.
 
 						+setting('boolean', 'show_registers', 'Show Registers')
+						+setting('boolean', 'show_stack', 'Show Stack')
 						+setting('boolean', 'show_disassembler', 'Show Disassembler')
 
 		- // Layout

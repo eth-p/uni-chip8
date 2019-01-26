@@ -68,4 +68,28 @@ main {
 		background-color: $box-warning-background;
 		border: $box-warning-border 1px solid;
 	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | INPUT                                                                                                     |
+	// | Input tag styles.                                                                                         |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	// Text.
+	input[type='text'],
+	input[type='number'] {
+		padding: 2px;
+		border: #aaa 1px solid;
+	}
+
+	// Invalid.
+	input:invalid,
+	input.invalid {
+		border-color: $input-invalid;
+		color: $input-invalid;
+
+		&:focus {
+			border-color: transparent;
+			outline-color: $input-invalid;
+		}
+	}
 }
