@@ -102,6 +102,7 @@ module.exports = class TaskTypescript extends Task {
 				root: path.join(project.getBuildDirectory(), tsOutDir),
 				cwd:  path.join(project.getBuildDirectory(), tsOutDir),
 				resolvePath: (source, current, opts) => {
+					if (!source.endsWith('.js')) source += '.js';
 					let capture = /^@chipotle[/\\](.+)$/.exec(source);
 					if (capture === null) return source;
 					return path.join('..', capture[1]);

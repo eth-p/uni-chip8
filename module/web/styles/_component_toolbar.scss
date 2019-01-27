@@ -1,0 +1,97 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Toolbar
+// ---------------------------------------------------------------------------------------------------------------------
+
+.toolbar {
+	display: flex;
+	flex-direction: row;
+
+	> :not(.toolbar-spacer) {
+		padding: $toolbar-padding ($toolbar-padding / 2);
+
+		&:first-child {
+			padding-left: $toolbar-padding;
+		}
+
+		&:last-child {
+			padding-right: $toolbar-padding;
+		}
+	}
+
+	input[type='color'],
+	input[type='button'] {
+		cursor: pointer;
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | SPACER                                                                                                    |
+	// | A variable-width spacer.                                                                                  |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	.toolbar-spacer {
+		flex-grow: 1;
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | BUTTON                                                                                                    |
+	// | A clickable button.                                                                                       |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	input[type='button'] {
+		outline: none;
+		border: $toolbar-button-border 1px solid;
+		color: $toolbar-button-text;
+		background: $toolbar-button-background;
+		transition: background-color $animation-time ease, color $animation-time ease;
+
+		&:not(:disabled):hover {
+			background: $toolbar-button-background-hover;
+			color: $toolbar-button-text-hover;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			color: $toolbar-button-text-disabled;
+			cursor: not-allowed;
+		}
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | COLOR                                                                                                     |
+	// | A color picker.                                                                                           |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	input[type='color'] {
+		width: 30px;
+		padding: 0;
+		margin: 0;
+		background: none;
+		border: 0;
+		color: transparent;
+	}
+}
+
+main > .toolbar {
+	min-height: $toolbar-height;
+	background: $background;
+	border-top: $toolbar-border 1px solid;
+	border-bottom: $toolbar-border 1px solid;
+
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+
+	> * {
+		white-space: nowrap;
+	}
+
+	input {
+		height: $toolbar-height - ($toolbar-padding * 2);
+	}
+}

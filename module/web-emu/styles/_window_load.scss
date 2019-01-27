@@ -1,0 +1,62 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/theme';
+@import '../../web/styles/mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Settings:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-load .window {
+	.load-library-list-loading {
+		font-style: italic;
+	}
+
+	.load-library-list {
+		margin-top: 10px;
+
+		.load-library-entry {
+			font-size: 15px;
+			padding: 4px;
+			border: $program-list-border 1px solid;
+			transition: background $animation-time ease;
+
+			color: $text;
+			background: $program-list-background;
+			cursor: pointer;
+
+			&:hover {
+				background: $program-list-background-hover;
+			}
+
+			&:not(:last-child) {
+				border-bottom: none;
+			}
+
+			.load-library-entry-name {
+				font-weight: bold;
+			}
+
+			.load-library-entry-info {
+				font-size: 13px;
+				color: $text-dim;
+			}
+
+			.load-library-entry-author {
+				&,
+				&:link {
+					font-size: 13px;
+
+					text-decoration: none;
+					color: $accent-1;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+	}
+}

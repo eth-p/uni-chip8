@@ -1,0 +1,98 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/theme';
+@import '../../web/styles/mixin';
+@import './common';
+
+main {
+	.toolbar {
+		input[type='color'] {
+			margin: 0 1px;
+		}
+	}
+
+	#emulator-layout {
+		display: flex;
+
+		> * {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.emulator-debugger > * {
+			padding: $component-margin;
+			border-bottom: $component-separator 1px solid;
+		}
+
+		// Desktop Layout:
+		@media only screen and (min-width: $layout-boundary) {
+			flex-direction: row;
+
+			.emulator-interface {
+				flex: 4 0 auto;
+			}
+
+			.emulator-debugger {
+				border-left: $toolbar-border 1px solid;
+				width: 33%;
+			}
+		}
+
+		// Mobile Layout:
+		@media only screen and (max-width: $layout-boundary) {
+			flex-direction: column;
+
+			.emulator-interface {
+				height: 100%;
+			}
+
+			.emulator-debugger {
+				border-top: $component-separator 1px solid;
+				flex: 1 1 auto;
+			}
+		}
+	}
+
+	.requires-debugger.no-debugger {
+		display: none !important;
+	}
+
+	.emulator-setting.requires-debugger.no-debugger {
+		display: flex !important;
+		pointer-events: none;
+		opacity: 0.25;
+	}
+
+	input[type='button'][data-action='emulator-play-pause'] {
+		width: 60px;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Windows:
+// ---------------------------------------------------------------------------------------------------------------------
+
+.window {
+	height: 400px;
+	width: 80%;
+	max-width: 400px;
+
+	h2 {
+		margin: 10px 0 5px;
+		font-size: 16px;
+		font-weight: normal;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Components:
+// ---------------------------------------------------------------------------------------------------------------------
+@import 'emulator_disassembler';
+@import 'emulator_keypad';
+@import 'emulator_registers';
+@import 'emulator_screen';
+@import 'window_error';
+@import 'window_settings';
+@import 'window_load';

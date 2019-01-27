@@ -1,0 +1,15 @@
+{
+	"dvd.rom": {
+		"name": "Logo Demo",
+		"info": "The bouncing logo of a popular disc-shaped video storage medium.",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir"
+	},
+
+	"ec8tp.rom": {
+		"name": "Timing Test",
+		"info": "A program which runs timing tests designed for 500 Hz CHIP-8 emulators.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
+	}
+}

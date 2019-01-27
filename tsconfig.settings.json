@@ -23,7 +23,8 @@
 			"@chipotle/types/*": ["./module/types/src/*"],
 			"@chipotle/vm/*": ["./module/vm/src/*"],
 			"@chipotle/isa/*": ["./module/isa/src/*"],
-			"@chipotle/arch-chip/*": ["./module/arch-chip/src/*"]
+			"@chipotle/chip-arch/*": ["./module/chip-arch/src/*"],
+			"@chipotle/web/*": ["./module/web/scripts/*"]
 		}
 	}
 }

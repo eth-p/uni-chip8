@@ -1,8 +1,8 @@
 {
 	"extends": "../../tsconfig.settings.json",
 	"compilerOptions": {
-		"outDir": "scripts/emu",
-		"declarationDir": "types/emu"
+		"outDir": "scripts/web",
+		"declarationDir": "types/web"
 	},
 	"include": [
 		"scripts/**/*.ts"

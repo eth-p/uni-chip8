@@ -2,30 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-$background: #333;
-$accent-1: #eac349;
-$accent-2: #f00;
-$text: #eee;
-$text-dim: #aaa;
-
-$header-height: 45px;
-$header-padding: 8px;
-$header-background: #222;
-$header-border: #000;
-
-$content-padding: 16px;
-
-$card-width: 250px;
-$card-padding: 10px;
-$card-shadow: #1113;
-$card-light-background: #ccc;
-$card-light-border: #fff;
-$card-light-text: #333;
-$card-dark-background: #444;
-$card-dark-border: #111;
-$card-dark-text: #aaa;
-
-$animation-time: 0.2s;
+@import '_theme';
+@import '_mixin';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Body:
@@ -34,20 +12,24 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-	min-height: 100%;
+	height: 100%;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	background: $header-background;
+	background: $background;
 	color: $text;
 
-	font-family: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
+	font-family: $font-regular;
 	font-size: 16px;
 
 	--accent-1: #{$accent-1};
 	--accent-2: #{$accent-2};
+}
+
+#page {
+	display: flex;
+	flex-flow: column nowrap;
+	min-height: 100%;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -55,18 +37,19 @@ body {
 // ---------------------------------------------------------------------------------------------------------------------
 header {
 	display: flex;
-	height: $header-height + 1;
+	height: $header-height;
+	z-index: 50;
 
 	flex-direction: row;
-	flex-grow: 0;
-	flex-shrink: 0;
+	flex: none;
 
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+	@include user-select(none);
 
-	background: $header-background;
+	background: $background;
 	border-bottom: $header-border 1px solid;
+
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 
 	> * {
 		height: $header-height;
@@ -77,9 +60,8 @@ header {
 		flex-shrink: 0;
 		flex-grow: 0;
 
-		padding: ($header-padding + 2) $header-padding;
-
 		img {
+			padding: ($header-padding + 2) $header-padding;
 			height: $header-height - ($header-padding * 2) - 4;
 			width: auto;
 		}
@@ -124,7 +106,7 @@ header {
 
 	// Not seamless.
 	body.seamless & {
-		border-bottom: none;
+		border-bottom-color: transparent;
 	}
 }
 
@@ -132,10 +114,9 @@ header {
 // Content:
 // ---------------------------------------------------------------------------------------------------------------------
 #wrapper {
+	font-size: 15px;
 	display: block;
 	flex: 1 1 auto;
-
-	background: $background;
 
 	body.seamless & {
 		margin: $header-padding;
@@ -153,72 +134,30 @@ header {
 	align-items: center;
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Component: Headers
-// ---------------------------------------------------------------------------------------------------------------------
-
-h1 {
-	margin: 0;
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Component: Wrap
-// ---------------------------------------------------------------------------------------------------------------------
-
-main .wrap {
+#wrapper.filled {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
 
-	&.wrap-center {
-		justify-content: center;
-	}
-
-	&.wrap-padded > * {
-		margin: $content-padding;
-	}
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Component: Card
-// ---------------------------------------------------------------------------------------------------------------------
-
-main .card {
-	width: $card-width;
-
-	border: transparent 1px solid;
-	box-shadow: $card-shadow 1px 1px 1px;
-
-	> a {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.card-image,
-	.card-image > img {
+	main {
 		width: 100%;
-		height: auto;
-	}
+		display: flex;
+		flex-direction: column;
 
-	.card-data {
-		padding: $card-padding;
+		> * {
+			flex: 0 0;
+		}
 
-		.title {
-			text-transform: uppercase;
-			text-align: center;
+		> *:last-child {
+			flex-grow: 1;
 		}
 	}
-
-	// Themes
-	&.card-light {
-		background: $card-light-background;
-		color: $card-light-text;
-		border-color: $card-light-border;
-	}
-
-	&.card-dark {
-		background: $card-dark-background;
-		color: $card-dark-text;
-		border-color: $card-dark-border;
-	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Components:
+// ---------------------------------------------------------------------------------------------------------------------
+@import 'component_card';
+@import 'component_common';
+@import 'component_desktop';
+@import 'component_toolbar';
+@import 'component_window';
+@import 'component_loading_screen';

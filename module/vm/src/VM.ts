@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import Emitter from '@chipotle/types/Emitter';
+
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
 
@@ -14,13 +16,14 @@ import VMContext from './VMContext';
 import VMInstructionSet from './VMInstructionSet';
 
 import assert from '@chipotle/types/assert';
+import VMError from '@chipotle/vm/VMError';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * The base class of a VM.
  */
-export class VMBase<A> {
+export class VMBase<A> extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -70,6 +73,12 @@ export class VMBase<A> {
 	 */
 	protected _VM_executing: boolean;
 
+	/**
+	 * The program is waiting on a hardware event.
+	 * @internal
+	 */
+	public _VM_awaiting: boolean;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -79,8 +88,12 @@ export class VMBase<A> {
 	 * @param arch The architecture of the emulated machine.
 	 */
 	public constructor(arch: A) {
+		super();
+
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
+		this._VM_awaiting = false;
+		this.emit = Emitter.prototype.emit;
 		this.isa = (<Architecture<A>>(<unknown>arch)).isa;
 		this.program = new Program((<any>arch)._load.bind(this));
 		this.program_counter = 0;
@@ -158,6 +171,8 @@ export class VMBase<A> {
 	 * Jumps forwards by a specified number of opcodes.
 	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
 	 *
+	 * **NOTE**: A value of 1 is the equivalent to letting the PC increment naturally.
+	 *
 	 * @param instructions The number of instructions to jump.
 	 */
 	public hopForwards(instructions: ProgramAddress): void {
@@ -174,6 +189,26 @@ export class VMBase<A> {
 	public hopBackwards(instructions: ProgramAddress): void {
 		assert(isValid(instructions), "Parameter 'instructions' is out of range for OpAddress");
 		this.jump(this.program_counter - instructions * 2);
+	}
+
+	/**
+	 * Tells the virtual machine to pause until an event is received.
+	 * @param expect The desired event.
+	 * @param callback The function to execute when the event is called.
+	 */
+	public await(expect: string, callback: (event: string, ...args: any[]) => void): void {
+		if (this._VM_awaiting) throw new VMError('Called await() when already awaiting event');
+
+		this._VM_awaiting = true;
+		this.emit = (...args) => {
+			if (expect === args[0]) {
+				this._VM_awaiting = false;
+				this.emit = Emitter.prototype.emit;
+				callback(...args);
+			}
+
+			Emitter.prototype.emit.apply(this, args);
+		};
 	}
 
 	/**
@@ -195,12 +230,18 @@ export class VMBase<A> {
 
 		this._VM_executing = true;
 
+		// Increment the timers.
+		(<any>this)._tick();
+
+		// Return if waiting on a hardware event.
+		if (this._VM_awaiting === true) {
+			this._VM_executing = false;
+			return;
+		}
+
 		// Fetch and decode the opcode.
 		let instruction = this.program.fetch(this.program_counter);
 		let ir: IR<A> = this.decode(instruction);
-
-		// Increment the timers.
-		(<any>this)._tick();
 
 		// Execute the opcode.
 		ir.execute(<VMContext<A>>(<unknown>this), ir.operands);
@@ -211,6 +252,10 @@ export class VMBase<A> {
 		// Return.
 		this._VM_executing = false;
 	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Override:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

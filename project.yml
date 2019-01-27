@@ -17,10 +17,14 @@
       - sass
       - pug
       - images
+      - copy
     sources:
       - "styles/**/*.{scss,css}"
       - "pages/**/*.{pug,html}"
       - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    copy:
+      - "scripts-lib/**/*.js": "assets/lib/"
+      - "scripts-shim/**/*.js": "assets/shim/"
 
   - &website.output
     styles: "assets/styles"
@@ -100,7 +104,7 @@ modules:
     <<: *code
     description: "Module: Virtual machine."
 
-  arch-chip:
+  chip-arch:
     <<: *code
     description: "CHIP-8: System architecture."
 
@@ -129,6 +133,19 @@ modules:
       <<: *website.output
       pages:  "emulator"
 
+  # .--------------.
+  # | WEB MODULES  |
+  # .--------------.
+
+  chip-roms:
+    description: "CHIP-8: Demonstration programs."
+    tasks: [copy]
+    sources:
+      - '**/*.rom'
+      - './database.json'
+    copy:
+      - './*.json': 'assets/rom/'
+      - './*.rom': 'assets/rom/'
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Task Aliases:
