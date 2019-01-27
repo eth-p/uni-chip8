@@ -31,13 +31,13 @@ let display_register_PROGRAM: HTMLElement;
 export function refresh() {
 	if (!settings.show_registers) return;
 
-	display_register_PROGRAM.innerText = u16_toHexString(vm.program_counter);
-	display_register_I.innerText = u16_toHexString(vm.register_index);
-	display_register_ST.innerText = u8_toHexString(vm.register_sound);
-	display_register_DT.innerText = u8_toHexString(vm.register_timer);
+	display_register_PROGRAM.textContent = u16_toHexString(vm.program_counter);
+	display_register_I.textContent = u16_toHexString(vm.register_index);
+	display_register_ST.textContent = u8_toHexString(vm.register_sound);
+	display_register_DT.textContent = u8_toHexString(vm.register_timer);
 
 	for (let i = 0, n = display_register_Vx.length; i < n; i++) {
-		display_register_Vx[i].innerText = u8_toHexString(vm.register_data[i]);
+		display_register_Vx[i].textContent = u8_toHexString(vm.register_data[i]);
 	}
 }
 

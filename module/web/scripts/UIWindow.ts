@@ -131,7 +131,7 @@ class UIWindow {
 		if (html === true) {
 			this.title.innerHTML = text;
 		} else {
-			this.title.innerText = text;
+			this.title.textContent = text;
 		}
 	}
 }

@@ -28,7 +28,7 @@ let display_frames: HTMLElement[];
 export function refresh() {
 	if (!settings.show_stack) return;
 
-	display_frame_pc.innerText = u16_toHexString(vm.program_counter);
+	display_frame_pc.textContent = u16_toHexString(vm.program_counter);
 
 	let stack = vm.stack.inspect();
 	let stackEnd = stack.length - 1;
@@ -37,11 +37,11 @@ export function refresh() {
 		let parent = <HTMLElement>element.parentNode;
 		if (i > stackEnd) {
 			if (!parent.classList.contains('unused')) {
-				element.innerText = '----';
+				element.textContent = '----';
 				parent.classList.add('unused');
 			}
 		} else {
-			element.innerText = u16_toHexString(stack[stackEnd - i]);
+			element.textContent = u16_toHexString(stack[stackEnd - i]);
 			parent.classList.remove('unused', 'template');
 		}
 	}
@@ -97,8 +97,8 @@ dom_ready(() => {
 		// Set text.
 		let label = <HTMLElement>copy.querySelector('.stack-frame-index');
 		let display = <HTMLElement>copy.querySelector('.stack-frame-value');
-		label.innerText = `-${u8_toHexString(i + 1)}`;
-		display.innerText = '----';
+		label.textContent = `-${u8_toHexString(i + 1)}`;
+		display.textContent = '----';
 
 		// Add display.
 		display_frames.push(display);

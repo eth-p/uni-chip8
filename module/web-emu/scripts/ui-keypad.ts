@@ -85,8 +85,6 @@ dom_ready(() => {
 			return el1k - el2k;
 		});
 
-	console.log(keys);
-
 	// Ignore click events, since they don't help track up/down state.
 	element.addEventListener('click', event => {
 		event.preventDefault();

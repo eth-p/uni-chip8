@@ -44,43 +44,43 @@ function showProgramError(error: ProgramError) {
 
 	switch (error.message) {
 		case ProgramError.UNKNOWN_OPCODE:
-			error_summary.innerText = 'The program executed an invalid opcode.';
+			error_summary.textContent = 'The program executed an invalid opcode.';
 			break;
 
 		case ProgramError.STACK_UNDERFLOW:
-			error_summary.innerText = 'The program call stack underflowed.';
+			error_summary.textContent = 'The program call stack underflowed.';
 			break;
 
 		case ProgramError.STACK_OVERFLOW:
-			error_summary.innerText = 'The program call stack overflowed.';
+			error_summary.textContent = 'The program call stack overflowed.';
 			break;
 
 		case ProgramError.ROM_TOO_LARGE:
-			error_summary.innerText = 'The program ROM is too large to be a CHIP-8 ROM.';
+			error_summary.textContent = 'The program ROM is too large to be a CHIP-8 ROM.';
 			break;
 
 		case ProgramError.PROGRAM_OVERRUN:
-			error_summary.innerText = 'The program ran past the end of the CHIP-8 ROM.';
+			error_summary.textContent = 'The program ran past the end of the CHIP-8 ROM.';
 			break;
 
 		default:
-			error_summary.innerText = `An unexpected error ${error.name} occurred.`;
+			error_summary.textContent = `An unexpected error ${error.name} occurred.`;
 			break;
 	}
 
-	error_stack.innerText = error.stack || 'No stack trace available.';
+	error_stack.textContent = error.stack || 'No stack trace available.';
 }
 
 function showVMError(error: VMError) {
 	error_window.setTitle('Virtual Machine Error');
-	error_summary.innerText = 'The virtual machine encountered an error.';
-	error_stack.innerText = error.stack || 'No stack trace available.';
+	error_summary.textContent = 'The virtual machine encountered an error.';
+	error_stack.textContent = error.stack || 'No stack trace available.';
 }
 
 function showError(error: Error) {
 	error_window.setTitle('Unexpected Error');
-	error_summary.innerText = 'Something unexpected caused an error.';
-	error_stack.innerText = error.stack || 'No stack trace available.';
+	error_summary.textContent = 'Something unexpected caused an error.';
+	error_stack.textContent = error.stack || 'No stack trace available.';
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
