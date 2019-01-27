@@ -101,6 +101,10 @@ settings.addListener('update', (setting, value) => {
 	}
 });
 
+emulator.addListener('step', () => {
+	animator.run();
+});
+
 emulator.addListener('pause', () => {
 	animator.setCriteria('running', false);
 });

@@ -128,7 +128,7 @@ dom_ready(() => {
 });
 
 emulator.addListener('step', () => {
-	window.requestAnimationFrame(paint);
+	animator.run();
 });
 
 emulator.addListener('pause', () => {
@@ -141,6 +141,6 @@ emulator.addListener('resume', () => {
 
 settings.addListener('update', (setting: string) => {
 	if ((!hooked && setting.startsWith('display_')) || setting.startsWith('screen_')) {
-		window.requestAnimationFrame(paint);
+		animator.run();
 	}
 });

@@ -16,6 +16,7 @@ class UIAnimator<C extends Criteria> {
 	protected callback: () => void;
 	protected hooked: boolean;
 	protected paused: boolean;
+	protected step: boolean;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -32,6 +33,7 @@ class UIAnimator<C extends Criteria> {
 		this.callback = callback;
 		this.hooked = false;
 		this.paused = true;
+		this.step = false;
 		this._runFrame = this._runFrame.bind(this);
 	}
 
@@ -110,11 +112,24 @@ class UIAnimator<C extends Criteria> {
 	}
 
 	/**
-	 * Forces the animator to run outside of an animation frame cycle.
+	 * Forces the animator to run a frame of the animation immediately.
 	 * This is REALLY bad for performance.
 	 */
 	public run_UNSAFE() {
 		this.callback.call(this);
+	}
+
+	/**
+	 * Runs a single frame of the animation on the next frame cycle.
+	 */
+	public run() {
+		if (!this.isPaused()) return;
+		if (this.step) return;
+		this.step = true;
+		window.requestAnimationFrame(() => {
+			this.step = false;
+			this.callback();
+		});
 	}
 
 	protected _runFrame() {
