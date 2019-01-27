@@ -107,6 +107,15 @@ class Emulator extends Emitter {
 	}
 
 	/**
+	 * Resets the emulator.
+	 */
+	public reset(): void {
+		this.vm.reset();
+		this.emit('reset');
+		this.lastUpdate = Date.now();
+	}
+
+	/**
 	 * Gets the pause state of the emulator.
 	 * @returns True if the emulator is paused.
 	 */
@@ -119,6 +128,14 @@ class Emulator extends Emitter {
 	 */
 	public stepForwards(): void {
 		this.vm.step();
+	}
+
+	/**
+	 * Steps the emulator backwards by one instruction.
+	 */
+	public stepBackwards(): void {
+		// TODO: Unimplemented.
+		throw new Error('UNIMPLEMENTED.');
 	}
 
 	/**

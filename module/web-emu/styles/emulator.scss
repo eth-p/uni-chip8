@@ -67,6 +67,10 @@ main {
 		pointer-events: none;
 		opacity: 0.25;
 	}
+
+	input[type='button'][data-action='emulator-play-pause'] {
+		width: 60px;
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

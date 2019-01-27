@@ -51,9 +51,15 @@
 		background: $toolbar-button-background;
 		transition: background-color $animation-time ease, color $animation-time ease;
 
-		&:hover {
+		&:not(:disabled):hover {
 			background: $toolbar-button-background-hover;
 			color: $toolbar-button-text-hover;
+		}
+
+		&:disabled {
+			opacity: 0.5;
+			color: $toolbar-button-text-disabled;
+			cursor: not-allowed;
 		}
 	}
 
