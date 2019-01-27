@@ -32,6 +32,11 @@ class Emulator extends Emitter {
 	protected paused: boolean;
 
 	/**
+	 * Whether or not the emulator is in turbo mode.
+	 */
+	protected turbo: boolean;
+
+	/**
 	 * The setInterval timer ID for calling update.
 	 */
 	protected interval: number | null;
@@ -85,8 +90,13 @@ class Emulator extends Emitter {
 		this.intervalRate = 10;
 		this.intervalMiss = 0;
 		this.lastUpdate = Date.now();
+		this.turbo = false;
 		this._update = this._update.bind(this);
 	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                              |
+	// -------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Loads a program into the emulator.
@@ -116,6 +126,8 @@ class Emulator extends Emitter {
 	 */
 	public resume(): void {
 		if (!this.paused) return;
+		if (this.vm.program.data == null) return;
+		if (this.lastError != null) return;
 
 		this.lastUpdate = Date.now();
 		this.paused = false;
@@ -135,22 +147,6 @@ class Emulator extends Emitter {
 		} catch (ex) {
 			this._error(ex);
 		}
-	}
-
-	/**
-	 * Gets the pause state of the emulator.
-	 * @returns True if the emulator is paused.
-	 */
-	public isPaused(): boolean {
-		return this.paused;
-	}
-
-	/**
-	 * Gets the error state of the emulator.
-	 * @returns True if the emulator is halted due to an error.
-	 */
-	public isError(): boolean {
-		return this.lastError != null;
 	}
 
 	/**
@@ -177,22 +173,6 @@ class Emulator extends Emitter {
 		// TODO: Unimplemented.
 		this.emit('step');
 		this._error(new Error('UNIMPLEMENTED.'));
-	}
-
-	/**
-	 * Sets the CPU frequency of the emulator.
-	 * @param frequency The frequency.
-	 */
-	public setFrequency(frequency: number): void {
-		this.speed = frequency;
-	}
-
-	/**
-	 * Gets the CPU frequency of the emulator.
-	 * @returns The frequency in cycles per second.
-	 */
-	public getFrequency(): number {
-		return this.speed;
 	}
 
 	/**
@@ -224,6 +204,66 @@ class Emulator extends Emitter {
 		(<any>this.vm.keyboard)[keyid] = false;
 	}
 
+	// -------------------------------------------------------------------------------------------------------------
+	// | Getters:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Gets the pause state of the emulator.
+	 * @returns True if the emulator is paused.
+	 */
+	public isPaused(): boolean {
+		return this.paused;
+	}
+
+	/**
+	 * Gets the turbo state of the emulator.
+	 * @returns True if the emulator is in turbo mode.
+	 */
+	public isTurbo(): boolean {
+		return this.turbo;
+	}
+
+	/**
+	 * Gets the error state of the emulator.
+	 * @returns True if the emulator is halted due to an error.
+	 */
+	public isError(): boolean {
+		return this.lastError != null;
+	}
+
+	/**
+	 * Gets the CPU frequency of the emulator.
+	 * @returns The frequency in cycles per second.
+	 */
+	public getFrequency(): number {
+		return this.speed;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Setters:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Sets the CPU frequency of the emulator.
+	 * @param frequency The frequency.
+	 */
+	public setFrequency(frequency: number): void {
+		this.speed = frequency;
+	}
+
+	/**
+	 * Sets the enabled state of turbo mode.
+	 * @param enabled True if turbo should be enabled.
+	 */
+	public setTurbo(enabled: boolean): void {
+		this.turbo = enabled;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Internal:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * Halts execution and emits an error.
 	 * @param exception The error.
@@ -239,16 +279,24 @@ class Emulator extends Emitter {
 
 	/**
 	 * Framerate-independent update.
-	 * @protected
+	 * This will try and catch up on missed cycles.
+	 *
+	 * @internal
 	 */
 	protected _update() {
 		let now = Date.now();
 		let ms = now - this.lastUpdate;
 
 		/** The number of ticks to execute. */
-		let ticks = this.speed / (1000 / ms) + this.intervalMiss;
-		this.intervalMiss = ticks % 1;
-		ticks |= 0;
+		let ticks;
+
+		if (this.turbo) {
+			ticks = 3 * (this.speed / (1000 / this.intervalRate));
+		} else {
+			ticks = this.speed / (1000 / ms) + this.intervalMiss;
+			this.intervalMiss = ticks % 1;
+			ticks |= 0;
+		}
 
 		// Execute.
 		try {
