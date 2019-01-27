@@ -109,7 +109,7 @@ describe('VM', () => {
 
 	it('step', async () => {
 		let testvm = new VM(new Test());
-		let loaded = await testvm.program.load(new Uint8Array([0xf3, 0x69]));
+		let loaded = await testvm.program.load(new Uint8Array([0xf3, 0x69, 0x00, 0x00, 0x00, 0x00]));
 
 		testvm.step();
 		expect(testvm.program_counter).toStrictEqual(2);
@@ -154,7 +154,7 @@ describe('VM', () => {
 
 	it('reset', async () => {
 		let testvm = new VM(new Test());
-		let loaded = await testvm.program.load(new Uint8Array([0xf0, 0x00]));
+		let loaded = await testvm.program.load(new Uint8Array([0xf0, 0x00, 0x00, 0x00, 0x00]));
 
 		testvm.step();
 		testvm.reset();
@@ -166,7 +166,7 @@ describe('VM', () => {
 		let called = false;
 		let callback = false;
 		let testvm = new VM(new Test(() => (called = true)));
-		let loaded = await testvm.program.load(new Uint8Array([0x0d, 0xef]));
+		let loaded = await testvm.program.load(new Uint8Array([0x0d, 0xef].concat(new Array(100))));
 
 		testvm.await('test', event => (callback = event === 'test'));
 		testvm.step();
