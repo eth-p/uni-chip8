@@ -44,7 +44,11 @@ function paint() {
 		let width = canvas.width;
 		let height = canvas.height;
 
-		let pxsize = Math.min(Math.floor(width / hw_width), settings.display_scaling ? Infinity : 2);
+		let pxsize = Math.min(
+			Math.floor(Math.min(width / hw_width, height / hw_height)),
+			settings.display_scaling ? Infinity : 2
+		);
+
 		let pxtop = Math.floor((height - pxsize * hw_height) / 2);
 		let pxleft = Math.floor((width - pxsize * hw_width) / 2);
 
