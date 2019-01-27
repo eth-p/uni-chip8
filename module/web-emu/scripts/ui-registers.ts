@@ -58,6 +58,11 @@ export function show(): void {
  * @param visible True if the component should be visible.
  */
 export function setVisible(visible: boolean): void {
+	if (element == null) {
+		setTimeout(() => setVisible(visible), 10);
+		return;
+	}
+
 	if (visible) {
 		animator.setCriteria('visible', true);
 		element.classList.remove('hide');

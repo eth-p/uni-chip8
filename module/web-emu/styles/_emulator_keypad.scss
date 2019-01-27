@@ -18,6 +18,10 @@
 		display: flex;
 		flex-direction: column;
 
+		&.hide {
+			display: none;
+		}
+
 		.keypad-row {
 			display: flex;
 			flex-direction: row;
@@ -36,7 +40,8 @@
 			transition: background-color $animation-time ease, color $animation-time ease;
 			cursor: pointer;
 
-			&:hover {
+			&:hover,
+			&.pressed {
 				background: $toolbar-button-background-hover;
 				color: $toolbar-button-text-hover;
 			}
