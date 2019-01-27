@@ -40,9 +40,6 @@ export default class OP_LD_F_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
-
-		if (context.program.data !== null) {
-			context.register_index = p2 * 5;
-		}
+		context.register_index = p2 * 5;
 	}
 }
