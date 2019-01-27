@@ -199,6 +199,15 @@ class Settings extends Emitter {
 			this.set(setting.name, setting.value);
 		}
 	}
+
+	/**
+	 * Broadcasts all the settings values through an 'update' event.
+	 */
+	public broadcast(): void {
+		for (let setting of this.getKeys()) {
+			this.emit('update', setting, this.get(setting));
+		}
+	}
 }
 
 interface SettingsEntry {

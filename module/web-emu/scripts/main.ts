@@ -2,10 +2,12 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import './settings';
+import dom_ready from '@chipotle/web/dom_ready';
+
 import './ui-settings';
 import './ui-registers';
 import {emulator} from './instance';
+import {settings} from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,4 +22,22 @@ document.addEventListener('visibilitychange', () => {
 		if (!userPause) emulator.resume();
 		userPause = false;
 	}
+});
+
+settings.addListener('update', (setting, value) => {
+	switch (setting) {
+		case 'cpu_speed':
+			emulator.setFrequency(value);
+			break;
+
+		default:
+			break;
+	}
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Finish Load:
+// ---------------------------------------------------------------------------------------------------------------------
+dom_ready(() => {
+	settings.broadcast();
 });

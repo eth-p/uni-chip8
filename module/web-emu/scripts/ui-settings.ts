@@ -265,7 +265,6 @@ dom_ready(() => {
 	// Show default.
 	settingsUndo();
 	settings_window.setPane('settings-general');
-	componentRefesh();
 });
 
 settings.addListener('update', setting => {

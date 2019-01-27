@@ -96,4 +96,5 @@ class EmulatorSettings extends Settings {
 // Exports:
 const settings = new EmulatorSettings('emulator');
 export default settings;
+export {settings};
 ((<any>window).Chipotle || ((<any>window).Chipotle = {})).settings = vm;

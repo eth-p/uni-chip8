@@ -54,7 +54,6 @@ export function setVisible(visible: boolean): void {
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
 	element = <HTMLElement>document.querySelector('#emulator-registers')!;
-	setVisible(settings.show_registers!);
 });
 
 settings.addListener('update', (setting, value) => {
