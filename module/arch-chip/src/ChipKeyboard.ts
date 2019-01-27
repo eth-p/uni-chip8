@@ -17,22 +17,139 @@ class ChipKeyboard {
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public KEY_0: boolean = false;
-	public KEY_1: boolean = false;
-	public KEY_2: boolean = false;
-	public KEY_3: boolean = false;
-	public KEY_4: boolean = false;
-	public KEY_5: boolean = false;
-	public KEY_6: boolean = false;
-	public KEY_7: boolean = false;
-	public KEY_8: boolean = false;
-	public KEY_9: boolean = false;
-	public KEY_A: boolean = false;
-	public KEY_B: boolean = false;
-	public KEY_C: boolean = false;
-	public KEY_D: boolean = false;
-	public KEY_E: boolean = false;
-	public KEY_F: boolean = false;
+	public keys: boolean[];
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Setters and Getter aliases:                                                                               |
+	// -------------------------------------------------------------------------------------------------------------
+
+	public set KEY_0(state: boolean) {
+		this.keys[0] = state;
+	}
+
+	public get KEY_0(): boolean {
+		return this.keys[0];
+	}
+
+	public set KEY_1(state: boolean) {
+		this.keys[1] = state;
+	}
+
+	public get KEY_1(): boolean {
+		return this.keys[1];
+	}
+
+	public set KEY_2(state: boolean) {
+		this.keys[2] = state;
+	}
+
+	public get KEY_2(): boolean {
+		return this.keys[2];
+	}
+
+	public set KEY_3(state: boolean) {
+		this.keys[3] = state;
+	}
+
+	public get KEY_3(): boolean {
+		return this.keys[3];
+	}
+
+	public set KEY_4(state: boolean) {
+		this.keys[4] = state;
+	}
+
+	public get KEY_4(): boolean {
+		return this.keys[4];
+	}
+
+	public set KEY_5(state: boolean) {
+		this.keys[5] = state;
+	}
+
+	public get KEY_5(): boolean {
+		return this.keys[5];
+	}
+
+	public set KEY_6(state: boolean) {
+		this.keys[6] = state;
+	}
+
+	public get KEY_6(): boolean {
+		return this.keys[6];
+	}
+
+	public set KEY_7(state: boolean) {
+		this.keys[7] = state;
+	}
+
+	public get KEY_7(): boolean {
+		return this.keys[7];
+	}
+
+	public set KEY_8(state: boolean) {
+		this.keys[8] = state;
+	}
+
+	public get KEY_8(): boolean {
+		return this.keys[8];
+	}
+
+	public set KEY_9(state: boolean) {
+		this.keys[9] = state;
+	}
+
+	public get KEY_9(): boolean {
+		return this.keys[9];
+	}
+
+	public set KEY_A(state: boolean) {
+		this.keys[0xa] = state;
+	}
+
+	public get KEY_A(): boolean {
+		return this.keys[0xa];
+	}
+
+	public set KEY_B(state: boolean) {
+		this.keys[0xb] = state;
+	}
+
+	public get KEY_B(): boolean {
+		return this.keys[0xb];
+	}
+
+	public set KEY_C(state: boolean) {
+		this.keys[0xc] = state;
+	}
+
+	public get KEY_C(): boolean {
+		return this.keys[0xc];
+	}
+
+	public set KEY_D(state: boolean) {
+		this.keys[0xd] = state;
+	}
+
+	public get KEY_D(): boolean {
+		return this.keys[0xd];
+	}
+
+	public set KEY_E(state: boolean) {
+		this.keys[0xe] = state;
+	}
+
+	public get KEY_E(): boolean {
+		return this.keys[0xe];
+	}
+
+	public set KEY_F(state: boolean) {
+		this.keys[0xf] = state;
+	}
+
+	public get KEY_F(): boolean {
+		return this.keys[0xf];
+	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -41,7 +158,10 @@ class ChipKeyboard {
 	/**
 	 * Creates a new keyboard.
 	 */
-	public constructor() {}
+	public constructor() {
+		this.keys = new Array<boolean>(16);
+		this.keys.fill(false);
+	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
@@ -51,22 +171,7 @@ class ChipKeyboard {
 	 * Resets the keyboard key states.
 	 */
 	reset() {
-		this.KEY_0 = false;
-		this.KEY_1 = false;
-		this.KEY_2 = false;
-		this.KEY_3 = false;
-		this.KEY_4 = false;
-		this.KEY_5 = false;
-		this.KEY_6 = false;
-		this.KEY_7 = false;
-		this.KEY_8 = false;
-		this.KEY_9 = false;
-		this.KEY_A = false;
-		this.KEY_B = false;
-		this.KEY_C = false;
-		this.KEY_D = false;
-		this.KEY_E = false;
-		this.KEY_F = false;
+		this.keys.fill(false);
 	}
 }
 
