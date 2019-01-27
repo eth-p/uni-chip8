@@ -5,9 +5,11 @@
 import dom_ready from '@chipotle/web/dom_ready';
 import settings from './settings';
 import {emulator, vm} from './instance';
+import UIAnimator from '@chipotle/web/UIAnimator';
 // ---------------------------------------------------------------------------------------------------------------------
 // Variables:
 // ---------------------------------------------------------------------------------------------------------------------
+let animator: UIAnimator<any>;
 let container: HTMLElement;
 let canvas: HTMLCanvasElement;
 let context: CanvasRenderingContext2D;
@@ -106,15 +108,11 @@ function paint() {
 	}
 }
 
-function paintOnAnimationFrame() {
-	if (hooked) window.requestAnimationFrame(paintOnAnimationFrame);
-	paint();
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
+	animator = new UIAnimator(paint, {emulator: false});
 	container = <HTMLElement>document.querySelector('#emulator-screen');
 	canvas = <HTMLCanvasElement>document.querySelector('#emulator-screen canvas')!;
 	context = canvas.getContext('2d')!;
@@ -126,21 +124,19 @@ dom_ready(() => {
 	});
 
 	paint();
-});
-
-emulator.addListener('pause', () => {
-	hooked = false;
+	animator.resume();
 });
 
 emulator.addListener('step', () => {
 	window.requestAnimationFrame(paint);
 });
 
+emulator.addListener('pause', () => {
+	animator.setCriteria('emulator', false);
+});
+
 emulator.addListener('resume', () => {
-	if (!hooked) {
-		hooked = true;
-		window.requestAnimationFrame(paintOnAnimationFrame);
-	}
+	animator.setCriteria('emulator', true);
 });
 
 settings.addListener('update', (setting: string) => {
