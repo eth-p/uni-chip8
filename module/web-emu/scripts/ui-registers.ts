@@ -2,128 +2,62 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import UIWindow from '@chipotle/web/UIWindow';
 import dom_ready from '@chipotle/web/dom_ready';
 import settings from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Variables:
-let settings_window: UIWindow;
-let settings_fields: HTMLInputElement[];
-let control_show_settings: Element[];
-let control_save_settings: Element[];
-let control_cancel_settings: Element[];
 // ---------------------------------------------------------------------------------------------------------------------
+let element: HTMLElement;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Exports:
+// ---------------------------------------------------------------------------------------------------------------------
+
 /**
- * Applies the changed settings.
+ * Refreshes the component display.
+ * This should be called during requestAnimationFrame.
  */
-export function settingsApply() {
-	settings.save();
+export function refresh() {
+	if (!settings.show_registers) return;
+
+	// TODO
 }
 
 /**
- * Cancels the changed settings.
+ * Hides the component.
  */
-export function settingsUndo() {
-	settings.load();
-	for (let element of settings_fields) {
-		let setting = element.getAttribute('data-setting')!;
-		let value = (<any>settings)[setting];
-
-		// Apply value to attribute on element.
-		switch (element.getAttribute('type')) {
-			case 'checkbox':
-				element.checked = value;
-				break;
-
-			default:
-				element.value = value;
-				break;
-		}
-	}
+export function hide(): void {
+	element.classList.add('hide');
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Handlers:
-// ---------------------------------------------------------------------------------------------------------------------
+/**
+ * Shows the component.
+ */
+export function show(): void {
+	element.classList.remove('hide');
+}
 
 /**
- * An event listener that applies input changes to the settings.
- * @param event The input event.
+ * Sets the visibility of the component.
+ * @param visible True if the component should be visible.
  */
-function changeListener(event: Event) {
-	let input = <HTMLInputElement>event.target;
-	let type = input.getAttribute('type')!;
-	let key = input.getAttribute('data-setting')!;
-	let setting = settings.getEntry(key)!;
-	let value: any = input.value;
-
-	// Cast value.
-	switch (type) {
-		case 'number':
-			if (!/^[\d]+$/.test(value)) {
-				input.classList.add('invalid');
-				return;
-			}
-
-			value = parseInt(value, 10);
-			break;
-
-		case 'color':
-			if (!/^#[0-9a-fA-F]{6}$/.test(value)) {
-				input.classList.add('invalid');
-				return;
-			}
-			break;
-
-		case 'checkbox':
-			value = input.checked;
-			break;
-
-		default:
-			break;
+export function setVisible(visible: boolean): void {
+	if (visible) {
+		show();
+	} else {
+		hide();
 	}
-
-	// Validate value.
-	if (setting.validator != null && !setting.validator(value)) {
-		input.classList.add('invalid');
-		return;
-	}
-
-	// Apply value.
-	input.classList.remove('invalid');
-	(<any>settings)[input.getAttribute('data-setting')!] = value;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
-	// Get HTML elements.
-	control_show_settings = Array.from(document.querySelectorAll('[data-action="window-settings-show"]'));
-	control_save_settings = Array.from(document.querySelectorAll('[data-action="settings-save"]'));
-	control_cancel_settings = Array.from(document.querySelectorAll('[data-action="settings-cancel"]'));
-	settings_fields = Array.from(document.querySelectorAll('input[data-setting]'));
-	settings_window = new UIWindow(<HTMLElement>document.querySelector('#emulator-settings'));
+	element = <HTMLElement>document.querySelector('#emulator-registers')!;
+	setVisible(settings.show_registers!);
+});
 
-	// Add control support.
-	settings_fields.forEach(input => input.addEventListener('change', changeListener));
-	control_show_settings.forEach(btn => btn.addEventListener('click', () => settings_window.show()));
-
-	control_cancel_settings.forEach(btn =>
-		btn.addEventListener('click', () => {
-			settingsUndo();
-			settings_window.hide();
-		})
-	);
-
-	control_save_settings.forEach(btn =>
-		btn.addEventListener('click', () => {
-			settingsApply();
-			settings_window.hide();
-		})
-	);
-
-	// Show default.
-	settingsUndo();
-	settings_window.setPane('settings-general');
+settings.addListener('update', (setting, value) => {
+	if (setting !== 'show_registers') return;
+	setVisible(value);
 });
