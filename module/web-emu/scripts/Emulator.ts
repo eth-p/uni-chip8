@@ -19,6 +19,7 @@ import Chip from '@chipotle/arch-chip/Chip';
  * - `pause`
  * - `resume`
  * - `load`
+ * - `error`
  */
 class Emulator extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
@@ -60,6 +61,11 @@ class Emulator extends Emitter {
 	 * The last time (in milliseconds) update() was called.
 	 */
 	protected lastUpdate: number;
+
+	/**
+	 * The last error that occurred when executing the program.
+	 */
+	protected lastError?: Error;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -110,9 +116,14 @@ class Emulator extends Emitter {
 	 * Resets the emulator.
 	 */
 	public reset(): void {
-		this.vm.reset();
-		this.emit('reset');
-		this.lastUpdate = Date.now();
+		try {
+			this.lastError = undefined;
+			this.vm.reset();
+			this.emit('reset');
+			this.lastUpdate = Date.now();
+		} catch (ex) {
+			this._error(ex);
+		}
 	}
 
 	/**
@@ -124,10 +135,24 @@ class Emulator extends Emitter {
 	}
 
 	/**
+	 * Gets the error state of the emulator.
+	 * @returns True if the emulator is halted due to an error.
+	 */
+	public isError(): boolean {
+		return this.lastError != null;
+	}
+
+	/**
 	 * Steps the emulator forwards by one instruction.
 	 */
 	public stepForwards(): void {
-		this.vm.step();
+		try {
+			this.vm.step();
+			this.emit('reset');
+			this.lastUpdate = Date.now();
+		} catch (ex) {
+			this._error(ex);
+		}
 	}
 
 	/**
@@ -135,7 +160,7 @@ class Emulator extends Emitter {
 	 */
 	public stepBackwards(): void {
 		// TODO: Unimplemented.
-		throw new Error('UNIMPLEMENTED.');
+		this._error(new Error('UNIMPLEMENTED.'));
 	}
 
 	/**
@@ -184,6 +209,19 @@ class Emulator extends Emitter {
 	}
 
 	/**
+	 * Halts execution and emits an error.
+	 * @param exception The error.
+	 * @throws The error.
+	 * @internal
+	 */
+	protected _error(exception: Error) {
+		this.lastError = exception;
+		this.pause();
+		this.emit('error', exception);
+		throw exception;
+	}
+
+	/**
 	 * Framerate-independent update.
 	 * @protected
 	 */
@@ -196,8 +234,12 @@ class Emulator extends Emitter {
 		this.intervalMiss = ticks % 1;
 
 		// Execute.
-		for (let i = 0; i < ticks; i++) {
-			this.vm.step();
+		try {
+			for (let i = 0; i < ticks; i++) {
+				this.vm.step();
+			}
+		} catch (ex) {
+			this._error(ex);
 		}
 
 		// Set lastUpdate.

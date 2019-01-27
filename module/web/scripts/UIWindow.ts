@@ -84,6 +84,14 @@ class UIWindow {
 	}
 
 	/**
+	 * Gets the window element.
+	 * @returns The window element.
+	 */
+	public getWindow() {
+		return this.realElement;
+	}
+
+	/**
 	 * Sets the visible pane.
 	 * This is only applicable to tabbed windows.
 	 * @param pane

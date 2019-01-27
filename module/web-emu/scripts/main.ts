@@ -6,6 +6,7 @@ import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 
 import './ui-controls';
+import './ui-error';
 import './ui-settings';
 import './ui-registers';
 import {emulator} from './instance';

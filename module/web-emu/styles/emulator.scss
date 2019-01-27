@@ -55,15 +55,12 @@ main {
 		}
 	}
 
-	.toolbar .requires-debugger.no-debugger {
-		display: none !important;
-	}
-
-	.emulator-debugger.requires-debugger.no-debugger {
+	.requires-debugger.no-debugger {
 		display: none !important;
 	}
 
 	.emulator-setting.requires-debugger.no-debugger {
+		display: flex !important;
 		pointer-events: none;
 		opacity: 0.25;
 	}
@@ -74,10 +71,27 @@ main {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Windows:
+// ---------------------------------------------------------------------------------------------------------------------
+
+.window {
+	height: 400px;
+	width: 80%;
+	max-width: 400px;
+
+	h2 {
+		margin: 10px 0 5px;
+		font-size: 16px;
+		font-weight: normal;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Components:
 // ---------------------------------------------------------------------------------------------------------------------
 @import 'emulator_disassembler';
 @import 'emulator_keypad';
 @import 'emulator_registers';
 @import 'emulator_screen';
+@import 'window_error';
 @import 'window_settings';

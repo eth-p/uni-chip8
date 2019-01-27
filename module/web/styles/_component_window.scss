@@ -36,7 +36,8 @@
 		font-weight: normal;
 		background: $window-title-background;
 		padding: ($window-padding / 2);
-		border-bottom: $window-border 1px solid;
+		border-bottom: 1px solid;
+		border-bottom-color: inherit;
 		color: $window-title-text;
 	}
 

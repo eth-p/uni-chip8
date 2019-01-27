@@ -11,6 +11,9 @@ $text: #fff;
 $text-dim: #bbb;
 $animation-time: 0.2s;
 
+$font-regular: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
+$font-monospace: 'Monaco', 'Lucida Console', whitespace;
+
 $layout-boundary: 800px; // The cutoff point between mobile and desktop.
 
 // Header:
@@ -57,6 +60,7 @@ $toolbar-button-text-disabled: #999;
 
 // Desktop:
 $desktop-overlay-background: rgba(0, 0, 0, 0.3);
+$desktop-overlay-background-red: rgba(50, 0, 0, 0.3);
 
 // Window:
 $window-background: #3a3d41;
@@ -74,3 +78,7 @@ $window-title-button-background: transparent;
 $window-title-button-background-hover: #3d4148;
 $window-title-button-text: #bbb;
 $window-title-button-text-hover: #ddd;
+
+$error-window-border: #400000;
+$error-window-title-background: #300000;
+$error-window-background: #200000;

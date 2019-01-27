@@ -19,7 +19,7 @@ body {
 	background: $background;
 	color: $text;
 
-	font-family: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
+	font-family: $font-regular;
 	font-size: 16px;
 
 	--accent-1: #{$accent-1};

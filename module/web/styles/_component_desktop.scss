@@ -50,6 +50,10 @@
 		&.blocking {
 			pointer-events: all;
 			background: $desktop-overlay-background;
+
+			&.blocking-red {
+				background: $desktop-overlay-background-red;
+			}
 		}
 	}
 

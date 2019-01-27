@@ -63,23 +63,30 @@ function checkPauseToggle() {
 }
 
 /**
- * Checks if a program is loaded, and enables/disables any controls accordingly.
+ * Checks if a program is loaded and not halted due to an error, and enables/disables any controls accordingly.
  */
 function checkProgram() {
-	let disabled = vm.program.data == null;
+	let isLoaded = vm.program.data != null;
+	let isError = emulator.isError();
 
-	function setElementDisabled(element: HTMLElement) {
+	function requiresProgram(element: HTMLElement) {
 		if (element instanceof HTMLInputElement) {
-			element.disabled = disabled;
+			element.disabled = !isLoaded;
 		}
 	}
 
-	controls_play.forEach(setElementDisabled);
-	controls_playpause.forEach(setElementDisabled);
-	controls_pause.forEach(setElementDisabled);
-	controls_step_forwards.forEach(setElementDisabled);
-	controls_step_backwards.forEach(setElementDisabled);
-	controls_reset.forEach(setElementDisabled);
+	function requiresProgramNoError(element: HTMLElement) {
+		if (element instanceof HTMLInputElement) {
+			element.disabled = isError || !isLoaded;
+		}
+	}
+
+	controls_play.forEach(requiresProgramNoError);
+	controls_playpause.forEach(requiresProgramNoError);
+	controls_pause.forEach(requiresProgramNoError);
+	controls_step_forwards.forEach(requiresProgram);
+	controls_step_backwards.forEach(requiresProgram);
+	controls_reset.forEach(requiresProgram);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -122,6 +129,12 @@ dom_ready(() => {
 
 	emulator.addListener('pause', checkPauseToggle);
 	emulator.addListener('resume', checkPauseToggle);
+	emulator.addListener('reset', checkProgram);
+	emulator.addListener('error', () => {
+		checkPauseToggle();
+		checkProgram();
+	});
+
 	checkPauseToggle();
 	checkProgram();
 });
