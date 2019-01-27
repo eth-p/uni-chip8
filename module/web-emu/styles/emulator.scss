@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 @import '../../web/styles/_theme';
 @import '../../web/styles/_mixin';
+@import './_common';
 
 main {
 	.toolbar {
@@ -20,6 +21,11 @@ main {
 			flex-direction: column;
 		}
 
+		.emulator-debugger > * {
+			padding: $component-margin;
+			border-bottom: $component-separator 1px solid;
+		}
+
 		// Desktop Layout:
 		@media only screen and (min-width: $layout-boundary) {
 			flex-direction: row;
@@ -29,6 +35,7 @@ main {
 			}
 
 			.emulator-debugger {
+				border-left: $toolbar-border 1px solid;
 				flex: 3 1 auto;
 			}
 		}
@@ -42,12 +49,17 @@ main {
 			}
 
 			.emulator-debugger {
+				border-top: $component-separator 1px solid;
 				flex: 1 1 auto;
 			}
 		}
 	}
 
 	.toolbar .requires-debugger.no-debugger {
+		display: none !important;
+	}
+
+	.emulator-debugger.requires-debugger.no-debugger {
 		display: none !important;
 	}
 

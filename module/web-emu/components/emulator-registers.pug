@@ -2,13 +2,18 @@
 -// Copyright (C) 2019 Team Chipotle
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
-mixin emulator-register(name)
-	div.register-vz(data-visualizer=`register-${name}`)
+mixin emulator-register(name, width)
+	div.register-visualizer(data-visualizer=`register-${name}`)
 		div.register-name=name
-		div.register-value='??'
+		div.register-value=('-'.repeat(width == null ? 2 : width))
 
 mixin emulator-registers
 	div&attributes(attributes)#emulator-registers
+		+emulator-register('Program', 4)
 		.registers-grid
 			for register in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
 				+emulator-register(`V${register}`)
+
+			+emulator-register('DT')
+			+emulator-register('ST')
+			+emulator-register('I', 4)

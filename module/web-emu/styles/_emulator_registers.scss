@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 @import '../../web/styles/_theme';
 @import '../../web/styles/_mixin';
+@import './_common';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Registers:
@@ -15,7 +16,28 @@
 		grid-template-columns: 25% 25% 25% 25%;
 	}
 
-	.register-vz {
+	.register-visualizer {
 		display: flex;
+
+		padding: 4px;
+		text-align: center;
+		justify-content: center;
+
+		.register-value {
+			font-family: monospace;
+			text-align: left;
+			padding-left: 3px;
+		}
+
+		.register-name {
+			opacity: 0.5;
+			text-align: right;
+			padding-right: 3px;
+		}
+
+		> * {
+			width: 50%;
+			height: 20px;
+		}
 	}
 }
