@@ -37,6 +37,6 @@ export default class OP_LD_ST_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
-		context.register_sound = p2;
+		context.register_sound = context.register_data[p2];
 	}
 }

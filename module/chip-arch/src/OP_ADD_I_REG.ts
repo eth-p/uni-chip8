@@ -37,6 +37,6 @@ export default class OP_ADD_I_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
-		context.register_index += p2;
+		context.register_index += context.register_data[p2];
 	}
 }

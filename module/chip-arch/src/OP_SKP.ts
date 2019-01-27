@@ -29,6 +29,7 @@ export default class OP_SKP extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p1 = operands[0];
+		// TODO: What if it's out of bounds?
 		if (context.keyboard.keys[context.register_data[p1]]) {
 			context.hopForwards(1);
 		}

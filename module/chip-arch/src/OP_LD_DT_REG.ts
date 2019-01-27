@@ -37,6 +37,6 @@ export default class OP_LD_DT_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
-		context.register_timer = p2;
+		context.register_timer = context.register_data[p2];
 	}
 }

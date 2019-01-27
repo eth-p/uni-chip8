@@ -38,8 +38,9 @@ export default class OP_SHR_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p1 = operands[0];
+		const rval = context.register_data[p1];
 
-		context.register_flag = context.register_data[p1] & 0b00000001;
-		context.register_data[p1] = bitshiftr(p1, 1);
+		context.register_flag = rval & 0b00000001;
+		context.register_data[p1] = bitshiftr(rval, 1);
 	}
 }
