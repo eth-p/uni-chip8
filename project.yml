@@ -144,7 +144,7 @@ modules:
       - '**/*.rom'
       - './database.json'
     copy:
-      - './database.json': 'assets/rom/database.json'
+      - './*.json': 'assets/rom/'
       - './*.rom': 'assets/rom/'
 
 # ----------------------------------------------------------------------------------------------------------------------
