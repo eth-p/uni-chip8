@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {Settings, Setting} from '@chipotle/web/Settings';
+import vm from './Emulator';
 
 // ---------------------------------------------------------------------------------------------------------------------
 class EmulatorSettings extends Settings {
@@ -92,5 +93,7 @@ class EmulatorSettings extends Settings {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Exports:
 const settings = new EmulatorSettings('emulator');
 export default settings;
+((<any>window).Chipotle || ((<any>window).Chipotle = {})).settings = vm;
