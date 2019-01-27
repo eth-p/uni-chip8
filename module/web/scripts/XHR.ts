@@ -83,22 +83,26 @@ class XHR {
 			let data = null;
 
 			try {
-				switch (this.type) {
-					case XHRType.BINARY:
-						data = new Uint8Array(xhr.response);
-						break;
+				if (xhr.status === 200) {
+					switch (this.type) {
+						case XHRType.BINARY:
+							data = new Uint8Array(xhr.response);
+							break;
 
-					case XHRType.JSON:
-						data = JSON.parse(xhr.responseText);
-						break;
+						case XHRType.JSON:
+							data = JSON.parse(xhr.responseText);
+							break;
 
-					case XHRType.TEXT:
-						data = xhr.responseText;
-						break;
+						case XHRType.TEXT:
+							data = xhr.responseText;
+							break;
 
-					default:
-						data = xhr.responseText;
-						break;
+						default:
+							data = xhr.responseText;
+							break;
+					}
+				} else {
+					error = new Error(`Request returned with response of ${xhr.status}.`);
 				}
 			} catch (ex) {
 				error = ex;
