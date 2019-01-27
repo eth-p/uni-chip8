@@ -31,7 +31,7 @@ export default class OP_SKP extends Operation {
 		const p1 = operands[0];
 		// TODO: What if it's out of bounds?
 		if (context.keyboard.keys[context.register_data[p1]]) {
-			context.hopForwards(1);
+			context.hopForwards(2);
 		}
 	}
 }
