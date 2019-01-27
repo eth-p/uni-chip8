@@ -133,6 +133,18 @@ modules:
       <<: *website.output
       pages:  "emulator"
 
+  # .--------------.
+  # | WEB MODULES  |
+  # .--------------.
+
+  chip-roms:
+    tasks: [copy]
+    sources:
+      - '**/*.rom'
+      - './database.json'
+    copy:
+      - './database.json': 'assets/rom/database.json'
+      - './*.rom': 'assets/rom/'
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Task Aliases:
