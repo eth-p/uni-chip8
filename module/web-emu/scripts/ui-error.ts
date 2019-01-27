@@ -59,6 +59,10 @@ function showProgramError(error: ProgramError) {
 			error_summary.innerText = 'The program ROM is too large to be a CHIP-8 ROM.';
 			break;
 
+		case ProgramError.PROGRAM_OVERRUN:
+			error_summary.innerText = 'The program ran past the end of the CHIP-8 ROM.';
+			break;
+
 		default:
 			error_summary.innerText = `An unexpected error ${error.name} occurred.`;
 			break;
