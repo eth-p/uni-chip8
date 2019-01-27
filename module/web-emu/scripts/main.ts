@@ -9,6 +9,7 @@ import './ui-controls';
 import './ui-error';
 import './ui-settings';
 import './ui-screen';
+import './ui-load';
 import './ui-registers';
 
 import {emulator} from './instance';
