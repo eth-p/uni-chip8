@@ -45,7 +45,12 @@ export default class OP_DRW_REG_REG_CON extends Operation {
 		const p2 = operands[1];
 		const p3 = operands[2];
 
-		let collide = context.display.draw(p1, p2, new ChipSprite(context.program!.data!, context.register_index, p3));
+		let collide = context.display.draw(
+			context.register_data[p1],
+			context.register_data[p2],
+			new ChipSprite(context.program!.data!, context.register_index, p3)
+		);
+
 		context.register_flag = collide === true ? 1 : 0;
 	}
 }
