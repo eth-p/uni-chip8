@@ -24,6 +24,6 @@ export default class OP_RET extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		let return_address: Uint16 = context.stack.pop();
-		context.jump(return_address);
+		context.jump(return_address + 2);
 	}
 }
