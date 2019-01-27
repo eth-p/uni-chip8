@@ -248,6 +248,9 @@ export class VMBase<A> extends Emitter {
 
 		// Increment the program counter.
 		this.program_counter += 2;
+		if (this.program_counter >= this.program.data!.length) {
+			throw new ProgramError(ProgramError.PROGRAM_OVERRUN);
+		}
 
 		// Return.
 		this._VM_executing = false;
