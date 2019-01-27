@@ -171,6 +171,8 @@ export class VMBase<A> extends Emitter {
 	 * Jumps forwards by a specified number of opcodes.
 	 * Unlike {@link #jump jump}, this is a 2-byte relative jump.
 	 *
+	 * **NOTE**: A value of 1 is the equivalent to letting the PC increment naturally.
+	 *
 	 * @param instructions The number of instructions to jump.
 	 */
 	public hopForwards(instructions: ProgramAddress): void {

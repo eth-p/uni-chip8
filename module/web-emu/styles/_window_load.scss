@@ -31,6 +31,10 @@
 				background: $program-list-background-hover;
 			}
 
+			&:not(:last-child) {
+				border-bottom: none;
+			}
+
 			.load-library-entry-name {
 				font-weight: bold;
 			}
