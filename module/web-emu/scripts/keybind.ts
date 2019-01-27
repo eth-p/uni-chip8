@@ -57,6 +57,15 @@ handlers['keybind_control_step_next'] = {
 	}
 };
 
+// Keys 0-F
+for (let i = 0; i <= 0xf; i++) {
+	let key = i.toString(16).toUpperCase();
+	handlers[`keybind_key_${key}`] = {
+		keyup: () => emulator.keyup(key),
+		keydown: () => emulator.keydown(key)
+	};
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Event Listeners:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -110,6 +119,6 @@ settings.addListener('update', (setting: string) => {
 		let handler = handlers[keybind];
 		handlersCache.set(settings.get(keybind), handler);
 
-		//assert(handler != null, `No handler defined for keybind: ${keybind}`);
+		assert(handler != null, `No handler defined for keybind: ${keybind}`);
 	}
 });
