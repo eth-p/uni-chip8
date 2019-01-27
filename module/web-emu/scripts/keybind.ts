@@ -41,6 +41,22 @@ handlers['keybind_control_turbo'] = {
 	}
 };
 
+handlers['keybind_control_step_prev'] = {
+	keyup: () => {},
+	keydown: () => {
+		if (!settings.enable_debugger) return;
+		emulator.stepBackwards();
+	}
+};
+
+handlers['keybind_control_step_next'] = {
+	keyup: () => {},
+	keydown: () => {
+		if (!settings.enable_debugger) return;
+		emulator.stepForwards();
+	}
+};
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Event Listeners:
 // ---------------------------------------------------------------------------------------------------------------------
