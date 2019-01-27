@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import {toHexString as u16_toHexString} from '@chipotle/types/Uint16';
+import {toHexString as u8_toHexString} from '@chipotle/types/Uint8';
 import UIAnimator from '@chipotle/web/UIAnimator';
 import dom_ready from '@chipotle/web/dom_ready';
 import settings from './settings';
@@ -26,7 +28,7 @@ let display_frames: HTMLElement[];
 export function refresh() {
 	if (!settings.show_stack) return;
 
-	display_frame_pc.innerText = vm.program_counter.toString(16).padStart(4, '0');
+	display_frame_pc.innerText = u16_toHexString(vm.program_counter);
 
 	let stack = vm.stack.inspect();
 	let stackEnd = stack.length - 1;
@@ -39,7 +41,7 @@ export function refresh() {
 				parent.classList.add('unused');
 			}
 		} else {
-			element.innerText = stack[stackEnd - i].toString(16).padStart(4, '0');
+			element.innerText = u16_toHexString(stack[stackEnd - i]);
 			parent.classList.remove('unused', 'template');
 		}
 	}
@@ -95,7 +97,7 @@ dom_ready(() => {
 		// Set text.
 		let label = <HTMLElement>copy.querySelector('.stack-frame-index');
 		let display = <HTMLElement>copy.querySelector('.stack-frame-value');
-		label.innerText = `-${(i + 1).toString(16).padStart(2, '0')}`;
+		label.innerText = `-${u8_toHexString(i + 1)}`;
 		display.innerText = '----';
 
 		// Add display.

@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import {toHexString as u16_toHexString} from '@chipotle/types/Uint16';
+import {toHexString as u8_toHexString} from '@chipotle/types/Uint8';
 import UIAnimator from '@chipotle/web/UIAnimator';
 import dom_ready from '@chipotle/web/dom_ready';
 import settings from './settings';
@@ -29,13 +31,13 @@ let display_register_PROGRAM: HTMLElement;
 export function refresh() {
 	if (!settings.show_registers) return;
 
-	display_register_PROGRAM.innerText = vm.program_counter.toString(16).padStart(4, '0');
-	display_register_I.innerText = vm.register_index.toString(16).padStart(4, '0');
-	display_register_ST.innerText = vm.register_sound.toString(16).padStart(2, '0');
-	display_register_DT.innerText = vm.register_timer.toString(16).padStart(2, '0');
+	display_register_PROGRAM.innerText = u16_toHexString(vm.program_counter);
+	display_register_I.innerText = u16_toHexString(vm.register_index);
+	display_register_ST.innerText = u8_toHexString(vm.register_sound);
+	display_register_DT.innerText = u8_toHexString(vm.register_timer);
 
 	for (let i = 0, n = display_register_Vx.length; i < n; i++) {
-		display_register_Vx[i].innerText = vm.register_data[i].toString(16).padStart(2, '0');
+		display_register_Vx[i].innerText = u8_toHexString(vm.register_data[i]);
 	}
 }
 
