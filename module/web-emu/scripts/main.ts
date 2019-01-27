@@ -11,6 +11,7 @@ import './ui-settings';
 import './ui-screen';
 import './ui-load';
 import './ui-registers';
+import './ui-stack';
 import './ui-keypad';
 import './keybind';
 

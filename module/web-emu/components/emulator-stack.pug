@@ -4,4 +4,13 @@
 -// --------------------------------------------------------------------------------------------------------------------
 mixin emulator-stack
 	#emulator-stack
-		block
+		.title Stack
+
+		.stack-visualizer
+			.stack-frame(data-stack-frame="PC")
+				.stack-frame-index PC
+				.stack-frame-value ----
+
+		.stack-frame.template
+			.stack-frame-index -00
+			.stack-frame-value ----

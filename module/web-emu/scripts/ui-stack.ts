@@ -12,11 +12,8 @@ import {emulator, vm} from './instance';
 let animator: UIAnimator<any>;
 let element: HTMLElement;
 
-let display_register_Vx: HTMLElement[];
-let display_register_ST: HTMLElement;
-let display_register_DT: HTMLElement;
-let display_register_I: HTMLElement;
-let display_register_PROGRAM: HTMLElement;
+let display_frame_pc: HTMLElement;
+let display_frames: HTMLElement[];
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
@@ -27,15 +24,24 @@ let display_register_PROGRAM: HTMLElement;
  * This should be called during requestAnimationFrame.
  */
 export function refresh() {
-	if (!settings.show_registers) return;
+	if (!settings.show_stack) return;
 
-	display_register_PROGRAM.innerText = vm.program_counter.toString(16).padStart(4, '0');
-	display_register_I.innerText = vm.register_index.toString(16).padStart(4, '0');
-	display_register_ST.innerText = vm.register_sound.toString(16).padStart(2, '0');
-	display_register_DT.innerText = vm.register_timer.toString(16).padStart(2, '0');
+	display_frame_pc.innerText = vm.program_counter.toString(16).padStart(4, '0');
 
-	for (let i = 0, n = display_register_Vx.length; i < n; i++) {
-		display_register_Vx[i].innerText = vm.register_data[i].toString(16).padStart(2, '0');
+	let stack = vm.stack.inspect();
+	let stackEnd = stack.length - 1;
+	for (let i = 0, n = display_frames.length; i < n; i++) {
+		let element = display_frames[i];
+		let parent = <HTMLElement>element.parentNode;
+		if (i > stackEnd) {
+			if (!parent.classList.contains('unused')) {
+				element.innerText = '----';
+				parent.classList.add('unused');
+			}
+		} else {
+			element.innerText = stack[stackEnd - i].toString(16).padStart(4, '0');
+			parent.classList.remove('unused', 'template');
+		}
 	}
 }
 
@@ -76,26 +82,34 @@ export function setVisible(visible: boolean): void {
 // Setup:
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
-	element = <HTMLElement>document.querySelector('#emulator-registers')!;
+	element = <HTMLElement>document.querySelector('#emulator-stack')!;
+	display_frames = [];
+	display_frame_pc = <HTMLElement>element.querySelector('.stack-frame[data-stack-frame="PC"] .stack-frame-value');
 
-	display_register_PROGRAM = <HTMLElement>document.querySelector('[data-visualizer="register-PC"] .register-value');
+	// Create display elements.
+	let container = <HTMLElement>element.querySelector('.stack-visualizer');
+	let template = <HTMLElement>element.querySelector('.stack-frame.template');
+	for (let i = 0; i < vm.MAX_STACK; i++) {
+		let copy = <HTMLElement>template.cloneNode(true);
 
-	display_register_I = <HTMLElement>document.querySelector('[data-visualizer="register-I"] .register-value');
-	display_register_ST = <HTMLElement>document.querySelector('[data-visualizer="register-ST"] .register-value');
-	display_register_DT = <HTMLElement>document.querySelector('[data-visualizer="register-DT"] .register-value');
-	display_register_Vx = (<HTMLElement[]>Array.from(document.querySelectorAll('[data-visualizer]')))
-		.map(el => [el, el.getAttribute('data-visualizer')!])
-		.filter(([el, reg]) => (<string>reg).startsWith('register-V'))
-		.map(([el, reg]) => [el, parseInt((<string>reg).substring('register-V'.length), 16)])
-		.sort(([el1, reg1], [el2, reg2]) => <number>reg1 - <number>reg2)
-		.map(([el, reg]) => <HTMLElement>(<HTMLElement>el).querySelector('.register-value'));
+		// Set text.
+		let label = <HTMLElement>copy.querySelector('.stack-frame-index');
+		let display = <HTMLElement>copy.querySelector('.stack-frame-value');
+		label.innerText = `-${(i + 1).toString(16).padStart(2, '0')}`;
+		display.innerText = '----';
 
+		// Add display.
+		display_frames.push(display);
+		container.appendChild(copy);
+	}
+
+	// Setup animator.
 	animator = new UIAnimator(refresh, {visible: false, debugging: false, running: false});
 	animator.resume();
 });
 
 settings.addListener('update', (setting, value) => {
-	if (setting === 'show_registers') {
+	if (setting === 'show_stack') {
 		setVisible(value);
 		return;
 	}
