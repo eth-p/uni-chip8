@@ -25,6 +25,17 @@ const Finder     = require('./Finder');
 const TaskStatus = require('./TaskStatus');
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Constants:
+// ---------------------------------------------------------------------------------------------------------------------
+const ALLOWED_SOURCEMAPS = [
+	'.css',
+	'.html',
+	'.htm',
+	'.js',
+	'.svg'
+];
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Class:
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -212,9 +223,9 @@ module.exports = class Task {
 	 */
 	_gulpdest(options) {
 		let project = this.module.getProject();
-
 		let streams = [
 			(options.sourcemaps ? gulp_sourcemaps.write('.') : null),
+			(options.sourcemaps ? gulp_filter(['**', '!**/*.map'].concat(ALLOWED_SOURCEMAPS.map(x => `**/*${x}.map`))) : null),
 			gulp.dest(project.getBuildDirectory(), {cwd: project.getBuildDirectory()}),
 			(options.verbose ? gulp_print((f) => this._logger.file(f)) : null)
 		].filter(x => x !== null);
