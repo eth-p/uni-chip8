@@ -39,7 +39,7 @@ export default class OP_ADD_REG_REG extends Operation {
 		const p1 = operands[0];
 		const p2 = operands[1];
 
-		let result: [number, MathFlag] = add(p1, p2);
+		let result: [number, MathFlag] = add(context.register_data[p1], context.register_data[p2]);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OVERFLOW ? 1 : 0;
 	}
