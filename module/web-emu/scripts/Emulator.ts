@@ -82,7 +82,7 @@ class Emulator extends Emitter {
 		this.speed = vm.CLOCK_SPEED;
 		this.paused = true;
 		this.interval = null;
-		this.intervalRate = 5;
+		this.intervalRate = 10;
 		this.intervalMiss = 0;
 		this.lastUpdate = Date.now();
 		this._update = this._update.bind(this);
@@ -157,6 +157,8 @@ class Emulator extends Emitter {
 	 * Steps the emulator forwards by one instruction.
 	 */
 	public stepForwards(): void {
+		if (!this.paused) this.pause();
+
 		try {
 			this.vm.step();
 			this.emit('step');
@@ -170,6 +172,8 @@ class Emulator extends Emitter {
 	 * Steps the emulator backwards by one instruction.
 	 */
 	public stepBackwards(): void {
+		if (!this.paused) this.pause();
+
 		// TODO: Unimplemented.
 		this.emit('step');
 		this._error(new Error('UNIMPLEMENTED.'));
@@ -244,6 +248,7 @@ class Emulator extends Emitter {
 		/** The number of ticks to execute. */
 		let ticks = this.speed / (1000 / ms) + this.intervalMiss;
 		this.intervalMiss = ticks % 1;
+		ticks |= 0;
 
 		// Execute.
 		try {

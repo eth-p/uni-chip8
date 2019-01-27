@@ -48,15 +48,14 @@ dom_ready(() => {
 		if (target.getAttribute('data-program-url') == null) return;
 
 		load_window.hide();
-		let xhr = new XHR(target.getAttribute('data-program-url')!, XHRType.BINARY);
-		xhr.get()
+		new XHR(target.getAttribute('data-program-url')!, XHRType.BINARY)
+			.get()
 			.then(data => {
 				return emulator.load(data);
 			})
 			.catch(error => {
 				showError(error);
 			});
-		console.log(target);
 	});
 
 	// Show default.
