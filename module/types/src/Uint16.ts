@@ -8,6 +8,7 @@
 import assert from './assert';
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
+import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -334,4 +335,16 @@ export function bitshiftrw(num: Uint16, by: number): Uint16 {
 	let shifted = num >> by;
 
 	return shifted | wrapped;
+}
+
+/**
+ * Creates a hex string from a Uint16.
+ *
+ * @param num The number.
+ *
+ * @returns A 4-character hex string.
+ */
+export function toHexString(num: Uint8): string {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	return num.toString(16).padStart(4, '0');
 }
