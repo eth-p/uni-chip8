@@ -21,10 +21,12 @@ mixin ui-window-load
 				+window-tab("load-library") Library
 				+window-tab("load-upload") Upload
 
-		+window-content
-			+window-pane("load-upload")
-				| Upload a ROM.
+			+window-content
+				+window-pane("load-upload")
+					| Upload a ROM.
 
-			+window-pane("load-library")
-				| Use the built-in database of ROMs.
-
+				+window-pane("load-library")
+					div Use open-source CHIP-8 programs.
+					div.load-library-list
+					div.load-library-list-loading
+						| Loading...

@@ -15,6 +15,27 @@ let error_summary: HTMLElement;
 let error_stack: HTMLElement;
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Export:
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Shows the error window with an error.
+ * @param error The error to show.
+ */
+export function show(error: Error) {
+	if (error instanceof ProgramError) {
+		showProgramError(error);
+	} else if (error instanceof VMError) {
+		showVMError(error);
+	} else {
+		showError(error);
+	}
+
+	document.querySelectorAll('.desktop-overlay').forEach(e => e.classList.remove('visible'));
+	error_window.show();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Functions:
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -71,15 +92,6 @@ dom_ready(() => {
 	});
 
 	emulator.addListener('error', error => {
-		if (error instanceof ProgramError) {
-			showProgramError(error);
-		} else if (error instanceof VMError) {
-			showVMError(error);
-		} else {
-			showError(error);
-		}
-
-		document.querySelectorAll('.desktop-overlay').forEach(e => e.classList.remove('visible'));
-		error_window.show();
+		show(error);
 	});
 });

@@ -89,6 +89,17 @@ class Emulator extends Emitter {
 	}
 
 	/**
+	 * Loads a program into the emulator.
+	 * @param data The data to load.
+	 */
+	public async load(data: Uint8Array) {
+		await this.vm.program.load(data);
+		this.reset();
+		this.emit('load');
+		this.resume();
+	}
+
+	/**
 	 * Pauses the emulator.
 	 */
 	public pause(): void {
