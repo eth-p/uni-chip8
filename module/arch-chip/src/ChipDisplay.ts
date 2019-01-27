@@ -75,6 +75,14 @@ export default class ChipDisplay {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
+	 * Gets the offset between two lines in the screen buffer.
+	 * @returns The line offset.
+	 */
+	public getLineOffset(): number {
+		return this.lineOffset;
+	}
+
+	/**
 	 * Gets an index tuple for a coordinate pair.
 	 *
 	 * @param x The x coordinate of the pixel.

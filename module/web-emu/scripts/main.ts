@@ -8,7 +8,9 @@ import app_ready from '@chipotle/web/app_ready';
 import './ui-controls';
 import './ui-error';
 import './ui-settings';
+import './ui-screen';
 import './ui-registers';
+
 import {emulator} from './instance';
 import {settings} from './settings';
 // ---------------------------------------------------------------------------------------------------------------------

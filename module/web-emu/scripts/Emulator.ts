@@ -148,7 +148,7 @@ class Emulator extends Emitter {
 	public stepForwards(): void {
 		try {
 			this.vm.step();
-			this.emit('reset');
+			this.emit('step');
 			this.lastUpdate = Date.now();
 		} catch (ex) {
 			this._error(ex);
@@ -160,6 +160,7 @@ class Emulator extends Emitter {
 	 */
 	public stepBackwards(): void {
 		// TODO: Unimplemented.
+		this.emit('step');
 		this._error(new Error('UNIMPLEMENTED.'));
 	}
 
