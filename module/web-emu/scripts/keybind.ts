@@ -94,6 +94,7 @@ function handle(key: string, state: boolean): boolean {
 }
 
 window.addEventListener('keydown', event => {
+	if (event.metaKey || event.ctrlKey || event.altKey) return;
 	if (handle(event.key, true)) {
 		event.preventDefault();
 		return;
@@ -101,6 +102,7 @@ window.addEventListener('keydown', event => {
 });
 
 window.addEventListener('keyup', event => {
+	if (event.metaKey || event.ctrlKey || event.altKey) return;
 	if (handle(event.key, false)) {
 		event.preventDefault();
 		return;
