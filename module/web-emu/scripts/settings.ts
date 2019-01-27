@@ -25,6 +25,12 @@ class EmulatorSettings extends Settings {
 	@Setting(false)
 	public enable_debugger?: boolean;
 
+	@Setting(true)
+	public display_frameless?: boolean;
+
+	@Setting(true)
+	public display_scaling?: boolean;
+
 	@Setting('#ffffff', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_foreground?: string;
 
