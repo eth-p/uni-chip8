@@ -2,25 +2,27 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {and} from '@chipotle/types/Uint8';
+import {add} from '@chipotle/types/Uint8';
+import MathFlag from '@chipotle/types/MathFlag';
 import Uint16 from '@chipotle/types/Uint16';
 
-import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
+import OperandTags from '@chipotle/isa/OperandTags';
 
-import {Operation, Context} from '@chipotle/arch-chip/Operation';
+import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: AND <reg> <reg>
+ * CHIP-8 INSTRUCTION: ADD <reg> <reg>
  *
- * Sets the register at the first <reg> to the bitwise-and of both register values
+ * Sets the register at the first <reg> to the sum of both values at both registers.
+ * Sets Vf if a carry occurs.
  *
- * '8xy2'
+ * '8xy4'
  */
-export default class OP_AND_REG_REG extends Operation {
+export default class OP_ADD_REG_REG extends Operation {
 	public constructor() {
-		super('AND', 0x8002, [
+		super('ADD', 0x8004, [
 			{
 				mask: 0x0f00,
 				type: OperandType.REGISTER,
@@ -37,6 +39,8 @@ export default class OP_AND_REG_REG extends Operation {
 		const p1 = operands[0];
 		const p2 = operands[1];
 
-		context.register_data[p1] = and(context.register_data[p1], context.register_data[p2]);
+		let result: [number, MathFlag] = add(p1, p2);
+		context.register_data[p1] = result[0];
+		context.register_flag = result[1] === MathFlag.OVERFLOW ? 1 : 0;
 	}
 }

@@ -4,7 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
 import VMContext from '@chipotle/vm/VMContext';
-import Chip from '@chipotle/arch-chip/Chip';
+import Chip from '@chipotle/chip-arch/Chip';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Emulator:

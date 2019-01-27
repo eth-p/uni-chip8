@@ -6,7 +6,7 @@
 //  @eth-p: This is a singleton class for interacting with the emulator and virtual machine.
 // ---------------------------------------------------------------------------------------------------------------------
 import VM from '@chipotle/vm/VM';
-import Chip from '@chipotle/arch-chip/Chip';
+import Chip from '@chipotle/chip-arch/Chip';
 import Emulator from './Emulator';
 
 import settings from './settings';

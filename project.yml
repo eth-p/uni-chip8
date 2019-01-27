@@ -104,7 +104,7 @@ modules:
     <<: *code
     description: "Module: Virtual machine."
 
-  arch-chip:
+  chip-arch:
     <<: *code
     description: "CHIP-8: System architecture."
 
@@ -138,6 +138,7 @@ modules:
   # .--------------.
 
   chip-roms:
+    description: "CHIP-8: Demonstration programs."
     tasks: [copy]
     sources:
       - '**/*.rom'

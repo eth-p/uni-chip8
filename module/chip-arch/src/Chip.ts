@@ -6,6 +6,7 @@ import {Uint8} from '@chipotle/types/Uint8';
 import {Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
+import ProgramError from '@chipotle/vm/ProgramError';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import TimerDescending from '@chipotle/vm/Timer';
@@ -49,8 +50,7 @@ import OP_RET from './OP_RET';
 import OP_SKP from './OP_SKP';
 import OP_SKNP from './OP_SKNP';
 
-import ProgramError from '@chipotle/vm/ProgramError';
-import ChipKeyboard from '@chipotle/arch-chip/ChipKeyboard';
+import ChipKeyboard from './ChipKeyboard';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:

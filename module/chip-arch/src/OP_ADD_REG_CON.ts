@@ -8,7 +8,7 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
-import {Operation, Context} from '@chipotle/arch-chip/Operation';
+import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
