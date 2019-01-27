@@ -4,7 +4,7 @@
 -// --------------------------------------------------------------------------------------------------------------------
 mixin emulator-keypad
 	div&attributes(attributes)#emulator-keypad.keypad
-		for row in [['1', '2', '3', 'A'], ['4', '5', '6', 'D'], ['7', '8', '9', 'E'], ['A', '0', 'B', 'F']]
+		for row in [['1', '2', '3', 'C'], ['4', '5', '6', 'D'], ['7', '8', '9', 'E'], ['A', '0', 'B', 'F']]
 			div.keypad-row
 				for col in row
 					input(type="button" value=col data-action=`emulator-key-${col}`)
