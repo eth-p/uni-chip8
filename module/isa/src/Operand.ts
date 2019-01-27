@@ -76,8 +76,8 @@ class Operand {
 		}
 
 		assert(_mask != null, "Parameter 'mask' is null");
-		assert(!(_mask instanceof OperandMask) || _mask.mask !== 0, "Parameter 'mask' is invalid");
-		assert(_mask instanceof OperandMask || (isValid(_mask) && _mask !== 0), "Parameter 'mask' is invalid");
+		assert(!(_mask instanceof OperandMask) || _mask.mask >= 0, "Parameter 'mask' is invalid");
+		assert(_mask instanceof OperandMask || (isValid(_mask) && _mask >= 0), "Parameter 'mask' is invalid");
 		assert(_type != null, "Parameter 'type' is null");
 		assert(_type >= 0, "Parameter 'type' is invalid");
 
