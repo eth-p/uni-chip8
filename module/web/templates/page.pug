@@ -30,6 +30,11 @@ mixin page
 			script(src="/assets/shim/scopedQuerySelectorShim.js")
 
 	body(class=extract(attributes.class, 'seamless', 'padded'))
+		if pug_mixins['loading-screen']
+			#loading-screen
+				div
+					+loading-screen
+
 		#page
 			header
 				div#logo

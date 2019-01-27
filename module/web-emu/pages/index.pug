@@ -18,6 +18,9 @@ include ../components/setting
 - scripts.push('/scripts/web-emu/main.js')
 - shims[':scope'] = true;
 
+mixin loading-screen
+	| Loading
+
 +page.filled
 	+toolbar#toolbar
 		+item
@@ -45,7 +48,7 @@ include ../components/setting
 	+desktop
 
 		- // Settings Window
-		+desktop-overlay#emulator-settings.centered.visible.blocking
+		+desktop-overlay#emulator-settings.centered.blocking
 			+window.tabbed
 				+window-title("Settings")
 					input(type="button" value="cancel" data-action="settings-cancel")
@@ -99,4 +102,3 @@ include ../components/setting
 				+emulator-registers
 				+emulator-stack
 				+emulator-disassembler
-

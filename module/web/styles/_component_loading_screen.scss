@@ -1,0 +1,35 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Loading Screen
+// ---------------------------------------------------------------------------------------------------------------------
+
+#loading-screen {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 49;
+
+	position: absolute;
+	top: $toolbar-height + 1;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	background: $background;
+	opacity: 1;
+
+	@include backdrop-filter(blur(75px), transparentize($background, 0.25));
+
+	transition: opacity $animation-time ease;
+	&.hide {
+		pointer-events: none;
+		display: flex !important;
+		opacity: 0;
+	}
+}

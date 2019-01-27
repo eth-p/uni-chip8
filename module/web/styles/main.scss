@@ -38,7 +38,7 @@ body {
 header {
 	display: flex;
 	height: $header-height;
-	z-index: 20;
+	z-index: 50;
 
 	flex-direction: row;
 	flex: none;
@@ -155,8 +155,9 @@ header {
 // ---------------------------------------------------------------------------------------------------------------------
 // Components:
 // ---------------------------------------------------------------------------------------------------------------------
-@import '_component_card';
-@import '_component_common';
-@import '_component_desktop';
-@import '_component_toolbar';
-@import '_component_window';
+@import 'component_card';
+@import 'component_common';
+@import 'component_desktop';
+@import 'component_toolbar';
+@import 'component_window';
+@import 'component_loading_screen';

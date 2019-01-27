@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import dom_ready from '@chipotle/web/dom_ready';
+import app_ready from '@chipotle/web/app_ready';
 
 import './ui-settings';
 import './ui-registers';
@@ -40,4 +41,5 @@ settings.addListener('update', (setting, value) => {
 // ---------------------------------------------------------------------------------------------------------------------
 dom_ready(() => {
 	settings.broadcast();
+	app_ready.done();
 });

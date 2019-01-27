@@ -12,3 +12,20 @@
 	-moz-user-select: $value;
 	-ms-user-select: $value;
 }
+
+/**
+ * A mixin for backdrop filters.
+ * @param $value The filter value.
+ * @param $background The background to use if supported.
+ */
+@mixin backdrop-filter($value, $background: null) {
+	@supports (backdrop-filter: $value) {
+		backdrop-filter: $value;
+		background: $background;
+	}
+
+	@supports (-webkit-backdrop-filter: $value) {
+		-webkit-backdrop-filter: $value;
+		background: $background;
+	}
+}
