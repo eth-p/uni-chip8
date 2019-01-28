@@ -322,3 +322,15 @@ export function bitshiftrw(num: Uint8, by: number): Uint8 {
 	let wrapped = shifted & 0x00ff;
 	return (shifted >> 8) | wrapped;
 }
+
+/**
+ * Creates a hex string from a Uint8.
+ *
+ * @param num The number.
+ *
+ * @returns A 2-character hex string.
+ */
+export function toHexString(num: Uint8): string {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	return num.toString(16).padStart(2, '0');
+}

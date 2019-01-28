@@ -70,7 +70,7 @@ dom_ready(() => {
 		error => {
 			console.error('FAILED TO LOAD ROM DATABASE');
 			console.error(error);
-			load_list_message.innerText = 'Failed to load library.';
+			load_list_message.textContent = 'Failed to load library.';
 		}
 	);
 });
@@ -83,16 +83,16 @@ function generateList(database: {[key: string]: {name: string; info: string; aut
 
 		let entry_name = document.createElement('div');
 		entry_name.classList.add('load-library-entry-name');
-		entry_name.innerText = entry.name;
+		entry_name.textContent = entry.name;
 
 		let entry_info = document.createElement('div');
 		entry_info.classList.add('load-library-entry-info');
-		entry_info.innerText = entry.info;
+		entry_info.textContent = entry.info;
 
 		let entry_author = document.createElement('a');
 		entry_author.classList.add('load-library-entry-author');
 		entry_author.setAttribute('href', entry.author_url);
-		entry_author.innerText = entry.author;
+		entry_author.textContent = entry.author;
 
 		element.appendChild(entry_name);
 		element.appendChild(entry_author);

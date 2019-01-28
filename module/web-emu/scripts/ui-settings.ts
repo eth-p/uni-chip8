@@ -189,12 +189,13 @@ function changeListener(event: Event) {
 }
 
 /**
- * An event listener that applies key press changes to the settings.
+ * An event listener that applies keybind changes to the settings.
  * @param event The input event.
  */
 function keyListener(event: KeyboardEvent) {
 	let keydisplay = event.key;
 	event.preventDefault();
+	event.stopImmediatePropagation();
 
 	// Prevent certain keys.
 	if (

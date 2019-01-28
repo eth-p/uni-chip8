@@ -57,7 +57,7 @@ function checkPauseToggle() {
 		if (element instanceof HTMLInputElement) {
 			element.value = label;
 		} else {
-			element.innerText = label;
+			element.textContent = label;
 		}
 	}
 }
