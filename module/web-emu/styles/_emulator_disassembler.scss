@@ -10,4 +10,51 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #emulator-disassembler {
+	.title {
+		opacity: 0.5;
+		margin-bottom: 4px;
+	}
+
+	.program-op {
+		display: flex;
+		padding: 0 4px;
+		text-align: left;
+		font-family: $font-monospace;
+
+		&.template {
+			display: none !important;
+		}
+
+		&.unused {
+			> .program-op-value {
+				opacity: 0.5;
+			}
+		}
+
+		// Display current instruction.
+		&.current .program-op-index::before {
+			content: '>';
+		}
+
+		.program-op-index::before {
+			display: inline-block;
+			text-align: center;
+			content: '';
+			width: 30px;
+			margin-right: 4px;
+		}
+
+		// Display instruction address.
+		.program-op-index {
+			min-width: 30px;
+			opacity: 0.5;
+			padding-right: 3px;
+			text-align: right;
+		}
+
+		// Display instruction disassembly.
+		.program-op-value {
+			padding-left: 3px;
+		}
+	}
 }
