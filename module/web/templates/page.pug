@@ -25,6 +25,7 @@ mixin page
 	head
 		if title != null
 			title=title
+		link(rel="icon" type="image/png" href="/favicon.png")
 		link(rel="stylesheet" href="/assets/styles/main.css")
 		for stylesheet in stylesheets
 			link(rel="stylesheet" href=stylesheet)
