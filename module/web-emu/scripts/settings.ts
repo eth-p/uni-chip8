@@ -37,7 +37,7 @@ class EmulatorSettings extends Settings {
 	@Setting('#000000', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_background?: string;
 
-	@Setting('0')
+	@Setting('X')
 	public keybind_key_0?: string;
 
 	@Setting('1')
@@ -49,43 +49,43 @@ class EmulatorSettings extends Settings {
 	@Setting('3')
 	public keybind_key_3?: string;
 
-	@Setting('4')
+	@Setting('Q')
 	public keybind_key_4?: string;
 
-	@Setting('5')
+	@Setting('W')
 	public keybind_key_5?: string;
 
-	@Setting('6')
+	@Setting('E')
 	public keybind_key_6?: string;
 
-	@Setting('7')
+	@Setting('A')
 	public keybind_key_7?: string;
 
-	@Setting('8')
+	@Setting('S')
 	public keybind_key_8?: string;
 
-	@Setting('9')
+	@Setting('D')
 	public keybind_key_9?: string;
 
-	@Setting('A')
+	@Setting('Z')
 	public keybind_key_A?: string;
 
-	@Setting('B')
+	@Setting('C')
 	public keybind_key_B?: string;
 
-	@Setting('C')
+	@Setting('4')
 	public keybind_key_C?: string;
 
-	@Setting('D')
+	@Setting('R')
 	public keybind_key_D?: string;
 
-	@Setting('E')
+	@Setting('F')
 	public keybind_key_E?: string;
 
-	@Setting('F')
+	@Setting('V')
 	public keybind_key_F?: string;
 
-	@Setting('Space')
+	@Setting(' ')
 	public keybind_control_turbo?: string;
 
 	@Setting('P')
