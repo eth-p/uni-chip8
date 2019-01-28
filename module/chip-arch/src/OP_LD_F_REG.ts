@@ -11,7 +11,7 @@ import {Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * CHIP-8 INSTRUCTION: LF F, <reg>
+ * CHIP-8 INSTRUCTION: LD F, <reg>
  *
  * Set the index register to the location of the first byte of the font
  * representing the value stored in <reg>.
@@ -40,6 +40,6 @@ export default class OP_LD_F_REG extends Operation {
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
-		context.register_index = p2 * 5;
+		context.register_index = context.register_data[p2] * 5;
 	}
 }
