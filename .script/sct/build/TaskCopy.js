@@ -39,8 +39,8 @@ module.exports = class TaskCopy extends Task {
 		let project = this.module.getProject();
 
 		// Stream.
-		return this._gulpsrc(null, {patterns: this.module.getCopyPatterns().map(x => Object.keys(x)[0])})
-			.pipe(this._gulpstrip(this.module.getCopyPatterns()))
+		return this._gulpsrc(null, {patterns: Object.keys(this.module.getCopyPatterns())})
+			.pipe(this._gulpstrip(Object.entries(this.module.getCopyPatterns()).map(([k, v]) => ({[k]: v}))))
 			.pipe(this._gulpdest(options))
 	}
 

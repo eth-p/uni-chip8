@@ -252,6 +252,12 @@ module.exports = class Task {
 					let pfxIndex  = src.indexOf('*');
 					let pfxString = src.substring(0, pfxIndex);
 
+					if (pfxIndex === -1 && dest != null) {
+						file.dirname = path.dirname(dest);
+						file.filename = path.basename(dest, file.extname);
+						return;
+					}
+
 					if (pfxIndex === -1 || !pfxString.endsWith('/')) return;
 					pfxString = pfxString.substring(0, pfxString.length - 1);
 

@@ -265,7 +265,7 @@ module.exports = class Module {
 		this._sources        = config.sources instanceof Array ? config.sources : [];
 		this._tests          = config.tests instanceof Array ? config.tests : [];
 		this._excludes       = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
-		this._copy           = config.copy instanceof Array ? config.copy : [];
+		this._copy           = config.copy == null ? [] : config.copy;
 		this._directory      = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
 		this._tasks          = null;
 		this._outputs        = new Map();
