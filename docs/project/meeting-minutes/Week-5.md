@@ -30,3 +30,4 @@ Anthony, *khanhp@sfu.ca*
 - Use the mobile vibration API for sound.
 - Update the product document.
 - Use the assember found [here](https://github.com/wernsey/chip8/blob/master/README.md) for now.
+- For the DVD logo program, add a scoring system where if the user can get the DVD into the corner, they get a point. They only have the left and right keys.
