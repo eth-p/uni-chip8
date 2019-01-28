@@ -29,4 +29,4 @@ Anthony, *khanhp@sfu.ca*
 
 - Use the mobile vibration API for sound.
 - Update the product document.
-- Use the assember found [here](...) for now.
+- Use the assember found [here](https://github.com/wernsey/chip8/blob/master/README.md) for now.
