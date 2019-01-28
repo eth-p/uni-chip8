@@ -9,6 +9,7 @@
 	}
 
 -
+	title = null;
 	stylesheets = [];
 	scripts = [];
 	shims = {
@@ -22,6 +23,8 @@ mixin page
 	// -------------------------------------------------------------------------------------------------------------------
 
 	head
+		if title != null
+			title=title
 		link(rel="stylesheet" href="/assets/styles/main.css")
 		for stylesheet in stylesheets
 			link(rel="stylesheet" href=stylesheet)
