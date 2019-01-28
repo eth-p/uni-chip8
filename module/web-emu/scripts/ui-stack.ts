@@ -125,6 +125,10 @@ emulator.addListener('step', () => {
 	animator.run();
 });
 
+emulator.addListener('reset', () => {
+	animator.run();
+});
+
 emulator.addListener('pause', () => {
 	animator.setCriteria('running', false);
 });
