@@ -37,7 +37,7 @@ let cache: Map<Instruction, string>;
  * This should be called during requestAnimationFrame.
  */
 export function refresh() {
-	if (!settings.show_stack) return;
+	if (!settings.show_disassembler) return;
 
 	let start = vm.program_counter - DISASSEMBLE_OPS_BEFORE * 2;
 	let max = DISASSEMBLE_OPS_BEFORE + 1 + DISASSEMBLE_OPS_AFTER;
