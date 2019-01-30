@@ -17,6 +17,7 @@ import VMInstructionSet from './VMInstructionSet';
 
 import assert from '@chipotle/types/assert';
 import VMError from '@chipotle/vm/VMError';
+import Optional from '@chipotle/types/Optional';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -115,7 +116,7 @@ export class VMBase<A> extends Emitter {
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods: Protected                                                                                        |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -123,18 +124,16 @@ export class VMBase<A> extends Emitter {
 	 * This will attempt to use a cached value if one exists.
 	 *
 	 * @param instruction The instruction to decode.
-	 * @returns The intermediate representation of the instruction.
-	 *
-	 * @throws ProgramError When the instruction could not be decoded.
+	 * @returns The intermediate representation of the instruction, or undefined if not valid.
 	 */
-	protected decode(instruction: Instruction): IR<A> {
+	public decode(instruction: Instruction): Optional<IR<A>> {
 		let ir: IR<A> | null = this.opcache.get(instruction);
 		if (ir !== null) return ir;
 
 		// Instruction wasn't located in the cache.
 		// The IR will need to be created now.
 		let operation = this.isa.lookup(instruction);
-		if (operation === null) throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
+		if (operation === null) return undefined;
 
 		// Decode the operands and create an IR.
 		ir = {
@@ -147,10 +146,6 @@ export class VMBase<A> extends Emitter {
 		this.opcache.put(instruction, ir);
 		return ir;
 	}
-
-	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                                  |
-	// -------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Jumps to an address in the program.
@@ -243,7 +238,8 @@ export class VMBase<A> extends Emitter {
 
 		// Fetch and decode the opcode.
 		let instruction = this.program.fetch(this.program_counter);
-		let ir: IR<A> = this.decode(instruction);
+		let ir: Optional<IR<A>> = this.decode(instruction);
+		if (ir === undefined) throw new ProgramError(ProgramError.UNKNOWN_OPCODE);
 
 		// Execute the opcode.
 		ir.execute(<VMContext<A>>(<unknown>this), ir.operands);
