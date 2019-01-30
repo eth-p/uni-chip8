@@ -218,6 +218,8 @@ export class VMBase<A> extends Emitter {
 	public reset(): void {
 		this.program_counter = 0;
 		this._VM_executing = false;
+		this._VM_awaiting = false;
+		this.emit = Emitter.prototype.emit;
 		(<any>this)._reset();
 	}
 
