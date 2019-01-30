@@ -47,10 +47,21 @@ export default class ChipDisplay {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The screen buffer.
+	 * The display buffer.
 	 * Each bit of the bytes in this buffer represents a pixel.
 	 */
-	public buffer: Uint8Array;
+	protected displayBuffer: Uint8Array;
+
+	/**
+	 * The draw buffer.
+	 * This is what drawing calls will write to.
+	 */
+	protected drawBuffer: Uint8Array;
+
+	/**
+	 * Whether or not the swap buffers are enabled.
+	 */
+	protected doubleBuffered: boolean;
 
 	/**
 	 * The offset between two lines in the screen buffer.
@@ -66,8 +77,10 @@ export default class ChipDisplay {
 	 */
 	public constructor() {
 		this.lineOffset = Math.floor(this.WIDTH / UINT8_BITS) | 0;
-		this.buffer = new Uint8Array(this.lineOffset * this.HEIGHT);
-		this.buffer.fill(0, 0, this.buffer.length);
+		this.drawBuffer = new Uint8Array(this.lineOffset * this.HEIGHT);
+		this.drawBuffer.fill(0, 0, this.drawBuffer.length);
+		this.displayBuffer = this.drawBuffer;
+		this.doubleBuffered = false;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -83,6 +96,24 @@ export default class ChipDisplay {
 	}
 
 	/**
+	 * Enables or disables screen buffering.
+	 * Screen buffering forces draw calls to be made on a separate buffer.
+	 * When {@link transfer} is called, the draw buffer will be copied to the display buffer for rendering.
+	 *
+	 * @param enabled Whether or not buffering is enabled.
+	 */
+	public setBuffered(enabled: boolean): void {
+		if (!this.doubleBuffered && enabled) {
+			this.displayBuffer = new Uint8Array(this.drawBuffer.length);
+			this.transfer();
+		} else {
+			this.displayBuffer = this.drawBuffer;
+		}
+
+		this.doubleBuffered = enabled;
+	}
+
+	/**
 	 * Gets an index tuple for a coordinate pair.
 	 *
 	 * @param x The x coordinate of the pixel.
@@ -92,6 +123,22 @@ export default class ChipDisplay {
 	 */
 	public index(x: number, y: number): [number, number] {
 		return [y * this.lineOffset + ((x / UINT8_BITS) | 0), 0b10000000 >> x % UINT8_BITS];
+	}
+
+	/**
+	 * Transfers the draw buffer to the display buffer.
+	 */
+	public transfer() {
+		if (this.doubleBuffered === false) return;
+		this.displayBuffer.set(this.drawBuffer);
+	}
+
+	/**
+	 * Gets the display buffer.
+	 * @returns The display buffer.
+	 */
+	public getBuffer(): Uint8Array {
+		return this.displayBuffer;
 	}
 
 	/**
@@ -107,7 +154,7 @@ export default class ChipDisplay {
 		let index = tuple[0];
 		let mask = tuple[1];
 
-		this.buffer[index] = ((this.buffer[index] | mask) ^ mask) | (value ? mask : 0);
+		this.drawBuffer[index] = ((this.drawBuffer[index] | mask) ^ mask) | (value ? mask : 0);
 	}
 
 	/**
@@ -122,11 +169,11 @@ export default class ChipDisplay {
 		let index = tuple[0];
 		let mask = tuple[1];
 
-		this.buffer[index] ^= mask;
+		this.drawBuffer[index] ^= mask;
 	}
 
 	/**
-	 * Gets a pixel on the display.
+	 * Gets a pixel on the display buffer.
 	 *
 	 * @param x The x coordinate of the pixel.
 	 * @param y The y coordinate of the pixel.
@@ -138,14 +185,14 @@ export default class ChipDisplay {
 		let index = tuple[0];
 		let mask = tuple[1];
 
-		return (this.buffer[index] & mask) > 0;
+		return (this.displayBuffer[index] & mask) > 0;
 	}
 
 	/**
-	 * Clears the display.
+	 * Clears the draw buffer.
 	 */
 	public clear(): void {
-		this.buffer.fill(0, 0, this.buffer.length);
+		this.drawBuffer.fill(0, 0, this.drawBuffer.length);
 	}
 
 	/**
@@ -177,8 +224,8 @@ export default class ChipDisplay {
 
 		for (let line = 0; line < sprite.height; line++) {
 			let offset = offsetY + line * this.lineOffset;
-			let byteLo = this.buffer[offsetXLo + offset];
-			let byteHi = this.buffer[offsetXHi + offset];
+			let byteLo = this.drawBuffer[offsetXLo + offset];
+			let byteHi = this.drawBuffer[offsetXHi + offset];
 
 			let byte = (byteLo << 8) | byteHi;
 			let data = sprite.buffer[line] << shift;
@@ -186,8 +233,8 @@ export default class ChipDisplay {
 			if (!flag) flag = (data & byte & (0xffff << shift)) > 0;
 			byte ^= data;
 
-			this.buffer[offsetXLo + offset] = (byte >> 8) & 0xff;
-			this.buffer[offsetXHi + offset] = (byte >> 0) & 0xff;
+			this.drawBuffer[offsetXLo + offset] = (byte >> 8) & 0xff;
+			this.drawBuffer[offsetXHi + offset] = (byte >> 0) & 0xff;
 		}
 
 		return flag;
@@ -198,7 +245,7 @@ export default class ChipDisplay {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Creates a string representation of the display.
+	 * Creates a string representation of the display buffer.
 	 * This should be used primarily for debugging purposes.
 	 *
 	 * @returns A nicely-formatted representation of the display.
@@ -210,7 +257,7 @@ export default class ChipDisplay {
 		for (let i = 0; i < this.HEIGHT; i++) {
 			let start = i * this.lineOffset;
 			lines.push(
-				Bitfield.from(this.buffer.slice(start, start + this.lineOffset))
+				Bitfield.from(this.displayBuffer.slice(start, start + this.lineOffset))
 					.toString()
 					.replace(/ /g, '')
 					.replace(/0/g, ' ')

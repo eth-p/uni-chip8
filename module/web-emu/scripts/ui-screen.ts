@@ -65,7 +65,7 @@ function paint() {
 
 		// Draw foreground.
 		context.fillStyle = foreground;
-		let buffer = vm.display.buffer;
+		let buffer = vm.display.getBuffer();
 		let index = 0;
 		for (let y = 0; y < hw_height; y++) {
 			let consecutiveX = 0;
