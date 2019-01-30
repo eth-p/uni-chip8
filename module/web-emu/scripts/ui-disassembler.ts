@@ -174,7 +174,7 @@ function disassembleInstruction(instruction: Instruction, ir: IR | null): string
 				}
 
 				case OperandType.CONSTANT: {
-					asm = `#${operandValues[i]}`;
+					asm = `${operandValues[i]}`;
 					break;
 				}
 
@@ -192,7 +192,7 @@ function disassembleInstruction(instruction: Instruction, ir: IR | null): string
 		asmops[i] = asm;
 	}
 
-	return `${ir.operation.mnemonic} ${asmops.join(' ')}`;
+	return `${ir.operation.mnemonic} ${asmops.join(', ')}`;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
