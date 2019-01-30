@@ -251,6 +251,7 @@ export class VMBase<A> extends Emitter {
 		}
 
 		// Return.
+		this.tick++;
 		this._VM_executing = false;
 	}
 }
