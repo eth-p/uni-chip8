@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/types/assert';
+import Emitter from '@chipotle/types/Emitter';
 
 import Bitfield from '@chipotle/types/Bitfield';
 import {BITS as UINT8_BITS} from '@chipotle/types/Uint8';
@@ -25,7 +26,7 @@ import ChipSprite from './ChipSprite';
  *
  * 64x32 pixels.
  */
-export default class ChipDisplay {
+export default class ChipDisplay extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -76,6 +77,7 @@ export default class ChipDisplay {
 	 * Creates a new display.
 	 */
 	public constructor() {
+		super();
 		this.lineOffset = Math.floor(this.WIDTH / UINT8_BITS) | 0;
 		this.drawBuffer = new Uint8Array(this.lineOffset * this.HEIGHT);
 		this.drawBuffer.fill(0, 0, this.drawBuffer.length);
@@ -155,6 +157,7 @@ export default class ChipDisplay {
 		let mask = tuple[1];
 
 		this.drawBuffer[index] = ((this.drawBuffer[index] | mask) ^ mask) | (value ? mask : 0);
+		this.emit('draw');
 	}
 
 	/**
@@ -170,6 +173,7 @@ export default class ChipDisplay {
 		let mask = tuple[1];
 
 		this.drawBuffer[index] ^= mask;
+		this.emit('draw');
 	}
 
 	/**
@@ -193,6 +197,8 @@ export default class ChipDisplay {
 	 */
 	public clear(): void {
 		this.drawBuffer.fill(0, 0, this.drawBuffer.length);
+		this.emit('draw');
+		this.emit('clear');
 	}
 
 	/**
@@ -237,6 +243,7 @@ export default class ChipDisplay {
 			this.drawBuffer[offsetXHi + offset] = (byte >> 0) & 0xff;
 		}
 
+		this.emit('draw');
 		return flag;
 	}
 
