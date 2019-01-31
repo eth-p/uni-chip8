@@ -1,7 +1,14 @@
 {
+	"intro.rom": {
+		"name": "Team Chipotle Demo",
+		"info": "Our demo animation.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
+	},
+
 	"dvd.rom": {
-		"name": "Logo Demo",
-		"info": "The bouncing logo of a popular disc-shaped video storage medium.",
+		"name": "Corners",
+		"info": "The bouncing logo of a popular disc-shaped video storage medium. It might touch the corner someday...",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir"
 	},
