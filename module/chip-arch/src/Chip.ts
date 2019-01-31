@@ -252,7 +252,7 @@ class Chip extends Architecture<Chip> {
 	 * Decrements at 60 Hz.
 	 */
 	public get register_timer(): Uint8 {
-		return Math.max(0, this._timer_timer.value);
+		return Math.max(0, Math.ceil(this._timer_timer.value + this._timer_timer.error));
 	}
 
 	public set register_timer(value: Uint8) {
@@ -265,7 +265,7 @@ class Chip extends Architecture<Chip> {
 	 * Decrements at 60 Hz.
 	 */
 	public get register_sound(): Uint8 {
-		return Math.max(0, this._timer_sound.value);
+		return Math.max(0, Math.ceil(this._timer_sound.value + this._timer_sound.error));
 	}
 
 	public set register_sound(this: VMContext<Chip>, value: Uint8) {
@@ -358,8 +358,8 @@ class Chip extends Architecture<Chip> {
 	 * @override
 	 */
 	protected _tick(this: VMContext<Chip>): void {
-		if (this._timer_sound.value > 0) this._timer_sound.descend();
-		if (this._timer_timer.value > 0) this._timer_timer.descend();
+		if (this._timer_sound.value + this._timer_sound.error > 0) this._timer_sound.descend();
+		if (this._timer_timer.value + this._timer_timer.error > 0) this._timer_timer.descend();
 	}
 }
 

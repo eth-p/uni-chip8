@@ -21,7 +21,7 @@ export default class Timer {
 	/**
 	 * The error correction value.
 	 */
-	protected error: number;
+	public error: number;
 
 	/**
 	 * The timer ratio.
