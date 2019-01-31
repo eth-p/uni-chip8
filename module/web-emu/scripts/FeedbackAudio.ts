@@ -60,7 +60,7 @@ class FeedbackAudio {
 	 */
 	public constructor() {
 		this.endTime = 0;
-		this.fadeTime = 0.2;
+		this.fadeTime = 0.005;
 		this.volume = 1;
 		this.frequency = 300;
 		this.active = false;

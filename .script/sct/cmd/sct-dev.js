@@ -9,17 +9,11 @@
 'use strict';
 
 // Libraries.
-const chalk = require('chalk');
-const unique = require('array-unique');
 const http_server = require('http-server/lib/http-server');
 
 // Modules.
 const Command = require('@sct').Command;
-const CommandUtil = require('@sct').CommandUtil;
 const SCT = require('@sct');
-const TaskLogger = require('@sct').TaskLogger;
-const TaskLoggerPretty = require('@sct').TaskLoggerPretty;
-const TaskRunner = require('@sct').TaskRunner;
 
 // Commands.
 const CommandBuild = require('./sct-build');
@@ -45,6 +39,7 @@ module.exports = class CommandDev extends Command {
 				default: 8080,
 				validator: port => port >= 1024 && port <= 0xFFFF,
 				description: 'The local HTTP server.',
+				alias: '-p'
 			},
 		}
 	}
