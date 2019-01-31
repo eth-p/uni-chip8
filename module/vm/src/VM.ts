@@ -18,6 +18,7 @@ import VMInstructionSet from './VMInstructionSet';
 import assert from '@chipotle/types/assert';
 import VMError from '@chipotle/vm/VMError';
 import Optional from '@chipotle/types/Optional';
+import OpCompiled from '@chipotle/vm/OpCompiled';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -80,6 +81,12 @@ export class VMBase<A> extends Emitter {
 	 */
 	public _VM_awaiting: boolean;
 
+	/**
+	 * A boolean which specifies whether or not JIT compiling is allowed.
+	 * @internal
+	 */
+	public _VM_jit: boolean;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -94,6 +101,7 @@ export class VMBase<A> extends Emitter {
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
 		this._VM_executing = false;
 		this._VM_awaiting = false;
+		this._VM_jit = false;
 		this.emit = Emitter.prototype.emit;
 		this.isa = (<Architecture<A>>(<unknown>arch)).isa;
 		this.program = new Program((<any>arch)._load.bind(this));
@@ -113,6 +121,29 @@ export class VMBase<A> extends Emitter {
 		}
 
 		Object.defineProperties(this, inherit);
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Accessors:                                                                                                |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Sets whether or not JIT compiling is enabled.
+	 * This will clear the opcache.
+	 *
+	 * @param enabled True if JIT compiling is enabled.
+	 */
+	public setJIT(enabled: boolean): void {
+		if (this._VM_jit !== enabled) this.opcache.invalidateAll();
+		this._VM_jit = enabled;
+	}
+
+	/**
+	 * Gets whether or not JIT compiling is enabled.
+	 * @returns True if JIT compiling is enabled.
+	 */
+	public getJIT(): boolean {
+		return this._VM_jit;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -141,6 +172,11 @@ export class VMBase<A> extends Emitter {
 			operands: operation.decode(instruction),
 			execute: operation.execute
 		};
+
+		// If enabled, create a JIT function.
+		if (this._VM_jit && 'compile' in operation) {
+			ir.execute = (<OpCompiled<A>>(<unknown>operation)).compile(ir.operands);
+		}
 
 		// Cache the IR and return it.
 		this.opcache.put(instruction, ir);

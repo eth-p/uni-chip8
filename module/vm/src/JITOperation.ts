@@ -2,26 +2,14 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Uint16 from '@chipotle/types/Uint16';
-
-import VMContext from './VMContext';
-
+import IR from './IR';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An interface for operations that can be interpreted.
+ * A function for running a just-in-time compiled operation.
  */
-interface Interpreted<A> {
-	/**
-	 * Executes the operation.
-	 *
-	 * @param context The virtual machine context.
-	 * @param operands The operand values.
-	 */
-	execute(this: void, context: VMContext<A>, operands: Uint16[]): void;
-}
+type JITOperation<A> = IR<A>['execute'];
 
 // ---------------------------------------------------------------------------------------------------------------------
-
-export default Interpreted;
-export {Interpreted};
+export default JITOperation;
+export {JITOperation};

@@ -4,24 +4,23 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
 
-import VMContext from './VMContext';
-
+import JITOperation from './JITOperation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An interface for operations that can be interpreted.
+ * An interface for operations that can be JIT compiled.
  */
-interface Interpreted<A> {
+interface OpCompiled<A> {
 	/**
-	 * Executes the operation.
+	 * Compiles the instruction.
+	 * This is an extremely slow method, and should be used sparingly.
 	 *
-	 * @param context The virtual machine context.
 	 * @param operands The operand values.
 	 */
-	execute(this: void, context: VMContext<A>, operands: Uint16[]): void;
+	compile(this: void, operands: Uint16[]): JITOperation<A>;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default Interpreted;
-export {Interpreted};
+export default OpCompiled;
+export {OpCompiled};
