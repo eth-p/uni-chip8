@@ -13,6 +13,20 @@
 		"author_url": "https://github.com/macedir"
 	},
 
+	"warshaws_revenge.rom": {
+		"name": "Warshaws' Revenge",
+		"info": "This fun shooter is the antithesis to the great crash of '83.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p",
+		"controls": {
+			"5": "UP",
+			"7": "LEFT",
+			"9": "DOWN",
+			"8": "RIGHT",
+			"B": "SHOOT"
+		}
+	},
+
 	"ec8tp.rom": {
 		"name": "Timing Test",
 		"info": "A program which runs timing tests designed for 500 Hz CHIP-8 emulators.",
