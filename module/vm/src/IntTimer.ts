@@ -2,26 +2,22 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import Timer from './Timer';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An abstract timer.
- *
- * This timer is calculated based on a ratio between a main clock speed and a timer clock speed.
+ * An integer timer.
+ * This timer will only report integer values.
  */
-abstract class Timer {
+class IntTimer extends Timer {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * The timer value.
+	 * The error correction value.
 	 */
-	public value: number;
-
-	/**
-	 * The timer ratio.
-	 */
-	protected ratio: number;
+	public error: number;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -33,47 +29,47 @@ abstract class Timer {
 	 * @param cpuHz The main clock speed.
 	 * @param timerHz The timer clock speed.
 	 */
-	protected constructor(cpuHz: number, timerHz: number) {
-		this.value = 0;
-		this.ratio = timerHz / cpuHz;
+	public constructor(cpuHz: number, timerHz: number) {
+		super(cpuHz, timerHz);
+		this.error = 0;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                                  |
+	// | Methods: Override                                                                                         |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Resets the timer.
+	 * @inheritDoc
+	 * @override
 	 */
 	public reset(): void {
-		this.value = 0;
+		super.reset();
+		this.error = 0;
 	}
 
 	/**
-	 * Adjusts the timer ratio.
-	 *
-	 * @param cpuHz The main clock speed.
-	 * @param timerHz The timer clock speed.
+	 * @inheritDoc
+	 * @override
 	 */
-	public adjust(cpuHz: number, timerHz: number) {
-		this.ratio = timerHz / cpuHz;
+	public ascend(): void {
+		let updated = this.value + this.ratio + this.error;
+
+		this.value = updated | 0;
+		this.error = updated - this.value;
 	}
 
-	// -------------------------------------------------------------------------------------------------------------
-	// | Methods: Abstract                                                                                         |
-	// -------------------------------------------------------------------------------------------------------------
-
 	/**
-	 * Ticks the timer forwards by one main clock cycle.
+	 * @inheritDoc
+	 * @override
 	 */
-	public abstract ascend(): void;
+	public descend(): void {
+		let updated = this.value - this.ratio + this.error;
 
-	/**
-	 * Ticks the timer backwards by one main clock cycle.
-	 */
-	public abstract descend(): void;
+		this.value = updated | 0;
+		this.error = updated - this.value;
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default Timer;
-export {Timer};
+export default IntTimer;
+export {IntTimer};
