@@ -29,10 +29,9 @@ mixin ui-window-settings
 
 				- // General Settings
 				+window-pane("settings-general")
-					+setting([1, 1500], 'cpu_speed', 'Clock Speed')
-						div The clock speed of the emulated device.
-						div This is usually 500 Hz for the CHIP-8.
-						div Accepts: <code>1 - 1500</code> Hz.
+					+setting([1, 5000], 'cpu_speed', 'Clock Speed')
+						div The clock speed of the emulated device. This is usually 500 Hz for the CHIP-8.
+						div Accepts: <code>1 - 5000</code> Hz.
 					+setting('boolean', 'enable_feedback_sound', 'Enable Sound')
 					+setting('boolean', 'enable_feedback_vibrate', 'Enable Vibration')
 						div On mobile phones, vibration will be used for sound output.
