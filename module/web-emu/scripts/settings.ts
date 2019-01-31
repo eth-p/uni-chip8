@@ -23,6 +23,9 @@ class EmulatorSettings extends Settings {
 	public show_stack?: boolean;
 
 	@Setting(false)
+	public disable_jit?: boolean;
+
+	@Setting(false)
 	public enable_debugger?: boolean;
 
 	@Setting(true)

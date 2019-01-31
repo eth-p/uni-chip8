@@ -63,6 +63,10 @@ mixin ui-window-settings
 				+window-pane("settings-debug")
 					.warning These options will reduce performance.
 
+					+setting('boolean', 'disable_jit', 'Disable JIT')
+						| This will disable just-in-time compiling of CHIP-8 instructions.
+						| In modern browsers, disabling the JIT compiler will hurt performance.
+
 					+setting('boolean', 'enable_debugger', 'Enable Debugger')
 						| This enables the debugger and vizualizer.
 

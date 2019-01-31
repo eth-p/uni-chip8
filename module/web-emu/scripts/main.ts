@@ -17,12 +17,13 @@ import './ui-keypad';
 import './keybind';
 import './feedback';
 
-import {emulator} from './instance';
+import {emulator, vm} from './instance';
 import {settings} from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Event Listeners:
 // ---------------------------------------------------------------------------------------------------------------------
 let userPause = false;
+
 document.addEventListener('visibilitychange', () => {
 	if (document.hidden) {
 		userPause = emulator.isPaused();
@@ -37,6 +38,10 @@ settings.addListener('update', (setting, value) => {
 	switch (setting) {
 		case 'cpu_speed':
 			emulator.setFrequency(value);
+			break;
+
+		case 'disable_jit':
+			vm.setJIT(!value);
 			break;
 
 		default:
