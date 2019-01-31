@@ -26,9 +26,6 @@ async function createVM(ops: number[]) {
 }
 
 describe('Operation Codes', () => {
-	// let x = createVM();
-	// x.
-
 	it('00e0', async () => {
 		// CLS
 	});
@@ -40,6 +37,8 @@ describe('Operation Codes', () => {
 		// Do literally nothing
 		let vm = await createVM([0x0000]);
 		vm.step();
+
+		// Make sure nothing changed
 		for (let i: number = 0; i <= 0xf; ++i) {
 			expect(vm.register_data[i]).toStrictEqual(0);
 		}
@@ -61,19 +60,28 @@ describe('Operation Codes', () => {
 		expect(vm.stack.top()).toStrictEqual(0x200);
 	});
 	it('3xkk', async () => {
+		// SE <reg> <con>
 		let vm = await createVM([0x30aa, 0x1206, 0x0000, 0x0000]);
+
+		// Test skip
+		vm.register_data[0x0] = 0xaa;
+		vm.step();
+		expect(vm.program_counter).toStrictEqual(0x204);
+
+		// Test no skip
+		vm.register_data[0x0] = 0xaa;
+		vm.step();
+		expect(vm.program_counter).toStrictEqual(0x202);
+	});
+	it('4xkk', async () => {
+		// SNE <reg> <con>
+		let vm = await createVM([0x40aa, 0x1206, 0x0000, 0x0000]);
 		vm.register_data[0x0] = 0xaa;
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x204);
 	});
-	it('4xkk', async () => {
-		let vm = await createVM([0x40aa, 0x1206, 0x0000, 0x0000]);
-		vm.register_data[0x0] = 0xaa;
-		vm.step();
-		vm.step();
-		expect(vm.program_counter).toStrictEqual(0x206);
-	});
 	it('5xy0', async () => {
+		// SE <reg> <reg>
 		let vm = await createVM([0x5010, 0x1206, 0x0000, 0x0000]);
 		vm.register_data[0x0] = 0xaa;
 		vm.register_data[0x1] = 0xaa;
@@ -81,7 +89,7 @@ describe('Operation Codes', () => {
 		expect(vm.program_counter).toStrictEqual(0x204);
 	});
 	it('6xkk', async () => {
-		// LD Vx, byte
+		// LD <reg> <con>
 		let vm = await createVM([0x6aaa]);
 		vm.step();
 		expect(vm.register_data[0xa]).toStrictEqual(0xaa);
@@ -114,7 +122,7 @@ describe('Operation Codes', () => {
 		// AND <reg> <reg>
 		let vm = await createVM([0x8ab2]);
 		vm.register_data[0xa] = 0xbe;
-		vm.register_data[0xb] = 0xef;
+		vm.register_data[0xb] = 0xef;l
 		vm.step();
 		expect(vm.register_data[0xa]).toStrictEqual(0xae);
 		expect(vm.register_data[0xb]).toStrictEqual(0xef);
