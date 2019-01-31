@@ -249,6 +249,7 @@ class Emulator extends Emitter {
 	 * @param frequency The frequency.
 	 */
 	public setFrequency(frequency: number): void {
+		this.vm.getTimerInstances().forEach(timer => timer.adjust(frequency, this.vm.TIMER_SPEED));
 		this.speed = frequency;
 	}
 

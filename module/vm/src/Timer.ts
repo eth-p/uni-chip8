@@ -56,6 +56,16 @@ export default class Timer {
 		this.error = 0;
 	}
 
+	/**
+	 * Adjusts the timer ratio.
+	 *
+	 * @param cpuHz The main clock speed.
+	 * @param timerHz The timer clock speed.
+	 */
+	public adjust(cpuHz: number, timerHz: number) {
+		this.ratio = timerHz / cpuHz;
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods: Abstract                                                                                         |
 	// -------------------------------------------------------------------------------------------------------------

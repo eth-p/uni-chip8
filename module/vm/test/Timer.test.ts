@@ -90,4 +90,15 @@ describe('Timer', () => {
 		for (let i = 0; i < 100000; i++) timer.descend();
 		expect(timer.value).toBeCloseTo(exp, Number.EPSILON);
 	});
+
+	it('adjust', () => {
+		let timer = new Timer(10, 1);
+
+		// Try one.
+		for (let i = 0; i < 10; i++) timer.ascend();
+		timer.adjust(100, 1);
+		for (let i = 0; i < 100; i++) timer.descend();
+
+		expect(timer.value).toBeCloseTo(0, Number.EPSILON);
+	});
 });
