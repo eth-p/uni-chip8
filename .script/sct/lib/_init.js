@@ -40,7 +40,7 @@ module.exports = (options) => {
 			};
 
 			let selfpath = `"${__filename.replace(/([\\"'])/g, "\\$1")}"`
-			Module.wrapper[0] += `require = require(${selfpath}).hookRequire(require, __filename);`;
+			Module.wrapper[0] += `try { require = require(${selfpath}).hookRequire(require, __filename); } finally {}`;
 
 		} catch (ex) {
 			console.error('Warning: Unable to hook require for lazy loading.');

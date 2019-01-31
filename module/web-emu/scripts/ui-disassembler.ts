@@ -115,34 +115,10 @@ function getInstructionASM(instruction: Instruction): string {
 	let cached = cache.get(instruction);
 	if (cached != null) return cached;
 
-	let ir = getInstructionIR(instruction);
+	let ir = vm.decode(instruction);
 	let asm = disassembleInstruction(instruction, ir);
 	cache.set(instruction, asm);
 	return asm;
-}
-
-/**
- * Gets a (simple) IR representation of an instruction.
- *
- * @param instruction The instruction code.
- *
- * @returns The IR, or null if it's an invalid opcode.
- */
-function getInstructionIR(instruction: Instruction): IR | null {
-	let decoded: IR | null = vm.opcache.get(instruction);
-	if (decoded !== null) {
-		return decoded;
-	}
-
-	let op = vm.isa.lookup(instruction);
-	if (op === null) {
-		return null;
-	}
-
-	return {
-		operation: op,
-		operands: op.decode(instruction)
-	};
 }
 
 /**
@@ -153,8 +129,8 @@ function getInstructionIR(instruction: Instruction): IR | null {
  *
  * @returns The assembly representation.
  */
-function disassembleInstruction(instruction: Instruction, ir: IR | null): string {
-	if (ir === null) {
+function disassembleInstruction(instruction: Instruction, ir: IR | undefined): string {
+	if (ir === undefined) {
 		return `.data ${u16_toHexString(instruction)}`;
 	}
 
@@ -174,7 +150,7 @@ function disassembleInstruction(instruction: Instruction, ir: IR | null): string
 				}
 
 				case OperandType.CONSTANT: {
-					asm = `#${operandValues[i]}`;
+					asm = `${operandValues[i]}`;
 					break;
 				}
 
@@ -192,7 +168,7 @@ function disassembleInstruction(instruction: Instruction, ir: IR | null): string
 		asmops[i] = asm;
 	}
 
-	return `${ir.operation.mnemonic} ${asmops.join(' ')}`;
+	return `${ir.operation.mnemonic} ${asmops.join(', ')}`;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
