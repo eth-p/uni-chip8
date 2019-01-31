@@ -69,7 +69,8 @@ describe('Operation Codes', () => {
 		expect(vm.program_counter).toStrictEqual(0x204);
 
 		// Test no skip
-		vm.register_data[0x0] = 0xaa;
+		vm.register_data[0x0] = 0xab;
+		vm.jump(0x200);
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x202);
 	});
@@ -78,7 +79,7 @@ describe('Operation Codes', () => {
 		let vm = await createVM([0x40aa, 0x1206, 0x0000, 0x0000]);
 		vm.register_data[0x0] = 0xaa;
 		vm.step();
-		expect(vm.program_counter).toStrictEqual(0x204);
+		expect(vm.program_counter).toStrictEqual(0x202);
 	});
 	it('5xy0', async () => {
 		// SE <reg> <reg>
@@ -122,7 +123,7 @@ describe('Operation Codes', () => {
 		// AND <reg> <reg>
 		let vm = await createVM([0x8ab2]);
 		vm.register_data[0xa] = 0xbe;
-		vm.register_data[0xb] = 0xef;l
+		vm.register_data[0xb] = 0xef;
 		vm.step();
 		expect(vm.register_data[0xa]).toStrictEqual(0xae);
 		expect(vm.register_data[0xb]).toStrictEqual(0xef);
