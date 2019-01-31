@@ -175,6 +175,7 @@ A command in the following table is executed as follows: `sct command`.
 |-------|-------|
 |build  |Build the project|
 |check  |Check source code for guideline violations|
+|dev    |Build the project and host the website on a local webserver|
 |fmt    |Format source code|
 |help   |View subcommand help|
 |info   |View project info|
