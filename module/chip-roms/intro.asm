@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; Team Chipotle Logo                                                                                                   ;
+; Team Chipotle Intro Animation                                                                                        ;
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
@@ -32,6 +32,7 @@ entry:
 ; MAIN:                                                                                                                ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 loop:
+	LD DT, reg_speed
 	CALL animate
 	DRW reg_animation_x, reg_animation_y, frame_height
 	CALL wait
@@ -45,11 +46,11 @@ transition:
 	JP loop2
 
 loop2:
-	CALL wait
-
+	LD DT, reg_speed
 	SNE reg_animation_x, 5
 	JP final
 	CALL animate_left
+	CALL wait
 	JP loop2
 
 final:
@@ -141,12 +142,13 @@ animate_letter:
 	JP animate_letter_loop
 
 animate_letter_loop:
-	CALL wait
+	LD DT, reg_speed
 	DRW reg_animation_x, reg_animation_y, frame_height
 	SUB reg_animation_x, one
 	DRW reg_animation_x, reg_animation_y, frame_height
 	SE reg_animation_x, reg_end
 	JP animate_letter_loop
+	CALL wait
 	RET
 
 animate_border:
@@ -156,6 +158,7 @@ animate_border_loop:
 	SNE reg_animation_x, 64
 	RET
 
+	LD DT, reg_speed
 	LD reg_animation_y, 0
 	DRW reg_animation_x, reg_animation_y, 3
 	LD reg_animation_y, 29
@@ -169,12 +172,9 @@ animate_border_loop:
 ; WAIT:                                                                                                                ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 wait:
-	LD DT, reg_speed
-
-wait_loop:
 	LD V0, DT
 	SE V0, 0
-	JP wait_loop
+	JP wait
 	RET
 
 sndwait:
