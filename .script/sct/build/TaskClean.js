@@ -22,8 +22,8 @@ const Task     = require('@sct').Task;
 /**
  * Generates a TypeScript gulp task for a module.
  *
- * @param module    {BuildModule} The build module.
- * @param [options] {Object}      The build options.
+ * @param module    {Module} The build module.
+ * @param [options] {Object} The build options.
  */
 module.exports = class TaskClean extends Task {
 
