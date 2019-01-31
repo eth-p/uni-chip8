@@ -33,6 +33,9 @@ mixin ui-window-settings
 						div The clock speed of the emulated device.
 						div This is usually 500 Hz for the CHIP-8.
 						div Accepts: <code>1 - 1500</code> Hz.
+					+setting('boolean', 'enable_feedback_sound', 'Enable Sound')
+					+setting('boolean', 'enable_feedback_vibrate', 'Enable Force Feedback')
+						div On mobile phones, vibration will be used as well as sound output.
 
 				- // Graphics Settings
 				+window-pane("settings-graphics")

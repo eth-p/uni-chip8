@@ -31,6 +31,18 @@ class EmulatorSettings extends Settings {
 	@Setting(true)
 	public display_scaling?: boolean;
 
+	@Setting(true)
+	public enable_feeback_sound?: boolean;
+
+	@Setting(false)
+	public enable_feedback_vibrate?: boolean;
+
+	@Setting(440)
+	public sound_frequency?: number;
+
+	@Setting(15, {validator: volume => volume >= 0 && volume <= 100})
+	public sound_volume?: number;
+
 	@Setting('#ffffff', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_foreground?: string;
 
