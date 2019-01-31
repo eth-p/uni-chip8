@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
+import {MAX as UINT8_MAX} from '@chipotle/types/Uint8';
 
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
@@ -38,6 +39,6 @@ export default class OP_RND_REG_CON extends Operation {
 
 		// Software enforce the boundaries
 		// TODO: Replace with PRNG.
-		context.register_data[p1] = Math.min(0, Math.max(Math.floor(Math.random() * 256) & p2, 255));
+		context.register_data[p1] = ((Math.random() * UINT8_MAX) & p2) | 0;
 	}
 }
