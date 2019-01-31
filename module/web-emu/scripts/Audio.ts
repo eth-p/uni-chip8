@@ -32,6 +32,11 @@ class Audio {
 	protected active: boolean;
 
 	/**
+	 * Whether or not audio is supported.
+	 */
+	protected supported: boolean;
+
+	/**
 	 * The audio volume.
 	 */
 	protected volume: number;
@@ -41,10 +46,10 @@ class Audio {
 	 */
 	protected frequency: number;
 
-	protected audioContext: AudioContext;
-	protected audioGainOld: GainNode;
-	protected audioGainNew: GainNode;
-	protected audioOscillator: OscillatorNode | null;
+	protected audioContext?: AudioContext;
+	protected audioGainOld?: GainNode;
+	protected audioGainNew?: GainNode;
+	protected audioOscillator?: OscillatorNode;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -54,15 +59,23 @@ class Audio {
 	 * Creates a new audio object.
 	 */
 	public constructor() {
-		this.audioContext = new AudioContext();
-		this.audioGainOld = this.audioContext.createGain();
-		this.audioGainNew = this.audioContext.createGain();
-		this.audioOscillator = null;
 		this.endTime = 0;
 		this.fadeTime = 0.2;
 		this.volume = 1;
 		this.frequency = 300;
 		this.active = false;
+
+		// Create audio context.
+		let AudioContext = <{new (): AudioContext}>(<any>window).AudioContext || (<any>window).webkitAudioContext;
+		if (AudioContext == null) {
+			this.supported = false;
+			return;
+		}
+
+		this.supported = true;
+		this.audioContext = new AudioContext();
+		this.audioGainOld = this.audioContext.createGain();
+		this.audioGainNew = this.audioContext.createGain();
 
 		// Connect.
 		this.audioGainOld.connect(this.audioContext.destination);
@@ -79,7 +92,8 @@ class Audio {
 	 * @see unblock
 	 */
 	public isBlocked(): boolean {
-		return this.audioContext.state === 'suspended';
+		if (!this.supported) return false;
+		return this.audioContext!.state === 'suspended';
 	}
 
 	/**
@@ -91,11 +105,12 @@ class Audio {
 	 * @returns True if the audio is reinitialized properly.
 	 */
 	public async unblock(): Promise<boolean> {
+		if (!this.supported) return true;
 		if (!this.isBlocked()) {
 			return true;
 		}
 
-		await this.audioContext.resume();
+		await this.audioContext!.resume();
 		return !this.isBlocked();
 	}
 
@@ -104,16 +119,17 @@ class Audio {
 	 * @param duration The number of seconds to beep for.
 	 */
 	public beep(duration: number): void {
+		if (!this.supported) return;
 		if (duration === 0) return this.stop();
-		let currentTime = this.audioContext.currentTime;
+		let currentTime = this.audioContext!.currentTime;
 
 		this.stop();
 
 		// Set up crossfade.
-		let gain = this.audioGainNew.gain;
+		let gain = this.audioGainNew!.gain;
 		if (this.active) {
 			gain.setValueAtTime(0.00001, currentTime);
-			gain.linearRampToValueAtTime(this.volume, this.audioContext.currentTime + this.fadeTime);
+			gain.linearRampToValueAtTime(this.volume, this.audioContext!.currentTime + this.fadeTime);
 		} else {
 			gain.setValueAtTime(this.volume, currentTime);
 		}
@@ -121,10 +137,10 @@ class Audio {
 		// Create a new oscillator.
 		this.endTime = currentTime + duration;
 		this.active = true;
-		let oscillator = (this.audioOscillator = this.audioContext.createOscillator());
+		let oscillator = (this.audioOscillator = this.audioContext!.createOscillator());
 		oscillator.frequency.value = this.frequency;
 		oscillator.type = 'square';
-		oscillator.connect(this.audioGainNew);
+		oscillator.connect(this.audioGainNew!);
 		oscillator.start();
 		oscillator.stop(this.endTime);
 		oscillator.onended = () => {
@@ -136,8 +152,9 @@ class Audio {
 	 * Pause sound output.
 	 */
 	public async pause(): Promise<void> {
-		if (this.audioContext.state === 'running') {
-			return this.audioContext.suspend();
+		if (!this.supported) return;
+		if (this.audioContext!.state === 'running') {
+			return this.audioContext!.suspend();
 		}
 	}
 
@@ -145,8 +162,9 @@ class Audio {
 	 * Resume sound output.
 	 */
 	public async resume(): Promise<void> {
-		if (this.audioContext.state === 'suspended') {
-			return this.audioContext.resume();
+		if (!this.supported) return;
+		if (this.audioContext!.state === 'suspended') {
+			return this.audioContext!.resume();
 		}
 	}
 
@@ -154,21 +172,25 @@ class Audio {
 	 * Stops all sounds.
 	 */
 	public stop(): void {
-		if (this.audioOscillator === null) return;
+		if (!this.supported) return;
+		if (this.audioOscillator == null) return;
 
 		// Fade out oscillator to prevent popping.
-		let temp = this.audioGainNew;
-		let currentTime = this.audioContext.currentTime;
+		let temp = this.audioGainNew!;
+		let currentTime = this.audioContext!.currentTime;
 		this.audioGainNew = this.audioGainOld;
 		this.audioGainOld = temp;
-		temp.gain.setValueAtTime(this.audioGainNew.gain.value, currentTime);
+		temp.gain.setValueAtTime(this.audioGainNew!.gain.value, currentTime);
 		temp.gain.exponentialRampToValueAtTime(0.00001, currentTime + this.fadeTime);
 
 		// Disconnect oscillator.
 		let oscillator = this.audioOscillator;
 		setTimeout(() => {
-			oscillator.stop();
-			oscillator.disconnect();
+			try {
+				oscillator.stop();
+			} finally {
+				oscillator.disconnect();
+			}
 		}, this.fadeTime * 1000);
 	}
 
@@ -189,8 +211,10 @@ class Audio {
 		assert(frequency < 20000, "The frequency should be less than 20000, unless you're trying to annoy a dog");
 
 		this.frequency = frequency;
+
+		if (!this.supported) return;
 		this.stop();
-		this.beep(this.endTime - this.audioContext.currentTime);
+		this.beep(this.endTime - this.audioContext!.currentTime);
 	}
 
 	/**
@@ -209,7 +233,8 @@ class Audio {
 		assert(volume >= 0 && volume <= 100, 'The volume should be from 0 to 100');
 
 		this.volume = volume / 100;
-		this.audioGainNew.gain.value = this.volume;
+		if (!this.supported) return;
+		this.audioGainNew!.gain.value = this.volume;
 	}
 }
 
