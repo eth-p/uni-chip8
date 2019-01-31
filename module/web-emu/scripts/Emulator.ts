@@ -298,6 +298,12 @@ class Emulator extends Emitter {
 			ticks |= 0;
 		}
 
+		// Safety.
+		// We don't want a laptop sleeping, then trying to execute more than 1000 instructions.
+		if (ticks > 1000) {
+			ticks = this.speed / (1000 / this.intervalRate);
+		}
+
 		// Execute.
 		try {
 			for (let i = 0; i < ticks; i++) {
