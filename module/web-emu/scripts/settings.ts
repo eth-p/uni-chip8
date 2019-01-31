@@ -32,7 +32,7 @@ class EmulatorSettings extends Settings {
 	public display_scaling?: boolean;
 
 	@Setting(true)
-	public enable_feeback_sound?: boolean;
+	public enable_feedback_sound?: boolean;
 
 	@Setting(false)
 	public enable_feedback_vibrate?: boolean;
