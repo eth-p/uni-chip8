@@ -256,8 +256,8 @@ class Chip extends Architecture<Chip> {
 	}
 
 	public set register_timer(value: Uint8) {
-		this._timer_timer.value = value;
 		this._timer_timer.reset();
+		this._timer_timer.value = value;
 	}
 
 	/**
@@ -268,9 +268,10 @@ class Chip extends Architecture<Chip> {
 		return this._timer_sound.value;
 	}
 
-	public set register_sound(value: Uint8) {
-		this._timer_sound.value = value;
+	public set register_sound(this: VMContext<Chip>, value: Uint8) {
 		this._timer_sound.reset();
+		this._timer_sound.value = value;
+		this.emit('sound', value);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -337,6 +338,7 @@ class Chip extends Architecture<Chip> {
 		this.keyboard.reset();
 		this.stack.clear();
 		this.display.clear();
+		this.display.transfer();
 		this.jump(this.PROGRAM_ENTRY);
 	}
 

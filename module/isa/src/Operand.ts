@@ -83,7 +83,18 @@ class Operand {
 
 		this.mask = _mask instanceof OperandMask ? _mask : new OperandMask(_mask);
 		this.type = _type;
-		this.tags = _tags == null ? null : _tags instanceof Map ? _tags : new Map(Object.entries(_tags));
+		this.tags =
+			_tags == null
+				? null
+				: _tags instanceof Map
+				? _tags
+				: new Map(
+						Object.entries(_tags).map(([k, v]) => {
+							let nk = parseInt(k);
+							if (isNaN(nk)) return [k, v];
+							return <any>[nk, v];
+						})
+				  );
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
