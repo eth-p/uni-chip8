@@ -11,7 +11,7 @@ import assert from '@chipotle/types/assert';
 /**
  * A class for playing "beep" sounds.
  */
-class Audio {
+class FeedbackAudio {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -119,6 +119,8 @@ class Audio {
 	 * @param duration The number of seconds to beep for.
 	 */
 	public beep(duration: number): void {
+		assert(duration >= 0, 'The duration must be greater than or equal to zero');
+
 		if (!this.supported) return;
 		if (duration === 0) return this.stop();
 		let currentTime = this.audioContext!.currentTime;
@@ -212,9 +214,15 @@ class Audio {
 
 		this.frequency = frequency;
 
+		// Return if unsupported.
 		if (!this.supported) return;
-		this.stop();
-		this.beep(this.endTime - this.audioContext!.currentTime);
+
+		// Reapply beep.
+		let remaining = this.endTime - this.audioContext!.currentTime;
+		if (remaining > 0) {
+			this.stop();
+			this.beep(remaining);
+		}
 	}
 
 	/**
@@ -240,5 +248,5 @@ class Audio {
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
-export default Audio;
-export {Audio};
+export default FeedbackAudio;
+export {FeedbackAudio};
