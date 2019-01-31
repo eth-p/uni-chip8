@@ -46,6 +46,8 @@ export function playFeedbackSound(seconds: number): void {
 // ---------------------------------------------------------------------------------------------------------------------
 vm.addListener('sound', (cycles: number) => {
 	let seconds = cycles / vm.TIMER_SPEED;
+	if (emulator.isTurbo()) seconds /= 3;
+
 	if (settings.enable_feedback_vibrate) playFeedbackVibrate(seconds);
 	if (settings.enable_feedback_sound) playFeedbackSound(seconds);
 });
