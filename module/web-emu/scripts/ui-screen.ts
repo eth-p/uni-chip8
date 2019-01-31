@@ -22,7 +22,7 @@ let hooked = false;
 /**
  * Resizes the canvas.
  */
-function resize() {
+function resize(): void {
 	if (canvas.width !== container.offsetWidth || canvas.height !== container.offsetHeight) {
 		canvas.width = container.offsetWidth;
 		canvas.height = container.offsetHeight;
@@ -32,7 +32,7 @@ function resize() {
 /**
  * Paints the screen.
  */
-function paint() {
+function paint(): void {
 	resize();
 
 	try {
@@ -65,7 +65,7 @@ function paint() {
 
 		// Draw foreground.
 		context.fillStyle = foreground;
-		let buffer = vm.display.buffer;
+		let buffer = vm.display.getBuffer();
 		let index = 0;
 		for (let y = 0; y < hw_height; y++) {
 			let consecutiveX = 0;

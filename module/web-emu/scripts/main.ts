@@ -15,6 +15,7 @@ import './ui-stack';
 import './ui-disassembler';
 import './ui-keypad';
 import './keybind';
+import './feedback';
 
 import {emulator} from './instance';
 import {settings} from './settings';
