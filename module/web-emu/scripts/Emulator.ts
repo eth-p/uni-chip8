@@ -287,6 +287,7 @@ class Emulator extends Emitter {
 	protected _update() {
 		let now = Date.now();
 		let ms = now - this.lastUpdate;
+		let ideal = this.speed / (1000 / this.intervalRate);
 
 		/** The number of ticks to execute. */
 		let ticks;
@@ -300,9 +301,9 @@ class Emulator extends Emitter {
 		}
 
 		// Safety.
-		// We don't want a laptop sleeping, then trying to execute more than 1000 instructions.
-		if (ticks > 1000) {
-			ticks = this.speed / (1000 / this.intervalRate);
+		if (!this.turbo && ticks > ideal * 2) {
+			console.warn(`Emulator: Behind by ${ticks - ideal} cycles.`);
+			ticks = ideal;
 		}
 
 		// Execute.
