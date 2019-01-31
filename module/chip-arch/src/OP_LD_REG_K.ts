@@ -37,8 +37,10 @@ export default class OP_LD_REG_K extends Operation {
 	}
 
 	public execute(this: void, context: Context, operands: Uint16[]): void {
+		context.hopForwards(0);
 		context.await('input', (event, key) => {
 			context.register_data[operands[0]] = Number.parseInt(key, 16) | 0;
+			context.hopForwards(1);
 		});
 	}
 }
