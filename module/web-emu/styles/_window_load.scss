@@ -10,14 +10,15 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #emulator-load .window {
-	.load-library-list-loading {
+	.program-library-list:empty::after {
+		content: 'Loading...';
 		font-style: italic;
 	}
 
-	.load-library-list {
+	.program-library-list {
 		margin-top: 10px;
 
-		.load-library-entry {
+		.program-library-entry {
 			font-size: 15px;
 			padding: 4px;
 			border: $program-list-border 1px solid;
@@ -35,16 +36,16 @@
 				border-bottom: none;
 			}
 
-			.load-library-entry-name {
+			.program-library-entry-name {
 				font-weight: bold;
 			}
 
-			.load-library-entry-info {
+			.program-library-entry-info {
 				font-size: 13px;
 				color: $text-dim;
 			}
 
-			.load-library-entry-author {
+			.program-library-entry-author {
 				&,
 				&:link {
 					font-size: 13px;

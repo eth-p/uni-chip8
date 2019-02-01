@@ -1,5 +1,6 @@
 {
 	"intro.rom": {
+		"type": "DEMO",
 		"name": "Team Chipotle Intro",
 		"info": "A demo animation for our idea of a start-up screen.",
 		"author": "Ethan Pini",
@@ -7,6 +8,7 @@
 	},
 
 	"czero.rom": {
+		"type": "GAME",
 		"name": "C-ZERO",
 		"info": "A racing game inspired by Chris Covell's tribute to the iconic Nintendo franchise.",
 		"author": "Ethan Pini",
@@ -20,6 +22,7 @@
 	},
 
 	"dvd.rom": {
+		"type": "DEMO",
 		"name": "Corners",
 		"info": "The bouncing logo of a popular disc-shaped video storage medium. It might touch the corner someday...",
 		"author": "Kyle Saburao",
@@ -27,13 +30,15 @@
 	},
 
 	"dvdgame.rom": {
-		"name": "DVD Logo Game",
-		"info": "The bouncing logo of a popular disc-shaped video storage medium but this time, it's a game.",
+		"type": "GAME",
+		"name": "Corners Game",
+		"info": "The bouncing logo of a popular disc-shaped video storage medium... but this time, it's a game.",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir"
 	},
 
 	"warshaws_revenge.rom": {
+		"type": "GAME",
 		"name": "Warshaws' Revenge",
 		"info": "This fun shooter is the antithesis to the great crash of '83.",
 		"author": "Ethan Pini",
@@ -48,6 +53,7 @@
 	},
 
 	"ec8tp.rom": {
+		"type": "TOOL",
 		"name": "Team Chipotle Test",
 		"info": "A program which runs tests designed for 500 Hz CHIP-8 emulators.",
 		"author": "Ethan Pini",
