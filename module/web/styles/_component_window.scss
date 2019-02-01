@@ -90,9 +90,34 @@
 
 	// Content.
 	> .viewport {
-		@include scroll('y');
-
+		position: relative;
 		flex: 1 1 auto;
+		overflow-y: hidden;
+
+		&::after {
+			pointer-events: none;
+			content: '';
+
+			box-shadow: $window-background 0 0 8px 4px inset;
+		}
+
+		&::after,
+		> .content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1;
+		}
+
+		> .content {
+			@include scroll('y');
+		}
+	}
+
+	> .viewport > .content,
+	> .content {
 		font-size: 15px;
 		padding: $window-padding;
 	}
