@@ -14,11 +14,54 @@ let load_window: UIWindow;
 let load_list_tools: HTMLElement;
 let load_list_games: HTMLElement;
 let load_list_demos: HTMLElement;
+let upload_input: HTMLInputElement;
+let upload_box: HTMLLabelElement;
 let control_load_show: Element[];
 let control_load_hide: Element[];
 
 // Types:
 type DatabaseEntry = {name: string; info: string; author: string; author_url: string; type: 'GAME' | 'DEMO' | 'TOOL'};
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Event Listeners:
+// ---------------------------------------------------------------------------------------------------------------------
+function uploadFile(file: File) {
+	const reader = new FileReader();
+
+	reader.onload = (event: any) => {
+		emulator.load(new Uint8Array(event.target.result)).catch(error => {
+			showError(error);
+		});
+	};
+
+	reader.readAsArrayBuffer(file);
+}
+
+function uploadDrop(event: DragEvent): void {
+	event.preventDefault();
+	event.stopPropagation();
+
+	if (event.dataTransfer!.files[0] instanceof Blob) {
+		uploadFile(event.dataTransfer!.files[0]);
+		load_window.hide();
+	}
+}
+
+function uploadSelect(event: Event): void {
+	uploadFile(upload_input.files![0]);
+	load_window.hide();
+}
+
+function doNothing(event: Event & DragEvent): boolean {
+	event.preventDefault();
+	event.stopPropagation();
+
+	if (event.dataTransfer != null) {
+		event.dataTransfer.dropEffect = 'none';
+	}
+
+	return false;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:
@@ -31,6 +74,8 @@ dom_ready(() => {
 	load_list_games = document.getElementById('library-games')!;
 	load_list_demos = document.getElementById('library-demos')!;
 	load_list_tools = document.getElementById('library-tools')!;
+	upload_input = <HTMLInputElement>document.getElementById('program-upload')!;
+	upload_box = <HTMLLabelElement>document.getElementById('program-upload-display');
 
 	// Add control support.
 	control_load_hide.forEach(btn =>
@@ -62,6 +107,20 @@ dom_ready(() => {
 				showError(error);
 			});
 	});
+
+	// Add upload support.
+	upload_box.addEventListener('drop', uploadDrop);
+	upload_input.addEventListener('change', uploadSelect);
+	upload_box.addEventListener('dragenter', doNothing);
+	upload_box.addEventListener('dragover', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		e.dataTransfer!.dropEffect = 'copy';
+	});
+
+	// Disable drag and drop on the window itself.
+	window.addEventListener('dragover', doNothing);
+	window.addEventListener('drop', doNothing);
 
 	// Show default.
 	load_window.setPane('load-library-demos');
