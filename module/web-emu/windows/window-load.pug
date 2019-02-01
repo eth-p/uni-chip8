@@ -18,15 +18,23 @@ mixin ui-window-load
 				input(type="button" value="cancel" data-action="window-load-hide")
 
 			+window-tabs
-				+window-tab("load-library") Library
+				+window-tab("load-library-demos") Demos
+				+window-tab("load-library-games") Games
+				+window-tab("load-library-tools").requires-debugger Tools
 				+window-tab("load-upload") Upload
 
 			+window-content
 				+window-pane("load-upload")
 					| Upload a ROM.
 
-				+window-pane("load-library")
-					div Use open-source CHIP-8 programs.
-					div.load-library-list
-					div.load-library-list-loading
-						| Loading...
+				+window-pane("load-library-demos")
+					div Use our library of CHIP-8 demos.
+					div.program-library-list#library-demos
+
+				+window-pane("load-library-tools")
+					div Use our library of CHIP-8 tools.
+					div.program-library-list#library-tools
+
+				+window-pane("load-library-games")
+					div Use our library of CHIP-8 games.
+					div.program-library-list#library-games

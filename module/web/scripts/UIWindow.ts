@@ -50,7 +50,7 @@ class UIWindow {
 
 		if (this.realElement.classList.contains('tabbed')) {
 			this.tabs = Array.from(this.realElement.querySelectorAll(':scope > .toolbar > [data-target]'));
-			this.panes = Array.from(this.realElement.querySelectorAll(':scope > .content > [data-pane]'));
+			this.panes = Array.from(this.realElement.querySelectorAll(':scope > .viewport > .content > [data-pane]'));
 
 			// Add event listener for tabs.
 			let tabbar = <HTMLElement>this.tabs[0].parentNode;

@@ -43,13 +43,11 @@ header {
 	flex-direction: row;
 	flex: none;
 
+	@include scroll('x');
 	@include user-select(none);
 
 	background: $background;
 	border-bottom: $header-border 1px solid;
-
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
 
 	> * {
 		height: $header-height;
