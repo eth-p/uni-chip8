@@ -17,9 +17,9 @@ import {Operation, Context} from './Operation';
  *
  * 'bnnn'
  */
-export default class OP_JP_ADDR_CON extends Operation {
+export default class OP_JP_V0_ADDR extends Operation {
 	public constructor() {
-		super('JP', 0x1000, [
+		super('JP', 0xb000, [
 			{
 				mask: 0x0000,
 				type: OperandType.REGISTER,

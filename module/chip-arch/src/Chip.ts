@@ -33,7 +33,7 @@ import OP_XOR_REG_REG from './OP_XOR_REG_REG';
 import OP_SUBN_REG_REG from './OP_SUBN_REG_REG';
 import OP_SHL_REG from './OP_SHL_REG';
 import OP_RND_REG_CON from './OP_RND_REG_CON';
-import OP_JP_ADDR_CON from './OP_JP_ADDR_CON';
+import OP_JP_V0_ADDR from './OP_JP_V0_ADDR';
 import OP_LD_I_CON from './OP_LD_I_CON';
 import OP_DRW_REG_REG_CON from './OP_DRW_REG_REG_CON';
 import OP_ADD_I_REG from './OP_ADD_I_REG';
@@ -79,7 +79,7 @@ const ISA = new VMInstructionSet<Chip>([
 	OP_SUBN_REG_REG,
 	OP_SHL_REG,
 	OP_RND_REG_CON,
-	OP_JP_ADDR_CON,
+	OP_JP_V0_ADDR,
 	OP_LD_I_CON,
 	OP_DRW_REG_REG_CON,
 	OP_ADD_I_REG,
