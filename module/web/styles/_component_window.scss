@@ -10,7 +10,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 .window {
-	@include scroll('y');
+	display: flex;
+	flex-direction: column;
 
 	color: $window-text;
 
@@ -18,6 +19,10 @@
 		background: $window-background;
 		border: $window-border 1px solid;
 		border-radius: $window-radius;
+	}
+
+	> * {
+		flex: 0 0 auto;
 	}
 
 	// Window toolbar.
@@ -83,7 +88,11 @@
 		border: none;
 	}
 
-	> .content {
+	// Content.
+	> .viewport {
+		@include scroll('y');
+
+		flex: 1 1 auto;
 		font-size: 15px;
 		padding: $window-padding;
 	}

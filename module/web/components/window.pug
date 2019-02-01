@@ -27,5 +27,6 @@ mixin window-pane(pane, visible)
 		block
 
 mixin window-content
-	.content&attributes(attributes)
-		block
+	.viewport&attributes(attributes)
+		.content
+			block
