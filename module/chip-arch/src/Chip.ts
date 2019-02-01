@@ -6,10 +6,10 @@ import {Uint8} from '@chipotle/types/Uint8';
 import {Uint16} from '@chipotle/types/Uint16';
 
 import Architecture from '@chipotle/vm/Architecture';
+import FloatTimer from '@chipotle/vm/FloatTimer';
 import ProgramError from '@chipotle/vm/ProgramError';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
-import TimerDescending from '@chipotle/vm/Timer';
 import VMContext from '@chipotle/vm/VMContext';
 import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
 
@@ -223,13 +223,13 @@ class Chip extends Architecture<Chip> {
 	 * The timer register's timer.
 	 * Decrements at 60 Hz.
 	 */
-	protected _timer_timer: TimerDescending;
+	protected _timer_timer: FloatTimer;
 
 	/**
 	 * The sound register's timer.
 	 * Decrements at 60 Hz.
 	 */
-	protected _timer_sound: TimerDescending;
+	protected _timer_sound: FloatTimer;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Accessors:                                                                                                |
@@ -252,7 +252,7 @@ class Chip extends Architecture<Chip> {
 	 * Decrements at 60 Hz.
 	 */
 	public get register_timer(): Uint8 {
-		return this._timer_timer.value;
+		return Math.max(0, Math.ceil(this._timer_timer.value));
 	}
 
 	public set register_timer(value: Uint8) {
@@ -265,7 +265,7 @@ class Chip extends Architecture<Chip> {
 	 * Decrements at 60 Hz.
 	 */
 	public get register_sound(): Uint8 {
-		return this._timer_sound.value;
+		return Math.max(0, Math.ceil(this._timer_sound.value));
 	}
 
 	public set register_sound(this: VMContext<Chip>, value: Uint8) {
@@ -287,11 +287,23 @@ class Chip extends Architecture<Chip> {
 
 		this.register_data = new Uint8Array(this.MAX_DATA_REGISTERS);
 		this.register_index = 0;
-		this._timer_sound = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
-		this._timer_timer = new TimerDescending(this.CLOCK_SPEED, this.TIMER_SPEED);
+		this._timer_sound = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
+		this._timer_timer = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this.display = new ChipDisplay();
 		this.keyboard = new ChipKeyboard();
 		this.stack = new ProgramStack(this.MAX_STACK);
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Gets the timer instances.
+	 * This should only be used to adjust timers.
+	 */
+	public getTimerInstances(): FloatTimer[] {
+		return [this._timer_sound, this._timer_timer];
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

@@ -249,6 +249,7 @@ class Emulator extends Emitter {
 	 * @param frequency The frequency.
 	 */
 	public setFrequency(frequency: number): void {
+		this.vm.getTimerInstances().forEach(timer => timer.adjust(frequency, this.vm.TIMER_SPEED));
 		this.speed = frequency;
 	}
 
@@ -286,6 +287,7 @@ class Emulator extends Emitter {
 	protected _update() {
 		let now = Date.now();
 		let ms = now - this.lastUpdate;
+		let ideal = this.speed / (1000 / this.intervalRate);
 
 		/** The number of ticks to execute. */
 		let ticks;
@@ -296,6 +298,12 @@ class Emulator extends Emitter {
 			ticks = this.speed / (1000 / ms) + this.intervalMiss;
 			this.intervalMiss = ticks % 1;
 			ticks |= 0;
+		}
+
+		// Safety.
+		if (!this.turbo && ticks > ideal * 2) {
+			console.warn(`Emulator: Behind by ${ticks - ideal} cycles.`);
+			ticks = ideal;
 		}
 
 		// Execute.
