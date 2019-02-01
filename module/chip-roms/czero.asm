@@ -7,6 +7,7 @@
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define FALCON_X 28       ; 64/2 - 8/2
 define FALCON_Y 26       ; 32 - 5 - 1
+define FALCON_SMOKE_Y 23
 define FALCON_HEIGHT 5
 define FALCON_MAX_SPEED 4
 define FALCON_FORWARDS 1
@@ -25,7 +26,7 @@ define COUNTDOWN_NUM_X 30
 define COUNTDOWN_GO_X 27
 
 define FALCON_ANIMATION_EXPLODE_FRAMES 4
-define FALCON_ANIMATION_EXPLODE_SMOKE_FRAMES 6
+define FALCON_ANIMATION_EXPLODE_SMOKE_FRAMES 10
 
 define KEY_LEFT #7
 define KEY_RIGHT #9
@@ -173,6 +174,7 @@ game_over:
 	CALL draw_falcon
 	LD falcon_frame, 0
 	LD falcon_direction, 0
+	LD falcon_speed, 0
 	CALL draw_falcon_explosion
 	CALL draw_falcon_explosion_smoke
 
@@ -189,11 +191,19 @@ game_over_loop:
 
 	; Animate smoke.
 	LD DT, ioptemp
+
+	ADD falcon_speed, 1
+	SE falcon_speed, 3
+		JP game_over_loop_nosmoke
+
+	LD falcon_speed, 0
 	ADD falcon_direction, 1
 	SNE falcon_direction, FALCON_ANIMATION_EXPLODE_SMOKE_FRAMES
 	LD falcon_direction, 1
 	CALL draw_falcon_explosion_smoke
-	CALL game_over_sounds
+
+	game_over_loop_nosmoke:
+		CALL game_over_sounds
 
 	; Loop.
 	JP game_over_loop
@@ -309,6 +319,17 @@ tick:
 tick2:
 	CALL input2
 
+	LD ioptemp, 0
+	tick2_drive:
+		SNE ioptemp, falcon_speed
+			RET
+
+		ADD ioptemp, 1
+		CALL drive
+		JP tick2_drive
+
+
+drive:
 	; Handle map generation.
 	ADD map_center, map_change
 
@@ -544,7 +565,7 @@ draw_falcon_explosion_smoke:
 	CALL mul
 
 	LD temp1, FALCON_X
-	LD temp2, FALCON_Y
+	LD temp2, FALCON_SMOKE_Y
 	LD I, sprite_falcon_explode_smoke
 	ADD I, output
 	DRW temp1, temp2, FALCON_HEIGHT
@@ -760,37 +781,61 @@ db	%00000000,
 	%00000000,
 	%00000000,
 	%00000000,
-	%00000000
+	%00010000
+
+db	%00000000,
+	%00000000,
+	%00000000,
+	%00100000,
+	%00010000
 
 db	%00000000,
 	%00000000,
 	%01000000,
-	%00000000,
-	%00000000
+	%00100000,
+	%00001000
 
 db	%00000000,
 	%00100000,
+	%01000000,
+	%00000100,
+	%00001000
+
+db	%00010000,
+	%00100000,
+	%00001000,
+	%00000100,
+	%01000000
+
+db	%00010000,
+	%00010000,
+	%00001000,
+	%00100000,
+	%01000100
+
+db	%00100000,
+	%00010000,
+	%01000000,
+	%00101000,
+	%00000100
+
+db	%00100000,
+	%01000000,
 	%01000100,
-	%00000000,
+	%00001000,
 	%00000000
 
-db	%01000000,
-	%00101000,
+db	%00100000,
+	%01000100,
 	%00000100,
 	%00000000,
 	%00000000
 
-db	%01000100,
-	%00001000,
+db	%00100000,
+	%00000100,
 	%00000000,
 	%00000000,
-	%00000000
-
-db	%00000100,
-	%00000000,
-	%00000000,
-	%00000000,
-	%00000000
+	%00010000
 
 sprite_countdown:
 db  0,0,0,0,0
