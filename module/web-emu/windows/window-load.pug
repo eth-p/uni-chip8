@@ -25,7 +25,9 @@ mixin ui-window-load
 
 			+window-content
 				+window-pane("load-upload")
-					| Upload a ROM.
+					input(type="file" id="program-upload")
+					label(for="program-upload")#program-upload-display
+						div Upload a ROM.
 
 				+window-pane("load-library-demos")
 					div Use our library of CHIP-8 demos.

@@ -10,6 +10,29 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #emulator-load .window {
+	// Program upload.
+	#program-upload {
+		display: none;
+	}
+
+	#program-upload-display {
+		// Positioning.
+		position: absolute;
+		top: $window-padding;
+		left: $window-padding;
+		bottom: $window-padding;
+		right: $window-padding;
+
+		// Display.
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		cursor: pointer;
+		border: $program-list-border 1px dashed;
+	}
+
+	// Program library.
 	.program-library-list:empty::after {
 		content: 'Loading...';
 		font-style: italic;
