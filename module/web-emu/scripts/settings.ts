@@ -7,7 +7,7 @@ import vm from './Emulator';
 
 // ---------------------------------------------------------------------------------------------------------------------
 class EmulatorSettings extends Settings {
-	@Setting(500, {validator: speed => speed >= 1 && speed <= 1500})
+	@Setting(500, {validator: speed => speed >= 1 && speed <= 5000})
 	public cpu_speed?: number;
 
 	@Setting(true)

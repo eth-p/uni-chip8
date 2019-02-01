@@ -212,8 +212,8 @@ export default class ChipDisplay extends Emitter {
 	 * @returns True if any pixels were inverted.
 	 */
 	public draw(x: number, y: number, sprite: ChipSprite): boolean {
-		assert(x >= 0 && x <= this.WIDTH, "Parameter 'x' is invalid");
-		assert(y >= 0 && y <= this.HEIGHT, "Parameter 'y' is invalid");
+		x = x % this.WIDTH;
+		y = y % this.HEIGHT;
 
 		// Developer notes:
 		// @eth-p: This is a bunch of bitwise hackery.
