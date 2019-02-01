@@ -7,7 +7,9 @@ import Uint16 from '@chipotle/types/Uint16';
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
 
-import {Operation, Context} from './Operation';
+import JIT from '@chipotle/vm/JIT';
+
+import {Operation, Context, Compiled} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,7 +19,7 @@ import {Operation, Context} from './Operation';
  *
  * 'annn'
  */
-export default class OP_LD_I_CON extends Operation {
+export default class OP_LD_I_CON extends Operation implements Compiled {
 	public constructor() {
 		super('LD', 0xa000, [
 			{
@@ -35,5 +37,13 @@ export default class OP_LD_I_CON extends Operation {
 	public execute(this: void, context: Context, operands: Uint16[]): void {
 		const p2 = operands[1];
 		context.register_index = p2;
+	}
+
+	public compile(this: void, operands: Uint16[]) {
+		const p1 = JIT.CON(operands[1]);
+		const reg_index = JIT.REF(JIT.CONTEXT, 'register_index');
+		return JIT.compile({
+			instructions: [JIT.ASSIGN(reg_index, p1)]
+		});
 	}
 }

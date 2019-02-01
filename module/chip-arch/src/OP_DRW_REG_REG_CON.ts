@@ -3,8 +3,11 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
+import MathFlag from '@chipotle/types/MathFlag';
 
 import OperandType from '@chipotle/isa/OperandType';
+
+import JIT from '@chipotle/vm/JIT';
 
 import {Operation, Context} from './Operation';
 import ChipSprite from './ChipSprite';
@@ -52,5 +55,28 @@ export default class OP_DRW_REG_REG_CON extends Operation {
 		);
 
 		context.register_flag = collide === true ? 1 : 0;
+	}
+
+	public compile(this: void, operands: Uint16[]) {
+		const p1 = JIT.REF(JIT.CONTEXT, 'register_data', operands[0]);
+		const p2 = JIT.REF(JIT.CONTEXT, 'register_data', operands[1]);
+		const p3 = JIT.CON(operands[2]);
+		const reg_flag = JIT.REF(JIT.CONTEXT, 'register_flag');
+		const reg_index = JIT.REF(JIT.CONTEXT, 'register_index');
+		const prog_data = JIT.REF(JIT.CONTEXT, 'program', 'data');
+		const fn_draw = JIT.REF(JIT.CONTEXT, 'display', 'draw');
+		const fn_ChipSprite = JIT.LIB('ChipSprite');
+
+		return JIT.compile({
+			lib: {ChipSprite},
+			locals: ['collide'],
+			instructions: [
+				JIT.ASSIGN(
+					'collide',
+					JIT.CALL(fn_draw, p1, p2, JIT.CONSTRUCT(fn_ChipSprite, prog_data, reg_index, p3))
+				),
+				JIT.ASSIGN(reg_flag, 'collide === true ? 1 : 0')
+			]
+		});
 	}
 }

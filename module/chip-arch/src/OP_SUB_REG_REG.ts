@@ -9,7 +9,9 @@ import MathFlag from '@chipotle/types/MathFlag';
 import OperandType from '@chipotle/isa/OperandType';
 import OperandTags from '@chipotle/isa/OperandTags';
 
-import {Operation, Context} from './Operation';
+import JIT from '@chipotle/vm/JIT';
+
+import {Operation, Context, Compiled} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -20,7 +22,7 @@ import {Operation, Context} from './Operation';
  *
  * '8xy5'
  */
-export default class OP_SUB_REG_REG extends Operation {
+export default class OP_SUB_REG_REG extends Operation implements Compiled {
 	public constructor() {
 		super('SUB', 0x8005, [
 			{
@@ -42,5 +44,23 @@ export default class OP_SUB_REG_REG extends Operation {
 		let result: [number, MathFlag] = sub(context.register_data[p1], context.register_data[p2]);
 		context.register_data[p1] = result[0];
 		context.register_flag = result[1] === MathFlag.OK ? 1 : 0;
+	}
+
+	public compile(this: void, operands: Uint16[]) {
+		const p1 = JIT.REF(JIT.CONTEXT, 'register_data', operands[0]);
+		const p2 = JIT.REF(JIT.CONTEXT, 'register_data', operands[1]);
+		const reg_flag = JIT.REF(JIT.CONTEXT, 'register_flag');
+
+		const fn_sub = JIT.LIB('sub');
+
+		return JIT.compile({
+			lib: {sub},
+			locals: ['result'],
+			instructions: [
+				JIT.ASSIGN('result', JIT.CALL(fn_sub, p1, p2)),
+				JIT.ASSIGN(p1, JIT.REF('result', 0)),
+				JIT.ASSIGN(reg_flag, `result === ${MathFlag.OK} ? 1 : 0`)
+			]
+		});
 	}
 }

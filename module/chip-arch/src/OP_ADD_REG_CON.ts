@@ -5,10 +5,12 @@
 import {add} from '@chipotle/types/Uint8';
 import Uint16 from '@chipotle/types/Uint16';
 
+import JIT from '@chipotle/vm/JIT';
+
 import OperandTags from '@chipotle/isa/OperandTags';
 import OperandType from '@chipotle/isa/OperandType';
 
-import {Operation, Context} from './Operation';
+import {Compiled, Operation, Context} from './Operation';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -19,7 +21,7 @@ import {Operation, Context} from './Operation';
  *
  * '7xkk'
  */
-export default class OP_ADD_REG_CON extends Operation {
+export default class OP_ADD_REG_CON extends Operation implements Compiled {
 	public constructor() {
 		super('ADD', 0x7000, [
 			{
@@ -39,5 +41,17 @@ export default class OP_ADD_REG_CON extends Operation {
 		const p2 = operands[1];
 
 		context.register_data[p1] = add(context.register_data[p1], p2)[0];
+	}
+
+	public compile(this: void, operands: Uint16[]) {
+		const p1 = JIT.REF(JIT.CONTEXT, 'register_data', operands[0]);
+		const p2 = JIT.CON(operands[1]);
+
+		const fn_add = JIT.LIB('add');
+
+		return JIT.compile({
+			lib: {add},
+			instructions: [JIT.ASSIGN(p1, JIT.REF(JIT.CALL(fn_add, p1, p2), 0))]
+		});
 	}
 }

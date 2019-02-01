@@ -5,6 +5,7 @@
 import Uint16 from '@chipotle/types/Uint16';
 
 import Interpreted from '@chipotle/vm/Interpreted';
+import OpCompiled from '@chipotle/vm/OpCompiled';
 import VMContext from '@chipotle/vm/VMContext';
 
 import ISA_Operation from '@chipotle/isa/Operation';
@@ -29,9 +30,15 @@ namespace Operation {
 	 * An alias for {@link VMContext}<{@link Chip}>.
 	 */
 	export type Context = VMContext<Chip>;
+
+	/**
+	 * An alias for {@link OpCompiled}<{@link Chip}>.
+	 */
+	export type Compiled = OpCompiled<Chip>;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 type Context = Operation.Context;
+type Compiled = Operation.Compiled;
 export default Operation;
-export {Operation, Context};
+export {Operation, Context, Compiled};
