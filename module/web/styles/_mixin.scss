@@ -29,3 +29,8 @@
 		background: $background;
 	}
 }
+
+@mixin custom-button {
+	-webkit-appearance: none;
+	border-radius: 0;
+}

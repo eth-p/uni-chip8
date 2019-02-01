@@ -51,6 +51,8 @@
 		background: $toolbar-button-background;
 		transition: background-color $animation-time ease, color $animation-time ease;
 
+		@include custom-button;
+
 		&:not(:disabled):hover {
 			background: $toolbar-button-background-hover;
 			color: $toolbar-button-text-hover;
