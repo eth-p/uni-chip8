@@ -48,6 +48,8 @@ describe('Operation Codes', () => {
 		// JP addr
 		let x = await createVM([0x1204, 0x0000, 0x0000]);
 		x.step();
+
+		// Skip 0x202
 		expect(x.program_counter).toStrictEqual(0x204);
 	});
 	it('2nnn', async () => {
@@ -63,12 +65,12 @@ describe('Operation Codes', () => {
 		// SE <reg> <con>
 		let vm = await createVM([0x30aa, 0x1206, 0x0000, 0x0000]);
 
-		// Test skip
+		// Test TRUE
 		vm.register_data[0x0] = 0xaa;
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x204);
 
-		// Test no skip
+		// Test FALSE
 		vm.register_data[0x0] = 0xab;
 		vm.jump(0x200);
 		vm.step();
@@ -77,9 +79,17 @@ describe('Operation Codes', () => {
 	it('4xkk', async () => {
 		// SNE <reg> <con>
 		let vm = await createVM([0x40aa, 0x1206, 0x0000, 0x0000]);
+
+		// Test TRUE
 		vm.register_data[0x0] = 0xaa;
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x202);
+
+		// Test FALSE
+		vm.register_data[0x0] = 0xab;
+		vm.jump(0x200);
+		vm.step();
+		expect(vm.program_counter).toStrictEqual(0x204);
 	});
 	it('5xy0', async () => {
 		// SE <reg> <reg>
@@ -87,7 +97,15 @@ describe('Operation Codes', () => {
 		vm.register_data[0x0] = 0xaa;
 		vm.register_data[0x1] = 0xaa;
 		vm.step();
+
+		// Test TRUE
 		expect(vm.program_counter).toStrictEqual(0x204);
+
+		// Test FALSE
+		vm.register_data[0x0] = 0xab;
+		vm.jump(0x200);
+		vm.step();
+		expect(vm.program_counter).toStrictEqual(0x202);
 	});
 	it('6xkk', async () => {
 		// LD <reg> <con>
@@ -219,14 +237,14 @@ describe('Operation Codes', () => {
 	it('9xy0', async () => {
 		// SNE <reg> <reg>
 
-		// Test skip
+		// Test TRUE
 		let vm = await createVM([0x9010, 0x1206, 0x0000, 0x0000]);
 		vm.register_data[0x0] = 1;
 		vm.register_data[0x1] = 2;
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x204);
 
-		// Test no skip
+		// Test FALSE
 		vm.jump(0x200);
 		vm.register_data[0x0] = 2;
 		vm.step();
