@@ -8,6 +8,7 @@ include ../../web/components/desktop
 include ../../web/components/toolbar
 include ../../web/components/window
 include ../components/emulator-keypad
+include ../components/emulator-debug-tools
 include ../components/emulator-disassembler
 include ../components/emulator-registers
 include ../components/emulator-screen
@@ -46,12 +47,6 @@ mixin loading-screen
 
 		+item.spacer
 
-		+item.requires-debugger
-			input(type="button" value="Prev" data-action="emulator-debug-step-prev")
-			input(type="button" value="Next" data-action="emulator-debug-step-next")
-
-		+item.spacer
-
 		+item
 			input(type="color" value="#ffffff" data-setting='screen_foreground')
 			input(type="color" value="#000000" data-setting='screen_background')
@@ -67,6 +62,7 @@ mixin loading-screen
 				+emulator-screen
 				+emulator-keypad
 			.emulator-debugger.requires-debugger
+				+emulator-debug-tools
 				+emulator-registers
 				+emulator-stack
 				+emulator-disassembler

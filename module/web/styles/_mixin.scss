@@ -30,7 +30,29 @@
 	}
 }
 
+/**
+ * Enable custom styling for a button.
+ * This is required to not break mobile Safari.
+ */
 @mixin custom-button {
 	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 	border-radius: 0;
+}
+
+/**
+ * Enable scrolling inside an element.
+ * @param $direction {"x"|"y"} The scrolling direction.
+ */
+@mixin scroll($direction) {
+	@if ($direction == 'x') {
+		overflow-x: auto;
+	} @else if ($direction == 'y') {
+		overflow-y: auto;
+	} @else {
+		overflow: auto;
+	}
+
+	-webkit-overflow-scrolling: touch;
 }

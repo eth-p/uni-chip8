@@ -10,6 +10,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 .window {
+	@include scroll('y');
+
 	color: $window-text;
 
 	&:not(.frameless) {
@@ -17,9 +19,6 @@
 		border: $window-border 1px solid;
 		border-radius: $window-radius;
 	}
-
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
 
 	// Window toolbar.
 	> .toolbar {

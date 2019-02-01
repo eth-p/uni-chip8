@@ -26,6 +26,14 @@ main {
 			border-bottom: $component-separator 1px solid;
 		}
 
+		.emulator-debugger #emulator-debug-tools {
+			padding: 0;
+
+			input[type='button'] {
+				height: $toolbar-height - ($toolbar-padding * 2);
+			}
+		}
+
 		// Desktop Layout:
 		@media only screen and (min-width: $layout-boundary) {
 			flex-direction: row;
@@ -35,6 +43,8 @@ main {
 			}
 
 			.emulator-debugger {
+				@include scroll('y');
+
 				border-left: $toolbar-border 1px solid;
 				width: 33%;
 			}

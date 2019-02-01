@@ -86,8 +86,7 @@ main > .toolbar {
 	border-top: $toolbar-border 1px solid;
 	border-bottom: $toolbar-border 1px solid;
 
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
+	@include scroll('x');
 
 	> * {
 		white-space: nowrap;
