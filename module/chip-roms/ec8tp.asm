@@ -4,59 +4,95 @@
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
 ; It will later be converted to the syntax used for our assembler.                                                     ;
-; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
-; Registers:                                                                                                           ;
-; VD - The test number.                                                                                                ;
-; VE - The test result.                                                                                                ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
+define test_number VD
+define test_result VE
+
+define temp V6
+define temp2 V7
+define output V8
+define output2 V9
+
+define mul_multiplicand VA
+define mul_multiplier VB
+define div_dividend VA
+define div_divisor VB
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
 ; ENTRY:                                                                                                               ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 entry:
+	CALL test_00
 	CALL test_01
-	JP exit
+	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; TEST 01: DT TIMING                                                                                                   ;
+; HALT:                                                                                                                ;
+; This halts execution.                                                                                                ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+halt:
+	LD VF, K
+	JP halt
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 00: DT INITIALIZE                                                                                               ;
+; This will test that DT is able to be set.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_00:
+	; Initialize test info.
+	LD test_number, 0
+
+	; Attempt to set DT.
+	LD temp, 60
+	LD DT, temp
+
+	; Attempt to read DT.
+	LD temp, DT
+	SE temp, 0
+		JP success
+	JP fail
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 03: DT TIMING                                                                                                   ;
 ; This will test the timing of the DT register.                                                                        ;
 ;                                                                                                                      ;
 ; WARNING: THIS TEST ASSUMES A 500 Hz CLOCK                                                                            ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 test_01:
 	; Initialize test info.
-	LD VD, 1
+	LD test_number, 1
 
-	; Set DT to 2.
-	LD V1, 2
-	LD DT, V1
+	; Attempt to set DT.
+	LD temp, 60
+	LD DT, temp
 
-	; Run test.
-	LD V0, V0        ; NO-OP
-	LD V0, V0        ; NO-OP
-	LD V0, V0        ; NO-OP
-	LD V0, V0        ; NO-OP
-	LD V0, V0        ; NO-OP
-	LD V0, V0        ; NO-OP
-	LD V1, DT        ; Assert DT = 2
-	LD V2, DT        ; Assert DT = 2
-	LD V3, DT        ; Assert DT = 1
-	LD V4, DT        ; Assert DT = 1
+	; Do nothing for a while.
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
 
-	; Check results.
-	SE V1, 2
-	JP fail
+	; Attempt to read ST.
+	LD V0, DT
+	LD V1, DT
+	LD V2, DT
+	LD V3, DT
 
-	SE V2, 2
-	JP fail
+	; Determine results
+	SE V0, 60
+		JP fail
 
-	SE V3, 1
-	JP fail
+	SE V1, 60
+		JP fail
 
-	SE V4, 1
-	JP fail
+	SE V2, 59
+		JP fail
 
-	; Done
+	SE V3, 59
+		JP fail
+
 	JP success
 
 
@@ -64,15 +100,48 @@ test_01:
 
 
 
+; -------------------------------------------------------------------------------------------------------------------- ;
+; MUL:                                                                                                                 ;
+; Multiples two numbers.                                                                                               ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+mul:
+	LD temp, mul_multiplicand
+	LD temp2, 1
+	LD output, 0
 
+	mul_loop:
+		SNE temp, 0
+		RET
 
+		ADD output, mul_multiplier
+		SUB temp, temp2
+		JP mul_loop
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; DIV:                                                                                                                 ;
+; Divides two numbers.                                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+div:
+	LD output2, div_dividend
+	LD output, 0
+	div_loop:
+		SUB output2, div_divisor
+		SNE VF, 0
+		JP div_end
+
+		ADD output, 1
+		JP div_loop
+
+	div_end:
+		ADD output2, div_divisor
+		RET
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
 ; SUCCESS:                                                                                                             ;
 ; Sets the success flag and jumps to `finish`.                                                                         ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 success:
-	LD VE, 1
+	LD test_result, 1
 	JP finish
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -80,7 +149,7 @@ success:
 ; Sets the fail flag and jumps to `finish`.                                                                            ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 fail:
-	LD VE, 0
+	LD test_result, 0
 	JP finish
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -92,139 +161,64 @@ fail:
 ; -------------------------------------------------------------------------------------------------------------------- ;
 finish:
 
-	LD V1, VD
-	LD V4, 0    ; Loop condition.
-	LD V2, 1    ; X
-	LD V3, 1    ; Y
+	; DrawX: V1
+	; DrawY: V2
+	; TensS: V3
+	; OnesS: V4
 
-finish__calc_y:
+	; Calculate DrawX, DrawY
+	LD div_dividend, test_number
+	LD div_divisor, 4
+	CALL div
+	LD V1, output2
+	LD V2, output
 
-	; Calculate Y
-	; Equivalent:
-	;
-	;     while (!(V1 >= 1 && V1 <= 4)) {
-	;         V1 -= 4;
-	;         V3 += 4;
-	;     }
-	;
+	; Multiply DrawX
+	LD mul_multiplicand, V1
+	LD mul_multiplier, 16
+	CALL mul
+	LD V1, output
+	ADD V1, 1
 
-	SNE V1, 1
-	LD V4, 1
-	SNE V1, 2
-	LD V4, 1
-	SNE V1, 3
-	LD V4, 1
-	SNE V1, 4
-	LD V4, 1
+	; Multiply DrawY
+	LD mul_multiplicand, V2
+	LD mul_multiplier, 4
+	CALL mul
+	LD V2, output
+	ADD V2, 1
 
-	SNE V4, 0
-	JP finish__calc_y_next
-	JP finish__calc_x
+	; Calculate Sprites
+	LD div_dividend, test_number
+	LD div_divisor, 10
+	CALL div
+	LD V3, output
+	LD V4, output2
 
-finish__calc_y_next:
-	LD V0, 4
-	SUB V1, V0
-	ADD V3, 4
-	JP finish__calc_y
-
-finish__calc_x:
-
-	; Calculate X
-	; Equivalent:
-	;
-	;    V2 = V1 * 4;
-	;
-	SNE V1, 1
-	JP finish__calc_places
-
-	LD V0, 1
-	ADD V2, 16
-	SUB V1, V0
-	JP finish__calc_x
-
-finish__calc_places:
-
-	; Calculate the test number.
-	; This splits VD into a tens place (V5) and a ones place (V6).
-
-	LD V1, VD
-	LD V5, 0    ; 10s.
-	LD V6, 0    ; 1s
-
-finish__calc_places_ones:
-	SNE V1, 0
-	JP finish__draw
-
-	LD V0, 1
-	SUB V1, V0
-
-	ADD V6, 1
-	SNE V6, 10
-	JP finish__calc_places_tens
-	JP finish__calc_places_ones
-
-finish__calc_places_tens:
-	LD V6, 0
-	ADD V5, 1
-	JP finish__calc_places_ones
-
-finish__draw:
-
-	; Draw 10s place.
-	SNE V5, 0
+	; Draw Test: 10s
 	LD I, sprite_0
-	SNE V5, 1
-	LD I, sprite_1
-	SNE V5, 2
-	LD I, sprite_2
-	SNE V5, 3
-	LD I, sprite_3
-	SNE V5, 4
-	LD I, sprite_4
-	SNE V5, 5
-	LD I, sprite_5
-	SNE V5, 6
-	LD I, sprite_6
-	SNE V5, 7
-	LD I, sprite_7
-	SNE V5, 8
-	LD I, sprite_8
-	SNE V5, 9
-	LD I, sprite_9
-	DRW V2, V3, 3
-	ADD V2, 4
+	LD mul_multiplicand, 3
+	LD mul_multiplier, V3
+	CALL mul
+	ADD I, output
+	DRW V1, V2, 3
 
-	; Draw 1s place.
-	SNE V6, 0
+	; Draw Test: 1s
 	LD I, sprite_0
-	SNE V6, 1
-	LD I, sprite_1
-	SNE V6, 2
-	LD I, sprite_2
-	SNE V6, 3
-	LD I, sprite_3
-	SNE V6, 4
-	LD I, sprite_4
-	SNE V6, 5
-	LD I, sprite_5
-	SNE V6, 6
-	LD I, sprite_6
-	SNE V6, 7
-	LD I, sprite_7
-	SNE V6, 8
-	LD I, sprite_8
-	SNE V6, 9
-	LD I, sprite_9
-	DRW V2, V3, 3
-	ADD V2, 4
+	LD mul_multiplicand, 3
+	LD mul_multiplier, V4
+	CALL mul
+	ADD V1, 4
+	ADD I, output
+	DRW V1, V2, 3
 
-	; Draw result.
-	SNE VE, 1
-	LD I, sprite_pass
-	SNE VE, 0
+	; Draw Test: Status
 	LD I, sprite_fail
-	DRW V2, V3, 3
+	SNE test_result, 1
+	LD I, sprite_pass
+	ADD V1, 4
+	DRW V1, V2, 3
 
+	; Done.
 	RET
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
