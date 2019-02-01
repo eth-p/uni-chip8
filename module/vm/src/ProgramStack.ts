@@ -65,6 +65,16 @@ export default class ProgramStack {
 	}
 
 	/**
+	 * Get the top address on the call stack.
+	 * @throws ProgramError When the stack is empty.
+	 * @returns Top address from the call stack.
+	 */
+	top(): ProgramAddress {
+		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
+		return <ProgramAddress>this.stack[this.stack.length - 1];
+	}
+
+	/**
 	 * Clears the call stack.
 	 * THIS SHOULD ONLY BE USED FOR RESETTING THE PROGRAM!
 	 */

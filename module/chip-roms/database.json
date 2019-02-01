@@ -1,14 +1,34 @@
 {
 	"intro.rom": {
-		"name": "Team Chipotle Demo",
-		"info": "Our demo animation.",
+		"name": "Team Chipotle Intro",
+		"info": "A demo animation for our idea of a start-up screen.",
 		"author": "Ethan Pini",
 		"author_url": "https://github.com/eth-p"
+	},
+
+	"czero.rom": {
+		"name": "C-ZERO",
+		"info": "A racing game inspired by Chris Covell's tribute to the iconic Nintendo franchise.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p",
+		"controls": {
+			"5": "DRIVE",
+			"7": "LEFT",
+			"9": "BRAKE",
+			"8": "RIGHT"
+		}
 	},
 
 	"dvd.rom": {
 		"name": "Corners",
 		"info": "The bouncing logo of a popular disc-shaped video storage medium. It might touch the corner someday...",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir"
+	},
+
+	"dvdgame.rom": {
+		"name": "DVD Logo Game",
+		"info": "The bouncing logo of a popular disc-shaped video storage medium but this time, it's a game.",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir"
 	},
@@ -28,8 +48,8 @@
 	},
 
 	"ec8tp.rom": {
-		"name": "Timing Test",
-		"info": "A program which runs timing tests designed for 500 Hz CHIP-8 emulators.",
+		"name": "Team Chipotle Test",
+		"info": "A program which runs tests designed for 500 Hz CHIP-8 emulators.",
 		"author": "Ethan Pini",
 		"author_url": "https://github.com/eth-p"
 	}
