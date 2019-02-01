@@ -13,6 +13,13 @@
 		"author_url": "https://github.com/macedir"
 	},
 
+	"dvdgame.rom": {
+		"name": "DVD Logo Game",
+		"info": "The bouncing logo of a popular disc-shaped video storage medium but this time, it's a game.",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir"
+	},
+
 	"warshaws_revenge.rom": {
 		"name": "Warshaws' Revenge",
 		"info": "This fun shooter is the antithesis to the great crash of '83.",

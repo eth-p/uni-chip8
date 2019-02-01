@@ -105,7 +105,7 @@ module.exports = class TaskTypescript extends Task {
 					if (!source.endsWith('.js')) source += '.js';
 					let capture = /^@chipotle[/\\](.+)$/.exec(source);
 					if (capture === null) return source;
-					return path.join('..', capture[1]);
+					return `../${capture[1]}`;
 				}
 			}
 		]);
