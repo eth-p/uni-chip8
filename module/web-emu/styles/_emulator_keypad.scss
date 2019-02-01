@@ -40,6 +40,8 @@
 			transition: background-color $animation-time ease, color $animation-time ease;
 			cursor: pointer;
 
+			@include custom-button;
+
 			&:hover,
 			&.pressed {
 				background: $toolbar-button-background-hover;
