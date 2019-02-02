@@ -251,13 +251,45 @@ describe('Operation Codes', () => {
 		vm.step();
 		expect(vm.program_counter).toStrictEqual(0x206);
 	});
-	it('annn', async () => {});
-	it('bnnn', async () => {});
-	it('cxkk', async () => {});
+	it('annn', async () => {
+		let vm = await createVM([0xacba]);
+		vm.step();
+		expect(vm.register_index).toStrictEqual(0xcba);
+	});
+	it('bnnn', async () => {
+		let vm = await createVM([0xba00]);
+		for (let n: number = 0x0; n < 0x100; ++n) {
+			vm.register_data[0x0] = n;
+			vm.step();
+			expect(vm.program_counter).toStrictEqual(0xa00 + n);
+			vm.jump(0x200);
+		}
+	});
+	it('cxkk', async () => {
+		// RND <reg> <con>
+		// Test that masking works
+		let vm = await createVM([0xc000, 0x0000]);
+
+		for (let mask = 0; mask <= 0xff; ++mask) {
+			if (vm.program.data !== null) {
+				vm.program.data[0x200] = 0xc0;
+				vm.program.data[0x201] = mask;
+				vm.step();
+				expect(vm.register_data[0] & ~mask).toStrictEqual(0);
+				vm.jump(0x200);
+			}
+		}
+	});
 	it('dxyn', async () => {});
 	it('ex9e', async () => {});
 	it('exa1', async () => {});
-	it('fx07', async () => {});
+	it('fx07', async () => {
+		// LD <reg> DT
+		let vm = await createVM([0xf007]);
+		vm.register_timer = 0xff;
+		vm.step();
+		expect(vm.register_data[0]).toStrictEqual(0xff);
+	});
 	it('fx0a', async () => {});
 	it('fx15', async () => {});
 	it('fx18', async () => {});
