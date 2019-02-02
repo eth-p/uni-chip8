@@ -13,6 +13,10 @@
 	border-color: $error-window-border;
 	background: $error-window-background;
 
+	> .viewport::after {
+		box-shadow: none;
+	}
+
 	.window-title {
 		background: $error-window-title-background;
 	}

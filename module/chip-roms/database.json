@@ -7,6 +7,14 @@
 		"author_url": "https://github.com/eth-p"
 	},
 
+	"pixlar.rom": {
+		"type": "DEMO",
+		"name": "Pixlar",
+		"info": "A somewhat-familiar demo animation.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
+	},
+
 	"czero.rom": {
 		"type": "GAME",
 		"name": "C-ZERO",
