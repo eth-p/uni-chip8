@@ -52,5 +52,9 @@
 
 - **docs:** Added test CHIP-8 to product document.
 - **docs:** Added link to assembler documentation in product document.
-- **docs:** Added visualizer website page.
+- **docs:** Added visualizer website page, including debugger features.
 - **docs:** Added sprite maker page.
+
+### Schedule
+
+- **Release:** Moved programs to release 2 due to early completion of emulator and website.

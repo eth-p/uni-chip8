@@ -10,13 +10,27 @@
 
 ## Attendance
 
-name, *user@sfu.ca*
+Everyone
 
 ## Targets
 
 - Discussion for Release 1.
   - Release 1 is due on Wednesday.
 
-## Discussion
-
 ## Decisions
+
+- Set Release 2 as the program release.
+  - The emulator and visualizer is pretty much done.
+  - Reverse debugging is the only thing left.
+  - Update product document to reflect change.
+
+### Items
+
+|Item|Dev|Due|
+|-------|---|---|
+|Snake  |Henry|February 24 noon|
+|Brick Breaker|Kyle|February 24 noon|
+|Pong|Firas|February 24 noon|
+|Google Dinosaur|Anthony|February 24 noon|
+|Space Invaders|Dan|February 24 noon|
+|Reverse debugging and save states|Ethan|February 24 noon|
