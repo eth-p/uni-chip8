@@ -25,13 +25,17 @@ async function createVM(ops: number[]) {
 	return vm;
 }
 
+function randomNumber(ceiling: number): number {
+	return Math.floor(Math.random() * ceiling);
+}
+
 describe('Operation Codes', () => {
 	it('00e0', async () => {
 		// CLS
 		let vm = await createVM([0x00e0]);
 		for (let y = 0; y < vm.display.HEIGHT; ++y) {
 			for (let x = 0; x < vm.display.WIDTH; ++x) {
-				let state: boolean = Math.floor(Math.random() * 100) % 2 === 0;
+				let state: boolean = randomNumber(100) % 2 === 0;
 				vm.display.set(x, y, state);
 			}
 		}
@@ -142,37 +146,47 @@ describe('Operation Codes', () => {
 	it('8xy0', async () => {
 		// LD <reg> <reg>
 		let vm = await createVM([0x8ab0]);
+		let target = randomNumber(0xff);
 		vm.register_data[0xa] = 0;
-		vm.register_data[0xb] = 0xfe;
+		vm.register_data[0xb] = target;
 		vm.step();
-		expect(vm.register_data[0xa]).toStrictEqual(0xfe);
+		expect(vm.register_data[0xa]).toStrictEqual(target);
 	});
 	it('8xy1', async () => {
 		// OR <reg> <reg>
 		let vm = await createVM([0x8ab1]);
-		vm.register_data[0xa] = 0xa1;
-		vm.register_data[0xb] = 0x1a;
+		let x = randomNumber(0xff);
+		let y = randomNumber(0xff);
+		let target = x | y;
+		vm.register_data[0xa] = x;
+		vm.register_data[0xb] = y;
 		vm.step();
-		expect(vm.register_data[0xa]).toStrictEqual(0xbb);
-		expect(vm.register_data[0xb]).toStrictEqual(0x1a);
+		expect(vm.register_data[0xa]).toStrictEqual(target);
+		expect(vm.register_data[0xb]).toStrictEqual(y);
 	});
 	it('8xy2', async () => {
 		// AND <reg> <reg>
 		let vm = await createVM([0x8ab2]);
-		vm.register_data[0xa] = 0xbe;
-		vm.register_data[0xb] = 0xef;
+		let x = randomNumber(0xff);
+		let y = randomNumber(0xff);
+		let target = x & y;
+		vm.register_data[0xa] = x;
+		vm.register_data[0xb] = y;
 		vm.step();
-		expect(vm.register_data[0xa]).toStrictEqual(0xae);
-		expect(vm.register_data[0xb]).toStrictEqual(0xef);
+		expect(vm.register_data[0xa]).toStrictEqual(target);
+		expect(vm.register_data[0xb]).toStrictEqual(y);
 	});
 	it('8xy3', async () => {
 		// XOR <reg> <reg>
 		let vm = await createVM([0x8ab3]);
-		vm.register_data[0xa] = 0xbe;
-		vm.register_data[0xb] = 0xef;
+		let x = randomNumber(0xff);
+		let y = randomNumber(0xff);
+		let target = x ^ y;
+		vm.register_data[0xa] = x;
+		vm.register_data[0xb] = y;
 		vm.step();
-		expect(vm.register_data[0xa]).toStrictEqual(0x51);
-		expect(vm.register_data[0xb]).toStrictEqual(0xef);
+		expect(vm.register_data[0xa]).toStrictEqual(target);
+		expect(vm.register_data[0xb]).toStrictEqual(y);
 	});
 	it('8xy4', async () => {
 		// ADD <reg> <reg>
@@ -307,17 +321,17 @@ describe('Operation Codes', () => {
 	it('fx07', async () => {
 		// LD <reg> DT
 		let vm = await createVM([0xf007]);
-		vm.register_timer = 0xff;
+		vm.register_timer = randomNumber(0xff);
 		vm.step();
-		expect(vm.register_data[0]).toStrictEqual(0xff);
+		expect(vm.register_data[0]).toStrictEqual(vm.register_timer);
 	});
 	it('fx0a', async () => {});
 	it('fx15', async () => {
 		// LD DT <reg>
 		let vm = await createVM([0xf015]);
-		vm.register_data[0] = 0xff;
+		vm.register_data[0] = randomNumber(0xff);
 		vm.step();
-		expect(vm.register_timer).toStrictEqual(0xff);
+		expect(vm.register_timer).toStrictEqual(vm.register_data[0]);
 	});
 	it('fx18', async () => {});
 	it('fx1e', async () => {});

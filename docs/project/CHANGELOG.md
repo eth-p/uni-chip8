@@ -46,6 +46,7 @@
 - **tools:** Added `sct dev` for local hosting of the website.
 - **chip-arch:** Implemented opcode tests.
 - **web-x:** Implemented visualizer website.
+- **chip-arch:** Add randomization to opcode tests.
 
 ### Documentation
 
