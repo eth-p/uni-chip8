@@ -44,9 +44,8 @@ handlers['keybind_control_turbo'] = {
 handlers['keybind_control_step_prev'] = {
 	keyup: () => {},
 	keydown: () => {
-		// FIXME: @eth-p: Implement step backwards.
-		// if (!settings.enable_debugger) return;
-		// emulator.stepBackwards();
+		if (!settings.enable_debugger) return;
+		emulator.stepBackwards();
 	}
 };
 
