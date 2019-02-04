@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import {Settings, Setting} from '@chipotle/web/Settings';
+import Savestate from './Savestate';
 import vm from './Emulator';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -103,11 +104,47 @@ class EmulatorSettings extends Settings {
 	@Setting('P')
 	public keybind_control_pause?: string;
 
+	@Setting('=')
+	public keybind_control_quicksave?: string;
+
+	@Setting('-')
+	public keybind_control_quickload?: string;
+
 	@Setting(',')
 	public keybind_control_step_prev?: string;
 
 	@Setting('.')
 	public keybind_control_step_next?: string;
+
+	@Setting({unset: true})
+	public savestate_quickslot?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_1?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_2?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_3?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_4?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_5?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_6?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_7?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_8?: Savestate | {unset: boolean};
+
+	@Setting({unset: true})
+	public savestate_9?: Savestate | {unset: boolean};
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

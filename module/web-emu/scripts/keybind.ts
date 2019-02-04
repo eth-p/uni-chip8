@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/types/assert';
 
+import Savestate from './Savestate';
 import settings from './settings';
 import {emulator} from './instance';
 
@@ -54,6 +55,22 @@ handlers['keybind_control_step_next'] = {
 	keydown: () => {
 		if (!settings.enable_debugger) return;
 		emulator.stepForwards();
+	}
+};
+
+handlers['keybind_control_quicksave'] = {
+	keyup: () => {},
+	keydown: () => {
+		emulator.snapshot('quickslot');
+	}
+};
+
+handlers['keybind_control_quickload'] = {
+	keyup: () => {},
+	keydown: () => {
+		if (settings.savestate_quickslot!.unset === false) {
+			emulator.restore((<Savestate>settings.savestate_quickslot).snapshot);
+		}
 	}
 };
 

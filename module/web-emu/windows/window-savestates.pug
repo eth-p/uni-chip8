@@ -13,7 +13,7 @@ include ../../web/components/window
 -// --------------------------------------------------------------------------------------------------------------------
 mixin ui-savestate(number)
 	- var slot = number.toString().toLowerCase();
-	.savestate-slot.empty
+	.savestate-slot(data-savestate-slot=slot)
 		.savestate-preview()
 			img
 		.savestate-info

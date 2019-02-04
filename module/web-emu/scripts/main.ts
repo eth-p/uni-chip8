@@ -45,6 +45,15 @@ settings.addListener('update', (setting, value) => {
 	}
 });
 
+emulator.addListener('snapshot', (id, snapshot) => {
+	(<any>settings)[`savestate_${id}`] = {
+		screenshot: null, // TODO: Real screenshots
+		snapshot: snapshot,
+		date: new Date().toUTCString(),
+		unset: false
+	};
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Finish Load:
 // ---------------------------------------------------------------------------------------------------------------------
