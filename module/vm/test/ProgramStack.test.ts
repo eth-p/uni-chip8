@@ -32,4 +32,13 @@ describe('ProgramStack', () => {
 		stack.inspect()[0] = 1;
 		expect(stack.inspect()).toEqual([5]);
 	});
+
+	it('snapshot + restore', () => {
+		let stack = new ProgramStack(1);
+		let copy = new ProgramStack(1);
+		stack.push(5);
+		copy.restore(stack.snapshot());
+
+		expect(stack).toEqual(copy);
+	});
 });

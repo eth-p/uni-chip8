@@ -6,6 +6,7 @@ import assert from '@chipotle/types/assert';
 
 import ProgramAddress from './ProgramAddress';
 import ProgramError from './ProgramError';
+import JsonType from '@chipotle/types/JsonType';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -88,5 +89,25 @@ export default class ProgramStack {
 	 */
 	inspect(): ProgramAddress[] {
 		return this.stack.slice(0);
+	}
+
+	/**
+	 * Creates a JSON-compatible snapshot of the stack.
+	 * @returns A snapshot of the stack.
+	 */
+	public snapshot(): JsonType {
+		return {
+			stack: this.stack.slice(0),
+			max: this.MAX
+		};
+	}
+
+	/**
+	 * Restores a snapshot of the stack.
+	 * @param snapshot The JSON-compatible snapshot.
+	 */
+	public restore(snapshot: any) {
+		this.stack = snapshot.stack.slice(0);
+		(<any>this).MAX = snapshot.max;
 	}
 }

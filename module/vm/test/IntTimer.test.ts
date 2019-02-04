@@ -101,4 +101,14 @@ describe('Timer', () => {
 
 		expect(timer.value).toBeCloseTo(0, Number.EPSILON);
 	});
+
+	it('snapshot + restore', () => {
+		let timer = new IntTimer(10, 1);
+		let copy = new IntTimer(10, 1);
+
+		timer.ascend();
+
+		copy.restore(timer.snapshot());
+		expect(timer).toEqual(copy);
+	});
 });
