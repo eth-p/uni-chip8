@@ -370,22 +370,22 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
-|**Ethan Pini**| X | X | X | | | X |
-|**Kyle Saburao**| X | X | | X | X | X |
-|**Anthony Pham**| | X | | X | | X |
-|**Henry Wang**| | X | | X | | X |
-|**Dan Amarasinghe**| | X | | X | X | X |  
-|**Firas Fakih**| | X | | X | X | X |
+|**Ethan Pini**| X | X | X | X | X | X |
+|**Kyle Saburao**| X | X | X | X | | X |
+|**Anthony Pham**| | | | X | | X |
+|**Henry Wang**| | | | X | | X |
+|**Dan Amarasinghe**| | | | X | | X |  
+|**Firas Fakih**| | | | X | | X |
 
 ### Roles
 
 |Role|Description|
 |----|-----------|
 |Team Lead|Directs the project|
-|Emulator Dev|Works on the CHIP-8 and debugger|
+|Emulator Dev|Works on the CHIP-8|
 |Tool Dev|Works on the build and test automation tools|
 |Program Dev|Works with CHIP-8 assembly to produce programs|
-|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
+|Interactive Dev|Works on the CHIP-8 visualizer|
 |Documentor|Documents the project|
 
 ## Use Cases
@@ -410,6 +410,10 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - will engage students in learning programming by showing how programmers implement codes into practical projects.
 - will help students better understand the low-level workings of CPU and memory through CHIP-8 Visualizer.
 - will aid instructors through interaction with simple CHIP-8 programs to demonstrate applications of computers.
+
+### Release 2 Use Cases
+
+#### Developers
 
 ## Project Schedule
 
