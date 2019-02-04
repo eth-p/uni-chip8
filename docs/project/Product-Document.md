@@ -43,9 +43,7 @@ This section contains all deliverables and tools that we are currently planning 
 - [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
 - [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
 - [**CHIP-8 Programs**](item-description/chip-8-programs.md)
-- **Build System**
-- **Project-Specific Standard Library**
-  - Wrapper and utility classes for numerical values
+- **CHIP-8 Assembler**
 
 ### Finished
 
@@ -57,12 +55,12 @@ This section contains all deliverables and tools that we are currently planning 
   - Implemented with Jest
   - This does not include module-specific tests.  
   This only includes the general test system.
+- **Build System**
+- **Project-Specific Standard Library**
+  - Wrapper and utility classes for numerical values
 
 ### Future
 
-- **CHIP-8 Programs**
-- **CHIP-8 Assembler**
-- **CHIP-8 Debugger**
 - **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
@@ -383,7 +381,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |----|-----------|
 |Team Lead|Directs the project|
 |Emulator Dev|Works on the CHIP-8|
-|Tool Dev|Works on the build and test automation tools|
+|Tool Dev|Works on various project tools|
 |Program Dev|Works with CHIP-8 assembly to produce programs|
 |Interactive Dev|Works on the CHIP-8 visualizer|
 |Documentor|Documents the project|
