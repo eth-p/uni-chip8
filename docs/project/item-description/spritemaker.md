@@ -19,21 +19,21 @@ The sprite maker follows the sprite *'specification'* of 8 bits wide and at most
 
 **Targets:**  
 
-- N/A
-
-**Developers:**  
-
-- N/A
-
-### Release 1
-
-**Targets:**  
-
 - Implement basic functionality.
 
 **Developers:**  
 
 - Kyle Saburao, ksaburao@sfu.ca
+
+### Release 1
+
+**Targets:**  
+
+- N/A
+
+**Developers:**  
+
+- N/A
 
 ### Release 2
 
