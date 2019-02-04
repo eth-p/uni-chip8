@@ -9,10 +9,10 @@ include ../../web/components/toolbar
 include ../../web/components/window
 
 -// --------------------------------------------------------------------------------------------------------------------
--// Window: Settings
+-// Window: Load
 -// --------------------------------------------------------------------------------------------------------------------
 mixin ui-window-load
-	+desktop-overlay#emulator-load.centered.blocking.blocking
+	+desktop-overlay#emulator-load.centered.blocking
 		+window.tabbed
 			+window-title("Load Program")
 				input(type="button" value="cancel" data-action="window-load-hide")

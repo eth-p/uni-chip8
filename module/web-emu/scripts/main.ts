@@ -10,6 +10,7 @@ import './ui-error';
 import './ui-settings';
 import './ui-screen';
 import './ui-load';
+import './ui-savestates';
 import './ui-registers';
 import './ui-stack';
 import './ui-disassembler';
