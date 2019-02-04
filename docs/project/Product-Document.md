@@ -36,12 +36,13 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Emulator**](item-description/Chip-8-emulator.md)
+- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
   - Opcodes
   - General Architecture
-  - Cycle Forwards
+- [**CHIP-8 Visualizer Website**](item-description/chip-8-website.md)
 - [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
 - [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
+- [**CHIP-8 Programs**](item-description/chip-8-programs.md)
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
@@ -62,7 +63,6 @@ This section contains all deliverables and tools that we are currently planning 
 - **CHIP-8 Programs**
 - **CHIP-8 Assembler**
 - **CHIP-8 Debugger**
-- **CHIP-8 Webpage**
 - **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
@@ -281,10 +281,10 @@ A bouncing DVD logo screensaver was made to show the capabilities of the prototy
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Emulator**|19/01/2019|2 weeks|In progress (early)|
-|**CHIP-8 Opcodes**|19/01/2019|1 week|In progress (early)|
-|**CHIP-8 Website**|19/01/2019|2 weeks|Not started|
-|**CHIP-8 Basic Programs**|19/01/2019|1 week|Not started|
+|**CHIP-8 Emulator**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
+|**CHIP-8 Website**|19/01/2019|2 weeks|In progress|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|In progress|
 
 We will be releasing an initial minimum-viable-product emulator.  
 The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
@@ -323,7 +323,7 @@ The emulator will at minimum be able to support basic, non-interactive programs 
       - Abstraction Layer 0: CPU
       - Abstraction Layer 1: System: Graphics, Sound, Input
       - Abstraction Layer 2: Webpage
-
+  
 #### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
 
 |Task|Date|Timeframe|Status|
@@ -370,22 +370,22 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
-|**Ethan Pini**| X | X | X | | | X |
-|**Kyle Saburao**| X | X | | X | X | X |
-|**Anthony Pham**| | X | | X | | X |
-|**Henry Wang**| | X | | X | | X |
-|**Dan Amarasinghe**| | X | | X | X | X |  
-|**Firas Fakih**| | X | | X | X | X |
+|**Ethan Pini**| X | X | X | X | X | X |
+|**Kyle Saburao**| X | X | X | X | | X |
+|**Anthony Pham**| | | | X | | X |
+|**Henry Wang**| | | | X | | X |
+|**Dan Amarasinghe**| | | | X | | X |  
+|**Firas Fakih**| | | | X | | X |
 
 ### Roles
 
 |Role|Description|
 |----|-----------|
 |Team Lead|Directs the project|
-|Emulator Dev|Works on the CHIP-8 and debugger|
+|Emulator Dev|Works on the CHIP-8|
 |Tool Dev|Works on the build and test automation tools|
 |Program Dev|Works with CHIP-8 assembly to produce programs|
-|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
+|Interactive Dev|Works on the CHIP-8 visualizer|
 |Documentor|Documents the project|
 
 ## Use Cases
@@ -410,6 +410,10 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - will engage students in learning programming by showing how programmers implement codes into practical projects.
 - will help students better understand the low-level workings of CPU and memory through CHIP-8 Visualizer.
 - will aid instructors through interaction with simple CHIP-8 programs to demonstrate applications of computers.
+
+### Release 2 Use Cases
+
+#### Developers
 
 ## Project Schedule
 

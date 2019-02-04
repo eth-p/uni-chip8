@@ -51,3 +51,5 @@
 
 - **docs:** Added test CHIP-8 to product document.
 - **docs:** Added link to assembler documentation in product document.
+- **docs:** Added visualizer website page.
+- **docs:** Added sprite maker page.
