@@ -353,10 +353,6 @@ This is not final as we have to compensate for being one release ahead of schedu
 |----|----|---------|------|
 |**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
 
-##### Program Ideas
-
-To be determined.
-
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
 |Task|Date|Timeframe|Status|
