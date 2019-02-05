@@ -20,7 +20,9 @@
 - **vm:** Removed address register field from VMRegister.
 - **vm:** Updated VM imports to pass validation.
 - **vm:** Added preliminary tests for CHIP-8 VM.
-- **vm:** Added conditional opcodes for memory and register values
+- **vm:** Added conditional opcodes for memory and register values.
+- **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
+- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
 
 ### Documentation
 
@@ -40,13 +42,17 @@
 
 ### Developer
 
+- **chip-arch:** Implemented CHIP-8 architecture.
 - **chip-arch:** Implemented opcodes.
-- **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
-- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
 - **tools:** Added `sct dev` for local hosting of the website.
 - **chip-arch:** Implemented opcode tests.
 - **web-x:** Implemented visualizer website.
 - **chip-arch:** Add randomization to opcode tests.
+- **chip-roms:** Add DVD logo game.
+- **chip-roms:** Add C-ZERO game.
+- **chip-roms:** Add Warshaw's Revenge game.
+- **chip-roms:** Add DVD logo demo.
+- **chip-roms:** Add maze demo.
 
 ### Documentation
 
@@ -54,6 +60,8 @@
 - **docs:** Added link to assembler documentation in product document.
 - **docs:** Added visualizer website page, including debugger features.
 - **docs:** Added sprite maker page.
+- **docs:** Added user manual for other people who want to use a local copy of the repository.
+- **docs**: Updated release schedules and gantt chart.
 
 ### Schedule
 
