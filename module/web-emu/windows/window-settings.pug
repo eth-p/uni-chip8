@@ -57,7 +57,8 @@ mixin ui-window-settings
 						+setting('keybind', 'keybind_control_pause', 'Pause')
 						+setting('keybind', 'keybind_control_turbo', 'Turbo')
 						+setting('keybind', 'keybind_control_step_next', 'Step Forwards').requires-debugger
-						+setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
+						//- FIXME: @eth-p: Implement step backwards.
+						//- +setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
 
 				- // Debug Settings
 				+window-pane("settings-debug")
