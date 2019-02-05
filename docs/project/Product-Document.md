@@ -43,7 +43,6 @@ This section contains all deliverables and tools that we are currently planning 
 - [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
 - [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
 - [**CHIP-8 Programs**](item-description/chip-8-programs.md)
-- **CHIP-8 Assembler**
 
 ### Finished
 

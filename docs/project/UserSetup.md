@@ -2,7 +2,13 @@
 
 If you just want to use the running production release of the website, [visit the actual hosted website](https://chip.netlify.com).
 
-Please complete the prerequisites before doing anything else.
+If you want to be able to to:
+
+- try the build system
+- try the automated tests
+- host the local webserver
+
+please complete the prerequisites before doing anything else.
 
 ## Prerequisites
 
@@ -48,9 +54,13 @@ First, download and install the following applications.
   - [NodeJS for Windows](https://nodejs.org/en/)
   - [Git for Windows](https://git-scm.com/downloads)
 
+
+
+After, open PowerShell with administrative permissions as shown in the following picture:
+
 ![powershell-admin](images/setup-powershelladmin.png)
 
-After, open PowerShell with administrative permissions as shown in the picture above (using the start menu), then enter the following command:
+ (using the start menu), then enter the following command:
 ```
 npm install --global windows-build-tools
 
@@ -61,14 +71,15 @@ npm install --global windows-build-tools
 Unzip the repository to your desired location.  
 Go into the unzipped directory and open a terminal application such as *bash* or *PowerShell* set to that directory.
 
-Run the following commands in the terminal.  
-Note that in general, `./sct` must be executed in the same directory as the sct executable file in the root directory of the repository.
+In general, `./sct` must be executed in the same directory as the sct executable file in the root directory of the repository.
 
 *Note: If you are using Command Prompt on Windows, exclude the prefix `./` for all commands.*
 
-*Note: To open PowerShell on Windows, on the directory of the repository, open the repository folder and do `Shift-Right Click` on an empty area in the folder window.*
+*Note: To directly open PowerShell on Windows, on the directory of the repository, open the repository folder and do `Shift-Right Click` on an empty area in the folder window.*
 
 *Note: If you are using PowerShell, you will have to change the background colour because the default blue breaks the console output.*
+
+Run the following commands in the terminal:
 
 ```
 
@@ -101,7 +112,7 @@ Assuming that the repository was already initalizied.
 # Run all module unit tests
 ./sct test
 
-# Check source code for formatting and profanity.
+# Check source code for formatting and profanity
 ./sct check
 
 ```

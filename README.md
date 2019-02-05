@@ -19,6 +19,6 @@ Check out the [setup guide](docs/developer/Setup.md) for instructions on how to 
 ./sct build --release
 ```
 
-## Usage
+## General Usage
 
-- [User Manual](docs/project/UserSetup.md)
+For release submissions where we include a zip of the repository, please view the [User Manual](docs/project/UserSetup.md) to setup your copy.
