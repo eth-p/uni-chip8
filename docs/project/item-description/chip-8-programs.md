@@ -48,7 +48,15 @@ Live versions can be found [here](https://chip.netlify.com).
 
 **Targets:**  
 
-**Developers:**  
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
+|**CHIP-8 Reverse Debugger**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|3 weeks|Not started|
 
 ### Release 3
 
@@ -64,5 +72,5 @@ Live versions can be found [here](https://chip.netlify.com).
 
 ## Developer Notes
 
-We will be using [this assember](...) by ... for the meanwhile.
+We will be using [this assember](https://github.com/wernsey/chip8/blob/master/README.md) by Werner Stoop for the meanwhile.
 We will be using our own assembler after it is completed.

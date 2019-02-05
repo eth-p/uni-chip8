@@ -61,8 +61,6 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### Future
 
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
-
 ## Communication
 
 Group members communicate *through in-person meetings*, *Discord*, *GitHub issues*, and *SFU emails*.
@@ -281,13 +279,18 @@ A bouncing DVD logo screensaver was made to show the capabilities of the prototy
 |----|----|---------|------|
 |**CHIP-8 Emulator**|19/01/2019|2 weeks|Finished|
 |**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
-|**CHIP-8 Website**|19/01/2019|2 weeks|In progress|
-|**CHIP-8 Basic Programs**|19/01/2019|1 week|In progress|
+|**CHIP-8 Website**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|Finished|
 
 We will be releasing an initial minimum-viable-product emulator.  
 The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
 The emulator will be able to render the screen, memory details and output sound to a HTML5 webpage.  
 The emulator will at minimum be able to support basic, non-interactive programs such as simple looping "screensavers".
+
+##### Post-Release Notes
+
+We are ahead by one release since the emulator and website have pretty much been completed. Further releases will only improve website functionality or deal with bug fixes.
+The website can be found [here](https://chip.netlify.com).
 
 ##### List of Items
 
@@ -322,37 +325,37 @@ The emulator will at minimum be able to support basic, non-interactive programs 
       - Abstraction Layer 1: System: Graphics, Sound, Input
       - Abstraction Layer 2: Webpage
   
-#### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
+#### Release 2 - Programs (07/02/2019 - 27/02/2019)
+
+##### Reflection on Release 1
+
+Since the emulator and website visualizer were pretty much done during release 1, we will instead focus on programs during release 2. This also means that we are one release ahead of schedule.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
-|**CHIP-8 Debugger**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
-|**CHIP-8 Website**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Reverse Debugger**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|3 weeks|Not started|
 
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
-Release 2 may include a CHIP-8 assembler/disassembler and debugger to greatly aid program development.
+Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
-#### Release 3 - Programs (28/02/2019 - 13/03/2019)
+#### Release 3 - Assembler and More Programs (28/02/2019 - 13/03/2019)
+
+##### Notes
+
+This is not final as we have to compensate for being one release ahead of schedule.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Program: Pong**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Flappy Bird**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Space Invaders**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Calculator**|28/02/2019|2 weeks|Not started|
-
-By this point, the CHIP-8 and Webpage should be complete, or be near completion. We are targeting to begin CHIP-8 program development at this point.
+|**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
 
 ##### Program Ideas
 
-These program ideas are not final.
-
-- Pong
-- Flappy Bird
-- Space Invaders
-- Calculator `(x op y, x and y -> [0x0, 0xF])`
+To be determined.
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
