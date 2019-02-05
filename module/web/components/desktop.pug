@@ -1,0 +1,26 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-//  MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+mixin desktop
+	.desktop&attributes(attributes)
+		block
+
+mixin desktop-content
+	.desktop-content&attributes(attributes)
+		block
+
+mixin desktop-overlay
+	.desktop-overlay&attributes(attributes)
+		block
+
+mixin desktop-window(depth)
+	.desktop-window(class=`${depth == null ? 1 : depth}z`)&attributes(attributes)
+		block
+
+mixin desktop-window-title(title)
+	.desktop-window-title
+		.title=title
+		.buttons
+			block
+

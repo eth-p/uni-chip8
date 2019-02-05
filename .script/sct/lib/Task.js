@@ -14,6 +14,8 @@ const gulp_print      = require('gulp-print').default;
 const gulp_read       = require('gulp-read');
 const gulp_rename     = require('gulp-rename');
 const gulp_sourcemaps = require('gulp-sourcemaps');
+const gulp_watch      = require('gulp-watch');
+const gulp_plumber    = require('gulp-plumber');
 const mm              = require('micromatch');
 const mississippi     = require('mississippi');
 const path            = require('path');
@@ -21,6 +23,17 @@ const path            = require('path');
 // Modules.
 const Finder     = require('./Finder');
 const TaskStatus = require('./TaskStatus');
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Constants:
+// ---------------------------------------------------------------------------------------------------------------------
+const ALLOWED_SOURCEMAPS = [
+	'.css',
+	'.html',
+	'.htm',
+	'.js',
+	'.svg'
+];
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Class:
@@ -155,24 +168,39 @@ module.exports = class Task {
 
 	/**
 	 * Returns a gulp.src stream for the source files of this task's module.
-	 * @param [only] {String[]} Only match these files.
+	 * @param [only]    {String[]} Only match these files.
+	 * @param [options] {*}        Options.
 	 * @protected
 	 */
-	_gulpsrc(only) {
+	_gulpsrc(only, options) {
 		let base   = this.module.getDirectory();
-		let stream = gulp.src([].concat(
-				this.module.getSourcePatterns(),
-				this.module._excludes,
-				Finder.EXCLUDE,
-				['!**/out/*']
-			),
-			{
+		let stream = null;
+		let srcpat = [].concat(
+			this.module.getSourcePatterns(),
+			this.module._excludes,
+			Finder.EXCLUDE,
+			['!**/out/*']);
+
+		if (options != null && options.patterns != null) {
+			srcpat = options.patterns;
+		}
+
+		if (this.watch) {
+			stream = gulp_watch(srcpat, {
+				ignoreInitial: false,
+				base:          base,
+				cwd:           base,
+				allowEmpty:    true,
+				read:          only == null
+			}).pipe(gulp_plumber());
+		} else {
+			stream = gulp.src(srcpat, {
 				base:       base,
 				cwd:        base,
 				allowEmpty: true,
 				read:       only == null
-			}
-		);
+			});
+		}
 
 		// Filtered.
 		if (only != null) {
@@ -195,9 +223,9 @@ module.exports = class Task {
 	 */
 	_gulpdest(options) {
 		let project = this.module.getProject();
-
 		let streams = [
 			(options.sourcemaps ? gulp_sourcemaps.write('.') : null),
+			(options.sourcemaps ? gulp_filter(['**', '!**/*.map'].concat(ALLOWED_SOURCEMAPS.map(x => `**/*${x}.map`))) : null),
 			gulp.dest(project.getBuildDirectory(), {cwd: project.getBuildDirectory()}),
 			(options.verbose ? gulp_print((f) => this._logger.file(f)) : null)
 		].filter(x => x !== null);
@@ -217,15 +245,25 @@ module.exports = class Task {
 		return gulp_rename(file => {
 			let joined = path.join(file.dirname, file.basename + file.extname);
 			for (let pattern of patterns) {
-				if (mm.isMatch(joined, pattern)) {
-					let pfxIndex  = pattern.indexOf('*');
-					let pfxString = pattern.substring(0, pfxIndex);
+				let src = typeof(pattern) === 'string' ? pattern : Object.keys(pattern)[0];
+				let dest = typeof(pattern) === 'string' ? null : Object.values(pattern)[0];
+
+				if (mm.isMatch(joined, src)) {
+					let pfxIndex  = src.indexOf('*');
+					let pfxString = src.substring(0, pfxIndex);
+
+					if (pfxIndex === -1 && dest != null) {
+						file.dirname = path.dirname(dest);
+						file.filename = path.basename(dest, file.extname);
+						return;
+					}
 
 					if (pfxIndex === -1 || !pfxString.endsWith('/')) return;
 					pfxString = pfxString.substring(0, pfxString.length - 1);
 
 					if (!file.dirname.startsWith(pfxString)) return;
-					file.dirname = file.dirname.substring(pfxString.length);
+					let dir = file.dirname.substring(pfxString.length);
+					file.dirname = dest == null ? dir : path.join(dest, dir);
 					return;
 				}
 			}

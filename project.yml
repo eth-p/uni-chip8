@@ -1,0 +1,160 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# PROJECT CONFIGURATION
+# ----------------------------------------------------------------------------------------------------------------------
+# Yaml References:
++common:
+  - &code
+    '@meta': false
+    '@auto': true
+    tasks:
+      - typescript
+
+  - &website.copy
+    "scripts-lib/**/*.js": "assets/lib/"
+    "scripts-shim/**/*.js": "assets/shim/"
+
+  - &website.output
+    styles: "assets/styles"
+    images: "assets/images"
+    pages: "."
+
+  - &website
+    '@meta': false
+    '@auto': true
+    tasks:
+      - typescript
+      - sass
+      - pug
+      - images
+      - copy
+    sources:
+      - "styles/**/*.{scss,css}"
+      - "pages/**/*.{pug,html}"
+      - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    copy:
+      <<: *website.copy
+
+  - &meta
+    '@meta': true
+    exclude:
+      - '**/node_modules'
+      - '**/.tmp'
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Modules:
+# ----------------------------------------------------------------------------------------------------------------------
+modules:
+
+  # .--------------.
+  # | META MODULES |
+  # .--------------.
+
+  repo:
+    <<: *meta
+    description: "Project repository."
+    sources:
+      - '.editorconfig'
+      - '.git{ignore,attributes}'
+      - 'project.json'
+
+    tasks:
+      - clean
+
+  docs:
+    <<: *meta
+    description: "Project documentation."
+    sources:
+      - './*.md'
+      - 'docs/**/*.md'
+
+  tools:
+    <<: *meta
+    description: "Project tooling."
+    sources:
+      - '.script/**/*'
+      - './package.json'
+      - './package-lock.json'
+      - './.prettierrc'
+    exclude:
+      - '*.{png,jpeg,jpg,svg}'
+
+  ci:
+    <<: *meta
+    description: "Project continuous integration."
+    sources:
+      - '.circle/**/*'
+
+  # .--------------.
+  # | CODE MODULES |
+  # .--------------.
+
+  types:
+    <<: *code
+    description: "Library: Common type definitions and classes."
+
+  isa:
+    <<: *code
+    description: "Library: Virtual machine instruction set architecture."
+
+  asm:
+    <<: *code
+    description: "Library: Assembler and disassembler."
+    sources:
+      - "docs/**/*.md"
+
+  vm:
+    <<: *code
+    description: "Module: Virtual machine."
+
+  chip-arch:
+    <<: *code
+    description: "CHIP-8: System architecture."
+
+  # .--------------.
+  # | WEB MODULES  |
+  # .--------------.
+
+  web:
+    <<: *website
+    description: "Website: Template data and miscellaneous pages."
+    output:
+      <<: *website.output
+      pages:  "."
+    copy:
+      <<: *website.copy
+      './images/favicon.png': '.'
+
+  web-asm:
+    <<: *website
+    description: "Website: CHIP-8 assembler."
+    output:
+      <<: *website.output
+      pages:  "assembler"
+
+  web-emu:
+    <<: *website
+    description: "Website: CHIP-8 assembler."
+    output:
+      <<: *website.output
+      pages:  "emulator"
+
+  # .------.
+  # | ROMS |
+  # .------.
+
+  chip-roms:
+    description: "CHIP-8: Demonstration programs."
+    tasks: [copy]
+    sources:
+      - '**/*.rom'
+      - './database.json'
+    copy:
+      './*.json': 'assets/rom/'
+      './*.rom': 'assets/rom/'
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Task Aliases:
+# ----------------------------------------------------------------------------------------------------------------------
+tasks:
+  clean: "repo:clean"

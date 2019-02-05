@@ -33,7 +33,7 @@
 			}
 		],
 		"prefer-for-of": true,
-		"prefer-object-spread": true,
+		"prefer-object-spread": false,
 		"switch-default": true,
 		"new-parens": true,
 		"triple-equals": [
