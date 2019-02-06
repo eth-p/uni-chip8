@@ -2,9 +2,7 @@
 
 ## Getting Started for Contributors
 
-Check out the [setup guide](docs/developer/Setup.md) for instructions on how to get started.
-
-The contributors guide is found [here](CONTRIBUTING.md).
+Check out the [setup guide](developer/Setup.md) for instructions on how to get started.
 
 ## Compiling for Contributors
 
@@ -22,13 +20,13 @@ The contributors guide is found [here](CONTRIBUTING.md).
 
 ## Product Document
 
-Viewable [here](docs/project/Product-Document.md).
+Viewable [here](project/Product-Document.md).
 
 Refers to the criteria, "*detailed use cases for all major features planned for the next release*".
 
 ## General Usage
 
-For release submissions where we include a zip of the repository, please view the [User Manual](docs/project/User-Manual.md) to setup your copy.
+For release submissions where we include a zip of the repository, please view the [User Manual](project/User-Manual.md) to setup your copy.
 
 The user manual will include:
 
@@ -37,6 +35,6 @@ The user manual will include:
 
 ## Changelog
 
-Viewable [here](docs/project/CHANGELOG.md).
+Viewable [here](project/CHANGELOG.md).
 
 The changelog includes "*"what's changed" in the product document since the previous version.*"
