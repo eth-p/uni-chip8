@@ -38,7 +38,7 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Assembler**](item-description/asm/docs/index.md)
+- [**CHIP-8 Assembler**](item-description/Assembler/index.md)
 - [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
 
 ### Finalizing
