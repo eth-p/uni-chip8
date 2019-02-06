@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Product Document
 
-|<- [README](../../README.md)|
+|<- [Index](../Index.md)|
 
 ## Project Introduction
 
@@ -38,13 +38,13 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
+- [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
   - Opcodes
   - General Architecture
-- [**CHIP-8 Visualizer Website**](item-description/chip-8-website.md)
-- [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
+- [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
+- [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 - [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
-- [**CHIP-8 Programs**](item-description/chip-8-programs.md)
+- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
 
 ### Finished
 

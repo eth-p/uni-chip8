@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: User Manual
 
-|<- [README](../../README.md)|
+|<- [Index](../Index.md)|
 
 If you just want to use the running production release of the website, [visit the actual hosted website](https://chip.netlify.com).
 
@@ -17,6 +17,7 @@ please complete the prerequisites before doing anything else.
 ### Setup - MacOS (via Homebrew)
 
 ```bash
+
 # Install NodeJS, Git, Git LFS.
 brew install \
 	node \
@@ -28,6 +29,7 @@ brew install \
 ### Setup - Ubuntu Linux
 
 ```bash
+
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt install -y nodejs
@@ -65,7 +67,6 @@ After, open PowerShell with administrative permissions as shown in the following
  (using the start menu), then enter the following command:
 ```
 npm install --global windows-build-tools
-
 ```
 
 ## Repository Initialization

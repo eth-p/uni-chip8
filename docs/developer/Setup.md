@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Setup
 
-|<- [README](../../README.md)|
+|<- [Index](../Index.md)|
 
 ## Requirements
 

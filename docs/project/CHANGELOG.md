@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Changelog
 
-|<- [README](../../README.md)|
+|<- [Index](../Index.md)|
 
 ## Release 0 (Planning)
 
