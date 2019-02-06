@@ -18,6 +18,14 @@ Check out the [setup guide](developer/Setup.md) for instructions on how to get s
 ./sct build --release
 ```
 
+**Generate the documentation:**
+
+```bash
+Assuming markdown-folder-to-html is installed through npm:
+
+markdown-folder-to-html docs
+```
+
 ## Product Document
 
 Viewable [here](project/Product-Document.md).
