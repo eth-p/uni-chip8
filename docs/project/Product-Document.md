@@ -1,5 +1,7 @@
 # Team 15 CHIPotle: Product Document
 
+|<- [README](../../README.md)|
+
 ## Project Introduction
 
   Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
@@ -333,12 +335,12 @@ Since the emulator and website visualizer were pretty much done during release 1
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
-|**CHIP-8 Reverse Debugger**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Brick Breaker**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Google Dinosaur**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Snake**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Space Invaders**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Pong**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
 
 Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
@@ -350,7 +352,8 @@ This is not final as we have to compensate for being one release ahead of schedu
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|Not started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
@@ -413,7 +416,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ## Project Schedule
 
-![Gantt Chart](images/gantt-chart.svg)
+![Gantt Chart](images/gantt.jpg)
 
 ## Project Contributors
 

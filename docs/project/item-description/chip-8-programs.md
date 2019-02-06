@@ -50,11 +50,11 @@ Live versions can be found [here](https://chip.netlify.com).
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Program: Brick Breaker**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Google Dinosaur**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Snake**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Space Invaders**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Program: Pong**|07/02/2019|3 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
 
 ### Release 3
 

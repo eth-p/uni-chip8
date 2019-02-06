@@ -25,20 +25,26 @@ section Module - Emulator
 R&D Build: 01-06-2019, 01-17-2019
 Opcodes: after R0, 1w
 Architecture: ARCH, after R0, 2w
-Optimizations: after ARCH, 02-27-2019
-Debugger: after ARCH, 3w
-Assembler: after ARCH, 2w
+Optimizations: after R1, 03-13-2019
+Debugger: after R0, 02-06-2019
+Reverse Debugger: after R1, 2w
+Assembler: after R2, 03-13-2019
 General Refinement: after R3, 04-05-2019
 
 section Module - Webpage
 Website Design: after R0, 01-24-2019
-Website Implementation: 01-24-2019, 02-27-2019
+Website Implementation: after R0, 02-06-2019
 General Refinement: after R3, 04-05-2019
 
 section Module - Programs
 R&D Bouncing DVD Logo: 01-15-2019, 01-17-2019
-Pong: after R2, 2w
-Flappy Bird: after R2, 2w
-Space Invaders: after R2, 2w
-Calculator: after R2, 2w
+DVD Game: after R0, 1w
+C-ZERO: after R0, 1w
+Warshaws' Revenge: after R0, 1w
+Brick Breaker: after R1, 15d
+Google Dinosaur: after R1, 15d
+Snake: after R1, 15d
+Space Invaders: after R1, 15d
+Pong: after R1, 15d
+
 General Refinement: after R3, 04-05-2019

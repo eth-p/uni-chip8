@@ -1,3 +1,5 @@
+# Team 15 CHIPotle: Setup
+
 ## Requirements
 
 The following software is required:
