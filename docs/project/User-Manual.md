@@ -18,11 +18,9 @@ please complete the prerequisites before doing anything else.
 
 ```bash
 
-# Install NodeJS, Git, Git LFS.
+# Install NodeJS
 brew install \
-	node \
-	git \
-	git-lfs
+	node
 
 ```
 
@@ -30,17 +28,12 @@ brew install \
 
 ```bash
 
+# Install curl
+sudo apt install curl
+
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt install -y nodejs
-
-# Install Git
-sudo apt install -y git
-
-# Install Git LFS
-sudo apt install -y software-properties-common
-sudo add-apt-repository ppa:git-core/ppa
-sudo apt install -y git-lfs
 
 # Install packages required for building nodegit.
 # WARNING: If you ignore this step, you may run into issues using 'sct init' or 'npm install'.
@@ -56,9 +49,6 @@ sudo apt install -y \
 First, download and install the following applications.
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
-  - [Git for Windows](https://git-scm.com/downloads)
-
-
 
 After, open PowerShell with administrative permissions as shown in the following picture:
 
