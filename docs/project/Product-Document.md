@@ -406,15 +406,12 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - will improve on Object-Oriented Programming.
 - will learn HTML5 features.
 - will learn system architecture practices.
-- will be able to locate memory/general problems with their own programs through debugging options
-- will be able to see how their program handles memory
+
 
 #### Users
 
 - will be able to enjoy at minimum, simple programs and games designed for the CHIP-8.
-- will be able to load other CHIP-8 ROMS onto the emulator
-- will be able to see the inner workings of CHIP-8 programs
-- will be introduced to how memory registers and the stack work
+
 
 #### Educators
 
@@ -430,11 +427,14 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
 - from our group will get to experience writing CHIP-8 assembly programs.
 - from our group will be able to validate our own programs with the reverse debugger.
+- will be able to see how their program handles memory
 
 #### Hobbyists
 
 - will be able to enjoy their uploaded CHIP-8 ROMS on a functional multi-platform emulator website.
 - will be able to enjoy classic games such as Pong.
+- will be able to see the inner workings of CHIP-8 programs
+- will be introduced to how memory registers and the stack work
 
 ## Project Schedule
 
