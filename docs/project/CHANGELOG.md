@@ -17,7 +17,7 @@
 - **tools:** Created `./sct pull` to pull commits.
 - **tools:** Created `./sct check` to check for code issues.
 - **tools:** Created `./sct test` to run unit tests.
-- **tools:** Created `./sct @query` to query projectin formation.
+- **tools:** Created `./sct @query` to query project information.
 - **vm:** Updated VM to include other CHIP-8 fields.
 - **vm:** Removed address register field from VMRegister.
 - **vm:** Updated VM imports to pass validation.
@@ -44,17 +44,22 @@
 
 ### Developer
 
-- **chip-arch:** Implemented CHIP-8 architecture.
+- **chip-arch:** Implemented CHIP-8 emulator.
 - **chip-arch:** Implemented opcodes.
 - **tools:** Added `sct dev` for local hosting of the website.
 - **chip-arch:** Implemented opcode tests.
-- **web-x:** Implemented visualizer website.
+- **web-x:** Implemented visualizer website for the emulator.
 - **chip-arch:** Add randomization to opcode tests.
 - **chip-roms:** Add DVD logo game.
 - **chip-roms:** Add C-ZERO game.
 - **chip-roms:** Add Warshaw's Revenge game.
 - **chip-roms:** Add DVD logo demo.
 - **chip-roms:** Add maze demo.
+- **tools:** Created `./sct dev` to host a local webserver for the visualizer website.
+- **tools:** Removed `./sct branch`.
+- **tools:** Removed `./sct commit`.
+- **tools:** Removed `./sct push`.
+- **tools:** Removed `./sct pull`.
 
 ### Documentation
 

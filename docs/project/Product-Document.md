@@ -23,7 +23,7 @@
 |**4**|January 21|Release 1| |[Week 4](meeting-minutes/Week-4.md)|
 |**5**|January 28|Release 1| |[Week 5](meeting-minutes/Week-5.md)|
 |**6**|February 4|Release 1| |[Week 6](meeting-minutes/Week-6.md)|
-|**7**|February 11|Release 2| | |
+|**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 25|Release 2| | |
 |**9**|March 4|Release 3| | |
 |**10**|March 11|Release 3| | |
@@ -38,13 +38,18 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
+- [**CHIP-8 Assembler**](asm/docs/index.md)
+- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
+
+### Finalizing
+
+This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
+
 - [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
   - Opcodes
   - General Architecture
 - [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
 - [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
-- [**CHIP-8 Assembler**](asm/docs/index.md)
-- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
 
 ### Finished
 
@@ -92,7 +97,7 @@ Group members view announcements on Discord. Members can break down into smaller
 
 ### Via SFU Mail
 
-Reserved for an emergency such as unable to contact a team member via the above methods.
+Reserved for emergencies such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
@@ -178,6 +183,8 @@ A command in the following table is executed as follows: `sct command`.
 |info   |View project info|
 |init   |Initialize the project|
 |test   |Run module tests|
+
+**NOTE: `sct dev` does not compile TypeScript. Run `sct build` before `sct dev`.**
 
 ### Linux Environment Requirements
 
@@ -334,7 +341,7 @@ Since the emulator and website visualizer were pretty much done during release 1
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
+|**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Not started|
 |**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
 |**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
 |**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
@@ -413,6 +420,16 @@ We are targeting to bring the deliverables into a release ready state. Source co
 ### Release 2 Use Cases
 
 #### Developers
+
+- from other groups will be able to test their programs on our emulator website.
+- from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
+- from our group will get to experience writing CHIP-8 assembly programs.
+- from our group will be able to validate our own programs with the reverse debugger.
+
+#### Hobbyists
+
+- will be able to enjoy their uploaded CHIP-8 ROMS on a functional multi-platform emulator website.
+- will be able to enjoy classic games such as Pong.
 
 ## Project Schedule
 

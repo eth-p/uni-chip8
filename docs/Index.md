@@ -30,7 +30,7 @@ markdown-folder-to-html docs
 
 Viewable [here](project/Product-Document.md).
 
-Refers to the criteria, "*detailed use cases for all major features planned for the next release*".
+Includes the criteria, "*detailed use cases for all major features planned for the next release*".
 
 ## General Usage by Users and Markers
 

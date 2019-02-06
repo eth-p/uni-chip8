@@ -70,5 +70,5 @@ Live versions can be found [here](https://chip.netlify.com).
 
 ## Developer Notes
 
-We will be using [this assember](https://github.com/wernsey/chip8/blob/master/README.md) by Werner Stoop for the meanwhile.
+We will be using [this assember](https://github.com/wernsey/chip8/blob/master/README.md) by Werner Stoop in the meanwhile.
 We will be using our own assembler after it is completed.
