@@ -79,6 +79,9 @@ Run the following commands in the terminal:
 # To initialize the repository, if you have not done so already
 ./sct init
 
+# sct will complain that git is not installed. Just ignore this and hit `Enter` to continue whenever that option comes up.
+# There will be a warning at the end of `sct init` but it will be fine.
+
 # To build the project
 ./sct build --release
 
