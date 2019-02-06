@@ -1,4 +1,4 @@
-# SFU-CMPT276
+# Team 15 CHIPotle: README
 
 ## Getting Started for Contributors
 
@@ -37,6 +37,6 @@ The user manual will include:
 
 ## Changelog
 
-Viewable [here](CHANGELOG.md).
+Viewable [here](docs/project/CHANGELOG.md).
 
 The changelog includes "*"what's changed" in the product document since the previous version.*"

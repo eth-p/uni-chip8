@@ -1,4 +1,6 @@
-# User Manual
+# Team 15 CHIPotle: User Manual
+
+|<- [README](../../README.md)|
 
 If you just want to use the running production release of the website, [visit the actual hosted website](https://chip.netlify.com).
 

@@ -1,4 +1,6 @@
-# Changelog
+# Team 15 CHIPotle: Changelog
+
+|<- [README](../../README.md)|
 
 ## Release 0 (Planning)
 

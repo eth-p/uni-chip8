@@ -1,5 +1,7 @@
 # Team 15 CHIPotle: Setup
 
+|<- [README](../../README.md)|
+
 ## Requirements
 
 The following software is required:
