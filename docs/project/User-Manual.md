@@ -83,7 +83,7 @@ In general, `./sct` must be executed in the same directory as the sct executable
 
 Run the following commands in the terminal:
 
-```
+```bash
 
 # To initialize the repository, if you have not done so already
 ./sct init
@@ -107,7 +107,7 @@ http://127.0.0.1:8080
 
 *Note: If you are using Command Prompt on Windows, exclude the prefix `./` for all commands.*
 
-```
+```bash
 
 Assuming that the repository was already initalizied.
 
