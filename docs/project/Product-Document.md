@@ -257,15 +257,15 @@ If a developer accepts a task, they will be given a due date. The due date will 
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**Start Product Document**|04/01/2019|1 day|Complete|
-|**Setup Discord Server**|04/01/2019|1 day|Complete|
-|**Setup GitHub Repository**|04/01/2019|1 day|Complete|
-|**Update Product Document**|04/01/2019|2 weeks|Complete|
-|**Setup Tools**|04/01/2019|2 weeks|Complete|
-|**Setup Testing Platform**|04/01/2019|1 week|Complete
-|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Complete|
-|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Complete|
-|**Release Product Document**|18/01/2019|2 weeks|Complete|
+|**Start Product Document**|04/01/2019|1 day|Finished|
+|**Setup Discord Server**|04/01/2019|1 day|Finished|
+|**Setup GitHub Repository**|04/01/2019|1 day|Finished|
+|**Update Product Document**|04/01/2019|2 weeks|Finished|
+|**Setup Tools**|04/01/2019|2 weeks|Finished|
+|**Setup Testing Platform**|04/01/2019|1 week|Finished
+|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Finished|
+|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Finished|
+|**Release Product Document**|18/01/2019|2 weeks|Finished|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -285,9 +285,9 @@ A bouncing DVD logo screensaver was made to show the capabilities of the prototy
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Emulator**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Emulator, excluding reverse stepping**|19/01/2019|2 weeks|Finished|
 |**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
-|**CHIP-8 Website**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Website, including Debugger**|19/01/2019|2 weeks|Finished|
 |**CHIP-8 Basic Programs**|19/01/2019|1 week|Finished|
 
 We will be releasing an initial minimum-viable-product emulator.  
