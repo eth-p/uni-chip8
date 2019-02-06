@@ -33,6 +33,7 @@ sudo apt install curl
 
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
 sudo apt install -y nodejs
 
 # Install packages required for building nodegit.
@@ -112,3 +113,41 @@ Assuming that the repository was already initalizied.
 ./sct check
 
 ```
+
+## Website Visualizer
+
+![website](images/website.jpg)
+
+### Browser Support
+
+Your browser must be up-to-date with updates.
+
+#### Desktop
+
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+
+#### Mobile
+
+- iOS Safari
+- Android Google Chrome
+
+**Note:** Reverse stepping is not implemented at this point.  
+**Known bug:** Vibrator does not work on iOS.
+
+### Running Programs
+
+Users can run programs that we made, or can upload their own ROM files.
+
+![load-demo](images/load-demo.png)
+
+### Settings
+
+#### Change Frequency
+
+![freq](images/settings-general.png)
+
+#### Enabling Debugger Output
+
+![debugger](images/settings-debug.png)

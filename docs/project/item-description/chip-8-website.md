@@ -25,7 +25,7 @@ It can be found [here](https://chip.netlify.com).
 
 ### Release 1
 
-![website_image](../images/visualizer.png)
+![website_image](../images/website.jpg)
 
 **Targets:**  
 
