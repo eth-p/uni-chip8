@@ -1,4 +1,6 @@
-# Changelog
+# Team 15 CHIPotle: Changelog
+
+|<- [Index](../Index.md)|
 
 ## Release 0 (Planning)
 
@@ -15,12 +17,14 @@
 - **tools:** Created `./sct pull` to pull commits.
 - **tools:** Created `./sct check` to check for code issues.
 - **tools:** Created `./sct test` to run unit tests.
-- **tools:** Created `./sct @query` to query projectin formation.
+- **tools:** Created `./sct @query` to query project information.
 - **vm:** Updated VM to include other CHIP-8 fields.
 - **vm:** Removed address register field from VMRegister.
 - **vm:** Updated VM imports to pass validation.
 - **vm:** Added preliminary tests for CHIP-8 VM.
-- **vm:** Added conditional opcodes for memory and register values
+- **vm:** Added conditional opcodes for memory and register values.
+- **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
+- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
 
 ### Documentation
 
@@ -40,17 +44,32 @@
 
 ### Developer
 
+- **chip-arch:** Implemented CHIP-8 emulator.
 - **chip-arch:** Implemented opcodes.
-- **R&D:** Implemented [test CHIP-8](https://macedir.github.io/chip8/).
-- **tools:** Created online [CHIP-8 sprite maker](https://macedir.github.io/CHIP8-SpriteMaker/) v1.0.
 - **tools:** Added `sct dev` for local hosting of the website.
 - **chip-arch:** Implemented opcode tests.
-- **web-x:** Implemented visualizer website.
+- **web-x:** Implemented visualizer website for the emulator.
 - **chip-arch:** Add randomization to opcode tests.
+- **chip-roms:** Add DVD logo game.
+- **chip-roms:** Add C-ZERO game.
+- **chip-roms:** Add Warshaw's Revenge game.
+- **chip-roms:** Add DVD logo demo.
+- **chip-roms:** Add maze demo.
+- **tools:** Created `./sct dev` to host a local webserver for the visualizer website.
+- **tools:** Removed `./sct branch`.
+- **tools:** Removed `./sct commit`.
+- **tools:** Removed `./sct push`.
+- **tools:** Removed `./sct pull`.
 
 ### Documentation
 
 - **docs:** Added test CHIP-8 to product document.
 - **docs:** Added link to assembler documentation in product document.
-- **docs:** Added visualizer website page.
+- **docs:** Added visualizer website page, including debugger features.
 - **docs:** Added sprite maker page.
+- **docs:** Added user manual for other people who want to use a local copy of the repository.
+- **docs**: Updated release schedules and gantt chart.
+
+### Schedule
+
+- **Release:** Moved programs to release 2 due to early completion of emulator and website.

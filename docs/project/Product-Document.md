@@ -1,5 +1,7 @@
 # Team 15 CHIPotle: Product Document
 
+|<- [Index](../Index.md)|
+
 ## Project Introduction
 
   Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
@@ -21,7 +23,7 @@
 |**4**|January 21|Release 1| |[Week 4](meeting-minutes/Week-4.md)|
 |**5**|January 28|Release 1| |[Week 5](meeting-minutes/Week-5.md)|
 |**6**|February 4|Release 1| |[Week 6](meeting-minutes/Week-6.md)|
-|**7**|February 11|Release 2| | |
+|**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 25|Release 2| | |
 |**9**|March 4|Release 3| | |
 |**10**|March 11|Release 3| | |
@@ -36,16 +38,18 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
+- [**CHIP-8 Assembler**](item-description/Assembler/index.md)
+- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
+
+### Finalizing
+
+This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
+
+- [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
   - Opcodes
   - General Architecture
-- [**CHIP-8 Visualizer Website**](item-description/chip-8-website.md)
-- [**CHIP-8 Sprite Maker**](item-description/spritemaker.md)
-- [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
-- [**CHIP-8 Programs**](item-description/chip-8-programs.md)
-- **Build System**
-- **Project-Specific Standard Library**
-  - Wrapper and utility classes for numerical values
+- [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
+- [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 
 ### Finished
 
@@ -57,13 +61,11 @@ This section contains all deliverables and tools that we are currently planning 
   - Implemented with Jest
   - This does not include module-specific tests.  
   This only includes the general test system.
+- **Build System**
+- **Project-Specific Standard Library**
+  - Wrapper and utility classes for numerical values
 
 ### Future
-
-- **CHIP-8 Programs**
-- **CHIP-8 Assembler**
-- **CHIP-8 Debugger**
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
 
@@ -95,7 +97,7 @@ Group members view announcements on Discord. Members can break down into smaller
 
 ### Via SFU Mail
 
-Reserved for an emergency such as unable to contact a team member via the above methods.
+Reserved for emergencies such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
@@ -182,6 +184,8 @@ A command in the following table is executed as follows: `sct command`.
 |init   |Initialize the project|
 |test   |Run module tests|
 
+**NOTE: `sct dev` does not compile TypeScript. Run `sct build` before `sct dev`.**
+
 ### Linux Environment Requirements
 
 For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
@@ -253,15 +257,15 @@ If a developer accepts a task, they will be given a due date. The due date will 
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**Start Product Document**|04/01/2019|1 day|Complete|
-|**Setup Discord Server**|04/01/2019|1 day|Complete|
-|**Setup GitHub Repository**|04/01/2019|1 day|Complete|
-|**Update Product Document**|04/01/2019|2 weeks|Complete|
-|**Setup Tools**|04/01/2019|2 weeks|Complete|
-|**Setup Testing Platform**|04/01/2019|1 week|Complete
-|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Complete|
-|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Complete|
-|**Release Product Document**|18/01/2019|2 weeks|Complete|
+|**Start Product Document**|04/01/2019|1 day|Finished|
+|**Setup Discord Server**|04/01/2019|1 day|Finished|
+|**Setup GitHub Repository**|04/01/2019|1 day|Finished|
+|**Update Product Document**|04/01/2019|2 weeks|Finished|
+|**Setup Tools**|04/01/2019|2 weeks|Finished|
+|**Setup Testing Platform**|04/01/2019|1 week|Finished
+|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Finished|
+|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Finished|
+|**Release Product Document**|18/01/2019|2 weeks|Finished|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -281,15 +285,20 @@ A bouncing DVD logo screensaver was made to show the capabilities of the prototy
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Emulator**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Emulator, excluding reverse stepping**|19/01/2019|2 weeks|Finished|
 |**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
-|**CHIP-8 Website**|19/01/2019|2 weeks|In progress|
-|**CHIP-8 Basic Programs**|19/01/2019|1 week|In progress|
+|**CHIP-8 Website, including Debugger**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|Finished|
 
 We will be releasing an initial minimum-viable-product emulator.  
 The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
 The emulator will be able to render the screen, memory details and output sound to a HTML5 webpage.  
 The emulator will at minimum be able to support basic, non-interactive programs such as simple looping "screensavers".
+
+##### Post-Release Notes
+
+We are ahead by one release since the emulator and website have pretty much been completed. Further releases will only improve website functionality or deal with bug fixes.
+The website can be found [here](https://chip.netlify.com).
 
 ##### List of Items
 
@@ -324,37 +333,34 @@ The emulator will at minimum be able to support basic, non-interactive programs 
       - Abstraction Layer 1: System: Graphics, Sound, Input
       - Abstraction Layer 2: Webpage
   
-#### Release 2 - Emulator II & Tools (07/02/2019 - 27/02/2019)
+#### Release 2 - Programs (07/02/2019 - 27/02/2019)
+
+##### Reflection on Release 1
+
+Since the emulator and website visualizer were pretty much done during release 1, we will instead focus on programs during release 2. This also means that we are one release ahead of schedule.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Optimizations**|07/02/2019|Entire release|Not started|
-|**CHIP-8 Debugger**|07/02/2019|3 weeks|Not started|
-|**CHIP-8 Assembler**|07/02/2019|2 weeks|Not started|
-|**CHIP-8 Website**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Not started|
+|**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
 
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
-Release 2 may include a CHIP-8 assembler/disassembler and debugger to greatly aid program development.
+Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
-#### Release 3 - Programs (28/02/2019 - 13/03/2019)
+#### Release 3 - Assembler and More Programs (28/02/2019 - 13/03/2019)
+
+##### Notes
+
+This is not final as we have to compensate for being one release ahead of schedule.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Program: Pong**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Flappy Bird**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Space Invaders**|28/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Calculator**|28/02/2019|2 weeks|Not started|
-
-By this point, the CHIP-8 and Webpage should be complete, or be near completion. We are targeting to begin CHIP-8 program development at this point.
-
-##### Program Ideas
-
-These program ideas are not final.
-
-- Pong
-- Flappy Bird
-- Space Invaders
-- Calculator `(x op y, x and y -> [0x0, 0xF])`
+|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|Not started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
@@ -383,7 +389,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |----|-----------|
 |Team Lead|Directs the project|
 |Emulator Dev|Works on the CHIP-8|
-|Tool Dev|Works on the build and test automation tools|
+|Tool Dev|Works on various project tools|
 |Program Dev|Works with CHIP-8 assembly to produce programs|
 |Interactive Dev|Works on the CHIP-8 visualizer|
 |Documentor|Documents the project|
@@ -415,9 +421,19 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Developers
 
+- from other groups will be able to test their programs on our emulator website.
+- from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
+- from our group will get to experience writing CHIP-8 assembly programs.
+- from our group will be able to validate our own programs with the reverse debugger.
+
+#### Hobbyists
+
+- will be able to enjoy their uploaded CHIP-8 ROMS on a functional multi-platform emulator website.
+- will be able to enjoy classic games such as Pong.
+
 ## Project Schedule
 
-![Gantt Chart](images/gantt-chart.svg)
+![Gantt Chart](images/gantt.jpg)
 
 ## Project Contributors
 

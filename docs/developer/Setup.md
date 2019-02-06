@@ -1,3 +1,7 @@
+# Team 15 CHIPotle: Setup
+
+|<- [Index](../Index.md)|
+
 ## Requirements
 
 The following software is required:
@@ -5,9 +9,6 @@ The following software is required:
 - [NodeJS](https://nodejs.org/) (10.15 or later)
 - Git
 - [Git LFS](https://git-lfs.github.com/)
-
-
-
 
 ## Setup - MacOS (via Homebrew)
 
@@ -26,8 +27,6 @@ cd cmpt276
 ./sct init
 
 ```
-
-
 
 ## Setup - Ubuntu Linux
 
@@ -58,8 +57,6 @@ cd cmpt276
 # Initialize the tooling scripts.
 ./sct init
 ```
-
-
 
 ## Setup - Windows
 

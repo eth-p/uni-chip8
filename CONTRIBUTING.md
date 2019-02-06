@@ -1,6 +1,6 @@
-# Contributing Guide
+# Team 15 CHIPotle: Contributing Guide
 
-
+|<- [README](README.md)|
 
 ## Version Control
 
