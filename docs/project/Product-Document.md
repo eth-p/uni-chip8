@@ -43,7 +43,7 @@ This section contains all deliverables and tools that we are currently planning 
   - General Architecture
 - [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
 - [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
-- [**CHIP-8 Assembler**](../../module/asm/docs/index.md)
+- [**CHIP-8 Assembler**](asm/docs/index.md)
 - [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
 
 ### Finished
