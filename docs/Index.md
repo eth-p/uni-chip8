@@ -32,14 +32,14 @@ Viewable [here](project/Product-Document.md).
 
 Refers to the criteria, "*detailed use cases for all major features planned for the next release*".
 
-## General Usage
+## General Usage by Users and Markers
 
 For release submissions where we include a zip of the repository, please view the [User Manual](project/User-Manual.md) to setup your copy.
 
-The user manual will include:
+The user manual will include instructions for:
 
-- Instructions in how to run the source code.
-- Instructions in how to run the automated tests. 
+- how to run the source code for the visualizer website.
+- how to run the automated tests.
 
 ## Changelog
 
