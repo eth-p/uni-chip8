@@ -8,6 +8,7 @@
 import assert from './assert';
 import MathFlag from './MathFlag';
 import MathResult from './MathResult';
+import Uint8 from '@chipotle/types/Uint8';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -17,6 +18,7 @@ import MathResult from './MathResult';
  * @see add
  * @see sub
  * @see and
+ * @see or
  * @see bitrev
  * @see bitscanf
  * @see bitscanr
@@ -27,6 +29,7 @@ import MathResult from './MathResult';
  */
 type Uint16 = number;
 export default Uint16;
+export {Uint16};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // | Constants:                                                                                                        |
@@ -222,6 +225,36 @@ export function and(a: Uint16, b: Uint16): Uint16 {
 }
 
 /**
+ * Bitwise OR two Uint16.
+ *
+ * @param a The first Uint16.
+ * @param b The second Uint16.
+ *
+ * @returns The Uint16 representing the bits in either parameter.
+ */
+export function or(a: Uint16, b: Uint16): Uint16 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint16");
+
+	return a | b;
+}
+
+/**
+ * Bitwise XOR two Uint16.
+ *
+ * @param a The first Uint16.
+ * @param b The second Uint16.
+ *
+ * @returns The Uint16 representing the different bits considering both parameters.
+ */
+export function xor(a: Uint16, b: Uint16): Uint16 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint16");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint16");
+
+	return a ^ b;
+}
+
+/**
  * Shifts the bits in a Uint16 left.
  * This will remove any bits that are shifted outside the range.
  *
@@ -302,4 +335,16 @@ export function bitshiftrw(num: Uint16, by: number): Uint16 {
 	let shifted = num >> by;
 
 	return shifted | wrapped;
+}
+
+/**
+ * Creates a hex string from a Uint16.
+ *
+ * @param num The number.
+ *
+ * @returns A 4-character hex string.
+ */
+export function toHexString(num: Uint8): string {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	return num.toString(16).padStart(4, '0');
 }

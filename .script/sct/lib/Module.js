@@ -92,6 +92,14 @@ module.exports = class Module {
 	}
 
 	/**
+	 * Gets the patterns used to determine copied library files.
+	 * @returns {{[string]: string}[]}
+	 */
+	getCopyPatterns() {
+		return this._copy;
+	}
+
+	/**
 	 * Gets a Finder for the test files.
 	 * @returns {Finder}
 	 */
@@ -156,7 +164,7 @@ module.exports = class Module {
 
 	/**
 	 * Gets an array of supported build tasks for this module.
-	 * @returns {Promise<Task>}
+	 * @returns {Promise<Task[]>}
 	 */
 	async getBuildTasks() {
 		if (this._tasks !== null) return this._tasks;
@@ -168,8 +176,13 @@ module.exports = class Module {
 		}
 
 		// Get supported task classes.
-		let tasks = TASK_LIST;
-		let supported = await Promise.all(TASK_LIST.map(task => (typeof(task.supports) !== 'function') ? true : task.supports(this)));
+		let supported = await Promise.all(
+			TASK_LIST.map(task => {
+				if (this._config.tasks != null && !this._config.tasks.includes(task.prototype.id)) return false;
+				if (typeof(task.isSupported) === 'function') return task.isSupported(this);
+				return true;
+			})
+		);
 
 		// Get task instances.
 		if (this._tasks === null) {
@@ -184,6 +197,17 @@ module.exports = class Module {
 
 		// Return task instances.
 		return Object.values(this._tasks);
+	}
+
+	/**
+	 * Gets an array of default build tasks for this module.
+	 * @returns {Promise<Task[]>}
+	 */
+	async getDefaultTasks() {
+		let tasks = await this.getBuildTasks();
+		return (await Promise.all(tasks.map(task => [task, task.constructor.isDefault(this)])))
+			.filter(([task, isDefault]) => isDefault)
+			.map(([task]) => task);
 	}
 
 	/**
@@ -204,6 +228,16 @@ module.exports = class Module {
 		return this._tasks[task];
 	}
 
+	/**
+	 * Gets a build directory for this module.
+	 *
+	 * @param type {'styles'|'scripts'|'types'|'pages'} The output type.
+	 * @return {string} The build directory for the file type, relative to the project build directory.
+	 */
+	getBuildDirectory(type) {
+		return this._outputs.get(type);
+	}
+
 	async _load() {
 		if (this._config['@auto'] === true) {
 			try {
@@ -211,6 +245,11 @@ module.exports = class Module {
 				if (tsconfig.include) this._sources  = this._sources.concat(tsconfig.include);
 				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.include.map(x => `!${x}`));
 				if (tsconfig.tests)   this._tests    = this._tests.concat(tsconfig.tests);
+				if (tsconfig.compilerOptions) {
+					let compilerOpts = tsconfig.compilerOptions;
+					if (compilerOpts.outDir)         this._outputs.set('scripts', compilerOpts.outDir);
+					if (compilerOpts.declarationDir) this._outputs.set('types', compilerOpts.declarationDir)
+				}
 			} catch (ex) {
 				if (ex instanceof SyntaxError) throw ex;
 			}
@@ -218,16 +257,24 @@ module.exports = class Module {
 	}
 
 	constructor(project, id, config) {
-		this._project     = project;
-		this._id          = id;
-		this._description = config.description;
-		this._meta        = config['@meta'] === true;
-		this._config      = config;
-		this._sources     = config.sources instanceof Array ? config.sources : [];
-		this._tests       = config.tests instanceof Array ? config.tests : [];
-		this._excludes    = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
-		this._directory   = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
-		this._tasks       = null;
+		this._project        = project;
+		this._id             = id;
+		this._description    = config.description;
+		this._meta           = config['@meta'] === true;
+		this._config         = config;
+		this._sources        = config.sources instanceof Array ? config.sources : [];
+		this._tests          = config.tests instanceof Array ? config.tests : [];
+		this._excludes       = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
+		this._copy           = config.copy == null ? [] : config.copy;
+		this._directory      = this._meta ? project.getDirectory() : path.join(project.getModuleDirectory(), id);
+		this._tasks          = null;
+		this._outputs        = new Map();
+
+		if (config.output != null) {
+			for (let [type, out] of Object.entries(config.output)) {
+				this._outputs.set(type, out);
+			}
+		}
 	}
 
 };

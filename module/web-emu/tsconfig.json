@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/web-emu",
+		"declarationDir": "types/web-emu"
+	},
+	"include": [
+		"scripts/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}

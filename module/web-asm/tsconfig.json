@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/web-asm",
+		"declarationDir": "types/web-asm"
+	},
+	"include": [
+		"scripts/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}

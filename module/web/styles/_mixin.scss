@@ -1,0 +1,58 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+
+/**
+ * A mixin for user-select.
+ * @param $value The user-select value.
+ */
+@mixin user-select($value) {
+	-webkit-user-select: $value;
+	-moz-user-select: $value;
+	-ms-user-select: $value;
+}
+
+/**
+ * A mixin for backdrop filters.
+ * @param $value The filter value.
+ * @param $background The background to use if supported.
+ */
+@mixin backdrop-filter($value, $background: null) {
+	@supports (backdrop-filter: $value) {
+		backdrop-filter: $value;
+		background: $background;
+	}
+
+	@supports (-webkit-backdrop-filter: $value) {
+		-webkit-backdrop-filter: $value;
+		background: $background;
+	}
+}
+
+/**
+ * Enable custom styling for a button.
+ * This is required to not break mobile Safari.
+ */
+@mixin custom-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 0;
+}
+
+/**
+ * Enable scrolling inside an element.
+ * @param $direction {"x"|"y"} The scrolling direction.
+ */
+@mixin scroll($direction) {
+	@if ($direction == 'x') {
+		overflow-x: auto;
+	} @else if ($direction == 'y') {
+		overflow-y: auto;
+	} @else {
+		overflow: auto;
+	}
+
+	-webkit-overflow-scrolling: touch;
+}

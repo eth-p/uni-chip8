@@ -1,0 +1,61 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+-
+	function extract(attr, ...params) {
+		if (attr == null) return null;
+		return attr.split(' ').filter(x => params.includes(x)).join(' ');
+	}
+
+-
+	title = null;
+	stylesheets = [];
+	scripts = [];
+	shims = {
+		':scope': false
+	}
+
+mixin page
+	// -------------------------------------------------------------------------------------------------------------------
+	// Copyright (C) 2019 Team Chipotle
+	// MIT License
+	// -------------------------------------------------------------------------------------------------------------------
+
+	head
+		if title != null
+			title=title
+		link(rel="icon" type="image/png" href="/favicon.png")
+		link(rel="stylesheet" href="/assets/styles/main.css")
+		for stylesheet in stylesheets
+			link(rel="stylesheet" href=stylesheet)
+		meta(name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1")
+		meta(name="theme-color" content="#202428")
+		for script in scripts
+			script(data-main=script data-many)
+		script(data-main="/assets/lib/require-many.js" src="/assets/lib/require.js" async)
+
+		if shims[':scope']
+			script(src="/assets/shim/scopedQuerySelectorShim.js")
+
+	body(class=extract(attributes.class, 'seamless', 'padded'))
+		if pug_mixins['loading-screen']
+			#loading-screen
+				div
+					+loading-screen
+
+		#page
+			header
+				div#logo
+					a(href="/")
+						img(src="/assets/images/logo.svg" alt="Team Chipotle")
+
+				div#links
+					a(href="/emulator") Emulator
+					a(href="/tools/assembler") Assembler
+					a(href="/about") About
+
+			#wrapper(class=extract(attributes.class, 'centered', 'filled'))
+				main
+					block
+

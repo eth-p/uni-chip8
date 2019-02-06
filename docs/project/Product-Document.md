@@ -1,53 +1,29 @@
-# Team CHIPotle Product Document
+# Team 15 CHIPotle: Product Document
 
-| [<- README](../../README.md) |
+|<- [Index](../Index.md)|
 
-## Table of Contents
+## Project Introduction
 
-<!--- Only include level 3 (###) headers --->
+  Our project is centered around creating a virtual machine which can run CHIP-8, a low level language designed in the 1970s. Due to the simplicity of its design, the CHIP-8 can be implemented on almost every platform.
+  
+  The Telmac 1800 and COSMAC VIP were the first computers to run CHIP-8 programs and with only 4096 bytes of memory along with the
+  interpreter occupying the first 512 bytes, all programs were designed considering a limited amount of memory. The CHIP-8 is known for being able to run classic games such as Tetris,
+  Pong, or Pac-man.
 
-- [**Meeting Schedule**](#meeting-schedule)  
-- [**Project Deliverables and Tools**](#project-deliverables-and-tools)
-  - [In Progress](#in-progress)
-  - [Finished](#finished)
-  - [Future](#future)
-- [**Communication**](#communication)
-  - [Via GitHub](#via-github)  
-  - [Via Meetings](#via-meetings)  
-  - [Via Discord](#via-discord)  
-  - [Via SFU Emails](#via-sfu-emails)
-- [**Implementation Language**](#implementation-language)
-- [**Software Development Process**](#software-development-process)
-  - [Project Guidelines](#project-guidelines)
-  - [Developer Process](#developer-process)
-  - [Work Breakdown](#work-breakdown)
-  - [Member Roles](#member-roles)
-  - [Roles](#roles)
-- [**Software Repository**](#software-repository)
-- [**Testing**](#testing)
-- [**Developer Environment**](#developer-environment)
-  - [Repository Tools](#repository-tools)
-  - [Linux Environment Requirements](#linux-environment-requirements)
-  - [Windows Environment Requirements](#windows-environment-requirements)
-  - [Detailed Setup Instructions for MacOS, Ubuntu and Windows](#detailed-setup-instructions-for-macos,-ubuntu-and-windows)
-- [**Use Cases**](#use-cases)
-  - [Release 1 Use Cases](#release-1-use-cases)
-- [**Project Schedule**](#project-schedule)
-- [**Project Contributors**](#project-contributors)
-- [**All Information Sources and Citations**](#all-information-sources-and-citations)
-  - [CHIP-8 Documentation](#chip-8-Documentation)
+  The goal of our project is to build a working CHIP-8 virtual machine, an interactive website to use the CHIP-8 virtual machine, and at least two games along with useful tools for the team members. The final product would in theory be
+  able to run any CHIP-8 program.
 
 ## Meeting Schedule
 
 |Week|Date|Release Priority|Notes|Minutes|
 |---:|:---:|:---:|:---:|:---:|
 |**1**|N/A|N/A|N/A|N/A|
-|**2**|January 7|Release 0| |[Week 2](meeting-minutes/week2.md)|
-|**3**|January 14|Release 0| |[Week 3](meeting-minutes/week3.md)|
-|**4**|January 21|Release 1| | |
-|**5**|January 28|Release 1| | |
-|**6**|February 4|Release 1| | |
-|**7**|February 11|Release 2| | |
+|**2**|January 7|Release 0| |[Week 2](meeting-minutes/Week-2.md)|
+|**3**|January 14|Release 0| |[Week 3](meeting-minutes/Week-3.md)|
+|**4**|January 21|Release 1| |[Week 4](meeting-minutes/Week-4.md)|
+|**5**|January 28|Release 1| |[Week 5](meeting-minutes/Week-5.md)|
+|**6**|February 4|Release 1| |[Week 6](meeting-minutes/Week-6.md)|
+|**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 25|Release 2| | |
 |**9**|March 4|Release 3| | |
 |**10**|March 11|Release 3| | |
@@ -62,34 +38,34 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-#### Deliverables
+- [**CHIP-8 Assembler**](item-description/Assembler/index.md)
+- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
 
-- [**CHIP-8 Emulator**](item-description/chip-8-emulator.md)
-- [**CHIP-8 Debugger**](item-description/chip-8-debugger.md)
+### Finalizing
 
-#### Development Tools
+This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
 
-- **Build System**
-- **Project-Specific Standard Library**
-  - Wrapper and utility classes for numerical values
+- [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
+  - Opcodes
+  - General Architecture
+- [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
+- [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 
 ### Finished
 
 - **Automated Repository Tests**
   - Implemented with CircleCI and Jest
-- **Simple Contribution Tool ([sct](#repository-tools))**
+- **Simple Contribution Tool**
   - Project-specific tools to help maintain repository
 - **Local Unit Test System**
   - Implemented with Jest
   - This does not include module-specific tests.  
   This only includes the general test system.
+- **Build System**
+- **Project-Specific Standard Library**
+  - Wrapper and utility classes for numerical values
 
 ### Future
-
-- **CHIP-8 Programs**
-- **CHIP-8 Assembler**
-- **CHIP-8 Webpage**
-- **Intermediate Representation -> WebAssembly optimizing JIT Compiler**
 
 ## Communication
 
@@ -111,7 +87,7 @@ The group plans to schedule meetings on Monday every week from **12:30 pm to 2:0
 
 At the meetings (Scrum-style), group members discuss **weekly progress updates**, **issues encountered along the way**, and **planning for the following week's activities and milestones**.
 
-Members may require additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, such as discussing and working on the structure of the interpreter project with no documentation needed unless requested.
+Members may request additional meetings where full attendance are not required. These additional meetings mainly focus on group-oriented work, with no documentation needed unless requested.
 
 ### Via Discord
 
@@ -119,9 +95,9 @@ Group members use Discord as an informal communication channel to discuss featur
 
 Group members view announcements on Discord. Members can break down into smaller groups to discuss and work on minor issues using Discord.
 
-### Via SFU emails
+### Via SFU Mail
 
-Reserve for an emergency such as unable to contact a team member via the above methods.
+Reserved for emergencies such as unable to contact a team member via the above methods.
 
 ## Implementation Language
 
@@ -143,105 +119,18 @@ Testing is done through the use of [Jest](https://jestjs.io/) unit tests. Tests 
 
 As well as being accessible to developers through the use of the `sct test` tool, the repository is automatically tested by CircleCI. On every commit, CircleCI will validate the project source code to ensure that it meets the project styling and code of conduct guidelines, as well as build and test the project in its entirety.
 
+![github-tests-detail](images/github-tests.jpg)
+
 ## Software Repository
 
 We will use GitHub to host our private repository.
-
-To view documentation on git use in-respository, view [this section](#git-version-control).
-
-## Developer Environment
-
-### Repository Tools
-
-The project repository contains [in-house tools](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling) which will help developers maintain code and repository quality.
-
-#### Simple Contribution Tool
-
-**sct** is the command file to execute in the repository root directory.  
-To execute sct in Non-Windows systems, use `./sct`.  
-To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt.
-
-To view the command list in terminal, execute sct without any trailing commands or flags.
-
-A command in the following table is executed as follows: `sct command`.
-
-|Command|Purpose|
-|-------|-------|
-|build  |Build the project|
-|check  |Check source code for guideline violations|
-|fmt    |Format source code|
-|help   |View subcommand help|
-|info   |View project info|
-|init   |Initialize the project|
-|test   |Run module tests|
-
-### Linux Environment Requirements
-
-For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
-
-Please install all of the following packages before executing `./sct init`.
-
-All packages listed (**exception to nodejs**) may be installed through the `apt` command.
-To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
-nodejs through `apt` will yield an outdated version.
-
-- **Language Packages**
-  - `g++`
-  - `python2.7`
-  - `nodejs` 10.15, or later
-
-- **Tool Packages**
-  - `curl`
-  - `git`
-  - `git-lfs`
-  - `make`
-  - `node-gyp`
-  - `libcurl4-openssl-dev`
-  - `libssl-dev`
-  - `build-essential`
-
-### Windows Environment Requirements
-
-Developers may use Windows machines for this project.  
-The requirement for *Windows Subsystem for Linux* has been deprecated; you may uninstall WSL if you have it.
-
-- **Required Installations**
-  - [NodeJS for Windows](https://nodejs.org/en/)
-  - [Git for Windows](https://git-scm.com/downloads)
-- **Optional Installations**
-  - [Visual Studio Code](https://code.visualstudio.com/)
-    - *Recommended Plugins*
-      - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
-      - [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
-      - [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
-
-### Detailed Setup Instructions for MacOS, Ubuntu and Windows
-
-[Setup Page](../developer/Setup.md)
-
-## Software Development Process
-
-### Project Guidelines
-
-- Source code will remain compatible for transpilation to ES5 JavaScript.
-- Source code will be formatted according to a team standard.
-  - You can use *sct* to do this for you.
-- Source code will not contain any swear words.
-- Members will contribute a fair amount of work.
-  - Unfair discrepancies will be tracked for the class end-of-term review.
-  - All public-facing documentation will include a contributor report.
-  - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
-
-### Developer Process
-
-#### Git Version Control
 
 Developers should **NOT** attempt to work directly on the master branch.  
 The master branch is protected and any attempts to commit directly will be automatically rejected by your git installation.
 
 Please create your own development branch and work on that. Once your changes are complete, create a pull request `yourbranch -> master` in GitHub.
 
-Pull requests will be automatically tested as laid out [here](#testing). If a pull request passes all tests (you will see green check marks), it will be avaliable for merging after team review.
+Pull requests will be automatically tested by CircleCI. If a pull request passes all tests (you will see green check marks), it will be avaliable for merging after team review.
 
 To ensure consistent commit quality, git hooks have been implemented repository wide.
 These hooks will prevent you from creating commits that violate any of the following conditions:
@@ -264,20 +153,119 @@ These hooks will prevent you from creating commits that violate any of the follo
 
 Before committing changes, please run `sct check` and `sct fmt`.
 
-#### Major Refactoring
+### Major Refactoring
 
 When planning major refactors, please create an issue ticket on GitHub so that all team members are aware of your intentions. Creating the ticket will help avoid any major merge conflicts where work by one member becomes redundant.
 
+## Developer Environment
+
+### Repository Tools
+
+The project repository contains in-house tools which will help developers maintain code and repository quality.
+
+#### Simple Contribution Tool
+
+**sct** is the command file to execute in the repository root directory.  
+To execute sct in Non-Windows systems, use `./sct`.  
+To execute sct in Windows systems, use `./sct` if in PowerShell, or `sct` if in Command Prompt.
+
+To view the command list in terminal, execute sct without any trailing commands or flags.
+
+A command in the following table is executed as follows: `sct command`.
+
+|Command|Purpose|
+|-------|-------|
+|build  |Build the project|
+|check  |Check source code for guideline violations|
+|dev    |Build the project and host the website on a local webserver|
+|fmt    |Format source code|
+|help   |View subcommand help|
+|info   |View project info|
+|init   |Initialize the project|
+|test   |Run module tests|
+
+**NOTE: `sct dev` does not compile TypeScript. Run `sct build` before `sct dev`.**
+
+### Linux Environment Requirements
+
+For the sake of consistency, we assume that a fresh install of [Ubuntu 18.10](https://www.ubuntu.com/download/desktop) will be the environment. If you wish to use a VM, we suggest VMware Workstation Pro 15 provided through the [SFU-VMAP partnership](https://services.cs.sfu.ca/).
+
+Please install all of the following packages before executing `./sct init`.
+
+All packages listed (**exception to nodejs**) may be installed through the `apt` command.
+To install nodejs, please [refer to nodejs documentation.](https://github.com/nodesource/distributions/blob/master/README.md#deb)
+nodejs through `apt` will yield an outdated version.
+
+- **Language Packages**
+  - `g++`
+  - `python2.7`
+  - `nodejs` 10.15, or later
+- **Tool Packages**
+  - `curl`
+  - `git`
+  - `git-lfs`
+  - `make`
+  - `node-gyp`
+  - `libcurl4-openssl-dev`
+  - `libssl-dev`
+  - `build-essential`
+
+### Windows Environment Requirements
+
+Developers may use Windows machines for this project.  
+The requirement for *Windows Subsystem for Linux* has been deprecated.
+
+- **Required Installations**
+  - [NodeJS for Windows](https://nodejs.org/en/)
+  - [Git for Windows](https://git-scm.com/downloads)
+- **Optional Installations**
+  - [Visual Studio Code](https://code.visualstudio.com/)
+    - *Recommended Plugins*
+      - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+      - [Markdown Preview Github Styling](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-preview-github-styles)
+      - [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+
+### Detailed Setup Instructions for MacOS, Ubuntu and Windows
+
+[Setup Page](../developer/Setup.md)
+
+## Software Development Process
+
+### Project Guidelines
+
+- Source code will remain compatible for transpilation to ES6 JavaScript.
+- Source code will be formatted according to a team standard.
+  - You can use *sct* to do this for you.
+- Source code will not contain any swear words.
+- Members will contribute a fair amount of work.
+  - Unfair discrepancies will be tracked for the class end-of-term review.
+  - All public-facing documentation will include a contributor report.
+  - "fair" will not be semantically analyzed and parsed through legalese. Don't be unreasonable.
+
 ### Work Breakdown
 
-**TODO: INCLUDE TIME EXPECTED FOR EACH SECTION/ITEM**
+We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus. Potential developer tools such as an assembler/disassembler will come before CHIP-8 program development, so that we will not have to directly write machine code for CHIP-8 programs.
 
-To view what tasks to do, visit the repository issue tracker.
-Members will be assigned tasks, and will be welcome to contribute to any others.
+Unit tests will have to be written at the same time as development. We do not want to have to write all relevant tests during the final days of release.
 
-If a developer accepts a task, they will be given a due date. The due date will target several days before the Release. The buffer time is required for analysis for the next release, and code review in the current release.
+To view what tasks to do, visit the GitHub issue tracker.
+Members will be assigned tasks and will be welcome to contribute to any others.
 
-#### Release 0 - Documentation, Analysis, and Back-End
+If a developer accepts a task, they will be given a due date. The due date will at the latest target several days before the Release. This buffer time is required for analysis for the next release, and code review in the current release.
+
+#### Release 0 - Documentation, General Analysis, and Back-End (04/01/2019 - 18/01/2019)
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**Start Product Document**|04/01/2019|1 day|Finished|
+|**Setup Discord Server**|04/01/2019|1 day|Finished|
+|**Setup GitHub Repository**|04/01/2019|1 day|Finished|
+|**Update Product Document**|04/01/2019|2 weeks|Finished|
+|**Setup Tools**|04/01/2019|2 weeks|Finished|
+|**Setup Testing Platform**|04/01/2019|1 week|Finished
+|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Finished|
+|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Finished|
+|**Release Product Document**|18/01/2019|2 weeks|Finished|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -287,12 +275,30 @@ We will have the back-end of the project setup so that we will have a much easie
 
 We will also create a library of objects that we have determined to be useful for this project.
 
-#### Release 1 - Emulator I & Tools
+##### Emulator Version 0 - R&D Build
 
-We will be releasing an inital emulator.  
-This emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
-The emulator will be able to render basic details, and output sound to a HTML5 webpage.  
-The emulator will be able to support basic, non-interactive programs such as simple looping "screensavers".
+To learn the CHIP-8 and understand assembly programming, a simple CHIP-8 emulator was put together. This CHIP-8 has almost all functionality except for key input, sound output and timers. It can support simple non-interactive programs.
+
+A bouncing DVD logo screensaver was made to show the capabilities of the prototype emulator. [YouTube Link](https://www.youtube.com/watch?v=ovqTiFKSjRg). We credit *The Office* and Jarod Forbes for the idea.
+
+#### Release 1 - Emulator I & Tools (19/01/2019 - 06/02/2019)
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Emulator, excluding reverse stepping**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
+|**CHIP-8 Website, including Debugger**|19/01/2019|2 weeks|Finished|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|Finished|
+
+We will be releasing an initial minimum-viable-product emulator.  
+The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
+The emulator will be able to render the screen, memory details and output sound to a HTML5 webpage.  
+The emulator will at minimum be able to support basic, non-interactive programs such as simple looping "screensavers".
+
+##### Post-Release Notes
+
+We are ahead by one release since the emulator and website have pretty much been completed. Further releases will only improve website functionality or deal with bug fixes.
+The website can be found [here](https://chip.netlify.com).
 
 ##### List of Items
 
@@ -301,17 +307,13 @@ The emulator will be able to support basic, non-interactive programs such as sim
   - Full graphics output
   - Full sound output
   - Interactive input not officially required
-- **Demo Program**
-  - Bouncing DVD Logo wallsaver
-    - This program will demonstrate that our CHIP-8 implementation can run basic programs.
-    - We will construct a custom sprite for the DVD Logo.
-  - Developer notes
-  - We credit *The Office* and Jarod Forbes for the idea.
 - **Basic CHIP-8 Webpage Interface**
   - Render CHIP-8 display, counters, registers, and stack.
   - We hope to enable interactive support with key presses.
   - **Website Design Prototype**
   ![Website Design Prototype](images/website_prototype.jpg)
+  - **CHIP-8 Prototype**
+    - [Link](https://macedir.github.io/chip8/)
 
 ##### Module design
 
@@ -327,28 +329,44 @@ The emulator will be able to support basic, non-interactive programs such as sim
     - HTML5 Canvas Object Renderer
   - **Notes:**
     - System Abstraction Layers will only be able to communicate *iff* they differ by exactly one level.
-    - Abstraction Layer 0: CPU
-    - Abstraction Layer 1: System: Graphics, Sound, Input
-    - Abstraction Layer 2: Webpage
+      - Abstraction Layer 0: CPU
+      - Abstraction Layer 1: System: Graphics, Sound, Input
+      - Abstraction Layer 2: Webpage
+  
+#### Release 2 - Programs (07/02/2019 - 27/02/2019)
 
-#### Release 2 - Emulator II & Tools
+##### Reflection on Release 1
 
-Release 2 will include refinements to the emulator. The previous emulator will be designed to work, while Release 2 will focus on code quality and optimizations.  
-Release 2 might include a CHIP-8 assembler to greatly improve program development.
+Since the emulator and website visualizer were pretty much done during release 1, we will instead focus on programs during release 2. This also means that we are one release ahead of schedule.
 
-#### Release 3 - Programs
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Not started|
+|**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
 
-By this point, the CHIP-8 and Webpage should be complete, or be near completion.  
-We are targeting to begin CHIP-8 program development at this point.
+Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
-##### Program Ideas
+#### Release 3 - Assembler and More Programs (28/02/2019 - 13/03/2019)
 
-- Pong
-- Flappy Bird
-- Space Invaders
-- Calculator `(x op y, x and y -> [0x0, 0xF])`
+##### Notes
 
-#### Release 4 - Production
+This is not final as we have to compensate for being one release ahead of schedule.
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|Not started|
+
+#### Release 4 - Production (14/03/2019 - 08/04/2019)
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**General Product Refinement**|14/03/2019|Entire release|Not started|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
@@ -358,21 +376,22 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
-|**Ethan Pini**| X | X | X | | | X |
-|**Kyle Saburao**| X | X | | X | X | X |
-|**Anthony Pham**| | X | | X | | X |
-|**Henry Wang**| | X | | X | | X |
-|**Dan Amarasinghe**| | X | | X | X | X |  
+|**Ethan Pini**| X | X | X | X | X | X |
+|**Kyle Saburao**| X | X | X | X | | X |
+|**Anthony Pham**| | | | X | | X |
+|**Henry Wang**| | | | X | | X |
+|**Dan Amarasinghe**| | | | X | | X |  
+|**Firas Fakih**| | | | X | | X |
 
 ### Roles
 
 |Role|Description|
 |----|-----------|
-|Team Lead|Directs team on project|
-|Emulator Dev|Works on the CHIP-8 interpreter and debugger|
-|Tool Dev|Works on the build and test automation tools|
-|Program Dev|Works with CHIP-8 Assembly to produce programs|
-|Interactive Dev|Works with HTML5 to link the CHIP-8 to a webpage|
+|Team Lead|Directs the project|
+|Emulator Dev|Works on the CHIP-8|
+|Tool Dev|Works on various project tools|
+|Program Dev|Works with CHIP-8 assembly to produce programs|
+|Interactive Dev|Works on the CHIP-8 visualizer|
 |Documentor|Documents the project|
 
 ## Use Cases
@@ -390,14 +409,31 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Users
 
-- will be able to view ...
+- will be able to enjoy at minimum, simple programs designed for the CHIP-8.
+
+#### Educators
+
+- will engage students in learning programming by showing how programmers implement codes into practical projects.
+- will help students better understand the low-level workings of CPU and memory through CHIP-8 Visualizer.
+- will aid instructors through interaction with simple CHIP-8 programs to demonstrate applications of computers.
+
+### Release 2 Use Cases
+
+#### Developers
+
+- from other groups will be able to test their programs on our emulator website.
+- from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
+- from our group will get to experience writing CHIP-8 assembly programs.
+- from our group will be able to validate our own programs with the reverse debugger.
+
+#### Hobbyists
+
+- will be able to enjoy their uploaded CHIP-8 ROMS on a functional multi-platform emulator website.
+- will be able to enjoy classic games such as Pong.
 
 ## Project Schedule
 
-![Gantt Chart](../gantt-chart-temp.svg)
-
-**THIS CHART IS TEMPORARY**  
-**PLEASE UPDATE WITH CORRECT INFORMATION**
+![Gantt Chart](images/gantt.jpg)
 
 ## Project Contributors
 
@@ -406,13 +442,16 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - Ethan Pini
 - Kyle Saburao
 - Dan Amarasinghe
+- Henry Wang
+- Anthony Pham
+- Firas Fakih
 
 ### Release 1
 
 - Ethan Pini
 - Kyle Saburao
 
-## All Information Sources and Citations
+## Information Sources and Citations
 
 ### CHIP-8 Documentation
 
@@ -421,6 +460,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 - <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
 - <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
 
-### Documentation
+### Documentation Creation
 
 - [Mermaid Chart Maker](https://mermaidjs.github.io/)
+- [markdown-folder-to-html](https://github.com/joakin/markdown-folder-to-html)

@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/chip-arch",
+		"declarationDir": "types/chip-arch"
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}

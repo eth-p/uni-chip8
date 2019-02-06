@@ -11,6 +11,7 @@
 const findup = require('find-up');
 const fs     = require('fs-extra');
 const path   = require('path');
+const yaml   = require('js-yaml');
 
 // Modules.
 const SCTError = require('./SCTError');
@@ -35,8 +36,29 @@ module.exports = class SCT {
 	static async getProject() {
 		if (project !== null) return project;
 
-		let dir     = path.dirname(await findup('project.json', {cwd: __dirname}));
-		let config  = JSON.parse(await fs.readFile(path.join(dir, 'project.json'), 'utf-8'));
+		let {dir, config} = await (async () => {
+			let fileJSON = findup('project.json', {cwd: __dirname});
+			let fileYAML = findup('project.yml', {cwd: __dirname});
+			let file;
+			let config = null;
+			let dir = null;
+
+			if ((file = await fileYAML) != null) {
+				config = yaml.safeLoad(await fs.readFile(file, 'utf8'));
+				dir = path.dirname(file);
+			} else if ((file = await fileJSON) != null) {
+				config = JSON.parse(await fs.readFile(file, 'utf8'));
+				dir = path.dirname(file);
+			} else {
+				throw new SCTError("couldn't find project.json or project.yml");
+			}
+
+			return {
+				config,
+				dir
+			};
+		})();
+
 		project = new this.Project(dir, config);
 		await project._load();
 		return project;
@@ -116,4 +138,5 @@ module.exports.StreamUtil              = require('./StreamUtil');
 module.exports.Task                    = require('./Task');
 module.exports.TaskLogger              = require('./TaskLogger');
 module.exports.TaskLoggerPretty        = require('./TaskLoggerPretty');
+module.exports.TaskRunner              = require('./TaskRunner');
 module.exports.TaskStatus              = require('./TaskStatus');

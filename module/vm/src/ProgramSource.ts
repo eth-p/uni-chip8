@@ -8,3 +8,4 @@
  */
 type ProgramSource = Uint8Array;
 export default ProgramSource;
+export {ProgramSource};

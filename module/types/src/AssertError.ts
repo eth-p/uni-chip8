@@ -2,8 +2,14 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import ErrorChain from './ErrorChain';
+//! --------------------------------------------------------------------------------------------------------------------
 
 /**
  * An error thrown when an assertion fails.
  */
-export default class AssertError extends Error {}
+class AssertError extends ErrorChain {}
+
+//! --------------------------------------------------------------------------------------------------------------------
+export default AssertError;
+export {AssertError};

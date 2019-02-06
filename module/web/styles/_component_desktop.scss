@@ -1,0 +1,70 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Desktop
+// ---------------------------------------------------------------------------------------------------------------------
+
+.desktop {
+	display: flex;
+	position: relative;
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | OVERLAY                                                                                                   |
+	// | An overlay is a layer that covers the entire desktop.                                                     |
+	// |                                                                                                           |
+	// | .visible - The overlay is visible.                                                                        |
+	// | .centered - The overlay content is centered.                                                              |
+	// | .blocking - The overlay blocks everything under it.                                                       |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	.desktop-overlay {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 10;
+
+		pointer-events: none;
+
+		> * {
+			pointer-events: auto;
+		}
+
+		&.visible {
+			display: block;
+		}
+
+		&.visible.centered {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&.blocking {
+			pointer-events: all;
+			background: $desktop-overlay-background;
+
+			&.blocking-red {
+				background: $desktop-overlay-background-red;
+			}
+		}
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
+	// | CONTENT                                                                                                   |
+	// | The bottom-layer of desktop content.                                                                      |
+	// | This will determine the desktop height.                                                                   |
+	// |                                                                                                           |
+	// | .frameless - Do not use the default frame.                                                                |
+	// *-----------------------------------------------------------------------------------------------------------*
+	.desktop-content {
+		flex: 1 0 auto;
+	}
+}

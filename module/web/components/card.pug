@@ -1,0 +1,21 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-//  MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+mixin card-contents
+	if attributes.img
+		.card-image
+			img(src=attributes.img)
+
+	.card-data
+		block
+
+mixin card
+	.card(class=(attributes.theme ? `card-${attributes.theme}` : 'card-light'))
+		if attributes.href
+			a(href=attributes.href)
+				+card-contents&attributes(attributes)
+					block
+		else
+			+card-contents&attributes(attributes)
+				block

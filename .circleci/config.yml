@@ -2,7 +2,7 @@ version: 2.1
 references:
 
   workspace_root: &workspace_root
-    /tmp/workspace
+                    /tmp/workspace
 
   workspace_load: &workspace_load
     attach_workspace:
@@ -57,7 +57,7 @@ jobs:
           name: Node Dependencies (Save)
           key: 'v1-npm-cache-{{ checksum "package-lock.json" }}-{{ .Branch }}'
           paths:
-          - node_modules
+            - node_modules
 
       - persist_to_workspace:
           root: *workspace_root
@@ -87,6 +87,12 @@ jobs:
   build:
     working_directory: *workspace_root
     executor: standard
+    parameters:
+      args:
+        description: Build arguments.
+        default: ''
+        type: string
+
     steps:
       - *workspace_load
       - run:
@@ -94,7 +100,7 @@ jobs:
           command: mkdir -p target artifacts || true
       - run:
           name: Build
-          command: ./sct build
+          command: ./sct build << parameters.args >>
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -124,6 +130,9 @@ jobs:
     executor: standard
     steps:
       - *workspace_load
+      - run:
+          name: Netlify Deploy
+          command: curl -X POST -d {} https://api.netlify.com/build_hooks/5c493cdf222114941df5c844
       - store_artifacts:
           name: Store
           path: artifacts/
@@ -133,6 +142,39 @@ jobs:
 
 workflows:
   version: 2
+
+  # ------------------------------------------------------------------------------------------------------------------
+  # Build: development
+  # Pipeline:
+  #
+  #   init -> validate -> build -> test
+  #
+  # ------------------------------------------------------------------------------------------------------------------
+
+  development:
+
+    jobs:
+      - init:
+          filters:
+            tags:
+              ignore: /.*/
+      - validate:
+          requires: [init]
+          filters:
+            tags:
+              ignore: /.*/
+      - build:
+          requires: [init, validate]
+          args: '--keep:comments --keep:asserts'
+          filters:
+            tags:
+              ignore: /.*/
+      - test:
+          requires: [init, validate, build]
+          filters:
+            tags:
+              ignore: /.*/
+
 
   # ------------------------------------------------------------------------------------------------------------------
   # Build: release
@@ -160,6 +202,7 @@ workflows:
               ignore: /.*/
       - build:
           requires: [init, validate]
+          args: '--release --minify'
           filters:
             tags:
               only: /^v.*/
@@ -178,36 +221,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
-
-
-  # ------------------------------------------------------------------------------------------------------------------
-  # Build: development
-  # Pipeline:
-  #
-  #   init -> validate -> build -> test
-  #
-  # ------------------------------------------------------------------------------------------------------------------
-
-  development:
-
-    jobs:
-      - init:
-          filters:
-            tags:
-              ignore: /.*/
-      - validate:
-          requires: [init]
-          filters:
-            tags:
-              ignore: /.*/
-      - build:
-          requires: [init, validate]
-          filters:
-            tags:
-              ignore: /.*/
-      - test:
-          requires: [init, validate, build]
-          filters:
-            tags:
               ignore: /.*/

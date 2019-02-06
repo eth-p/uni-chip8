@@ -12,6 +12,7 @@
 const badwords     = require('bad-words');
 const findup       = require('find-up');
 const fs           = require('fs-extra');
+const path         = require('path');
 const tslint       = require('tslint');
 
 // Modules.
@@ -62,7 +63,27 @@ module.exports = class FileChecker {
 		};
 	}
 
+	/**
+	 * Checks to see if a file passes the linter.
+	 *
+	 * @param file {String} The file to check.
+	 *
+	 * @returns {Promise<{status:boolean,details:string}>} True if the file is correctly formatted.
+	 */
 	async checkLint(file) {
+		switch (path.extname(file).toLowerCase()) {
+			case '.ts':
+			case '.js':
+				break;
+
+			default:
+				return {
+					status: true,
+					ignored: true,
+					details: []
+				};
+		}
+
 		this._initLintChecker();
 
 		let linter = new tslint.Linter({fix: false});
@@ -131,7 +152,7 @@ module.exports = class FileChecker {
 		if (this._formatter != null) return;
 
 		if (this._initFormattingChecker_HOOK != null) {
-			this._initFormattingChecker_HOOK.call(this);
+			this._initFormattingChecker_HOOK();
 			if (this._formatter != null) return;
 		}
 
@@ -142,7 +163,7 @@ module.exports = class FileChecker {
 		if (this._badwords != null) return;
 
 		if (this._initProfanityChecker_HOOK != null) {
-			this._initProfanityChecker_HOOK.call(this);
+			this._initProfanityChecker_HOOK();
 			if (this._badwords != null) return;
 		}
 
@@ -153,7 +174,7 @@ module.exports = class FileChecker {
 		if (this._tslintConfig != null) return;
 
 		if (this._initProfanityChecker_HOOK != null) {
-			this._initProfanityChecker_HOOK.call(this);
+			this._initProfanityChecker_HOOK();
 			if (this._tslintConfig != null) return;
 		}
 
