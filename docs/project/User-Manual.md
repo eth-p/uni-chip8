@@ -118,38 +118,86 @@ Assuming that the repository was already initalizied.
 
 ![website](images/website.jpg)
 
-### Browser Support
+### Display
 
-Your browser must be up-to-date.
+The display confirms to the 64x32 resolution specification.
+Under settings, the website will by default scale the display to a larger size while maintaining the aspect ratio.
 
-#### Desktop
+### Keypad
+
+#### On the website
+
+|Col1|Col2|Col3|Col4|
+|----|----|----|----|
+|1|2|3|C|
+|4|5|6|D|
+|7|8|9|E|
+|A|0|B|F|
+
+#### Default keymappings
+
+Each key in the following table associates to the on-screen button in the same position on the website keypad.
+
+|Col1|Col2|Col3|Col4|
+|----|----|----|----|
+|1|2|3|4|
+|Q|W|E|R|
+|A|S|D|F|
+|Z|X|C|V|
+
+### Debugger
+
+#### Registers
+
+Outputs the current values of each register.
+
+#### Stack
+
+Outputs the addresses stored in the call stack.
+
+#### Program Disassembler
+
+Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for disassembled instructions around the current instruction.
+
+#### Next
+
+Steps the CHIP-8 emulator to the next instruction.
+
+### Other Buttons
+
+#### Load
+
+Users can run programs that we made, or can upload their own ROM files.
+
+#### Reset
+
+Resets the CHIP-8 to default values and sets the program counter to 0x200.
+
+#### Pause | Resume
+
+Pauses and resumes the currently loaded CHIP-8 program.
+
+#### Settings
+
+Change miscellaneous settings such as the clock speed, or enabling/disabling the debugger.
+
+## Browser Support
+
+Your browser must be up-to-date. Due to Javascript's ubuiqity, our website works on most modern devices.
+
+### Desktop
 
 - Google Chrome
 - Mozilla Firefox
 - Microsoft Edge
 
-#### Mobile
+### Mobile
 
 - iOS Safari
 - Android Google Chrome
 
-**Note:** Reverse stepping is not implemented at this point.  
-**Known issues:** 
+**Note:** Reverse stepping is not implemented at this point.
+  
+**Known issues:**
 
-- Vibrator does not work on iOS.
-
-### Running Programs
-
-Users can run programs that we made, or can upload their own ROM files.
-
-![load-demo](images/load-demo.png)
-
-### Settings
-
-#### Change Frequency
-
-![freq](images/settings-general.png)
-
-#### Enabling Debugger Output
-
-![debugger](images/settings-debug.png)
+- Vibration does not work on iOS.
