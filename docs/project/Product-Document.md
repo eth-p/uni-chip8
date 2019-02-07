@@ -421,17 +421,22 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Developers
 
-Considering the fact that we will have a reverse debugger thus completing the debugger, developers:
+Considering the fact that we should have a reverse debugger, developers:
 
 - from other groups will be able to test their programs on our emulator website.
 - from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
-- from our group will get to experience writing CHIP-8 assembly programs.
-- from our group will be able to validate our own programs with the reverse debugger.
+
+Team Members:
+
+- will get to experience writing CHIP-8 assembly programs.
+- will understand the limitations of the CHIP-8 emulator "hardware", and gain appreciation of modern architectures.
+- will be able to validate our own programs with the reverse debugger.
 
 #### Hobbyists
 
 - will be able to enjoy their uploaded CHIP-8 ROMS on a functional and optimized multi-platform emulator website.
 - will be able to enjoy classic games such as Pong.
+- will be able to step forwards and backwards individual instructions to understand how program writers designed their games.
 
 ## Project Schedule
 

@@ -120,7 +120,7 @@ Assuming that the repository was already initalizied.
 
 ### Browser Support
 
-Your browser must be up-to-date with updates.
+Your browser must be up-to-date.
 
 #### Desktop
 
@@ -134,7 +134,9 @@ Your browser must be up-to-date with updates.
 - Android Google Chrome
 
 **Note:** Reverse stepping is not implemented at this point.  
-**Known bug:** Vibrator does not work on iOS.
+**Known issues:** 
+
+- Vibrator does not work on iOS.
 
 ### Running Programs
 
