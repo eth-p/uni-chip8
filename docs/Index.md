@@ -21,7 +21,7 @@ Check out the [setup guide](developer/Setup.md) for instructions on how to get s
 **Generate the documentation:**
 
 ```bash
-Assuming markdown-folder-to-html is installed through npm:
+# Assuming markdown-folder-to-html is installed through npm:
 
 markdown-folder-to-html docs
 ```

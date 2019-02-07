@@ -90,8 +90,9 @@ Run the following commands in the terminal:
 ./sct dev
 
 # Note for dev: The console output will stall after compiling files.  
- Since dev hosts the webserver, this is normal.  
- To stop dev, hit Control-C in the terminal and follow the instructions to stop the batch job.
+# Since dev hosts the webserver, this is normal.  
+# To stop dev, hit Control-C in the terminal and follow the
+# instructions to stop the batch job.
 
 # To view the local website while running './sct dev', open the following in a web browser
 http://127.0.0.1:8080
@@ -104,7 +105,7 @@ http://127.0.0.1:8080
 
 ```bash
 
-Assuming that the repository was already initalizied.
+# Assuming that the repository was already initalizied.
 
 # Run all module unit tests
 ./sct test
@@ -163,11 +164,13 @@ Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for 
 
 Steps the CHIP-8 emulator to the next instruction.
 
+**Note:** Reverse stepping is not implemented at this point.
+
 ### Other Buttons
 
 #### Load
 
-Users can run programs that we made, or can upload their own ROM files.
+Users can run programs that we made, or upload their own ROM files.
 
 #### Reset
 
@@ -183,7 +186,7 @@ Change miscellaneous settings such as the clock speed, or enabling/disabling the
 
 ## Browser Support
 
-Your browser must be up-to-date. Due to Javascript's ubuiqity, our website works on most modern devices.
+Your browser must be up-to-date. Due to Javascript's ubiquity, our website works on most modern devices.
 
 ### Desktop
 
@@ -196,8 +199,6 @@ Your browser must be up-to-date. Due to Javascript's ubuiqity, our website works
 - iOS Safari
 - Android Google Chrome
 
-**Note:** Reverse stepping is not implemented at this point.
-  
 **Known issues:**
 
 - Vibration does not work on iOS.
