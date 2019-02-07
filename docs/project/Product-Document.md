@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Product Document
 
-|<- [Index](../Index.md)|
+| <- [Index](../Index.md) |
 
 ## Project Introduction
 
@@ -244,7 +244,7 @@ The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 ### Work Breakdown
 
-We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus. Potential developer tools such as an assembler/disassembler will come before CHIP-8 program development, so that we will not have to directly write machine code for CHIP-8 programs.
+We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus.
 
 Unit tests will have to be written at the same time as development. We do not want to have to write all relevant tests during the final days of release.
 

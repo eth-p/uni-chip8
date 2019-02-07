@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Setup
 
-|<- [Index](../Index.md)|
+| <- [Index](../Index.md) |
 
 ## Requirements
 
