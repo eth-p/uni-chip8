@@ -1,3 +1,5 @@
+; Reserve V0 for CHIP-8 use
+
 define BALL_X VA
 define BALL_Y VB
 define PADDLE_X VC ; This is the left-most x position of the paddle.
