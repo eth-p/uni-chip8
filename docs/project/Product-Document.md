@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: Product Document
 
-|<- [Index](../Index.md)|
+| <- [Index](../Index.md) |
 
 ## Project Introduction
 
@@ -244,7 +244,7 @@ The requirement for *Windows Subsystem for Linux* has been deprecated.
 
 ### Work Breakdown
 
-We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus. Potential developer tools such as an assembler/disassembler will come before CHIP-8 program development, so that we will not have to directly write machine code for CHIP-8 programs.
+We will be using the incremental development model for this project. Work will be broken into different releases, where the work of previous releases serve as backbones for future releases. We may consider this breaking up of work to similarly model a dependency graph. Tooling such as test systems and build systems are universally useful, so they will have initial focus.
 
 Unit tests will have to be written at the same time as development. We do not want to have to write all relevant tests during the final days of release.
 
@@ -421,15 +421,22 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 #### Developers
 
+Considering the fact that we should have a reverse debugger, developers:
+
 - from other groups will be able to test their programs on our emulator website.
 - from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
-- from our group will get to experience writing CHIP-8 assembly programs.
-- from our group will be able to validate our own programs with the reverse debugger.
+
+#### Team Members:
+
+- will get to experience writing CHIP-8 assembly programs.
+- will understand the limitations of the CHIP-8 emulator "hardware", and gain appreciation of modern architectures.
+- will be able to validate our own programs with the reverse debugger.
 
 #### Hobbyists
 
-- will be able to enjoy their uploaded CHIP-8 ROMS on a functional multi-platform emulator website.
+- will be able to enjoy their uploaded CHIP-8 ROM on a functional and optimized multi-platform emulator website.
 - will be able to enjoy classic games such as Pong.
+- will be able to step forwards and backwards individual instructions to understand how program writers designed their games.
 
 ## Project Schedule
 

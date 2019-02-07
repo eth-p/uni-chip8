@@ -1,6 +1,6 @@
 # Team 15 CHIPotle: User Manual
 
-|<- [Index](../Index.md)|
+| <- [Index](../Index.md) |
 
 If you just want to use the running production release of the website, [visit the actual hosted website](https://chip.netlify.com).
 
@@ -18,11 +18,9 @@ please complete the prerequisites before doing anything else.
 
 ```bash
 
-# Install NodeJS, Git, Git LFS.
+# Install NodeJS
 brew install \
-	node \
-	git \
-	git-lfs
+	node
 
 ```
 
@@ -30,17 +28,13 @@ brew install \
 
 ```bash
 
+# Install curl
+sudo apt install curl
+
 # Install NodeJS
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
 sudo apt install -y nodejs
-
-# Install Git
-sudo apt install -y git
-
-# Install Git LFS
-sudo apt install -y software-properties-common
-sudo add-apt-repository ppa:git-core/ppa
-sudo apt install -y git-lfs
 
 # Install packages required for building nodegit.
 # WARNING: If you ignore this step, you may run into issues using 'sct init' or 'npm install'.
@@ -56,9 +50,6 @@ sudo apt install -y \
 First, download and install the following applications.
 - **Required Installations**
   - [NodeJS for Windows](https://nodejs.org/en/)
-  - [Git for Windows](https://git-scm.com/downloads)
-
-
 
 After, open PowerShell with administrative permissions as shown in the following picture:
 
@@ -89,6 +80,9 @@ Run the following commands in the terminal:
 # To initialize the repository, if you have not done so already
 ./sct init
 
+# sct will complain that git is not installed. Just ignore this and hit `Enter` to continue whenever that option comes up.
+# There will be an error at the end of `sct init` but it will be fine.
+
 # To build the project
 ./sct build --release
 
@@ -96,8 +90,9 @@ Run the following commands in the terminal:
 ./sct dev
 
 # Note for dev: The console output will stall after compiling files.  
- Since dev hosts the webserver, this is normal.  
- To stop dev, hit Control-C in the terminal and follow the instructions to stop the batch job.
+# Since dev hosts the webserver, this is normal.  
+# To stop dev, hit Control-C in the terminal and follow the
+# instructions to stop the batch job.
 
 # To view the local website while running './sct dev', open the following in a web browser
 http://127.0.0.1:8080
@@ -110,7 +105,7 @@ http://127.0.0.1:8080
 
 ```bash
 
-Assuming that the repository was already initalizied.
+# Assuming that the repository was already initalizied.
 
 # Run all module unit tests
 ./sct test
@@ -119,3 +114,91 @@ Assuming that the repository was already initalizied.
 ./sct check
 
 ```
+
+## Website Visualizer
+
+![website](images/website.jpg)
+
+### Display
+
+The display confirms to the 64x32 resolution specification.
+Under settings, the website will by default scale the display to a larger size while maintaining the aspect ratio.
+
+### Keypad
+
+#### On the website
+
+|Col1|Col2|Col3|Col4|
+|----|----|----|----|
+|1|2|3|C|
+|4|5|6|D|
+|7|8|9|E|
+|A|0|B|F|
+
+#### Default keymappings
+
+Each key in the following table associates to the on-screen button in the same position on the website keypad.
+
+|Col1|Col2|Col3|Col4|
+|----|----|----|----|
+|1|2|3|4|
+|Q|W|E|R|
+|A|S|D|F|
+|Z|X|C|V|
+
+### Debugger
+
+#### Registers
+
+Outputs the current values of each register.
+
+#### Stack
+
+Outputs the addresses stored in the call stack.
+
+#### Program Disassembler
+
+Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for disassembled instructions around the current instruction.
+
+#### Next
+
+Steps the CHIP-8 emulator to the next instruction.
+
+**Note:** Reverse stepping is not implemented at this point.
+
+### Other Buttons
+
+#### Load
+
+Users can run programs that we made, or upload their own ROM files.
+
+#### Reset
+
+Resets the CHIP-8 to default values and sets the program counter to 0x200.
+
+#### Pause | Resume
+
+Pauses and resumes the currently loaded CHIP-8 program.
+
+#### Settings
+
+Change miscellaneous settings such as the clock speed, or enabling/disabling the debugger.
+
+## Browser Support
+
+Your browser must be up-to-date. Due to Javascript's ubiquity, our website works on most modern devices.
+
+### Desktop
+
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+
+### Mobile
+
+- iOS Safari
+- Android Google Chrome
+
+**Known issues:**
+
+- Vibration does not work on iOS.
