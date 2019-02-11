@@ -74,5 +74,13 @@
 		"info": "MAZE, which is a classic CHIP8 Game that draws a random maze everytime it is loaded.",
 		"author": "Firas Fakih",
 		"author_url": "https://github.com/ffakih"
+	},
+
+	"brick-breaker.rom": {
+		"type": "GAME",
+		"name": "Brick Breaker",
+		"info": "",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir"
 	}
 }
