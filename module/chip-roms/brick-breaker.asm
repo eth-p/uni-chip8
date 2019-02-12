@@ -18,7 +18,14 @@ init:
 	LD V1, PADDLE_Y_VALUE
 	LD I, sprite_paddle
 	DRW V0, V1, #1
-	
+
+	; Initialize ball
+	LD BALL_X, #1F
+	LD BALL_Y, #15
+
+	; Draw ball at default location
+	CALL render_ball
+
 	JP loop
 
 loop:
@@ -88,6 +95,16 @@ render_paddle:
 	render_paddle_exit:
 		RET
 
+; Set VF = 1 if the ball collides with a sprite
+test_ball_collision:
+	CALL render_ball
+	CALL render_ball
+	RET
+
+render_ball:
+	LD I, sprite_ball
+	DRW BALL_X, BALL_Y, #1
+	RET
 
 wait:
 	wait_loop:
@@ -105,3 +122,7 @@ sprite_paddle:
 sprite_target:
 	db
 	#e0
+
+sprite_ball:
+	db
+	#80
