@@ -3,15 +3,22 @@ define BALL_Y VB
 define PADDLE_X VC
 define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
+define PADDLE_X_DEFAULT_VALUE #1F
 define LEFT_KEY #1
 define RIGHT_KEY #2
 define ONE #1
 
 init:
-	LD PADDLE_X, #1F
+	LD PADDLE_X, PADDLE_X_DEFAULT_VALUE
 	LD PADDLE_X_OLD, PADDLE_X
 	CALL load_targets
-	CALL render_paddle
+
+	; Draw paddle at default location
+	LD V0, PADDLE_X_DEFAULT_VALUE
+	LD V1, PADDLE_Y_VALUE
+	LD I, sprite_paddle
+	DRW V0, V1, #1
+	
 	JP loop
 
 loop:
@@ -65,11 +72,12 @@ input_paddle:
 		RET
 
 render_paddle:
+	; Only do any rendering if the paddle has moved
+	SNE PADDLE_X, PADDLE_X_OLD
+	JP render_paddle_exit
+
 	LD I, sprite_paddle
 	LD V0, PADDLE_Y_VALUE
-
-	SNE PADDLE_X, PADDLE_X_OLD
-	JP draw_new_paddle
 
 	clear_old_paddle:
 		DRW PADDLE_X_OLD, V0, ONE
