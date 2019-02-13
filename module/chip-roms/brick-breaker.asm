@@ -8,8 +8,8 @@ define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
 define BALL_COLLIDE VE
 define PADDLE_X_DEFAULT_VALUE #1C
-define LEFT_KEY #1
-define RIGHT_KEY #2
+define LEFT_KEY #7
+define RIGHT_KEY #9
 define ONE #1
 define BALL_X_MAX #3F
 define BALL_Y_MAX #1F
@@ -38,7 +38,8 @@ init:
 	JP loop
 
 loop:
-	CALL input_paddle
+	; CALL input_paddle
+	CALL paddle_ai
 	CALL render_paddle
 	CALL move_ball
 	CALL render_old_ball
@@ -73,7 +74,6 @@ loop:
 			SNE V0, #5
 			JP loop_collide_paddle_right
 
-
 			loop_collide_paddle_left:
 				CALL set_ball_dx_neg
 				JP loop_collide_check_end
@@ -84,10 +84,32 @@ loop:
 
 			JP loop_collide_check_end
 
+		; Handle collision with target
+		; Expect the target sprite hit location to be unset
 		loop_collide_target:
-			CALL render_ball
-			CALL flip_ball_dy
-			JP loop_collide_check_end
+			CALL render_ball ; Reset target to full sprite
+
+			LD V0, BALL_X
+			LD V1, #1
+
+			loop_collide_target_loop:
+				CALL render_ball
+				LD V2, VF
+				CALL render_ball
+				SUB BALL_X, V1
+				SNE V2, #1
+				JP loop_collide_target_loop
+			
+			ADD BALL_X, #2
+
+			LD I, sprite_target
+			DRW BALL_X, BALL_Y, #1
+
+			loop_collide_target_end:
+				LD BALL_X, V0
+				CALL render_ball
+				CALL flip_ball_dy
+				JP loop_collide_check_end
 
 	loop_no_collide:
 
@@ -103,15 +125,6 @@ loop:
 			JP loop_collide_check_end
 
 	loop_collide_check_end:
-
-
-	; loop_game_lost:
-	; 	CALL game_lost
-	;	CALL wait
-	;	JP init
-
-	;loop_game_continue:
-
 	
 	loop_timer:
 		LD V0, #2
@@ -146,6 +159,33 @@ game_lost:
 	RET
 
 ; -----------------------------------------------------------------------------
+
+paddle_ai:
+
+	LD PADDLE_X_OLD, PADDLE_X
+	LD V0, PADDLE_X
+	ADD V0, #2
+	LD V1, BALL_X
+
+	CALL less_than
+	SNE V2, #1
+	JP paddle_ai_right
+	JP paddle_ai_left
+
+	paddle_ai_left:
+		LD V0, #1
+		SNE PADDLE_X, #0
+		JP paddle_ai_exit
+		SUB PADDLE_X, V0
+		JP paddle_ai_exit
+
+	paddle_ai_right:
+		SNE PADDLE_X, #3A
+		JP paddle_ai_exit
+		ADD PADDLE_X, #1
+
+	paddle_ai_exit:
+		RET
 
 input_paddle:
 	
