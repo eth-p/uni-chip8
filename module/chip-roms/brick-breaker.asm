@@ -14,6 +14,7 @@ define BALL_X_MAX #3F
 define BALL_Y_MAX #1F
 
 init:
+	CLS
 	LD PADDLE_X, PADDLE_X_DEFAULT_VALUE
 	LD PADDLE_X_OLD, PADDLE_X
 	CALL load_targets
@@ -28,7 +29,7 @@ init:
 	; BALL_V = (isDXPos, isDYPos)
 	LD BALL_V, #11
 	LD BALL_X, #1F
-	LD BALL_Y, #15
+	LD BALL_Y, #A
 
 	; Draw ball at default location
 	CALL render_ball
@@ -41,9 +42,33 @@ loop:
 	CALL move_ball
 	CALL render_old_ball
 	CALL render_ball
-	LD V0, #1
-	LD DT, V0
-	CALL wait
+
+	; Check if the player failed to bounce the ball
+	CALL is_game_lost
+	SNE V0, #0
+	JP loop_game_continue
+
+	loop_game_lost:
+		CALL game_lost
+		CALL wait
+		JP init
+
+	loop_game_continue:
+
+	CALL is_ball_collide_with_paddle
+	
+	SE V0, #1
+	JP loop_timer
+
+	loop_bounce_ball_paddle:
+		LD V0, #2
+		LD ST, V0
+
+	loop_timer:
+		LD V0, #2
+		LD DT, V0
+		CALL wait
+	
 	JP loop
 
 reset:
@@ -65,6 +90,32 @@ load_targets:
 		JP load_targets_y
 	RET
 
+; Set V0 = Ball reached the bottom and didn't hit a paddle
+is_game_lost:
+	SE BALL_Y, BALL_Y_MAX
+		JP is_game_lost_false
+	
+	is_game_lost_check_paddle:
+		CALL is_ball_collide_with_paddle
+		SE V0, #0
+		JP is_game_lost_false
+		JP is_game_lost_true
+
+	is_game_lost_false:
+		LD V0, #0
+		RET
+
+	is_game_lost_true:
+		LD V0, #1
+		RET
+
+game_lost:
+	LD V0, #1E
+	LD ST, V0
+	LD DT, V0
+	RET
+
+; -----------------------------------------------------------------------------
 
 input_paddle:
 	
@@ -111,9 +162,30 @@ test_ball_collision:
 	CALL render_ball
 	RET
 
+decide_ball_movement:
+	
+	; Bounce off walls
+
+	SNE BALL_X, #0
+	CALL set_ball_dx_pos
+
+	SNE BALL_X, BALL_X_MAX
+	CALL set_ball_dx_neg
+
+	SNE BALL_Y, #0
+	CALL set_ball_dy_pos
+
+	SNE BALL_Y, BALL_Y_MAX
+	CALL set_ball_dy_neg
+
+	decide_ball_movement_exit:
+		RET
+
 move_ball:
 	LD BALL_X_OLD, BALL_X
 	LD BALL_Y_OLD, BALL_Y
+
+	CALL decide_ball_movement
 
 	move_ball_x:
 		CALL is_ball_dx_pos
@@ -193,6 +265,29 @@ render_old_ball:
 render_ball:
 	LD I, sprite_ball
 	DRW BALL_X, BALL_Y, #1
+	RET
+
+; Set V0 = If the ball hits the paddle
+; Pre-condition: The ball has already been rendered
+is_ball_collide_with_paddle:
+	; Check if the ball y-coordinate is the same as the paddle y-coordinate
+	SE BALL_Y, PADDLE_Y_VALUE
+	JP is_ball_collide_with_paddle_false
+
+	; Check if a sprite collision occurs
+	CALL render_ball
+	CALL render_ball
+
+	SE VF, #1
+	JP is_ball_collide_with_paddle_false
+
+	is_ball_collide_with_paddle_true:
+		LD V0, #1
+		RET
+
+	is_ball_collide_with_paddle_false:
+		LD V0, #0
+
 	RET
 
 ; ----------------------------------------------------------------------------
