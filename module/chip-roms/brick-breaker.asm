@@ -7,7 +7,7 @@ define PADDLE_X VC
 define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
 define BALL_COLLIDE VE
-define PADDLE_X_DEFAULT_VALUE #1F
+define PADDLE_X_DEFAULT_VALUE #1C
 define LEFT_KEY #1
 define RIGHT_KEY #2
 define ONE #1
@@ -128,9 +128,24 @@ input_paddle:
 	check_left_key:
 		LD V0, LEFT_KEY
 		SKP V0
+		JP check_left_key_disallowed
+
+		check_left_key_allowed:
+			LD V0, PADDLE_X
+			LD V1, #1
+			CALL greater_than
+			SE V2, #1
+			JP check_right_key
+
+			LD V0, #2
+			SUB PADDLE_X, V0
+			JP check_right_key
+
+		check_left_key_disallowed:
+			JP check_right_key
+
 		JP check_right_key
-		LD V0, #2
-		SUB PADDLE_X, V0
+		
 
 	check_right_key:
 		LD V0, RIGHT_KEY
@@ -310,11 +325,45 @@ wait:
 		JP wait_loop
 	RET
 
+; Set V2 = V0 < V1
+less_than:
+	LD V2, V0
+	SUB V2, V1
+	SE VF, #0
+	JP less_than_false
+
+	less_than_true:
+		LD V2, #1
+		RET
+
+	less_than_false:
+		LD V2, #0
+		RET
+
+; Set V2 = V0 > V1
+greater_than:
+	SNE V0, V1
+	JP greater_than_false
+
+	CALL less_than
+	SE V2, #1
+	JP greater_than_true
+	JP greater_than_false
+
+	greater_than_true:
+		LD V2, #1
+		RET
+
+	greater_than_false:
+		LD V2, #0
+		RET
+
 ; SPRITES --------------------------------------------------
 
+; 7 wide
 sprite_paddle:
 	db
-	#fc
+	#fe
 
 sprite_target:
 	db
