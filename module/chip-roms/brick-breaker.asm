@@ -6,6 +6,7 @@ define BALL_Y VB
 define PADDLE_X VC
 define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
+define BALL_COLLIDE VE
 define PADDLE_X_DEFAULT_VALUE #1F
 define LEFT_KEY #1
 define RIGHT_KEY #2
@@ -43,27 +44,49 @@ loop:
 	CALL render_old_ball
 	CALL render_ball
 
-	; Check if the player failed to bounce the ball
-	CALL is_game_lost
-	SNE V0, #0
-	JP loop_game_continue
+	LD BALL_COLLIDE, VF
+	SE BALL_COLLIDE, #1
+	JP loop_no_collide
 
-	loop_game_lost:
-		CALL game_lost
-		CALL wait
-		JP init
-
-	loop_game_continue:
-
-	CALL is_ball_collide_with_paddle
-	
-	SE V0, #1
-	JP loop_timer
-
-	loop_bounce_ball_paddle:
-		LD V0, #2
+	loop_collide:
+		LD V0, #1
 		LD ST, V0
 
+		SE BALL_Y, BALL_Y_MAX
+		JP loop_collide_target
+
+		loop_collide_paddle:
+			JP loop_collide_check_end
+
+		loop_collide_target:
+			CALL render_ball
+			CALL flip_ball_dy
+			JP loop_collide_check_end
+
+	loop_no_collide:
+
+		SE BALL_Y, BALL_Y_MAX
+		JP loop_no_collide_other
+
+		loop_no_collide_bottom:
+			CALL game_lost
+			CALL wait
+			JP init
+
+		loop_no_collide_other:
+			JP loop_collide_check_end
+
+	loop_collide_check_end:
+
+
+	; loop_game_lost:
+	; 	CALL game_lost
+	;	CALL wait
+	;	JP init
+
+	;loop_game_continue:
+
+	
 	loop_timer:
 		LD V0, #2
 		LD DT, V0
@@ -90,25 +113,6 @@ load_targets:
 		JP load_targets_y
 	RET
 
-; Set V0 = Ball reached the bottom and didn't hit a paddle
-is_game_lost:
-	SE BALL_Y, BALL_Y_MAX
-		JP is_game_lost_false
-	
-	is_game_lost_check_paddle:
-		CALL is_ball_collide_with_paddle
-		SE V0, #0
-		JP is_game_lost_false
-		JP is_game_lost_true
-
-	is_game_lost_false:
-		LD V0, #0
-		RET
-
-	is_game_lost_true:
-		LD V0, #1
-		RET
-
 game_lost:
 	LD V0, #1E
 	LD ST, V0
@@ -125,14 +129,14 @@ input_paddle:
 		LD V0, LEFT_KEY
 		SKP V0
 		JP check_right_key
-		LD V0, ONE
+		LD V0, #2
 		SUB PADDLE_X, V0
 
 	check_right_key:
 		LD V0, RIGHT_KEY
 		SKP V0
 		JP player_input_exit
-		ADD PADDLE_X, ONE
+		ADD PADDLE_X, #2
 
 	player_input_exit:
 		RET
@@ -257,6 +261,36 @@ is_ball_dy_pos:
 	AND V0, V1
 	RET
 
+flip_ball_dx:
+	CALL is_ball_dx_pos
+	SE V0, #1
+	JP flip_ball_dx_currentneg
+
+	flip_ball_dx_currentpos:
+		CALL set_ball_dx_neg
+		JP flip_ball_dx_end
+
+	flip_ball_dx_currentneg:
+		CALL set_ball_dx_pos
+
+	flip_ball_dx_end:
+		RET
+
+flip_ball_dy:
+	CALL is_ball_dy_pos
+	SE V0, #1
+	JP flip_ball_dy_currentneg
+
+	flip_ball_dy_currentpos:
+		CALL set_ball_dy_neg
+		JP flip_ball_dy_end
+
+	flip_ball_dy_currentneg:
+		CALL set_ball_dy_pos
+
+	flip_ball_dy_end:
+		RET
+
 render_old_ball:
 	LD I, sprite_ball
 	DRW BALL_X_OLD, BALL_Y_OLD, #1
@@ -265,29 +299,6 @@ render_old_ball:
 render_ball:
 	LD I, sprite_ball
 	DRW BALL_X, BALL_Y, #1
-	RET
-
-; Set V0 = If the ball hits the paddle
-; Pre-condition: The ball has already been rendered
-is_ball_collide_with_paddle:
-	; Check if the ball y-coordinate is the same as the paddle y-coordinate
-	SE BALL_Y, PADDLE_Y_VALUE
-	JP is_ball_collide_with_paddle_false
-
-	; Check if a sprite collision occurs
-	CALL render_ball
-	CALL render_ball
-
-	SE VF, #1
-	JP is_ball_collide_with_paddle_false
-
-	is_ball_collide_with_paddle_true:
-		LD V0, #1
-		RET
-
-	is_ball_collide_with_paddle_false:
-		LD V0, #0
-
 	RET
 
 ; ----------------------------------------------------------------------------
