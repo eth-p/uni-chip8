@@ -56,6 +56,32 @@ loop:
 		JP loop_collide_target
 
 		loop_collide_paddle:
+			; Bounce angle determined by hit location on paddle
+			LD V0, BALL_X
+			SUB V0, PADDLE_X
+
+			SNE V0, #0
+			JP loop_collide_paddle_left
+			SNE V0, #1
+			JP loop_collide_paddle_left
+			SNE V0, #2
+			JP loop_collide_paddle_left
+			SNE V0, #3
+			JP loop_collide_paddle_right
+			SNE V0, #4
+			JP loop_collide_paddle_right
+			SNE V0, #5
+			JP loop_collide_paddle_right
+
+
+			loop_collide_paddle_left:
+				CALL set_ball_dx_neg
+				JP loop_collide_check_end
+
+			loop_collide_paddle_right:
+				CALL set_ball_dx_pos
+				JP loop_collide_check_end
+
 			JP loop_collide_check_end
 
 		loop_collide_target:
@@ -131,15 +157,25 @@ input_paddle:
 		JP check_left_key_disallowed
 
 		check_left_key_allowed:
-			LD V0, PADDLE_X
-			LD V1, #1
-			CALL greater_than
-			SE V2, #1
-			JP check_right_key
 
-			LD V0, #2
-			SUB PADDLE_X, V0
-			JP check_right_key
+			SE PADDLE_X, #1
+			JP check_left_key_allowed_continue
+
+			move_paddle_to_zero:
+				LD PADDLE_X, #0
+				JP check_right_key
+
+			check_left_key_allowed_continue:
+
+				LD V0, PADDLE_X
+				LD V1, #1
+				CALL greater_than
+				SE V2, #1
+				JP check_right_key
+
+				LD V0, #2
+				SUB PADDLE_X, V0
+				JP check_right_key
 
 		check_left_key_disallowed:
 			JP check_right_key
@@ -152,6 +188,14 @@ input_paddle:
 		SKP V0
 		JP player_input_exit
 		ADD PADDLE_X, #2
+		LD V0, PADDLE_X
+		LD V1, #3A
+		CALL greater_than
+		SE V2, #1
+		JP player_input_exit
+
+		shift_paddle_left:
+			LD PADDLE_X, #3A
 
 	player_input_exit:
 		RET
@@ -360,10 +404,10 @@ greater_than:
 
 ; SPRITES --------------------------------------------------
 
-; 7 wide
+; 6 wide
 sprite_paddle:
 	db
-	#fe
+	#fc
 
 sprite_target:
 	db
