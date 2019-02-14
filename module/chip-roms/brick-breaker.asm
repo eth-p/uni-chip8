@@ -104,8 +104,8 @@ lost_game:
 	JP init
 
 loop:
-	;CALL input_paddle
-	CALL paddle_ai
+	CALL input_paddle
+	; CALL paddle_ai
 	CALL render_paddle
 	CALL move_ball
 	CALL render_old_ball
