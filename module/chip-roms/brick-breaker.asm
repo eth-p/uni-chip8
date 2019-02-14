@@ -1,3 +1,4 @@
+define TARGETS_LEFT V5
 define LIVES_LEFT V6
 define BALL_X_OLD V7
 define BALL_Y_OLD V8
@@ -14,14 +15,39 @@ define RIGHT_KEY #9
 define ONE #1
 define BALL_X_MAX #3F
 define BALL_Y_MAX #1F
-define TARGET_ROW_COUNT #4
+define TARGET_ROW_COUNT #5
 define TARGET_ROW_SPACING #4
 define TARGET_ROW_INITIAL_Y_COORDINATE #4
 define DEFAULT_LIVES_COUNT #3
 
+splash_screen:
+	LD V0, #A
+	LD V1, #B
+
+	LD I, sprite_BR
+	DRW V0, V1, #5
+	
+	ADD V0, #8
+
+	LD I, sprite_IC
+	DRW V0, V1, #5
+
+	ADD V0, #8
+
+	LD I, sprite_K
+	DRW V0, V1, #5
+
+	LD V0, #B4
+	LD DT, V0
+	LD ST, V0
+	CALL wait
+
+	JP init
+
 init:
 	CLS
 	LD LIVES_LEFT, #3
+	LD TARGETS_LEFT, #0
 	CALL load_targets
 
 	JP init_round
@@ -75,12 +101,11 @@ init_new_round:
 	JP init_round
 
 lost_game:
-
 	JP init
 
 loop:
-	CALL input_paddle
-	;CALL paddle_ai
+	;CALL input_paddle
+	CALL paddle_ai
 	CALL render_paddle
 	CALL move_ball
 	CALL render_old_ball
@@ -150,6 +175,10 @@ loop:
 				LD BALL_X, V0
 				CALL render_ball
 				CALL flip_ball_dy
+				LD V0, #1
+				SUB TARGETS_LEFT, V0
+				SNE TARGETS_LEFT, #0
+				JP game_win
 				JP loop_collide_check_end
 
 	loop_no_collide:
@@ -182,15 +211,19 @@ loop:
 reset:
 	JP init
 
+game_win:
+	JP init
+
 load_targets:
 	LD V3, #2 ; x
 	LD V4, TARGET_ROW_INITIAL_Y_COORDINATE; y
-	LD V5, #1 ; ROW COUNT
+	LD VE, #1 ; ROW COUNT
 	LD I, sprite_target
 	load_targets_y:
 		LD V3, #2
 		load_targets_x:
 			DRW V3, V4, #1
+			ADD TARGETS_LEFT, #1
 			ADD V3, #4
 			LD V0, V3
 			LD V1, #3A
@@ -198,13 +231,15 @@ load_targets:
 			SNE V2, #0
 			JP load_targets_x
 
-		ADD V5, #1
+		ADD VE, #1
 		ADD V4, #3
-		LD V0, V5
+		LD V0, VE
 		LD V1, TARGET_ROW_COUNT
 		CALL greater_than
 		SNE V2, #0
 		JP load_targets_y
+
+		LD VE, #0
 	RET
 
 game_lost:
@@ -511,3 +546,27 @@ sprite_target:
 sprite_ball:
 	db
 	#80
+
+sprite_BR:
+	db
+	#cc,
+	#aa,
+	#cc,
+	#aa,
+	#ca
+
+sprite_IC:
+	db
+	#ee,
+	#48,
+	#48,
+	#48,
+	#ee
+
+sprite_K:
+	db
+	#a0,
+	#a0,
+	#c0,
+	#a0,
+	#a0
