@@ -1,3 +1,4 @@
+define LIVES_LEFT V6
 define BALL_X_OLD V7
 define BALL_Y_OLD V8
 define BALL_V V9
@@ -13,12 +14,21 @@ define RIGHT_KEY #9
 define ONE #1
 define BALL_X_MAX #3F
 define BALL_Y_MAX #1F
+define TARGET_ROW_COUNT #4
+define TARGET_ROW_SPACING #4
+define TARGET_ROW_INITIAL_Y_COORDINATE #4
+define DEFAULT_LIVES_COUNT #3
 
 init:
 	CLS
+	LD LIVES_LEFT, #3
+	CALL load_targets
+
+	JP init_round
+
+init_round:
 	LD PADDLE_X, PADDLE_X_DEFAULT_VALUE
 	LD PADDLE_X_OLD, PADDLE_X
-	CALL load_targets
 
 	; Draw paddle at default location
 	LD V0, PADDLE_X_DEFAULT_VALUE
@@ -29,17 +39,48 @@ init:
 	; Initialize ball
 	; BALL_V = (isDXPos, isDYPos)
 	LD BALL_V, #11
+
+	RND V0, #F
+	LD V1, #7
+	CALL greater_than
+	SNE V2, #1
+	JP init_ball_right
+	init_ball_left:
+		CALL set_ball_dx_neg
+		JP init_ball_continue
+
+	init_ball_right:
+		CALL set_ball_dx_pos
+
+	init_ball_continue:
+
 	LD BALL_X, #1F
-	LD BALL_Y, #A
+	LD BALL_Y, #12
 
 	; Draw ball at default location
 	CALL render_ball
 
 	JP loop
 
+; Clear the old sprites
+init_new_round:
+	LD V0, #1
+	SUB LIVES_LEFT, V0
+	LD V0, PADDLE_X
+	LD V1, PADDLE_Y_VALUE
+	LD I, sprite_paddle
+	DRW V0, V1, #1
+	LD I, sprite_ball
+	DRW BALL_X, BALL_Y, #1
+	JP init_round
+
+lost_game:
+
+	JP init
+
 loop:
-	; CALL input_paddle
-	CALL paddle_ai
+	CALL input_paddle
+	;CALL paddle_ai
 	CALL render_paddle
 	CALL move_ball
 	CALL render_old_ball
@@ -119,7 +160,12 @@ loop:
 		loop_no_collide_bottom:
 			CALL game_lost
 			CALL wait
-			JP init
+			SNE LIVES_LEFT, #1
+				JP start_new_game
+			start_new_round:
+				JP init_new_round
+			start_new_game:
+				JP lost_game
 
 		loop_no_collide_other:
 			JP loop_collide_check_end
@@ -127,7 +173,7 @@ loop:
 	loop_collide_check_end:
 	
 	loop_timer:
-		LD V0, #2
+		LD V0, #3
 		LD DT, V0
 		CALL wait
 	
@@ -137,18 +183,27 @@ reset:
 	JP init
 
 load_targets:
-	LD V0, #2 ; x
-	LD V1, #2; y
+	LD V3, #2 ; x
+	LD V4, TARGET_ROW_INITIAL_Y_COORDINATE; y
+	LD V5, #1 ; ROW COUNT
 	LD I, sprite_target
 	load_targets_y:
+		LD V3, #2
 		load_targets_x:
-			DRW V0, V1, #1
-			ADD V0, #4
-			SE V0, #3e
+			DRW V3, V4, #1
+			ADD V3, #4
+			LD V0, V3
+			LD V1, #3A
+			CALL greater_than
+			SNE V2, #0
 			JP load_targets_x
-			LD V0, #2
-		ADD V1, #3
-		SE V1, #11
+
+		ADD V5, #1
+		ADD V4, #3
+		LD V0, V5
+		LD V1, TARGET_ROW_COUNT
+		CALL greater_than
+		SNE V2, #0
 		JP load_targets_y
 	RET
 
