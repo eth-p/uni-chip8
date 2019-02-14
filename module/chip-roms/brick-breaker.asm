@@ -10,6 +10,7 @@ define PADDLE_X VC
 define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
 define PADDLE_X_MAX #38
+define PADDLE_SPEED #3
 define BALL_COLLIDE VE
 define PADDLE_X_DEFAULT_VALUE #1C
 define LEFT_KEY #7
@@ -23,8 +24,8 @@ define TARGET_ROW_INITIAL_Y_COORDINATE #4
 define DEFAULT_LIVES_COUNT #3
 
 splash_screen:
-	LD V0, #A ; x
-	LD V1, #B ; y
+	LD V0, #C ; x
+	LD V1, #A ; y
 
 	; BRICK
 	LD I, sprite_BR
@@ -338,7 +339,10 @@ input_paddle:
 
 		check_left_key_allowed:
 
-			SE PADDLE_X, #1
+			LD V0, PADDLE_X
+			LD V1, PADDLE_SPEED
+			CALL less_than
+			SNE V2, #0
 			JP check_left_key_allowed_continue
 
 			move_paddle_to_zero:
@@ -353,7 +357,7 @@ input_paddle:
 				SE V2, #1
 				JP check_right_key
 
-				LD V0, #2
+				LD V0, PADDLE_SPEED
 				SUB PADDLE_X, V0
 				JP check_right_key
 
@@ -367,7 +371,7 @@ input_paddle:
 		LD V0, RIGHT_KEY
 		SKP V0
 		JP player_input_exit
-		ADD PADDLE_X, #2
+		ADD PADDLE_X, PADDLE_SPEED
 		LD V0, PADDLE_X
 		LD V1, PADDLE_X_MAX
 		CALL greater_than
