@@ -79,8 +79,12 @@
 	"brick-breaker.rom": {
 		"type": "GAME",
 		"name": "Brick Breaker",
-		"info": "",
+		"info": "Brick Breaker, now avaliable for the CHIP-8!",
 		"author": "Kyle Saburao",
-		"author_url": "https://github.com/macedir"
+		"author_url": "https://github.com/macedir",
+		"controls": {
+			"7": "LEFT",
+			"9": "RIGHT"
+		}
 	}
 }

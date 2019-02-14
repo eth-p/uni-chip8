@@ -1,3 +1,4 @@
+define LIVES_X V4
 define TARGETS_LEFT V5
 define LIVES_LEFT V6
 define BALL_X_OLD V7
@@ -8,6 +9,7 @@ define BALL_Y VB
 define PADDLE_X VC
 define PADDLE_Y_VALUE #1F
 define PADDLE_X_OLD VD
+define PADDLE_X_MAX #38
 define BALL_COLLIDE VE
 define PADDLE_X_DEFAULT_VALUE #1C
 define LEFT_KEY #7
@@ -21,9 +23,10 @@ define TARGET_ROW_INITIAL_Y_COORDINATE #4
 define DEFAULT_LIVES_COUNT #3
 
 splash_screen:
-	LD V0, #A
-	LD V1, #B
+	LD V0, #A ; x
+	LD V1, #B ; y
 
+	; BRICK
 	LD I, sprite_BR
 	DRW V0, V1, #5
 	
@@ -35,6 +38,24 @@ splash_screen:
 	ADD V0, #8
 
 	LD I, sprite_K
+	DRW V0, V1, #5
+
+	; BREAKER
+	ADD V1, #8
+
+	LD I, sprite_BR
+	DRW V0, V1, #5
+	ADD V0, #8
+
+	LD I, sprite_EA
+	DRW V0, V1, #5
+	ADD V0, #7
+
+	LD I, sprite_K
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_ER
 	DRW V0, V1, #5
 
 	LD V0, #B4
@@ -49,6 +70,7 @@ init:
 	LD LIVES_LEFT, #3
 	LD TARGETS_LEFT, #0
 	CALL load_targets
+	CALL load_lives_indicator ; Call after load_targets
 
 	JP init_round
 
@@ -81,7 +103,7 @@ init_round:
 	init_ball_continue:
 
 	LD BALL_X, #1F
-	LD BALL_Y, #12
+	LD BALL_Y, #13
 
 	; Draw ball at default location
 	CALL render_ball
@@ -98,6 +120,10 @@ init_new_round:
 	DRW V0, V1, #1
 	LD I, sprite_ball
 	DRW BALL_X, BALL_Y, #1
+	LD V0, #0
+	DRW LIVES_X, V0, #1
+	LD V0, #2
+	SUB LIVES_X, V0
 	JP init_round
 
 lost_game:
@@ -134,10 +160,14 @@ loop:
 			SNE V0, #2
 			JP loop_collide_paddle_left
 			SNE V0, #3
-			JP loop_collide_paddle_right
+			JP loop_collide_paddle_left
 			SNE V0, #4
 			JP loop_collide_paddle_right
 			SNE V0, #5
+			JP loop_collide_paddle_right
+			SNE V0, #6
+			JP loop_collide_paddle_right
+			SNE V0, #7
 			JP loop_collide_paddle_right
 
 			loop_collide_paddle_left:
@@ -153,12 +183,17 @@ loop:
 		; Handle collision with target
 		; Expect the target sprite hit location to be unset
 		loop_collide_target:
+
+			; Skip if the ball is at the top y = 0
+			SNE BALL_Y, #0
+			JP loop_collide_check_end
+
 			CALL render_ball ; Reset target to full sprite
 
 			LD V0, BALL_X
 			LD V1, #1
 
-			loop_collide_target_loop:
+			loop_collide_target_loop: ; Find the left-most pixel of the target
 				CALL render_ball
 				LD V2, VF
 				CALL render_ball
@@ -213,6 +248,21 @@ reset:
 
 game_win:
 	JP init
+
+load_lives_indicator:
+	LD I, sprite_ball
+	LD LIVES_X, #2 ; x
+	LD V1, #0 ; y
+	LD V2, #0 ; count
+	load_lives_indicator_loop:
+		DRW LIVES_X, V1, #1
+		ADD LIVES_X, #2
+		ADD V2, #1
+		SE V2, DEFAULT_LIVES_COUNT
+		JP load_lives_indicator_loop
+	LD V0, #2
+	SUB LIVES_X, V0
+	RET
 
 load_targets:
 	LD V3, #2 ; x
@@ -270,7 +320,7 @@ paddle_ai:
 		JP paddle_ai_exit
 
 	paddle_ai_right:
-		SNE PADDLE_X, #3A
+		SNE PADDLE_X, PADDLE_X_MAX
 		JP paddle_ai_exit
 		ADD PADDLE_X, #1
 
@@ -319,13 +369,13 @@ input_paddle:
 		JP player_input_exit
 		ADD PADDLE_X, #2
 		LD V0, PADDLE_X
-		LD V1, #3A
+		LD V1, PADDLE_X_MAX
 		CALL greater_than
 		SE V2, #1
 		JP player_input_exit
 
 		shift_paddle_left:
-			LD PADDLE_X, #3A
+			LD PADDLE_X, PADDLE_X_MAX
 
 	player_input_exit:
 		RET
@@ -534,10 +584,10 @@ greater_than:
 
 ; SPRITES --------------------------------------------------
 
-; 6 wide
+; 8 wide
 sprite_paddle:
 	db
-	#fc
+	#ff
 
 sprite_target:
 	db
@@ -570,3 +620,19 @@ sprite_K:
 	#c0,
 	#a0,
 	#a0
+
+sprite_EA:
+	db
+	#c8,
+	#94,
+	#dc,
+	#94,
+	#d4
+
+sprite_ER:
+	db
+	#d8,
+	#94,
+	#d8,
+	#94,
+	#d4
