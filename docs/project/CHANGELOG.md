@@ -73,3 +73,9 @@
 ### Schedule
 
 - **Release:** Moved programs to release 2 due to early completion of emulator and website.
+
+## Release 1
+
+### Developer
+
+- **chip-roms:** Added Brick Breaker game.
