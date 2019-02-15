@@ -248,6 +248,39 @@ reset:
 	JP init
 
 game_win:
+	CLS
+
+	; Draw "You win!"
+
+	LD V0, #11
+	LD V1, #D
+
+	LD I, sprite_YO
+	DRW V0, V1, #5
+	ADD V0, #8
+
+	LD I, sprite_U
+	DRW V0, V1, #5
+	ADD V0, #6
+
+	LD I, sprite_W
+	DRW V0, V1, #5
+	ADD V0, #6
+
+	LD I, sprite_IN
+	DRW V0, V1, #5
+	ADD V0, #8
+
+	LD I, sprite_e_mark
+	DRW V0, V1, #5
+
+	; Beep and delay
+	LD V0, #3C
+	LD DT, V0
+	LD ST, V0
+
+	CALL wait
+
 	JP init
 
 load_lives_indicator:
@@ -640,3 +673,43 @@ sprite_ER:
 	#d8,
 	#94,
 	#d4
+
+sprite_YO:
+	db
+	#ae,
+	#aa,
+	#ea,
+	#2a,
+	#ee
+
+sprite_U:
+	db
+	#a0,
+	#a0,
+	#a0,
+	#a0,
+	#e0
+
+sprite_W:
+	db
+	#88,
+	#88,
+	#88,
+	#a8,
+	#50
+
+sprite_IN:
+	db
+	#ee,
+	#4a,
+	#4a,
+	#4a,
+	#ea
+
+sprite_e_mark:
+	db
+	#80,
+	#80,
+	#80,
+	#0,
+	#80
