@@ -196,8 +196,17 @@ loop:
 	SNE VE, #FF ; If the score reaches 0xa, reset the game
 	JP init
 	CALL draw
+	LD V0, #1
+	LD DT, V0
+	CALL wait
 	JP loop
 
+wait:
+	wait_loop:
+		LD V0, DT
+		SE V0, #0
+		JP wait_loop
+	RET
 ; -------------------------------
 
 dvd_left:

@@ -12,3 +12,7 @@ node_modules
 
 # Documents
 _docs
+
+# Temporary assembler executables
+module/chip-roms/c8asm
+module/chip-roms/c8dasm
