@@ -42,7 +42,11 @@
 		"name": "Corners Game",
 		"info": "The bouncing logo of a popular disc-shaped video storage medium... but this time, it's a game.",
 		"author": "Kyle Saburao",
-		"author_url": "https://github.com/macedir"
+		"author_url": "https://github.com/macedir",
+		"controls": {
+			"7": "LEFT",
+			"9": "RIGHT"
+		}
 	},
 
 	"warshaws_revenge.rom": {
