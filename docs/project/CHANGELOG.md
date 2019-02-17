@@ -79,3 +79,4 @@
 ### Developer
 
 - **chip-roms:** Added Brick Breaker game.
+- **chip-roms:** Redid DVD game.
