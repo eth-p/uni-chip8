@@ -1,215 +1,381 @@
-define key_reg V3
-define SCORE V4
-define score_x V5
-define score_y V6
-define x_pos VA
-define y_pos VB
-define x_inc VC
-define y_inc VD
-define one V9
-define loop_at_least_once V1
-define dvd_width #8
-define dvd_height #7
-define increasing #1
-define decreasing #0
-define coord_min #0
-define x_max #35
-define y_max #19
+define SCRATCH_ZERO V0
+define SCRATCH_ONE V1
+define SCRATCH_TWO V2
+define SCRATCH_THREE V9
+define DVD_X V3
+define DVD_Y V4
+define DVD_VELOCITY V7
+define SCORE V8
+define KEY_PRESS_COUNTER VA
+define KEY_PRESS_COOLDOWN VB
 
-; Reserve VE
+define DVD_LEFT_SPRITE_WIDTH #8
+define DVD_RIGHT_SPRITE_WIDTH #3
+define DVD_SPRITE_HEIGHT #7
+
+define DVD_COORD_MIN #0
+define DVD_X_MAX #35
+define DVD_Y_MAX #19
+define MAX_SCORE #5
+define MAX_KEY_PRESS_COUNT #1A
+define TRUE #1
+define FALSE #0
+
+define SCORE_X #8
+define SCORE_Y #4
+define SCORE_HEIGHT #5
+define COOLDOWN_X #D
+define COOLDOWN_Y #7
+define COOLDOWN_HEIGHT #2
+
+define RND_MASK #7
+define LEFT_KEY #1
+define RIGHT_KEY #2
+
+; -------------------------------------------------------------------
 
 init:
-	LD x_pos, #25
-	LD y_pos, #16
-	LD x_inc, #0
-	LD y_inc, #0
-	LD SCORE, #0
-	LD score_x, #8
-	LD score_y, #4
-	LD one, #1
-	LD loop_at_least_once, #0
-	JP loop
+    CLS
+    CALL init_dvd
+    CALL init_score
 
-; -------------------------------
-
-set_x_inc_pos:
-	SE x_pos, x_max
-	LD x_inc, increasing
-	RET
-
-set_x_inc_dec:
-	SE x_pos, coord_min
-	LD x_inc, decreasing
-	RET
-
-set_y_inc_pos:
-	SE y_pos, y_max
-	LD y_inc, increasing
-	RET
-
-set_y_inc_dec:
-	SE y_pos, coord_min
-	LD y_inc, decreasing
-	RET
-
-bounce_sound:
-	LD VE, #5
-	LD ST, VE
-	RET
-
-flip_x_max:
-	LD x_inc, #0
-	LD x_pos, #35
-	CALL bounce_sound
-	RET
-
-flip_y_max:
-	LD y_inc, #0
-	LD y_pos, #19
-	CALL bounce_sound
-	RET
-
-flip_x_min:
-	LD x_inc, #1
-	LD x_pos, #0
-	CALL bounce_sound
-	RET
-
-flip_y_min:
-	LD y_inc, #1
-	LD y_pos, #0
-	CALL bounce_sound
-	RET
-
-move:
-	SNE x_pos, x_max
-	CALL flip_x_max
-	SNE y_pos, y_max
-	CALL flip_y_max
-	SNE x_pos, coord_min
-	CALL flip_x_min
-	SNE y_pos, coord_min
-	CALL flip_y_min
-
-	SNE x_inc, increasing
-	ADD x_pos, increasing
-	SNE y_inc, increasing
-	ADD y_pos, increasing
-	SNE x_inc, decreasing
-	SUB x_pos, one
-	SNE y_inc, decreasing
-	SUB y_pos, one
-	RET
-
-; -------------------------------
-
-scoring:
-	LD VE, #0
-
-	; Jump table
-	SNE x_pos, #0
-	JP scoring_left
-	SNE x_pos, x_max	
-	JP scoring_right
-	JP scoring_exit
-
-	scoring_left:
-		; y = 0
-		SE y_pos, #0
-		JP sl_y_max
-		JP scoring_add
-		
-		sl_y_max:
-			; y = max
-			SE y_pos, y_max
-			JP scoring_right
-			JP scoring_add
-
-	scoring_right:
-		; y = 0
-		SE y_pos, #0
-		JP sl_r_max
-		JP scoring_add
-		
-		sl_r_max:
-			; y = max
-			SE y_pos, y_max
-			JP scoring_exit
-			JP scoring_add
-
-	scoring_add:
-		LD VE, #1E
-		LD ST, VE
-		ADD SCORE, #1
-		LD x_pos, #25
-		LD y_pos, #16
-		SNE SCORE, #A
-		JP scoring_win
-		JP scoring_exit
-
-	scoring_win:
-		; Win at score = 10
-		LD I, win_left
-		LD V0, #17
-		LD V1, #F
-		DRW V0, V1, #4
-		LD I, win_right
-		LD V0, #1F
-		DRW V0, V1, #4
-		LD V0, #78
-		LD DT, V0
-		LD ST, V0
-		
-	scoring_win_timer:
-		LD V0, DT
-		SE V0, #0
-		JP scoring_win_timer
-		LD VE, #FF ; Mark VE as reset state
-	
-	scoring_exit:
-		RET
-
-keys:
-	LD key_reg, #1
-	SKNP key_reg
-	CALL set_x_inc_dec
-	LD key_reg, #2
-	SKNP key_reg
-	CALL set_x_inc_pos
-
-draw:
-	CLS
-	LD F, SCORE
-	DRW score_x, score_y, #5
-	LD I, dvd_left
-	DRW x_pos, y_pos, dvd_height
-	LD I, dvd_right
-	LD VE, x_pos
-	ADD VE, dvd_width
-	DRW VE, y_pos, dvd_height
-	RET
+    JP loop
 
 loop:
-	CALL keys
-	CALL move
-	CALL scoring
-	SNE VE, #FF ; If the score reaches 0xa, reset the game
-	JP init
-	CALL draw
-	LD V0, #1
-	LD DT, V0
-	CALL wait
-	JP loop
+    CLS
+    CALL key_input
+    CALL dvd_movement
+    CALL scoring
+    CALL render_dvd
+    CALL render_score
+    CALL render_cooldown
 
+    SNE SCORE, MAX_SCORE
+    JP game_win
+
+    LD SCRATCH_ZERO, #2
+    LD DT, SCRATCH_ZERO
+    CALL wait
+
+    JP loop
+
+; -------------------------------------------------------------------
+
+init_key_press:
+    LD KEY_PRESS_COUNTER, #0
+    LD KEY_PRESS_COOLDOWN, FALSE
+    RET
+
+init_dvd:
+    LD DVD_X, #1F
+    LD DVD_Y, #A
+    RET
+
+init_score:
+    LD SCORE, #0
+    RET
+
+; -------------------------------------------------------------------
+
+scoring:
+
+    ; Pass y-axis test
+    SNE DVD_Y, #0
+    JP scoring_x
+
+    SNE DVD_Y, DVD_Y_MAX
+    JP scoring_x
+
+    JP scoring_exit
+
+    ; Pass x-axis test
+    scoring_x:
+        SNE DVD_X, #0
+        JP scoring_score
+
+        SNE DVD_X, DVD_X_MAX
+        JP scoring_score
+
+        JP scoring_exit
+
+        scoring_score:
+            LD SCRATCH_THREE, #2D
+            LD ST, SCRATCH_THREE
+            ADD SCORE, #1
+
+    scoring_exit:
+        RET
+
+score_increase:
+    ADD SCORE, #1
+    LD SCRATCH_ZERO, #2
+    LD ST, SCRATCH_ZERO
+    RET
+
+; -------------------------------------------------------------------
+
+render_dvd:
+    LD SCRATCH_ONE, DVD_X
+    LD SCRATCH_TWO, DVD_Y
+    
+    LD I, sprite_dvd_left
+    DRW SCRATCH_ONE, SCRATCH_TWO, DVD_SPRITE_HEIGHT
+
+    LD I, sprite_dvd_right
+    ADD SCRATCH_ONE, DVD_LEFT_SPRITE_WIDTH
+    DRW SCRATCH_ONE, SCRATCH_TWO, DVD_SPRITE_HEIGHT
+
+    RET
+
+render_score:
+    LD F, SCORE
+    LD SCRATCH_ZERO, SCORE_X
+    LD SCRATCH_ONE, SCORE_Y
+    DRW SCRATCH_ZERO, SCRATCH_ONE, SCORE_HEIGHT
+    RET
+
+render_cooldown:
+    SNE KEY_PRESS_COOLDOWN, FALSE
+    RET
+    LD I, sprite_cooldown
+    LD SCRATCH_ZERO, COOLDOWN_X
+    LD SCRATCH_ONE, COOLDOWN_Y
+    DRW SCRATCH_ZERO, SCRATCH_ONE, COOLDOWN_HEIGHT
+    RET
+
+; -------------------------------------------------------------------
+
+key_input:
+
+    ; Handle cooldown
+    SNE KEY_PRESS_COOLDOWN, FALSE
+    JP not_in_cooldown
+
+    in_cooldown:
+        SNE KEY_PRESS_COUNTER, #0
+        JP end_cooldown
+        
+        continue_cooldown:
+            SNE KEY_PRESS_COUNTER, #1
+            JP cooldown_decrement_load_one
+
+            JP cooldown_decrement_load_two
+
+            cooldown_decrement_load_one:
+                LD SCRATCH_ZERO, #1
+                JP cooldown_decrement
+
+            cooldown_decrement_load_two:
+                LD SCRATCH_ZERO, #2
+
+            cooldown_decrement:
+                SUB KEY_PRESS_COUNTER, SCRATCH_ZERO
+                RET
+
+        end_cooldown:
+            LD KEY_PRESS_COOLDOWN, FALSE
+            RET
+
+    not_in_cooldown:
+
+        ; Exit on no key pressed
+        check_left_key:
+            LD SCRATCH_ZERO, LEFT_KEY
+            SKP SCRATCH_ZERO
+            JP check_right_key
+            JP keypress_continue
+
+            check_right_key:
+                LD SCRATCH_ZERO, RIGHT_KEY
+                SKP SCRATCH_ZERO
+                JP decrement_cooldown_no_key
+                JP keypress_continue
+
+                decrement_cooldown_no_key:
+                    SE KEY_PRESS_COUNTER, #0
+                    JP continue_cooldown
+                    RET
+
+        keypress_continue:
+            ADD KEY_PRESS_COUNTER, #1
+
+            SNE KEY_PRESS_COUNTER, MAX_KEY_PRESS_COUNT
+            LD KEY_PRESS_COOLDOWN, TRUE
+
+            LD SCRATCH_ZERO, LEFT_KEY
+            SKP SCRATCH_ZERO
+            JP key_input_left_continue
+
+            key_input_left:
+                SNE DVD_X, #0
+                JP key_input_left_continue
+
+                CALL set_dvd_dx_neg
+
+            key_input_left_continue:
+
+            LD SCRATCH_ZERO, RIGHT_KEY
+            SKP SCRATCH_ZERO
+            JP key_input_right_continue
+
+            key_input_right:
+                SNE DVD_X, DVD_X_MAX
+                JP key_input_right_continue
+
+                CALL set_dvd_dx_pos
+
+            key_input_right_continue:
+
+            RET
+
+dvd_movement:
+
+    dvd_movement_dx:
+
+        CALL is_dvd_dx_pos
+        SE SCRATCH_ZERO, #1
+        JP dvd_movement_dx_neg
+
+        dvd_movement_dx_pos:
+            ADD DVD_X, #1
+            JP dvd_movement_dy
+        dvd_movement_dx_neg:
+            LD SCRATCH_ZERO, #1
+            SUB DVD_X, SCRATCH_ZERO
+            JP dvd_movement_dy
+
+    dvd_movement_dy:
+
+        CALL is_dvd_dy_pos
+        SE SCRATCH_ZERO, #1
+        JP dvd_movement_dy_neg
+
+        dvd_movement_dy_pos:
+            ADD DVD_Y, #1
+            JP dvd_movement_bounce
+        dvd_movement_dy_neg:
+            LD SCRATCH_ZERO, #1
+            SUB DVD_Y, SCRATCH_ZERO
+            JP dvd_movement_bounce
+
+    dvd_movement_bounce:
+
+        ; Top wall
+        dvd_bounce_top:
+            SE DVD_Y, #0
+            JP dvd_bounce_bottom
+            CALL bounce_sound
+
+            CALL set_dvd_dy_pos
+
+        ; Bottom wall
+        dvd_bounce_bottom:
+            SE DVD_Y, DVD_Y_MAX
+            JP dvd_bounce_left
+            CALL bounce_sound
+
+            CALL set_dvd_dy_neg
+
+        ; Left wall
+        dvd_bounce_left:
+            SE DVD_X, #0
+            JP dvd_bounce_right
+            CALL bounce_sound
+
+            CALL set_dvd_dx_pos
+
+        ; Right wall
+        dvd_bounce_right:
+            SE DVD_X, DVD_X_MAX
+            JP dvd_movement_exit
+            CALL bounce_sound
+
+            CALL set_dvd_dx_neg
+
+    dvd_movement_exit:
+        RET
+
+bounce_sound:
+    LD SCRATCH_ZERO, #2
+    LD ST, SCRATCH_ZERO
+    RET
+
+; -------------------------------------------------------------------
+
+game_win:
+    LD I, sprite_win_left
+    LD SCRATCH_ZERO, #17
+    LD SCRATCH_ONE, #F
+    DRW SCRATCH_ZERO, V1, #4
+    LD I, sprite_win_right
+    LD SCRATCH_ZERO, #1F
+    DRW SCRATCH_ZERO, V1, #4
+    LD SCRATCH_ZERO, #5A
+    LD DT, SCRATCH_ZERO
+    LD ST, SCRATCH_ZERO
+    CALL wait
+    JP init
+
+; -------------------------------------------------------------------
+
+; Reserve S0
 wait:
-	wait_loop:
-		LD V0, DT
-		SE V0, #0
-		JP wait_loop
-	RET
-; -------------------------------
+    wait_loop:
+        LD SCRATCH_ZERO, DT
+        SE SCRATCH_ZERO, #0
+        JP wait_loop
+    RET
 
-dvd_left:
+; -------------------------------------------------------------------
+
+set_dvd_dx_pos:
+	LD SCRATCH_ZERO, #10
+	OR DVD_VELOCITY, SCRATCH_ZERO
+	RET
+
+set_dvd_dx_neg:
+	LD SCRATCH_ZERO, #1
+	AND DVD_VELOCITY, SCRATCH_ZERO
+	RET
+
+set_dvd_dy_pos:
+	LD SCRATCH_ZERO, #1
+	OR DVD_VELOCITY, SCRATCH_ZERO
+	RET
+
+set_dvd_dy_neg:
+	LD SCRATCH_ZERO, #10
+	AND DVD_VELOCITY, SCRATCH_ZERO
+	RET
+
+; S0 = dx pos
+is_dvd_dx_pos:
+	LD SCRATCH_ZERO, DVD_VELOCITY
+	LD SCRATCH_ONE, #10
+	AND SCRATCH_ZERO, SCRATCH_ONE
+
+	SE SCRATCH_ZERO, #10
+	JP is_dvd_dx_pos_false
+
+	is_dvd_dx_pos_true:
+		LD SCRATCH_ZERO, #1
+		RET
+
+	is_dvd_dx_pos_false:
+		LD SCRATCH_ZERO, #0
+
+	RET
+
+; S0 = dy pos
+is_dvd_dy_pos:
+	LD SCRATCH_ZERO, DVD_VELOCITY
+	LD SCRATCH_ONE, #1
+	AND SCRATCH_ZERO, SCRATCH_ONE
+	RET
+
+; SPRITES -----------------------------------------------------------
+
+sprite_dvd_left:
 	db
 	#ca,
 	#aa,
@@ -219,7 +385,7 @@ dvd_left:
 	#f1,
 	#7f
 
-dvd_right:
+sprite_dvd_right:
 	db
 	#c0,
 	#a0,
@@ -229,16 +395,22 @@ dvd_right:
 	#e0,
 	#c0
 
-win_left:
+sprite_win_left:
 	db
 	#ab,
 	#a9,
 	#a9,
 	#53
 
-win_right:
+sprite_win_right:
 	db
 	#ba,
 	#2a,
 	#28,
 	#aa
+
+sprite_cooldown:
+    db
+    #40,
+    #e0
+    
