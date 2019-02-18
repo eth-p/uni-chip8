@@ -457,6 +457,14 @@ Considering the fact that we should have a reverse debugger, developers:
 
 - Ethan Pini
 - Kyle Saburao
+- Firas Fakih
+
+### Release 2
+
+- Ethan Pini
+- Kyle Saburao
+- Firas Fakih
+- Dan Amarasinghe
 
 ## Information Sources and Citations
 
