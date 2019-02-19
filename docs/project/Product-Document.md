@@ -39,16 +39,16 @@ This section contains all deliverables and tools that we are currently planning 
 ### In Progress
 
 - [**CHIP-8 Assembler**](item-description/Assembler/index.md)
-- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
+- [**CHIP-8 Programs**](item-description/chip8-programs.md)
 
 ### Finalizing
 
 This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
 
-- [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
+- [**CHIP-8 Emulator**](item-description/chip8-emulator.md)
   - Opcodes
   - General Architecture
-- [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
+- [**CHIP-8 Visualizer Website**](item-description/chip8-website.md)
 - [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 
 ### Finished
