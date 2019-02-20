@@ -16,7 +16,7 @@ define DVD_COORD_MIN #0
 define DVD_X_MAX #35
 define DVD_Y_MAX #19
 define MAX_SCORE #5
-define KEY_PRESS_WAIT #14
+define KEY_PRESS_WAIT #2D
 define TRUE #1
 define FALSE #0
 
@@ -86,13 +86,16 @@ decrement_key_wait:
     LD SCRATCH_ONE, LOOP_WAIT_TIME
     CALL less_than
 
-    decrement_key_wait_one:
-        LD SCRATCH_ZERO, #1
-        JP decrement_key_wait_timer
+    SNE SCRATCH_TWO, #1
+    JP decrement_key_wait_one
 
     decrement_key_wait_chunk:
         LD SCRATCH_ZERO, LOOP_WAIT_TIME
+        JP decrement_key_wait_timer
 
+    decrement_key_wait_one:
+        LD SCRATCH_ZERO, #1
+        
     decrement_key_wait_timer:
         SUB KEY_PRESS_COOLDOWN, SCRATCH_ZERO
 
