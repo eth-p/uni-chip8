@@ -42,10 +42,10 @@ init:
     JP loop
 
 loop:
-    CLS
     CALL key_input
     CALL dvd_movement
     CALL scoring
+    CLS
     CALL render_dvd
     CALL render_score
     CALL render_cooldown
