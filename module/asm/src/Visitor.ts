@@ -2,14 +2,15 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ErrorChain from '@chipotle/types/ErrorChain';
-//! --------------------------------------------------------------------------------------------------------------------
+import AssemblerContext from './AssemblerContext';
+import Node from './Node';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An error thrown when something goes wrong with the emulated program.
+ * A function that follows the visitor pattern.
  */
-class AssemblerError extends ErrorChain {}
+type Visitor<T> = (node: T, context: AssemblerContext) => Node;
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default AssemblerError;
-export {AssemblerError};
+export default Visitor;
+export {Visitor};

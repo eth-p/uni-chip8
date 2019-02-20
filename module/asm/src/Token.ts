@@ -9,7 +9,7 @@ import TokenType from './TokenType';
  * A source code token.
  * These are created from tokenizing source code.
  */
-export default class Token {
+class Token {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -66,3 +66,7 @@ export default class Token {
 		return this.text;
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default Token;
+export {Token};

@@ -2,14 +2,28 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ErrorChain from '@chipotle/types/ErrorChain';
-//! --------------------------------------------------------------------------------------------------------------------
 
 /**
- * An error thrown when something goes wrong with the emulated program.
+ * The type of an Abstract Syntax Tree node.
  */
-class AssemblerError extends ErrorChain {}
+enum NodeType {
+	LABEL,
+	ASSERT,
+	DEFINE,
+	ROOT,
+	DIRECTIVE_ENTRY,
+	DIRECTIVE_SYNTAX,
+	DIRECTIVE_GETTER,
+	CODEGEN_MACRO,
+	CODEGEN_IF,
+	CODEGEN_IF_ELSE,
+	CODEGEN_REPEAT,
+	INSTRUCTION,
+	EXPRESSION,
+	PARAMETER,
+	SPRITE
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default AssemblerError;
-export {AssemblerError};
+export default NodeType;
+export {NodeType};

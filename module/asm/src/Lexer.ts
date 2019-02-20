@@ -10,7 +10,7 @@ import TokenType from './TokenType';
  * A regex-based source code lexer.
  * This splits up source code into assembly tokens.
  */
-export default class Lexer {
+class Lexer {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants: Matchers                                                                                       |
 	// -------------------------------------------------------------------------------------------------------------
@@ -182,3 +182,7 @@ export default class Lexer {
 		return this.caretColumn;
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default Lexer;
+export {Lexer};

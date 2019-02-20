@@ -1,7 +1,6 @@
 {
 	"extends": "../../tsconfig.settings.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"outDir": "scripts/asm",
 		"declarationDir": "types/asm"
 	},

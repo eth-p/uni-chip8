@@ -22,6 +22,7 @@
 		"paths": {
 			"@chipotle/types/*": ["./module/types/src/*"],
 			"@chipotle/vm/*": ["./module/vm/src/*"],
+			"@chipotle/asm/*": ["./module/asm/src/*"],
 			"@chipotle/isa/*": ["./module/isa/src/*"],
 			"@chipotle/chip-arch/*": ["./module/chip-arch/src/*"],
 			"@chipotle/web/*": ["./module/web/scripts/*"]
