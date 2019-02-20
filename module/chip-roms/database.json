@@ -72,14 +72,6 @@
 		"author_url": "https://github.com/eth-p"
 	},
 
-	"MAZE.rom": {
-		"type": "DEMO",
-		"name": "MAZE",
-		"info": "MAZE, which is a classic CHIP8 Game that draws a random maze everytime it is loaded.",
-		"author": "Firas Fakih",
-		"author_url": "https://github.com/ffakih"
-	},
-
 	"brick-breaker.rom": {
 		"type": "GAME",
 		"name": "Brick Breaker",
