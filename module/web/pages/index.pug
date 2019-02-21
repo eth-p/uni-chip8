@@ -1,0 +1,18 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../templates/page
+include ../components/card
+
+- title = 'Team Chipotle'
+
++page.seamless.centered
+	.wrap.wrap-center.wrap-padded
+
+		+card(href="/emulator" img="/assets/images/preview-emulator.png" theme="dark")
+			.text Our CHIP-8 emulator.
+
+		//- +card(href="/tools/assembler" img="/assets/images/preview-assembler.png" theme="dark")
+			.text A powerful CHIP-8 macro assembler.
+

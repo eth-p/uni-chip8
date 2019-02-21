@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/isa",
+		"declarationDir": "types/isa"
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}

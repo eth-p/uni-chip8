@@ -1,0 +1,22 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+include ../../web/components/window
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Window: Error
+-// --------------------------------------------------------------------------------------------------------------------
+mixin ui-window-error
+	+desktop-overlay#emulator-error.centered.blocking.blocking-red
+		+window
+			+window-title("Error")
+				input(type="button" value="close" data-action="error-close")
+
+			+window-content
+				.error-summary
+				.error-troubleshooting You may reset the emulator using the reset button on the toolbar.
+				.error-stack.requires-debugger

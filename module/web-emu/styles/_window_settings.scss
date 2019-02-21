@@ -1,0 +1,82 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/_theme';
+@import '../../web/styles/_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Settings:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#emulator-settings .window {
+	h2 {
+		margin: 10px 0 5px;
+		font-size: 16px;
+		font-weight: normal;
+	}
+}
+
+#emulator-settings .emulator-setting {
+	display: flex;
+	align-items: center;
+
+	padding: 4px;
+
+	// Settings label.
+	label {
+		flex: 1 1 auto;
+		display: block;
+
+		padding: 4px;
+		width: 100%;
+
+		font-size: 14px;
+
+		.label {
+			font-size: 15px;
+			@include user-select(none);
+		}
+
+		.description {
+			opacity: 0.5;
+			font-size: 14px;
+		}
+	}
+
+	// Simple settings (e.g. checkbox).
+	input {
+		flex: 0 1 auto;
+		width: 22px;
+		margin: 0;
+	}
+
+	// Multiline settings (e.g. textbox).
+	&.multiline {
+		flex-direction: column;
+		padding: 0 26px;
+
+		input {
+			margin-top: 4px;
+			width: 100%;
+		}
+
+		margin-bottom: 14px;
+	}
+}
+
+#emulator-settings {
+	[data-pane='settings-controls']:not(.hide) .settings-grid {
+		display: grid;
+		grid-template-columns: 25% 25% 25% 25%;
+
+		&.g3 {
+			grid-template-columns: 33% 33% 33%;
+		}
+
+		.multiline {
+			padding: 4px;
+			margin: 0;
+		}
+	}
+}

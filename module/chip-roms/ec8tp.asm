@@ -1,0 +1,290 @@
+; -------------------------------------------------------------------------------------------------------------------- ;
+; Chip-8 Test Program                                                                                                  ;
+; Copyright (C) 2019 Ethan Pini                                                                                        ;
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
+; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
+; It will later be converted to the syntax used for our assembler.                                                     ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+define test_number VD
+define test_result VE
+
+define temp V6
+define temp2 V7
+define output V8
+define output2 V9
+
+define mul_multiplicand VA
+define mul_multiplier VB
+define div_dividend VA
+define div_divisor VB
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; ENTRY:                                                                                                               ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+entry:
+	CALL test_00
+	CALL test_01
+	JP halt
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; HALT:                                                                                                                ;
+; This halts execution.                                                                                                ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+halt:
+	LD VF, K
+	JP halt
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 00: DT INITIALIZE                                                                                               ;
+; This will test that DT is able to be set.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_00:
+	; Initialize test info.
+	LD test_number, 0
+
+	; Attempt to set DT.
+	LD temp, 60
+	LD DT, temp
+
+	; Attempt to read DT.
+	LD temp, DT
+	SE temp, 0
+		JP success
+	JP fail
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 03: DT TIMING                                                                                                   ;
+; This will test the timing of the DT register.                                                                        ;
+;                                                                                                                      ;
+; WARNING: THIS TEST ASSUMES A 500 Hz CLOCK                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_01:
+	; Initialize test info.
+	LD test_number, 1
+
+	; Attempt to set DT.
+	LD temp, 60
+	LD DT, temp
+
+	; Do nothing for a while.
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+	LD temp, temp
+
+	; Attempt to read ST.
+	LD V0, DT
+	LD V1, DT
+	LD V2, DT
+	LD V3, DT
+
+	; Determine results
+	SE V0, 60
+		JP fail
+
+	SE V1, 60
+		JP fail
+
+	SE V2, 59
+		JP fail
+
+	SE V3, 59
+		JP fail
+
+	JP success
+
+
+
+
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; MUL:                                                                                                                 ;
+; Multiples two numbers.                                                                                               ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+mul:
+	LD temp, mul_multiplicand
+	LD temp2, 1
+	LD output, 0
+
+	mul_loop:
+		SNE temp, 0
+		RET
+
+		ADD output, mul_multiplier
+		SUB temp, temp2
+		JP mul_loop
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; DIV:                                                                                                                 ;
+; Divides two numbers.                                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+div:
+	LD output2, div_dividend
+	LD output, 0
+	div_loop:
+		SUB output2, div_divisor
+		SNE VF, 0
+		JP div_end
+
+		ADD output, 1
+		JP div_loop
+
+	div_end:
+		ADD output2, div_divisor
+		RET
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; SUCCESS:                                                                                                             ;
+; Sets the success flag and jumps to `finish`.                                                                         ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+success:
+	LD test_result, 1
+	JP finish
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; FAIL:                                                                                                                ;
+; Sets the fail flag and jumps to `finish`.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+fail:
+	LD test_result, 0
+	JP finish
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; FINISH:                                                                                                              ;
+; Draws the results of a test.                                                                                         ;
+;                                                                                                                      ;
+; This will be called when a test finishes.                                                                            ;
+; The failure or success status is based on the VE register.                                                           ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+finish:
+
+	; DrawX: V1
+	; DrawY: V2
+	; TensS: V3
+	; OnesS: V4
+
+	; Calculate DrawX, DrawY
+	LD div_dividend, test_number
+	LD div_divisor, 4
+	CALL div
+	LD V1, output2
+	LD V2, output
+
+	; Multiply DrawX
+	LD mul_multiplicand, V1
+	LD mul_multiplier, 16
+	CALL mul
+	LD V1, output
+	ADD V1, 1
+
+	; Multiply DrawY
+	LD mul_multiplicand, V2
+	LD mul_multiplier, 4
+	CALL mul
+	LD V2, output
+	ADD V2, 1
+
+	; Calculate Sprites
+	LD div_dividend, test_number
+	LD div_divisor, 10
+	CALL div
+	LD V3, output
+	LD V4, output2
+
+	; Draw Test: 10s
+	LD I, sprite_0
+	LD mul_multiplicand, 3
+	LD mul_multiplier, V3
+	CALL mul
+	ADD I, output
+	DRW V1, V2, 3
+
+	; Draw Test: 1s
+	LD I, sprite_0
+	LD mul_multiplicand, 3
+	LD mul_multiplier, V4
+	CALL mul
+	ADD V1, 4
+	ADD I, output
+	DRW V1, V2, 3
+
+	; Draw Test: Status
+	LD I, sprite_fail
+	SNE test_result, 1
+	LD I, sprite_pass
+	ADD V1, 4
+	DRW V1, V2, 3
+
+	; Done.
+	RET
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; SPRITES:                                                                                                             ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+sprite_test:
+db	%11100000,
+	%01000000,
+	%01000000
+
+sprite_fail:
+db	%10100000,
+	%01000000,
+	%10100000
+
+sprite_pass:
+db	%00100000,
+	%10100000,
+	%01000000
+
+sprite_0:
+db	%11100000,
+	%10100000,
+	%11100000
+
+sprite_1:
+db	%11000000,
+	%01000000,
+	%11100000
+
+sprite_2:
+db	%11000000,
+	%01000000,
+	%01100000
+
+sprite_3:
+db	%11100000,
+	%01100000,
+	%11100000
+
+sprite_4:
+db	%10100000,
+	%11100000,
+	%00100000
+
+sprite_5:
+db	%01100000,
+	%01000000,
+	%11000000
+
+sprite_6:
+db	%10000000,
+	%11100000,
+	%11100000
+
+sprite_7:
+db	%11100000,
+	%00100000,
+	%00100000
+
+sprite_8:
+db	%11100000,
+	%11100000,
+	%11100000
+
+sprite_9:
+db	%11100000,
+	%11100000,
+	%00100000

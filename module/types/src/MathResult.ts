@@ -10,3 +10,4 @@ import MathFlag from './MathFlag';
  */
 type MathResult<T> = [T, MathFlag];
 export default MathResult;
+export {MathResult};

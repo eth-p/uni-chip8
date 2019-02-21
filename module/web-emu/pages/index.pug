@@ -1,0 +1,68 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+include ../../web/components/window
+include ../components/emulator-keypad
+include ../components/emulator-debug-tools
+include ../components/emulator-disassembler
+include ../components/emulator-registers
+include ../components/emulator-screen
+include ../components/emulator-stack
+include ../windows/window-error
+include ../windows/window-settings
+include ../windows/window-load
+
+- title = 'CHIP-8 Emulator'
+
+- stylesheets.push('/assets/styles/emulator.css')
+- scripts.push('/scripts/web-emu/main.js')
+- shims[':scope'] = true;
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Screen: Loading
+-// --------------------------------------------------------------------------------------------------------------------
+mixin loading-screen
+	h1 Loading...
+	h2 This might take a little while.
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Page:
+-// --------------------------------------------------------------------------------------------------------------------
++page.filled
+	+toolbar#toolbar
+		+item
+			input(type="button" value="Load" data-action="window-load-show")
+			input(type="button" value="Reset" data-action="emulator-reset")
+
+		+item
+			input(type="button" value="Pause" data-action="emulator-play-pause")
+
+		+item
+			input(type="button" value="Settings" data-action="window-settings-show")
+
+		+item.spacer
+
+		+item
+			input(type="color" value="#ffffff" data-setting='screen_foreground')
+			input(type="color" value="#000000" data-setting='screen_background')
+
+	+desktop
+		+ui-window-load
+		+ui-window-error
+		+ui-window-settings
+
+		- // Layout
+		+desktop-content#emulator-layout
+			.emulator-interface
+				+emulator-screen
+				+emulator-keypad
+			.emulator-debugger.requires-debugger
+				+emulator-debug-tools
+				+emulator-registers
+				+emulator-stack
+				+emulator-disassembler

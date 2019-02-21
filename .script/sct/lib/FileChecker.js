@@ -152,7 +152,7 @@ module.exports = class FileChecker {
 		if (this._formatter != null) return;
 
 		if (this._initFormattingChecker_HOOK != null) {
-			this._initFormattingChecker_HOOK.call(this);
+			this._initFormattingChecker_HOOK();
 			if (this._formatter != null) return;
 		}
 
@@ -163,7 +163,7 @@ module.exports = class FileChecker {
 		if (this._badwords != null) return;
 
 		if (this._initProfanityChecker_HOOK != null) {
-			this._initProfanityChecker_HOOK.call(this);
+			this._initProfanityChecker_HOOK();
 			if (this._badwords != null) return;
 		}
 
@@ -174,7 +174,7 @@ module.exports = class FileChecker {
 		if (this._tslintConfig != null) return;
 
 		if (this._initProfanityChecker_HOOK != null) {
-			this._initProfanityChecker_HOOK.call(this);
+			this._initProfanityChecker_HOOK();
 			if (this._tslintConfig != null) return;
 		}
 

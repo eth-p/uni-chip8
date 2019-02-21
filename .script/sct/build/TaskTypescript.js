@@ -78,7 +78,11 @@ module.exports = class TaskTypescript extends Task {
 		if (babelOptions.plugins == null) babelOptions.plugins = [];
 		if (babelOptions.presets == null) babelOptions.presets = [];
 
-		if (options.minify) babelOptions.presets.push(['minify']);
+		if (options.minify) {
+			babelOptions.presets.push(['minify', {
+				builtIns: false
+			}]);
+		}
 
 		if (!options['keep:asserts']) babelOptions.plugins.unshift("babel-plugin-unassert");
 		if (!options['keep:comments']) {
@@ -98,9 +102,10 @@ module.exports = class TaskTypescript extends Task {
 				root: path.join(project.getBuildDirectory(), tsOutDir),
 				cwd:  path.join(project.getBuildDirectory(), tsOutDir),
 				resolvePath: (source, current, opts) => {
+					if (!source.endsWith('.js')) source += '.js';
 					let capture = /^@chipotle[/\\](.+)$/.exec(source);
 					if (capture === null) return source;
-					return path.join('..', capture[1]);
+					return `../${capture[1]}`;
 				}
 			}
 		]);

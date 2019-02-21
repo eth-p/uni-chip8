@@ -35,7 +35,7 @@ const PUG_FILTER = [
  * @param module    {Module} The module.
  * @param [options] {Object} The build options.
  */
-module.exports = class TaskSass extends Task {
+module.exports = class TaskPug extends Task {
 
 	get id() {
 		return 'pug';
@@ -57,13 +57,12 @@ module.exports = class TaskSass extends Task {
 
 		// Stream.
 		return this._gulpsrc(PUG_FILTER)
-			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
-			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
-
-			// Compile SCSS.
+			// Compile Pug.
 			.pipe(gulp_pug())
 
 			// Save.
+			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
+			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
 			.pipe(this._gulpdest(options))
 	}
 

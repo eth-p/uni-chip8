@@ -4,7 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import assert from '@chipotle/types/assert';
 
-import OpAddress from './OpAddress';
+import ProgramAddress from './ProgramAddress';
 import ProgramError from './ProgramError';
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ export default class ProgramStack {
 	/**
 	 * The stack.
 	 */
-	protected stack: OpAddress[];
+	protected stack: ProgramAddress[];
 
 	/**
 	 * The maximum size of the stack.
@@ -50,7 +50,7 @@ export default class ProgramStack {
 	 * Push an address to the call stack.
 	 * @param address The address to push.
 	 */
-	push(address: OpAddress): void {
+	push(address: ProgramAddress): void {
 		if (this.stack.length === this.MAX) throw new ProgramError(ProgramError.STACK_OVERFLOW);
 		this.stack.push(address);
 	}
@@ -59,16 +59,34 @@ export default class ProgramStack {
 	 * Pops an address from the call stack.
 	 * @throws ProgramError When the stack is empty.
 	 */
-	pop(): OpAddress {
+	pop(): ProgramAddress {
 		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
-		return <OpAddress>this.stack.pop();
+		return <ProgramAddress>this.stack.pop();
+	}
+
+	/**
+	 * Get the top address on the call stack.
+	 * @throws ProgramError When the stack is empty.
+	 * @returns Top address from the call stack.
+	 */
+	top(): ProgramAddress {
+		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
+		return <ProgramAddress>this.stack[this.stack.length - 1];
+	}
+
+	/**
+	 * Clears the call stack.
+	 * THIS SHOULD ONLY BE USED FOR RESETTING THE PROGRAM!
+	 */
+	clear(): void {
+		this.stack = [];
 	}
 
 	/**
 	 * Returns an exact as-is copy of the program stack.
 	 * @returns The program stack.
 	 */
-	inspect(): OpAddress[] {
+	inspect(): ProgramAddress[] {
 		return this.stack.slice(0);
 	}
 }

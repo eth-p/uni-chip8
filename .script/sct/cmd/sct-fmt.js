@@ -47,13 +47,13 @@ module.exports = class CommandFormat extends Command {
 				type: 'boolean',
 				default: false,
 				description: 'Only format modified files. (Requires Repository)',
-				alias: 'modified-only'
+				alias: ['modified-only', 'm']
 			},
 			'only-staged': {
 				type: 'boolean',
 				default: false,
 				description: 'Only format staged files. (Requires Repository)',
-				alias: 'staged-only'
+				alias: ['staged-only', 's']
 			},
 			'dry': {
 				type: 'boolean',
@@ -89,6 +89,7 @@ module.exports = class CommandFormat extends Command {
 			objectMode: true,
 			transform: async (data) => {
 				let result = await formatter.format(data.path);
+				if (result === null) return null;
 				if (result.before === result.after) return null;
 
 				await saver(result.file, result.after);

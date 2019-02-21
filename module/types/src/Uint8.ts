@@ -17,6 +17,7 @@ import MathResult from './MathResult';
  * @see add
  * @see sub
  * @see and
+ * @see or
  * @see bitrev
  * @see bitscanf
  * @see bitscanr
@@ -27,6 +28,7 @@ import MathResult from './MathResult';
  */
 type Uint8 = number;
 export default Uint8;
+export {Uint8};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // | Constants:                                                                                                        |
@@ -221,6 +223,36 @@ export function and(a: Uint8, b: Uint8): Uint8 {
 }
 
 /**
+ * Bitwise OR two Uint8.
+ *
+ * @param a The first Uint8.
+ * @param b The second Uint8.
+ *
+ * @returns The Uint8 representing the bits in either parameter.
+ */
+export function or(a: Uint8, b: Uint8): Uint8 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+
+	return a | b;
+}
+
+/**
+ * Bitwise XOR two Uint8.
+ *
+ * @param a The first Uint8.
+ * @param b The second Uint8.
+ *
+ * @returns The Uint8 representing the different bits considering both parameters.
+ */
+export function xor(a: Uint8, b: Uint8): Uint8 {
+	assert(a >= MIN && a <= MAX, "Parameter 'a' is out of range for Uint8");
+	assert(b >= MIN && b <= MAX, "Parameter 'b' is out of range for Uint8");
+
+	return a ^ b;
+}
+
+/**
  * Shifts the bits in a Uint8 left.
  * This will remove any bits that are shifted outside the range.
  *
@@ -289,4 +321,16 @@ export function bitshiftrw(num: Uint8, by: number): Uint8 {
 	let shifted = (num << 8) >> by;
 	let wrapped = shifted & 0x00ff;
 	return (shifted >> 8) | wrapped;
+}
+
+/**
+ * Creates a hex string from a Uint8.
+ *
+ * @param num The number.
+ *
+ * @returns A 2-character hex string.
+ */
+export function toHexString(num: Uint8): string {
+	assert(num >= MIN && num <= MAX, "Parameter 'num' is out of range for Uint8");
+	return num.toString(16).padStart(2, '0');
 }

@@ -73,6 +73,21 @@ describe('Operations', () => {
 		expect(Uint8.and(0xff, 0xff)).toEqual(0xff);
 	});
 
+	it('or', () => {
+		expect(Uint8.or(0xff, 0x00)).toEqual(0xff);
+		expect(Uint8.or(0xf0, 0x00)).toEqual(0xf0);
+		expect(Uint8.or(0x0f, 0xf0)).toEqual(0xff);
+		expect(Uint8.or(0xf0, 0xff)).toEqual(0xff);
+		expect(Uint8.or(0xff, 0xff)).toEqual(0xff);
+	});
+
+	it('xor', () => {
+		expect(Uint8.xor(0xff, 0x00)).toEqual(0xff);
+		expect(Uint8.xor(0xf0, 0x0f)).toEqual(0xff);
+		expect(Uint8.xor(0xbe, 0xef)).toEqual(0x51);
+		expect(Uint8.xor(0xca, 0x11)).toEqual(0xdb);
+	});
+
 	it('bitshiftl', () => {
 		expect(Uint8.bitshiftl(0b10000000, 1)).toEqual(0b00000000);
 		expect(Uint8.bitshiftl(0b00000001, 1)).toEqual(0b00000010);

@@ -2,19 +2,21 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Architecture from './Architecture';
-import Op from './Op';
-import OpCode from './OpCode';
-import VMContext from './VMContext';
-// ---------------------------------------------------------------------------------------------------------------------
+import Operation from '@chipotle/isa/Operation';
+import Uint16 from '@chipotle/types/Uint16';
 
-/**
- * Ahe op execute function with an `op` property on it that refers back to the Op instance.
- */
-type OpExecuteFn<A> = ((context: VMContext<A>, p1: OpCode, p2: OpCode) => void) & {op: Op<A>};
+import Interpreted from './Interpreted';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * Intermediate representation of an executable operation.
  */
-type IR<A> = [OpExecuteFn<A>, OpCode, OpCode];
+interface IR<A> {
+	execute: Interpreted<A>['execute'];
+	operation: Operation;
+	operands: Uint16[];
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 export default IR;
+export {IR};
