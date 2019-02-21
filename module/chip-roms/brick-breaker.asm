@@ -66,10 +66,25 @@ splash_screen:
 	LD I, sprite_ER
 	DRW V0, V1, #5
 
-	LD V0, #B4
-	LD DT, V0
-	LD ST, V0
-	CALL wait
+	LD V1, #0
+
+	splash_sound_loop:
+		LD V0, #4
+		CALL play_sound
+		LD V0, #3
+		CALL wait
+		ADD V1, #1
+		SE V1, #F
+		JP splash_sound_loop
+
+	LD V0, #8
+	LD V1, #1A
+	CALL press_to_start
+
+	;LD V0, #B4
+	;LD DT, V0
+	;LD ST, V0
+	;CALL wait
 
 	JP init
 
@@ -341,6 +356,60 @@ game_lost:
 
 ; -----------------------------------------------------------------------------
 
+press_to_start:
+	; V0 = x, V1 = y
+	LD I, sprite_p
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_r
+	DRW V0, V1, #5
+	ADD V0, #4
+
+
+	LD I, sprite_e
+	DRW V0, V1, #5
+	ADD V0, #4
+
+
+	LD I, sprite_s
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	DRW V0, V1, #5
+	ADD V0, #5
+
+
+	LD I, sprite_t
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_o
+	DRW V0, V1, #5
+	ADD V0, #5
+
+	LD I, sprite_s
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_t
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_a
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_r
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, sprite_t
+	DRW V0, V1, #5
+
+	LD V0, K ; Halt
+	RET
+
 paddle_ai:
 
 	LD PADDLE_X_OLD, PADDLE_X
@@ -586,6 +655,14 @@ render_ball:
 
 ; ----------------------------------------------------------------------------
 
+; ST = DT = V0
+; Play a sound and wait
+play_sound:
+	LD ST, V0
+	LD DT, V0
+	CALL wait
+	RET
+
 wait:
 	wait_loop:
 		LD V0, DT
@@ -720,3 +797,24 @@ sprite_e_mark:
 	#80,
 	#0,
 	#80
+
+sprite_p:
+	db #e0, #a0, #e0, #80, #80
+
+sprite_r:
+	db #e0, #a0, #c0, #a0, #a0
+
+sprite_e:
+	db #e0, #80, #e0, #80, #e0
+
+sprite_s:
+	db #e0, #80, #e0, #20, #e0
+
+sprite_t:
+	db #e0, #40, #40, #40, #40
+
+sprite_o:
+	db #e0, #a0, #a0, #a0, #e0
+
+sprite_a:
+	db #e0, #a0, #e0, #a0, #a0
