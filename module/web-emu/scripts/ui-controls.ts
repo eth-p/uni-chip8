@@ -13,6 +13,7 @@ let controls_pause: HTMLElement[];
 let controls_reset: HTMLElement[];
 let controls_step_forwards: HTMLElement[];
 let controls_step_backwards: HTMLElement[];
+let controls_reset_timers: HTMLElement[];
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
@@ -28,6 +29,7 @@ export function invalidate() {
 	controls_reset = Array.from(document.querySelectorAll('[data-action="emulator-reset"]'));
 	controls_step_backwards = Array.from(document.querySelectorAll('[data-action="emulator-debug-step-prev"]'));
 	controls_step_forwards = Array.from(document.querySelectorAll('[data-action="emulator-debug-step-next"]'));
+	controls_reset_timers = Array.from(document.querySelectorAll('[data-action="emulator-debug-reset-timers"]'));
 
 	hookevts(controls_playpause, controlPlayPause);
 	hookevts(controls_play, controlPlay);
@@ -35,6 +37,7 @@ export function invalidate() {
 	hookevts(controls_reset, controlReset);
 	hookevts(controls_step_forwards, controlStepForwards);
 	hookevts(controls_step_backwards, controlStepBackwards);
+	hookevts(controls_reset_timers, controlResetTimers);
 
 	function hookevts(elements: HTMLElement[], listener: Function) {
 		for (let element of elements) {
@@ -87,6 +90,7 @@ function checkProgram() {
 	controls_step_forwards.forEach(requiresProgram);
 	controls_step_backwards.forEach(requiresProgram);
 	controls_reset.forEach(requiresProgram);
+	controls_reset_timers.forEach(requiresProgram);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -119,6 +123,10 @@ function controlStepForwards() {
 
 function controlStepBackwards() {
 	emulator.stepBackwards();
+}
+
+function controlResetTimers() {
+	vm.register_timer = 0;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
