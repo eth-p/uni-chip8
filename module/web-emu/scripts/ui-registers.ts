@@ -4,15 +4,20 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import {toHexString as u16_toHexString} from '@chipotle/types/Uint16';
 import {toHexString as u8_toHexString} from '@chipotle/types/Uint8';
+
 import UIAnimator from '@chipotle/web/UIAnimator';
 import dom_ready from '@chipotle/web/dom_ready';
+
 import settings from './settings';
 import {emulator, vm} from './instance';
+import * as Keybind from './keybind';
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Variables:
 // ---------------------------------------------------------------------------------------------------------------------
 let animator: UIAnimator<any>;
 let element: HTMLElement;
+let isEditable: boolean = false;
 
 let display_register_Vx: HTMLElement[];
 let display_register_ST: HTMLElement;
@@ -74,6 +79,93 @@ export function setVisible(visible: boolean): void {
 	}
 }
 
+/**
+ * Sets whether or not the registers are editable.
+ * @param editable True if the registers can be edited.
+ */
+export function setEditable(editable: boolean): void {
+	isEditable = editable;
+	let editableStr = editable.toString();
+	display_register_PROGRAM.contentEditable = editableStr;
+	display_register_I.contentEditable = editableStr;
+	display_register_DT.contentEditable = editableStr;
+	display_register_Vx.forEach(e => {
+		e.contentEditable = editableStr;
+	});
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Setup:
+// ---------------------------------------------------------------------------------------------------------------------
+
+function onRegisterKey(evt: KeyboardEvent) {
+	if (evt.ctrlKey || evt.altKey || evt.metaKey) return;
+
+	// Handle special control characters.
+	switch (evt.key) {
+		case 'Backspace':
+			return;
+		case 'Delete':
+			return;
+
+		case 'ArrowLeft':
+		case 'ArrowRight':
+		case 'ArrowUp':
+		case 'ArrowDown':
+			return;
+
+		case 'Enter':
+			(<HTMLElement>evt.target).blur();
+			evt.preventDefault();
+			return;
+
+		default:
+			break;
+	}
+
+	// Only allow hex.
+	if (!/^[a-f0-9]$/i.test(evt.key)) {
+		evt.preventDefault();
+		return;
+	}
+
+	// Enforce max length.
+	let target = <HTMLElement>evt.target;
+	if (target.textContent!.length >= parseInt(target.getAttribute('data-max-length')!)) {
+		evt.preventDefault();
+		return;
+	}
+}
+
+function onRegisterFocus(evt: Event) {
+	Keybind.setEnabled(false);
+	(<HTMLElement>evt.target).classList.add('focused');
+}
+
+function onRegisterBlur(evt: Event) {
+	Keybind.setEnabled(true);
+	(<HTMLElement>evt.target).classList.remove('focused');
+}
+
+function createRegisterWriter(prop: string, subprop?: string) {
+	return (evt: FocusEvent) => {
+		if (!isEditable) return;
+
+		let target = <HTMLElement>evt.target;
+		let val = parseInt(target.textContent!, 16);
+
+		if (subprop != null) {
+			(<any>vm)[prop][subprop] = val;
+		} else {
+			(<any>vm)[prop] = val;
+		}
+
+		// Hack to force redraw of components.
+		refresh();
+		emulator.emit('step');
+	};
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -92,6 +184,32 @@ dom_ready(() => {
 		.sort(([el1, reg1], [el2, reg2]) => <number>reg1 - <number>reg2)
 		.map(([el, reg]) => <HTMLElement>(<HTMLElement>el).querySelector('.register-value'));
 
+	// Add events for editing.
+	display_register_I.addEventListener('blur', createRegisterWriter('register_index'));
+	display_register_PROGRAM.addEventListener('blur', createRegisterWriter('program_counter'));
+	display_register_DT.addEventListener('blur', createRegisterWriter('register_timer'));
+	display_register_Vx.forEach(el => {
+		let reg = parseInt(
+			(<HTMLElement>el.parentNode).getAttribute('data-visualizer')!.substring('register-V'.length),
+			16
+		);
+		el.addEventListener('blur', createRegisterWriter('register_data', reg.toString(10)));
+	});
+
+	// Add events for disabling keybinds.
+	for (let el of (<HTMLElement[]>[]).concat(
+		display_register_Vx,
+		[display_register_PROGRAM],
+		[display_register_I],
+		[display_register_DT]
+	)) {
+		el.addEventListener('focusin', onRegisterFocus);
+		el.addEventListener('focusout', onRegisterBlur);
+		el.addEventListener('keydown', onRegisterKey);
+		el.addEventListener('keyup', onRegisterKey);
+	}
+
+	// Create animator.
 	animator = new UIAnimator(refresh, {visible: false, debugging: false, running: false});
 	animator.resume();
 });
@@ -117,8 +235,10 @@ emulator.addListener('reset', () => {
 
 emulator.addListener('pause', () => {
 	animator.setCriteria('running', false);
+	setEditable(true);
 });
 
 emulator.addListener('resume', () => {
 	animator.setCriteria('running', true);
+	setEditable(false);
 });

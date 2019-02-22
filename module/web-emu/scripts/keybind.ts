@@ -11,6 +11,19 @@ import {emulator} from './instance';
 // Variables:
 let handlers: {[key: string]: KeyHandler} = {};
 let handlersCache: Map<string, KeyHandler> = new Map();
+let keybindsEnabled: boolean = true;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Exports:
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Sets whether or not keybinds are enabled.
+ * @param enabled True if keybinds are enabled.
+ */
+export function setEnabled(enabled: boolean): void {
+	keybindsEnabled = enabled;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Handlers:
@@ -95,6 +108,7 @@ function handle(key: string, state: boolean): boolean {
 }
 
 window.addEventListener('keydown', event => {
+	if (!keybindsEnabled) return;
 	if (event.metaKey || event.ctrlKey || event.altKey) return;
 	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
 	if (handle(event.key, true)) {
@@ -104,6 +118,7 @@ window.addEventListener('keydown', event => {
 });
 
 window.addEventListener('keyup', event => {
+	if (!keybindsEnabled) return;
 	if (event.metaKey || event.ctrlKey || event.altKey) return;
 	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
 	if (handle(event.key, false)) {
