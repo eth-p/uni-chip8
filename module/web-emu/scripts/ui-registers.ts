@@ -103,9 +103,9 @@ function onRegisterKey(evt: KeyboardEvent) {
 
 	// Handle special control characters.
 	switch (evt.key) {
-		case 'Backspace':
-			return;
 		case 'Delete':
+		case 'Backspace':
+		case 'Tab':
 			return;
 
 		case 'ArrowLeft':
