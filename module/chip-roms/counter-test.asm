@@ -22,8 +22,6 @@ loop:
     LD I, BCD_STORE
     LD B, VALUE
 
-    ADD VALUE, #1
-
     CLS
 
     LD V2, [I]
@@ -37,13 +35,9 @@ loop:
     LD F, V2
     DRW O_X, V_Y, #5
 
-
-    LD V0, VALUE
-    LD V1, #1
-    SUB V0, V1
-    SE V0, #FF
+    SE VALUE, #FF
     JP no_sound
-    
+
     sound:
         LD V0, #4
         LD ST, V0
@@ -52,11 +46,12 @@ loop:
 
     after_sound:
 
+    ADD VALUE, #1
+
     LD V0, #4
     LD DT, V0
     CALL wait
     JP loop
-
 
 wait:
     waitLoop:
