@@ -438,6 +438,12 @@ Considering the fact that we should have a reverse debugger, developers:
 - will be able to enjoy classic games such as Pong.
 - will be able to step forwards and backwards individual instructions to understand how program writers designed their games.
 
+### Release 3
+
+#### Users
+
+- Will be able to enjoy original CHIP-8 games. Some will not be remakes of older games.
+
 ## Project Schedule
 
 ![Gantt Chart](images/gantt.jpg)
@@ -457,13 +463,11 @@ Considering the fact that we should have a reverse debugger, developers:
 
 - Ethan Pini
 - Kyle Saburao
-- Firas Fakih
 
 ### Release 2
 
 - Ethan Pini
 - Kyle Saburao
-- Firas Fakih
 - Dan Amarasinghe
 
 ## Information Sources and Citations
@@ -474,6 +478,10 @@ Considering the fact that we should have a reverse debugger, developers:
 - <http://www.emulator101.com/introduction-to-chip-8.html>
 - <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
 - <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
+
+### Temporary Assembler
+
+- [GitHub link](https://github.com/wernsey/chip8/blob/master/README.md)
 
 ### Documentation Creation
 
