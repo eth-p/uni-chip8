@@ -1,3 +1,10 @@
+; -------------------------------------------------------------------------------------------------------------------- ;
+; Chip-8 DVD Game                                                                                                      ;
+; Copyright (C) 2019 Kyle Saburao                                                                                      ;
+; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
+; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
+; It will later be converted to the syntax used for our assembler.                                                     ;
+; -------------------------------------------------------------------------------------------------------------------- ;
 define SCRATCH_ZERO V0
 define SCRATCH_ONE V1
 define SCRATCH_TWO V2
@@ -6,7 +13,6 @@ define DVD_X V3
 define DVD_Y V4
 define DVD_VELOCITY V7
 define SCORE V8
-define KEY_PRESS_COUNTER VA
 define KEY_PRESS_COOLDOWN VB
 
 define DVD_LEFT_SPRITE_WIDTH #8
@@ -17,7 +23,7 @@ define DVD_COORD_MIN #0
 define DVD_X_MAX #35
 define DVD_Y_MAX #19
 define MAX_SCORE #5
-define MAX_KEY_PRESS_COUNT #1A
+define KEY_PRESS_WAIT #2D
 define TRUE #1
 define FALSE #0
 
@@ -27,6 +33,7 @@ define SCORE_HEIGHT #5
 define COOLDOWN_X #D
 define COOLDOWN_Y #7
 define COOLDOWN_HEIGHT #2
+define LOOP_WAIT_TIME #2
 
 define RND_MASK #7
 define LEFT_KEY #1
@@ -53,7 +60,9 @@ loop:
     SNE SCORE, MAX_SCORE
     JP game_win
 
-    LD SCRATCH_ZERO, #2
+    CALL decrement_key_wait
+
+    LD SCRATCH_ZERO, LOOP_WAIT_TIME
     LD DT, SCRATCH_ZERO
     CALL wait
 
@@ -62,8 +71,7 @@ loop:
 ; -------------------------------------------------------------------
 
 init_key_press:
-    LD KEY_PRESS_COUNTER, #0
-    LD KEY_PRESS_COOLDOWN, FALSE
+    LD KEY_PRESS_COOLDOWN, #0
     RET
 
 init_dvd:
@@ -76,6 +84,29 @@ init_score:
     RET
 
 ; -------------------------------------------------------------------
+
+decrement_key_wait:
+    SNE KEY_PRESS_COOLDOWN, #0
+    RET ; Early exit
+
+    LD SCRATCH_ZERO, KEY_PRESS_COOLDOWN
+    LD SCRATCH_ONE, LOOP_WAIT_TIME
+    CALL less_than
+
+    SNE SCRATCH_TWO, #1
+    JP decrement_key_wait_one
+
+    decrement_key_wait_chunk:
+        LD SCRATCH_ZERO, LOOP_WAIT_TIME
+        JP decrement_key_wait_timer
+
+    decrement_key_wait_one:
+        LD SCRATCH_ZERO, #1
+        
+    decrement_key_wait_timer:
+        SUB KEY_PRESS_COOLDOWN, SCRATCH_ZERO
+
+    RET
 
 scoring:
 
@@ -147,86 +178,37 @@ render_cooldown:
 
 key_input:
 
-    ; Handle cooldown
-    SNE KEY_PRESS_COOLDOWN, FALSE
-    JP not_in_cooldown
+    SE KEY_PRESS_COOLDOWN, #0
+    RET
 
-    in_cooldown:
-        SNE KEY_PRESS_COUNTER, #0
-        JP end_cooldown
-        
-        continue_cooldown:
-            SNE KEY_PRESS_COUNTER, #1
-            JP cooldown_decrement_load_one
 
-            JP cooldown_decrement_load_two
+    LD SCRATCH_ZERO, LEFT_KEY
+    SKP SCRATCH_ZERO
+    JP key_input_left_continue
 
-            cooldown_decrement_load_one:
-                LD SCRATCH_ZERO, #1
-                JP cooldown_decrement
+    key_input_left:
+        SNE DVD_X, #0
+        JP key_input_left_continue
 
-            cooldown_decrement_load_two:
-                LD SCRATCH_ZERO, #2
+        CALL set_dvd_dx_neg
+        LD KEY_PRESS_COOLDOWN, KEY_PRESS_WAIT
 
-            cooldown_decrement:
-                SUB KEY_PRESS_COUNTER, SCRATCH_ZERO
-                RET
+    key_input_left_continue:
 
-        end_cooldown:
-            LD KEY_PRESS_COOLDOWN, FALSE
-            RET
+    LD SCRATCH_ZERO, RIGHT_KEY
+    SKP SCRATCH_ZERO
+    JP key_input_right_continue
 
-    not_in_cooldown:
+    key_input_right:
+        SNE DVD_X, DVD_X_MAX
+        JP key_input_right_continue
 
-        ; Exit on no key pressed
-        check_left_key:
-            LD SCRATCH_ZERO, LEFT_KEY
-            SKP SCRATCH_ZERO
-            JP check_right_key
-            JP keypress_continue
+        CALL set_dvd_dx_pos
+        LD KEY_PRESS_COOLDOWN, KEY_PRESS_WAIT
 
-            check_right_key:
-                LD SCRATCH_ZERO, RIGHT_KEY
-                SKP SCRATCH_ZERO
-                JP decrement_cooldown_no_key
-                JP keypress_continue
+    key_input_right_continue:
 
-                decrement_cooldown_no_key:
-                    SE KEY_PRESS_COUNTER, #0
-                    JP continue_cooldown
-                    RET
-
-        keypress_continue:
-            ADD KEY_PRESS_COUNTER, #1
-
-            SNE KEY_PRESS_COUNTER, MAX_KEY_PRESS_COUNT
-            LD KEY_PRESS_COOLDOWN, TRUE
-
-            LD SCRATCH_ZERO, LEFT_KEY
-            SKP SCRATCH_ZERO
-            JP key_input_left_continue
-
-            key_input_left:
-                SNE DVD_X, #0
-                JP key_input_left_continue
-
-                CALL set_dvd_dx_neg
-
-            key_input_left_continue:
-
-            LD SCRATCH_ZERO, RIGHT_KEY
-            SKP SCRATCH_ZERO
-            JP key_input_right_continue
-
-            key_input_right:
-                SNE DVD_X, DVD_X_MAX
-                JP key_input_right_continue
-
-                CALL set_dvd_dx_pos
-
-            key_input_right_continue:
-
-            RET
+    RET
 
 dvd_movement:
 
@@ -317,6 +299,20 @@ game_win:
     JP init
 
 ; -------------------------------------------------------------------
+
+; S2 = S0 < S1
+less_than:
+    SUB SCRATCH_ZERO, SCRATCH_ONE
+    SNE VF, #1
+    JP less_than_false ; No carry
+
+    less_than_true:
+        LD SCRATCH_TWO, #1
+        RET
+
+    less_than_false:
+        LD SCRATCH_TWO, #0
+        RET
 
 ; Reserve S0
 wait:
