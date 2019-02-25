@@ -80,6 +80,7 @@
 
 - **chip-roms:** Added Brick Breaker game.
 - **chip-roms:** Redid DVD game.
+- **chip-roms:** Remove MAZE rom.
 
 ### Documentation
 
