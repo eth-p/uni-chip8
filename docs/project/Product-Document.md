@@ -426,7 +426,7 @@ Considering the fact that we should have a reverse debugger, developers:
 - from other groups will be able to test their programs on our emulator website.
 - from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
 
-#### Team Members:
+#### Team Members
 
 - will get to experience writing CHIP-8 assembly programs.
 - will understand the limitations of the CHIP-8 emulator "hardware", and gain appreciation of modern architectures.
