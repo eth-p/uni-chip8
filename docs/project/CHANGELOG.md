@@ -80,3 +80,12 @@
 
 - **chip-roms:** Added Brick Breaker game.
 - **chip-roms:** Redid DVD game.
+
+### Documentation
+
+- **docs:** Added week 8 meeting minutes.
+
+### Schedule
+
+- **Release:** Moved reverse debugger to release 4.
+- **Release:** Added Vancouver Driving Simulator to release 3.
