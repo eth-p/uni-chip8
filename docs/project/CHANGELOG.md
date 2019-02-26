@@ -74,7 +74,7 @@
 
 - **Release:** Moved programs to release 2 due to early completion of emulator and website.
 
-## Release 1
+## Release 2
 
 ### Developer
 
