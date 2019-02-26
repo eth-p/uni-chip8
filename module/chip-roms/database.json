@@ -84,13 +84,6 @@
 		}
 	},
 
-	"driving-simulator.rom": {
-		"type": "GAME",
-		"name": "Driving Simulator",
-		"author": "Kyle Saburao",
-		"author_url": "https://github.com/macedir"
-	},
-
 	"counter-test.rom": {
 		"type": "TOOL",
 		"name": "BCD Counter Test",
