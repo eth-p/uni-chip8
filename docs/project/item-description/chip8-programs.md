@@ -63,8 +63,6 @@ Live versions can be found [here](https://chip.netlify.com).
 |----|----|---------|------|
 |**CHIP-8 Program: Vancouver Driving Simulator**|28/02/2019|12 days|Started|
 
-**Developers:**  
-
 ### Release 4
 
 **Targets:**  
