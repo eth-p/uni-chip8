@@ -3,9 +3,10 @@
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
 mixin emulator-register(name, width)
+	- var w = (width == null ? 2 : width);
 	div.register-visualizer(data-visualizer=`register-${name.toUpperCase()}`)
 		div.register-name=name
-		div.register-value=('-'.repeat(width == null ? 2 : width))
+		div.register-value(data-max-length=w)=('-'.repeat(w))
 
 mixin emulator-registers
 	div&attributes(attributes)#emulator-registers

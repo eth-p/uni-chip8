@@ -27,6 +27,20 @@
 			font-family: $font-monospace;
 			text-align: left;
 			padding-left: 3px;
+			border: transparent 1px solid;
+
+			&.focused {
+				outline: none;
+				background: $input-background;
+				border-color: $input-border;
+			}
+
+			&[contenteditable='true'] {
+				cursor: pointer;
+				&.focused {
+					cursor: text;
+				}
+			}
 		}
 
 		.register-name {
