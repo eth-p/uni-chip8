@@ -62,6 +62,7 @@ Live versions can be found [here](https://chip.netlify.com).
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Program: Vancouver Driving Simulator**|28/02/2019|12 days|Started|
+|**CHIP-8 Program: Flappy Bird**|28/02/2019|12 days|Started|
 
 ### Release 4
 

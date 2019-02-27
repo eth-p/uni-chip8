@@ -342,9 +342,8 @@ Since the emulator and website visualizer were pretty much done during release 1
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Started|
-|**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
 |**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Complete|
-|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
 |**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
 
@@ -355,6 +354,7 @@ Release 2 will include programs as the emulator has been pretty much completed. 
 ##### Reflection on Release 2
 
 We had to move the reverse debugger into Release 4 due to continuous weather issues.
+We will instead be doing the assembler for Release 3 & 4, and the reverse debugger for Release 4.
 Pong and Maze had to be removed due to issues.
 
 ##### Notes
@@ -364,14 +364,16 @@ This is not final as we have to compensate for being one release ahead of schedu
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
-|**CHIP-8 Optimizations**|28/02/2019|Entire release|Not started|
-|**CHIP-8 Further Programs**|28/02/2019|12 days|Started|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
+|**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**General Product Refinement**|14/03/2019|Entire release|Not started|
+|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In progress (early)|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 

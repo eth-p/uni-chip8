@@ -82,6 +82,7 @@
 - **chip-roms:** Redid DVD game.
 - **chip-roms:** Remove MAZE rom.
 - **chip-roms:** Added Invader game.
+- **chip-roms:** Added Dino Game.
 
 ### Documentation
 
