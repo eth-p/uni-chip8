@@ -82,5 +82,21 @@
 			"7": "LEFT",
 			"9": "RIGHT"
 		}
+	},
+
+	"counter-test.rom": {
+		"type": "TOOL",
+		"name": "BCD Counter Test",
+		"info": "Test the functionality of 0xFX29 and 0xFX33.",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir"
+	},
+
+	"invader.rom": {
+		"type": "GAME",
+		"name": "Invader",
+		"info": "",
+		"author": "Dan Amarasinghe",
+		"author_url": "https://github.com/danamaras"
 	}
 }

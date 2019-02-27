@@ -123,25 +123,25 @@ function handle(key: string, state: boolean): boolean {
 	return true;
 }
 
-// window.addEventListener('keydown', event => {
-// 	if (!keybindsEnabled) return;
-// 	if (event.metaKey || event.ctrlKey || event.altKey) return;
-// 	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
-// 	if (handle(event.key, true)) {
-// 		event.preventDefault();
-// 		return;
-// 	}
-// });
-//
-// window.addEventListener('keyup', event => {
-// 	if (!keybindsEnabled) return;
-// 	if (event.metaKey || event.ctrlKey || event.altKey) return;
-// 	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
-// 	if (handle(event.key, false)) {
-// 		event.preventDefault();
-// 		return;
-// 	}
-// });
+window.addEventListener('keydown', event => {
+	if (!keybindsEnabled) return;
+	if (event.metaKey || event.ctrlKey || event.altKey) return;
+	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
+	if (handle(event.key, true)) {
+		event.preventDefault();
+		return;
+	}
+});
+
+window.addEventListener('keyup', event => {
+	if (!keybindsEnabled) return;
+	if (event.metaKey || event.ctrlKey || event.altKey) return;
+	if (event.target instanceof HTMLInputElement && event.target.getAttribute('type') !== 'button') return;
+	if (handle(event.key, false)) {
+		event.preventDefault();
+		return;
+	}
+});
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Setup:
