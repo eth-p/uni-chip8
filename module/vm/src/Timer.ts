@@ -3,6 +3,8 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 
+import JsonType from '@chipotle/types/JsonType';
+
 /**
  * An abstract timer.
  *
@@ -57,6 +59,22 @@ abstract class Timer {
 	 */
 	public adjust(cpuHz: number, timerHz: number) {
 		this.ratio = timerHz / cpuHz;
+	}
+
+	/**
+	 * Creates a JSON-compatible snapshot of the timer.
+	 * @returns A snapshot of the timer.
+	 */
+	public snapshot(): JsonType {
+		return this.value;
+	}
+
+	/**
+	 * Restores a snapshot of the timer.
+	 * @param snapshot The JSON-compatible snapshot.
+	 */
+	public restore(snapshot: any) {
+		this.value = snapshot;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

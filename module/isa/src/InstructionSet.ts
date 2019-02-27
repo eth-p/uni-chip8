@@ -6,6 +6,7 @@ import assert from '@chipotle/types/assert';
 
 import {Instruction, MAX as INSTRUCTION_MAX, and, bitscanf, bitshiftr, isValid} from './Instruction';
 import Operation from './Operation';
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -118,6 +119,5 @@ interface OperationClass {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-
 export default InstructionSet;
 export {InstructionSet};

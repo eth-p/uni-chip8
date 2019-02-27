@@ -6,7 +6,7 @@
 /**
  * A chained error.
  */
-export default class ErrorChain extends Error {
+class ErrorChain extends Error {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -209,3 +209,7 @@ export default class ErrorChain extends Error {
 		return `${error.stack}\n\n[Caused by]\n${cause.toString()}\n${cause.stack}`;
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default ErrorChain;
+export {ErrorChain};

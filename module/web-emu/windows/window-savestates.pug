@@ -1,0 +1,34 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+include ../../web/components/window
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Window: Savestates
+-// --------------------------------------------------------------------------------------------------------------------
+mixin ui-savestate(number)
+	- var slot = number.toString().toLowerCase();
+	.savestate-slot(data-savestate-slot=slot)
+		.savestate-preview()
+			img
+		.savestate-info
+			.title Savestate #{number}
+			.date
+		.savestate-controls
+			input(type="button" value="Save" data-action="control-savestate-save" data-savestate-slot=slot)
+			input(type="button" value="Load" data-action="control-savestate-load" data-savestate-slot=slot)
+
+mixin ui-window-savestates
+	+desktop-overlay#emulator-savestates.centered.blocking
+		+window
+			+window-title("Savestates")
+				input(type="button" value="cancel" data-action="window-savestates-hide")
+
+			+window-content
+				for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Quickslot']
+					+ui-savestate(i)

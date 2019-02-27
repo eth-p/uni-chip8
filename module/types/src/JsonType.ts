@@ -2,32 +2,17 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import MathFlag from './MathFlag';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * The type of an instruction operand.
+ * A JSON-serializable type.
  */
-enum OperandType {
-	/**
-	 * A constant value.
-	 */
-	CONSTANT = 1 << 0,
+type JsonType = {[key: string]: JsonType} | number | string | boolean | null | JsonArray;
 
-	/**
-	 * A reference to a register.
-	 */
-	REGISTER = 1 << 1,
-
-	/**
-	 * A reference to a program address.
-	 */
-	ROM_ADDRESS = 1 << 2,
-
-	/**
-	 * A reference to a memory address.
-	 */
-	RAM_ADDRESS = 1 << 3
-}
+// tslint:disable:array-type
+type JsonArray = Array<any> | {[key: number]: JsonType};
 
 // ---------------------------------------------------------------------------------------------------------------------
-export {OperandType};
-export default OperandType;
+export default JsonType;
+export {JsonType};

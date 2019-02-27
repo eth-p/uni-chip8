@@ -5,6 +5,7 @@
 import ProgramSource from './ProgramSource';
 import VMContext from './VMContext';
 import VMInstructionSet from './VMInstructionSet';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -60,6 +61,18 @@ abstract class Architecture<A> {
 	 * @protected
 	 */
 	protected abstract _tick(this: VMContext<A>): void;
+
+	/**
+	 * Stores the architecture state into a snapshot.
+	 * @param snapshot The snapshot to store into.
+	 */
+	protected abstract _saveSnapshot(this: VMContext<A>, snapshot: VMSnapshot): void;
+
+	/**
+	 * Restores the architecture state from a snapshot.
+	 * @param snapshot The snapshot to restore from.
+	 */
+	protected abstract _loadSnapshot(this: VMContext<A>, snapshot: VMSnapshot): void;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

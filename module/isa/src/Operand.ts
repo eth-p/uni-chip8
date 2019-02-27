@@ -147,7 +147,6 @@ interface OperandCtor {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-
 export default Operand;
 export {Operand};
 export {OperandCtor};

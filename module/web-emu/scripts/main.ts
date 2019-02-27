@@ -10,6 +10,7 @@ import './ui-error';
 import './ui-settings';
 import './ui-screen';
 import './ui-load';
+import './ui-savestates';
 import './ui-registers';
 import './ui-stack';
 import './ui-disassembler';
@@ -42,6 +43,15 @@ settings.addListener('update', (setting, value) => {
 		default:
 			break;
 	}
+});
+
+emulator.addListener('snapshot', (id, snapshot) => {
+	(<any>settings)[`savestate_${id}`] = {
+		screenshot: null, // TODO: Real screenshots
+		snapshot: snapshot,
+		date: new Date().toUTCString(),
+		unset: false
+	};
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

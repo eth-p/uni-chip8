@@ -1,0 +1,74 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/_theme';
+@import '../../web/styles/_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Savestates:
+// ---------------------------------------------------------------------------------------------------------------------
+#emulator-savestates {
+	.savestate-slot {
+		display: flex;
+		align-items: stretch;
+
+		border: $program-list-border 1px solid;
+
+		margin: $window-padding;
+
+		// Preview image.
+		> .savestate-preview {
+			display: flex;
+			align-items: center;
+
+			width: 64px;
+			background: black;
+			border-right: $program-list-border 1px solid;
+
+			> img:not([src]) {
+				display: none;
+			}
+		}
+
+		// Savestate information.
+		.savestate-info {
+			flex: 1 1 auto;
+
+			padding: $window-padding;
+		}
+
+		&.empty {
+			.savestate-info > .date::after {
+				content: 'No Savestate';
+				opacity: 0.5;
+			}
+		}
+
+		// Savestate controls.
+		.savestate-controls {
+			display: flex;
+			align-items: stretch;
+
+			> input[type='button'] {
+				@include custom-button;
+
+				display: block;
+				width: 55px;
+
+				padding: 4px;
+				border: none;
+				border-left: $program-list-border 1px solid;
+				transition: background $animation-time ease;
+
+				color: $text;
+				background: $program-list-background;
+				cursor: pointer;
+
+				&:hover {
+					background: $program-list-background-hover;
+				}
+			}
+		}
+	}
+}

@@ -4,6 +4,7 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
 import VMContext from '@chipotle/vm/VMContext';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 import Chip from '@chipotle/chip-arch/Chip';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,6 +21,7 @@ import Chip from '@chipotle/chip-arch/Chip';
  * - `resume`
  * - `load`
  * - `error`
+ * - `snapshot`
  */
 class Emulator extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
@@ -162,6 +164,31 @@ class Emulator extends Emitter {
 		} catch (ex) {
 			this._error(ex);
 		}
+	}
+
+	/**
+	 * Creates a snapshot of the emulator state.
+	 *
+	 * @param id The snapshot ID, passed to any event listeners.
+	 *
+	 * @returns The snapshot object.
+	 */
+	public snapshot(id?: string): VMSnapshot {
+		// TODO: Create snapshot
+		let snapshot: VMSnapshot = <any>null;
+
+		this.emit('snapshot', id || 'snapshot', snapshot);
+		return snapshot;
+	}
+
+	/**
+	 * Restores a snapshot of the emulator state.
+	 *
+	 * @param snapshot The snapshot object.
+	 * @throws VMError When the snapshot is invalid.
+	 */
+	public restore(snapshot: VMSnapshot): void {
+		// TODO: Restore snapshot.
 	}
 
 	/**

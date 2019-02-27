@@ -8,7 +8,7 @@ import Instruction from './Instruction';
 /**
  * A cache for decoded instructions.
  */
-export default class InstructionCache<A> {
+class InstructionCache<A> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -78,3 +78,7 @@ export default class InstructionCache<A> {
 		this.map.clear();
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default InstructionCache;
+export {InstructionCache};
