@@ -90,5 +90,13 @@
 		"info": "Test the functionality of 0xFX29 and 0xFX33.",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir"
+	},
+
+	"invader.rom": {
+		"type": "GAME",
+		"name": "Invader",
+		"info": "",
+		"author": "Dan Amarasinghe",
+		"author_url": "https://github.com/danamaras"
 	}
 }
