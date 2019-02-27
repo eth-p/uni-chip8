@@ -39,16 +39,16 @@ This section contains all deliverables and tools that we are currently planning 
 ### In Progress
 
 - [**CHIP-8 Assembler**](item-description/Assembler/index.md)
-- [**CHIP-8 Programs**](item-description/CHIP-8-Programs.md)
+- [**CHIP-8 Programs**](item-description/chip8-programs.md)
 
 ### Finalizing
 
 This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
 
-- [**CHIP-8 Emulator**](item-description/CHIP-8-Emulator.md)
+- [**CHIP-8 Emulator**](item-description/chip8-emulator.md)
   - Opcodes
   - General Architecture
-- [**CHIP-8 Visualizer Website**](item-description/CHIP-8-Website.md)
+- [**CHIP-8 Visualizer Website**](item-description/chip8-website.md)
 - [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 
 ### Finished
@@ -341,17 +341,22 @@ Since the emulator and website visualizer were pretty much done during release 1
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Not started|
-|**CHIP-8 Reverse Debugger**|07/02/2019|2 weeks|Not started|
-|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Not started|
-|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Complete|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
-|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
-|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
 
 Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
 #### Release 3 - Assembler and More Programs (28/02/2019 - 13/03/2019)
+
+##### Reflection on Release 2
+
+We had to move the reverse debugger into Release 4 due to continuous weather issues.
+We will instead be doing the assembler for Release 3 & 4, and the reverse debugger for Release 4.
+Pong and Maze had to be removed due to issues.
+Snake and Space Invader were not completed in time, so they will not be made playable.
 
 ##### Notes
 
@@ -360,13 +365,16 @@ This is not final as we have to compensate for being one release ahead of schedu
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
-|**CHIP-8 Optimizations**|28/02/2019|Entire release|Not started|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
+|**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**General Product Refinement**|14/03/2019|Entire release|Not started|
+|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In progress (early)|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
@@ -426,7 +434,7 @@ Considering the fact that we should have a reverse debugger, developers:
 - from other groups will be able to test their programs on our emulator website.
 - from other groups will be able to validate their CHIP-8 implementation by testing programs on both parties emulators.
 
-#### Team Members:
+#### Team Members
 
 - will get to experience writing CHIP-8 assembly programs.
 - will understand the limitations of the CHIP-8 emulator "hardware", and gain appreciation of modern architectures.
@@ -436,7 +444,16 @@ Considering the fact that we should have a reverse debugger, developers:
 
 - will be able to enjoy their uploaded CHIP-8 ROM on a functional and optimized multi-platform emulator website.
 - will be able to enjoy classic games such as Pong.
-- will be able to step forwards and backwards individual instructions to understand how program writers designed their games.
+
+### Release 3
+
+#### Users
+
+- Will be able to enjoy original CHIP-8 games, i.e. the games will be unique.
+
+#### Developers
+
+- Will be able to use a program assembler to convert their program assembly files into executable bytecode.
 
 ## Project Schedule
 
@@ -458,6 +475,12 @@ Considering the fact that we should have a reverse debugger, developers:
 - Ethan Pini
 - Kyle Saburao
 
+### Release 2
+
+- Ethan Pini
+- Kyle Saburao
+- Dan Amarasinghe
+
 ## Information Sources and Citations
 
 ### CHIP-8 Documentation
@@ -466,6 +489,10 @@ Considering the fact that we should have a reverse debugger, developers:
 - <http://www.emulator101.com/introduction-to-chip-8.html>
 - <http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/>
 - <http://devernay.free.fr/hacks/chip8/C8TECH10.HTM>
+
+### Temporary Assembler
+
+- [GitHub link](https://github.com/wernsey/chip8/blob/master/README.md)
 
 ### Documentation Creation
 

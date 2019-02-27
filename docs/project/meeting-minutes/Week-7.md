@@ -8,8 +8,9 @@
 **Date:** *February 11, 2019*  
 **Time:** *12:30 - 2:00*
 
-## Attendance
+Could not occur due to continuous weather issues.
 
+## Attendance
 
 ## Targets
 
