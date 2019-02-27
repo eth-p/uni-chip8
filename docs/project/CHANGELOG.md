@@ -80,3 +80,4 @@
 
 - **chip-roms:** Added Brick Breaker game.
 - **chip-roms:** Redid DVD game.
+- **chip-roms:** Added Invader game.
