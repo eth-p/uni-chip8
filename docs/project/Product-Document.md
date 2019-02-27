@@ -356,6 +356,7 @@ Release 2 will include programs as the emulator has been pretty much completed. 
 We had to move the reverse debugger into Release 4 due to continuous weather issues.
 We will instead be doing the assembler for Release 3 & 4, and the reverse debugger for Release 4.
 Pong and Maze had to be removed due to issues.
+Snake and Space Invader were not completed in time, so they will not be made playable.
 
 ##### Notes
 
