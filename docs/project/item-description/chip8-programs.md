@@ -53,12 +53,15 @@ Live versions can be found [here](https://chip.netlify.com).
 |**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Done|
 |**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
 |**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
-|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Not started|
-|**CHIP-8 Program: Pong**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
 
 ### Release 3
 
 **Targets:**  
+
+|Task|Date|Timeframe|Status|
+|----|----|---------|------|
+|**CHIP-8 Program: Vancouver Driving Simulator**|28/02/2019|12 days|Started|
 
 **Developers:**  
 
