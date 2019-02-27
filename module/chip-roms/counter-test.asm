@@ -9,13 +9,11 @@ DEFINE VALUE_TOP_LEFT_Y #D
 init:
     LD VALUE, #0
     CALL initValueDisplay
+    CALL renderValueDisplay
     JP loop
 
 
 loop:
-    CLS
-    CALL renderValueDisplay
-
     SE VALUE, #FF
     JP no_sound
 
@@ -27,9 +25,11 @@ loop:
 
     after_sound:
 
+    CALL renderValueDisplay
     ADD VALUE, #1
+    CALL renderValueDisplay
 
-    LD V0, #4
+    LD V0, #2
     LD DT, V0
     CALL wait
     JP loop
