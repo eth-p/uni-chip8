@@ -2,6 +2,30 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import App from './noveau/App';
+import KeybindController from './noveau/controller/KeybindController';
+
+App.depends([KeybindController]);
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Initialize UI:
+// ---------------------------------------------------------------------------------------------------------------------
+(<any>window).ChipotleUI = {
+	app: App,
+	kbc: new KeybindController()
+};
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Initialize App:
+// ---------------------------------------------------------------------------------------------------------------------
+App.settings.suppressListeners('update', true);
+App.addListener('ready', () => {
+	console.log('READY!');
+	App.settings.suppressListeners('update', false);
+	App.settings.broadcast();
+});
+
+// OLD CODE
 import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 

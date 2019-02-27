@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {Settings, SettingsEntry} from '@chipotle/web/Settings';
+import {Settings, SettingsEntry} from '@chipotle/wfw/Settings';
 
 import UIWindow from '@chipotle/web/UIWindow';
 import dom_ready from '@chipotle/web/dom_ready';

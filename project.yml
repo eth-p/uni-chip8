@@ -93,6 +93,10 @@ modules:
     <<: *code
     description: "Library: Common type definitions and classes."
 
+  wfw:
+    <<: *code
+    description: "Library: Website app framework."
+
   isa:
     <<: *code
     description: "Library: Virtual machine instruction set architecture."

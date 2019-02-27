@@ -35,7 +35,7 @@ function Setting(value: any, options?: {validator: SettingsEntry['validator']}) 
  * An object for storing settings in localStorage.
  * This also provides an interface for listening for changes to the settings.
  */
-class Settings extends Emitter {
+class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------

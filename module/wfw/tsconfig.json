@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/wfw",
+		"declarationDir": "types/wfw"
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}
