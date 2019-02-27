@@ -115,11 +115,11 @@ module.exports = class TaskTypescript extends Task {
 
 			// Compile TypeScript.
 			.pipe(tsProject())
-			.pipe(this._gulpstrip(tsSources))
+			.pipe(this._gulpstrip(tsSources.concat(tsSources.map( x => x.replace(/(.*)\.ts$/, '$1.js')))))
 
 			// Rename.
 			.pipe(gulp_rename(file => {
-				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}`
+				file.dirname = path.join(`${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}`, file.dirname)
 			}))
 
 			// Transform JavaScript.
