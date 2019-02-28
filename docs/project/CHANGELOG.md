@@ -81,7 +81,8 @@
 - **chip-roms:** Added Brick Breaker game.
 - **chip-roms:** Redid DVD game.
 - **chip-roms:** Remove MAZE rom.
-- **chip-roms:** Added Dino Game.
+- **chip-roms:** Added Dino game.
+- **chip-roms:** Added Snake Game.
 - **web-x**: Added register manipulation. (when paused).
 
 ### Documentation

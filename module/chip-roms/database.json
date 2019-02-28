@@ -101,5 +101,19 @@
 		"controls": {
 			"1": "JUMP"
 		}
+	},
+
+	"snake.rom": {
+		"type": "GAME",
+		"name": "Snake",
+		"info": "Grow your snake as long as possible before you eat yourself!",
+		"author": "Henry Wang",
+		"author_url": "https://github.com/wziheng",
+		"controls": {
+			"5": "UP",
+			"8": "DOWN",
+			"6": "RIGHT",
+			"4": "LEFT"
+		}
 	}
 }
