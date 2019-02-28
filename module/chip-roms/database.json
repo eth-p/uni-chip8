@@ -90,8 +90,8 @@
 		"info": "Test the functionality of 0xFX29 and 0xFX33.",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir"
-	}, 
-	
+	},
+
 	"c8dino.rom": {
 		"type": "GAME",
 		"name": "Chip 8 Dino",
