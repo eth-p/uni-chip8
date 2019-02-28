@@ -449,11 +449,13 @@ Considering the fact that we should have a reverse debugger, developers:
 
 #### Users
 
-- Will be able to enjoy original CHIP-8 games, i.e. the games will be unique.
+- will be able to enjoy original CHIP-8 games, i.e. the games will be unique.
 
 #### Developers
 
-- Will be able to use a program assembler to convert their program assembly files into executable bytecode.
+- will be able to experience writing assembly programs.
+- will be able to understand how limited the CHIP 8 emulator is.
+- will be able to use a program assembler to convert their program assembly files into executable bytecode.
 
 ## Project Schedule
 
