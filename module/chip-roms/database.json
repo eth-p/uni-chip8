@@ -100,11 +100,11 @@
 		"author_url": "https://github.com/danamaras"
 
 	}, 
-	
+
 	"c8dino.rom": {
 		"type": "GAME",
 		"name": "Chip 8 Dino",
-		"info": "Fun and challenging game similar to chrome dino game!",
+		"info": "Fun and challenging game similar to chrome dino game! (Recommended emulator speed 500Hz)",
 		"author": "Anthony Pham",
 		"author_url": "https://github.com/cen357",
 		"controls": {
