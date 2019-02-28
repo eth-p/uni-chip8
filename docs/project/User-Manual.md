@@ -150,7 +150,9 @@ Each key in the following table associates to the on-screen button in the same p
 
 #### Registers
 
-Outputs the current values of each register.
+Outputs the current values of each register.  
+When the program is paused, a user may be able
+to manipulate the register value by clicking on the value itself.
 
 #### Stack
 
@@ -165,6 +167,10 @@ Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for 
 Steps the CHIP-8 emulator to the next instruction.
 
 **Note:** Reverse stepping is not implemented at this point.
+
+#### Clear DT
+
+Clears the delay timer.
 
 ### Other Buttons
 

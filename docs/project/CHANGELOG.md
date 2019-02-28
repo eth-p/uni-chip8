@@ -83,6 +83,7 @@
 - **chip-roms:** Remove MAZE rom.
 - **chip-roms:** Added Invader game.
 - **chip-roms:** Added Dino Game.
+- **web-x**: Added register manipulation. (when paused).
 
 ### Documentation
 
