@@ -92,15 +92,6 @@
 		"author_url": "https://github.com/macedir"
 	},
 
-	"invader.rom": {
-		"type": "GAME",
-		"name": "Invader",
-		"info": "",
-		"author": "Dan Amarasinghe",
-		"author_url": "https://github.com/danamaras"
-
-	}, 
-	
 	"c8dino.rom": {
 		"type": "GAME",
 		"name": "Chip 8 Dino",
