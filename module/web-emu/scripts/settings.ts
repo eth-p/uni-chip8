@@ -6,7 +6,6 @@ import App from './noveau/App';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
-const settings = App.settings;
+const settings = App.settings; // FIXME: Legacy compatibility shim.
 export default settings;
 export {settings};
-((<any>window).Chipotle || ((<any>window).Chipotle = {})).settings = settings;

@@ -5,10 +5,13 @@
 import App from '../App';
 import Keybind from '../Keybind';
 
+const state = App.state;
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An abstract class that specifies handler functions for keybinds.
+ * Keybind: PAUSE
+ * Toggles the user's pause state.
  */
 class KeybindPause extends Keybind {
 	public onKeyDown(): void {

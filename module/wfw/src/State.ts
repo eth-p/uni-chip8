@@ -76,7 +76,7 @@ class State<T, C = any> extends Emitter<'change' | 'refresh' | 'add provider' | 
 		this.state = this.providers.map(provider => provider());
 		this.reduced = this.reducer(this.state);
 		this.emit('refresh');
-		this.emit('change');
+		this.emit('change', this.value);
 	}
 
 	/**

@@ -4,15 +4,17 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import App from './noveau/App';
 import KeybindController from './noveau/controller/KeybindController';
+import EmulatorController from './noveau/controller/EmulatorController';
 
-App.depends([KeybindController]);
+App.depends([KeybindController, EmulatorController]);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:
 // ---------------------------------------------------------------------------------------------------------------------
+(<any>window).Chipotle = App;
 (<any>window).ChipotleUI = {
-	app: App,
-	kbc: new KeybindController()
+	kbc: new KeybindController(),
+	emc: new EmulatorController()
 };
 
 // ---------------------------------------------------------------------------------------------------------------------

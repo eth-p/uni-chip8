@@ -2,13 +2,15 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {ALL_TRUE, ANY_TRUE} from '@chipotle/wfw/StateReducer';
+import Chip from '@chipotle/chip-arch/Chip';
+
+import VM from '@chipotle/vm/VM';
+
 import Application, {FragmentClass} from '@chipotle/wfw/Application';
-import State from '@chipotle/wfw/State';
 
 import AppSettings from './AppSettings';
+import AppState from './AppState';
 import Emulator from '../Emulator';
-import StateProvider from '@chipotle/wfw/StateProvider';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -25,27 +27,9 @@ class AppBase {
 	// | Static:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public static emulator: Emulator = <any>null /* FIXME: Remove when refactoring noveau -> default */;
+	public static emulator: Emulator = new Emulator(new VM(new Chip()));
 	public static settings: AppSettings = new AppSettings('emulator');
-	public static state: AppState = {
-		user: {
-			pause: new StateProvider(false)
-		},
-		emulator: {
-			paused: new State<boolean>(ANY_TRUE),
-			keybind: new State<boolean>(ALL_TRUE)
-		}
-	};
-}
-
-interface AppState {
-	user: {
-		pause: StateProvider<boolean>;
-	};
-	emulator: {
-		paused: State<boolean>;
-		keybind: State<boolean>;
-	};
+	public static state: AppState = new AppState();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -61,4 +45,3 @@ App.state.emulator.paused.addProvider(App.state.user.pause);
 // Exports:
 export default App;
 export {App};
-export {AppState};

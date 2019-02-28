@@ -23,10 +23,17 @@ import Chip from '@chipotle/chip-arch/Chip';
  * - `error`
  * - `snapshot`
  */
-class Emulator extends Emitter {
+class Emulator extends Emitter<
+	'error' | 'load' | 'pause' | 'resume' | 'reset' | 'step' | 'snapshot' | 'keydown' | 'keyup'
+> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * The virtual machine instance.
+	 */
+	public readonly vm: VMContext<Chip>;
 
 	/**
 	 * Whether or not the emulator is paused.
@@ -58,11 +65,6 @@ class Emulator extends Emitter {
 	 * i.e. The number of instructions / second.
 	 */
 	protected speed: number;
-
-	/**
-	 * The virtual machine instance.
-	 */
-	protected vm: VMContext<Chip>;
 
 	/**
 	 * The last time (in milliseconds) update() was called.

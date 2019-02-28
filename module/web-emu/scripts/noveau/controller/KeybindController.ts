@@ -5,6 +5,10 @@
 import App from '../App';
 import Keybind from '../Keybind';
 import KeybindPause from '../keybind/KeybindPause';
+import KeybindTurbo from '../keybind/KeybindTurbo';
+import KeybindStepForwards from '../keybind/KeybindStepForwards';
+import KeybindStepBackwards from '../keybind/KeybindStepBackwards';
+import KeybindGamepad from '../keybind/KeybindGamepad';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -27,7 +31,17 @@ class KeybindController extends App {
 		super();
 
 		this.handlerMap = new Map();
-		this.handlerList = [new KeybindPause('keybind_control_pause')];
+		this.handlerList = [
+			new KeybindPause('keybind_control_pause'),
+			new KeybindTurbo('keybind_control_turbo'),
+			new KeybindStepForwards('keybind_control_step_next'),
+			new KeybindStepBackwards('keybind_control_step_prev'),
+
+			// Keypad:
+			...[0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf]
+				.map(n => n.toString(16).toUpperCase())
+				.map(n => new KeybindGamepad(<any>`keybind_key_${n}`, n))
+		];
 
 		this.rebuildHandlerMap();
 	}

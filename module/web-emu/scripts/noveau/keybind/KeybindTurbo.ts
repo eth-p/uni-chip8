@@ -2,17 +2,28 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-//  Developer notes:
-//  @eth-p: This is a singleton class for interacting with the emulator and virtual machine.
-// ---------------------------------------------------------------------------------------------------------------------
-import App from './noveau/App';
+import App from '../App';
+import Keybind from '../Keybind';
+
+const state = App.state;
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Variables:
-let vm = App.emulator.vm; // FIXME: Legacy compatibility shim.
-let emulator = App.emulator; // FIXME: Legacy compatibility shim.
+
+/**
+ * Keybind: TURBO
+ * Enables turbo mode while pressed.
+ */
+class KeybindPause extends Keybind {
+	public onKeyDown(): void {
+		state.user.turbo.value = true;
+	}
+
+	public onKeyUp(): void {
+		state.user.turbo.value = false;
+	}
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
-export {emulator};
-export {vm};
+export default KeybindPause;
+export {KeybindPause};
