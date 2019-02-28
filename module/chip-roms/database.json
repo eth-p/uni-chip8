@@ -98,5 +98,17 @@
 		"info": "",
 		"author": "Dan Amarasinghe",
 		"author_url": "https://github.com/danamaras"
+
+	}, 
+	
+	"c8dino.rom": {
+		"type": "GAME",
+		"name": "Chip 8 Dino",
+		"info": "Fun and challenging game similar to chrome dino game!",
+		"author": "Anthony Pham",
+		"author_url": "https://github.com/cen357",
+		"controls": {
+			"1": "JUMP"
+		}
 	}
 }
