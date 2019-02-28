@@ -18,6 +18,7 @@ App.depends([KeybindController]);
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize App:
 // ---------------------------------------------------------------------------------------------------------------------
+App.emulator = emulator;
 App.settings.suppressListeners('update', true);
 App.addListener('ready', () => {
 	console.log('READY!');

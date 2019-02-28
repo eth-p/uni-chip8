@@ -38,7 +38,7 @@ class State<T, C = any> extends Emitter<'change' | 'refresh' | 'add provider' | 
 	/**
 	 * Creates a new State object.
 	 */
-	public constructor(reducer: StateReducer<T, C>, initial?: T) {
+	public constructor(reducer: StateReducer<T, C>) {
 		super();
 		this.providers = [];
 		this.state = [];
