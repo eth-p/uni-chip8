@@ -12,9 +12,15 @@
 
 - Kyle, *ksaburao@sfu.ca*
 - Ethan, *ethan_pini@sfu.ca*
+- Anthony
 
 ## Discussion
 
 - Important administrative details.
+- Merge branches and add the games to master.
+- Update documentation.
 
 ## Decisions
+
+- Will make Vancouver Driving Simulator and Flappy Bird game.
+- Move assembler to R3 and R4. Reverse debugger is R4.
