@@ -92,4 +92,6 @@
 ### Schedule
 
 - **Release:** Moved reverse debugger to release 4.
+- **Release:** Changed assembler to encompass release 3 & 4.
 - **Release:** Added Vancouver Driving Simulator to release 3.
+- **Release:** Added Flappy Bird to release 3.
