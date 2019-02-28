@@ -483,6 +483,7 @@ Considering the fact that we should have a reverse debugger, developers:
 - Kyle Saburao
 - Dan Amarasinghe
 - Anthony Pham
+- Henry Wang
 
 ## Information Sources and Citations
 
