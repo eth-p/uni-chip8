@@ -344,7 +344,7 @@ Since the emulator and website visualizer were pretty much done during release 1
 |**CHIP-8 Optimizations and Validation**|07/02/2019|Entire release|Started|
 |**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Complete|
-|**CHIP-8 Program: Snake**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Snake**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
 
 Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
@@ -356,7 +356,7 @@ Release 2 will include programs as the emulator has been pretty much completed. 
 We had to move the reverse debugger into Release 4 due to continuous weather issues.
 We will instead be doing the assembler for Release 3 & 4, and the reverse debugger for Release 4.
 Pong and Maze had to be removed due to issues.
-Snake and Space Invader were not completed in time, so they will not be made playable.
+Space Invader was not completed in time, so it will not be made playable.
 
 ##### Notes
 
