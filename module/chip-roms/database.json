@@ -115,5 +115,20 @@
 			"6": "RIGHT",
 			"4": "LEFT"
 		}
+	},
+
+	"nuclear-launch.rom": {
+		"type": "GAME",
+		"name": "Nuclear Launch",
+		"info": "",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir",
+		"controls": {
+			"5": "UP",
+			"8": "DOWN",
+			"9": "RIGHT",
+			"7": "LEFT",
+			"6": "LAUNCH"
+		}
 	}
 }

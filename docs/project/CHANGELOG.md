@@ -95,3 +95,13 @@
 - **Release:** Changed assembler to encompass release 3 & 4.
 - **Release:** Added Vancouver Driving Simulator to release 3.
 - **Release:** Added Flappy Bird to release 3.
+
+## Release 3
+
+### Developer
+
+- **chip-roms:** Add work on Nuclear Launch game.
+
+### Schedule
+
+- **Release:** Replace Vancouver Driving Simulator with Nuclear Launch.
