@@ -22,6 +22,7 @@ class AppState {
 	 * States for the emulator.
 	 */
 	public emulator = {
+		turbo: new State<boolean>(ANY_TRUE),
 		paused: new State<boolean>(ANY_TRUE),
 		loaded: new State<boolean>(ALL_TRUE),
 		keybind: new State<boolean>(ALL_TRUE)

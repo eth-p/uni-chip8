@@ -30,6 +30,7 @@ class EmulatorController extends App {
 
 		// State -> Emulator
 		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
+		this.state.emulator.turbo.addListener('change', val => this.emulator.setTurbo(val));
 
 		// Emulator -> State
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));

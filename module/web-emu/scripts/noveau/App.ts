@@ -40,6 +40,7 @@ namespace App {
 }
 
 App.state.emulator.paused.addProvider(App.state.user.pause);
+App.state.emulator.turbo.addProvider(App.state.user.turbo);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Exports:
