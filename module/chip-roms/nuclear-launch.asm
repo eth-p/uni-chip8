@@ -29,20 +29,20 @@ DEFINE LAUNCH_KEY #6
 
 DEFINE RETICLE_SPEED #1
 DEFINE LOOP_WAIT #2
-DEFINE RETICLE_MIN #1
-DEFINE RETICLE_X_MAX #3A
-DEFINE RETICLE_Y_MAX #19
+DEFINE RETICLE_MIN #0
+DEFINE RETICLE_X_MAX #3B
+DEFINE RETICLE_Y_MAX #1A
 DEFINE RETICLE_X_DEFAULT #1E
 DEFINE RETICLE_Y_DEFAULT #11
 
-DEFINE LAUNCHSILO_X #1D
+DEFINE LAUNCHSILO_X #1F
 DEFINE LAUNCHSILO_Y #1B
 
-DEFINE LAUNCH_AVALIABLE_X #1E
-DEFINE LAUNCH_AVALIABLE_Y #1B
+DEFINE MISSILE_X_LAUNCH_LOCATION #20
+DEFINE MISSILE_Y_LAUNCH_LOCATION #1B
 
-DEFINE MISSLE_X_LAUNCH_LOCATION #1E
-DEFINE MISSLE_Y_LAUNCH_LOCATION #19
+DEFINE MISSILE_X_IDLE #20
+DEFINE MISSILE_Y_IDLE #1A
 
 
 init:
@@ -52,7 +52,7 @@ init:
     CALL renderLaunchSilo
     CALL renderReticleNew
     CALL initMissile
-    CALL renderMissileNew
+    ;CALL renderMissileNew
 
     JP loop
 
@@ -76,8 +76,8 @@ wait:
     RET
 
 initMissile:
-    LD MISSILE_X, LAUNCH_AVALIABLE_X
-    LD MISSILE_Y, LAUNCH_AVALIABLE_Y
+    LD MISSILE_X, MISSILE_X_IDLE
+    LD MISSILE_Y, MISSILE_Y_IDLE
     LD MISSILE_X_OLD, MISSILE_X
     LD MISSILE_Y_OLD, MISSILE_Y
     RET
@@ -110,20 +110,22 @@ handleMissile:
     missileReachedTarget:
 
         CALL renderMissileNew
-        LD MISSILE_X, LAUNCH_AVALIABLE_X
-        LD MISSILE_Y, LAUNCH_AVALIABLE_Y
-        LD MISSILE_X_OLD, MISSILE_X
-        LD MISSILE_Y_OLD, MISSILE_Y
+        CALL initMissile
         CALL renderMissile
 
         CALL stashToPlayerData
 
         LD VA, #0
-        LD VB, #4
+        LD VB, #2
 
-        explosionLoop:
-            CALL generateExplosionSprite
-            CALL renderExplosionSprite
+        CALL generateExplosion1Sprite
+        CALL generateExplosion2Sprite
+
+        explosionSoundLoop:
+            SNE VA, #0
+            CALL renderExplosion1Sprite
+            SNE VA, #1
+            CALL renderExplosion2Sprite
             LD SCRATCH_ONE, #3
             LD DT, SCRATCH_ONE
             LD SCRATCH_TWO, #2
@@ -131,42 +133,10 @@ handleMissile:
             CALL wait
             ADD VA, #1
             SE VA, VB
-            JP explosionLoop
+            JP explosionSoundLoop
 
-        ; Clear all the pixels in the explosion vicinity
-
-        LD VA, TARGET_X ; Top left x
-        LD VB, TARGET_Y ; Top left y
-        LD SCRATCH_ONE, #2
-        SUB VA, SCRATCH_ONE
-        SUB VB, SCRATCH_ONE
-        LD VC, VA ; Bottom right x
-        LD VD, VB ; Bottom right y
-        ADD VC, #5
-        ADD VD, #5
-
-        LD SCRATCH_ONE, VA ; Running X
-        LD SCRATCH_TWO, VB ; Running Y
-
-        LD I, SPRITE_SingleDot
-        clearExplosionY:
-
-            clearExplosionX:
-
-                DRW SCRATCH_ONE, SCRATCH_TWO, #1
-                SNE VF, #0
-                DRW SCRATCH_ONE, SCRATCH_TWO, #1
-
-                ADD SCRATCH_ONE, #1
-                LD SCRATCH_THREE, VC
-                SE SCRATCH_ONE, SCRATCH_THREE
-                JP clearExplosionX
-
-            LD SCRATCH_ONE, VA
-            ADD SCRATCH_TWO, #1
-            LD SCRATCH_THREE, VD
-            SE SCRATCH_TWO, SCRATCH_THREE
-            JP clearExplosionY
+        CALL renderExplosion2Sprite
+        CALL renderExplosion1Sprite ; Clear explosion
 
         CALL unstashFromPlayerData
         RET
@@ -227,10 +197,10 @@ isMissileIdle:
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
-    SNE MISSILE_X, LAUNCH_AVALIABLE_X
+    SNE MISSILE_X, MISSILE_X_IDLE
     LD SCRATCH_ONE, #1
 
-    SNE MISSILE_Y, LAUNCH_AVALIABLE_Y
+    SNE MISSILE_Y, MISSILE_Y_IDLE
     LD SCRATCH_TWO, #1
 
     AND SCRATCH_ONE, SCRATCH_TWO
@@ -263,8 +233,8 @@ inputLaunch:
         CALL getTargetY
         LD TARGET_Y, SCRATCH_ONE
 
-        LD MISSILE_X, MISSLE_X_LAUNCH_LOCATION
-        LD MISSILE_Y, MISSLE_Y_LAUNCH_LOCATION
+        LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
+        LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
 
         LD SCRATCH_ONE, #3
         LD ST, SCRATCH_ONE
@@ -388,12 +358,15 @@ renderMissile:
 
     AND SCRATCH_ONE, SCRATCH_TWO
 
-    ;SNE SCRATCH_ONE, #1
-    ;RET
+    SNE SCRATCH_ONE, #1
+    JP renderMNew
 
-    CALL renderMissileOld
-    CALL renderMissileNew
+    renderMOld:
+        CALL renderMissileOld
 
+    renderMNew:
+        CALL renderMissileNew
+        
     RET
 
 renderMissileOld:
@@ -508,27 +481,54 @@ unstashFromMiscData:
 
 ; The full explosion sprite is 5x5
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
-generateExplosionSprite:
+generateExplosion1Sprite:
     CALL stashToMiscData
     RND SCRATCH_ONE, #F8
     RND SCRATCH_TWO, #F8
     RND SCRATCH_THREE, #F8
     RND SCRATCH_FOUR, #F8
     RND V4, #F8
-    LD I, SPRITE_Explosion
+    LD I, SPRITE_Explosion1
     LD [I], V4
     CALL unstashFromMiscData
     RET
 
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
-renderExplosionSprite:
+renderExplosion1Sprite:
     CALL stashToMiscData
     LD SCRATCH_ONE, TARGET_X
     LD SCRATCH_TWO, TARGET_Y
     LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
-    LD I, SPRITE_Explosion
+    LD I, SPRITE_Explosion1
+    DRW SCRATCH_ONE, SCRATCH_TWO, #5
+    CALL unstashFromMiscData
+    RET
+
+; The full explosion sprite is 5x5
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
+generateExplosion2Sprite:
+    CALL stashToMiscData
+    RND SCRATCH_ONE, #F8
+    RND SCRATCH_TWO, #F8
+    RND SCRATCH_THREE, #F8
+    RND SCRATCH_FOUR, #F8
+    RND V4, #F8
+    LD I, SPRITE_Explosion2
+    LD [I], V4
+    CALL unstashFromMiscData
+    RET
+
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
+renderExplosion2Sprite:
+    CALL stashToMiscData
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_THREE, #2
+    SUB SCRATCH_ONE, SCRATCH_THREE
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, SPRITE_Explosion2
     DRW SCRATCH_ONE, SCRATCH_TWO, #5
     CALL unstashFromMiscData
     RET
@@ -594,7 +594,15 @@ StashLocation_PlayerData:
     #00,
     #00 ; VF
 
-SPRITE_Explosion:
+SPRITE_Explosion1:
+    db
+    #00,
+    #00,
+    #00,
+    #00,
+    #00
+
+SPRITE_Explosion2:
     db
     #00,
     #00,
