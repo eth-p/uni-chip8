@@ -54,9 +54,7 @@ init:
     CALL initMissile
     CALL renderMissileNew
 
-
     JP loop
-
 
 loop:
     CALL inputReticle
@@ -67,8 +65,8 @@ loop:
     LD SCRATCH_ONE, LOOP_WAIT
     LD DT, SCRATCH_ONE
     CALL wait
-    JP loop
 
+    JP loop
 
 wait:
     waitLoop:
@@ -147,8 +145,30 @@ handleMissile:
         ADD VC, #5
         ADD VD, #5
 
-        CALL unstashFromPlayerData
+        LD SCRATCH_ONE, VA ; Running X
+        LD SCRATCH_TWO, VB ; Running Y
 
+        LD I, SPRITE_SingleDot
+        clearExplosionY:
+
+            clearExplosionX:
+
+                DRW SCRATCH_ONE, SCRATCH_TWO, #1
+                SNE VF, #0
+                DRW SCRATCH_ONE, SCRATCH_TWO, #1
+
+                ADD SCRATCH_ONE, #1
+                LD SCRATCH_THREE, VC
+                SE SCRATCH_ONE, SCRATCH_THREE
+                JP clearExplosionX
+
+            LD SCRATCH_ONE, VA
+            ADD SCRATCH_TWO, #1
+            LD SCRATCH_THREE, VD
+            SE SCRATCH_TWO, SCRATCH_THREE
+            JP clearExplosionY
+
+        CALL unstashFromPlayerData
         RET
 
     missileNotReachedTarget:
@@ -325,7 +345,6 @@ inputReticle:
         RET
 
 renderReticle:
-
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
@@ -487,8 +506,7 @@ unstashFromMiscData:
 
 ; ------------------------------------------------------------------
 
-; Each explosion sprite quadrant is 3x3
-; The full explosion sprite is 6x6
+; The full explosion sprite is 5x5
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 generateExplosionSprite:
     CALL stashToMiscData
