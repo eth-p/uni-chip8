@@ -126,8 +126,9 @@
 		"controls": {
 			"5": "UP",
 			"8": "DOWN",
-			"8": "RIGHT",
-			"7": "LEFT"
+			"9": "RIGHT",
+			"7": "LEFT",
+			"6": "LAUNCH"
 		}
 	}
 }
