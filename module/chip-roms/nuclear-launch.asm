@@ -19,6 +19,7 @@ DEFINE RETICLE_Y_OLD VD
 DEFINE SCRATCH_ONE V0
 DEFINE SCRATCH_TWO V1
 DEFINE SCRATCH_THREE V2
+DEFINE SCRATCH_FOUR V3
 
 DEFINE UP_KEY #5
 DEFINE DOWN_KEY #8
@@ -28,8 +29,9 @@ DEFINE LAUNCH_KEY #6
 
 DEFINE RETICLE_SPEED #1
 DEFINE LOOP_WAIT #2
-DEFINE RETICLE_X_MAX #3B
-DEFINE RETICLE_Y_MAX #1A
+DEFINE RETICLE_MIN #1
+DEFINE RETICLE_X_MAX #3A
+DEFINE RETICLE_Y_MAX #19
 DEFINE RETICLE_X_DEFAULT #1E
 DEFINE RETICLE_Y_DEFAULT #11
 
@@ -108,6 +110,7 @@ handleMissile:
     JP missileNotReachedTarget
 
     missileReachedTarget:
+
         CALL renderMissileNew
         LD MISSILE_X, LAUNCH_AVALIABLE_X
         LD MISSILE_Y, LAUNCH_AVALIABLE_Y
@@ -115,37 +118,36 @@ handleMissile:
         LD MISSILE_Y_OLD, MISSILE_Y
         CALL renderMissile
 
-        CALL generateExplosionSprite
-        CALL renderExplosionSprite
-        LD SCRATCH_ONE, #3
-        LD DT, SCRATCH_ONE
-        LD SCRATCH_TWO, #2
-        LD ST, SCRATCH_TWO
-        CALL wait
+        CALL stashToPlayerData
 
-        CALL generateExplosionSprite
-        CALL renderExplosionSprite
-        LD SCRATCH_ONE, #3
-        LD DT, SCRATCH_ONE
-        LD SCRATCH_TWO, #2
-        LD ST, SCRATCH_TWO
-        CALL wait
+        LD VA, #0
+        LD VB, #4
 
-        CALL generateExplosionSprite
-        CALL renderExplosionSprite
-        LD SCRATCH_ONE, #3
-        LD DT, SCRATCH_ONE
-        LD SCRATCH_TWO, #2
-        LD ST, SCRATCH_TWO
-        CALL wait
+        explosionLoop:
+            CALL generateExplosionSprite
+            CALL renderExplosionSprite
+            LD SCRATCH_ONE, #3
+            LD DT, SCRATCH_ONE
+            LD SCRATCH_TWO, #2
+            LD ST, SCRATCH_TWO
+            CALL wait
+            ADD VA, #1
+            SE VA, VB
+            JP explosionLoop
 
-        CALL generateExplosionSprite
-        CALL renderExplosionSprite
-        LD SCRATCH_ONE, #3
-        LD DT, SCRATCH_ONE
-        LD SCRATCH_TWO, #2
-        LD ST, SCRATCH_TWO
-        CALL wait
+        ; Clear all the pixels in the explosion vicinity
+
+        LD VA, TARGET_X ; Top left x
+        LD VB, TARGET_Y ; Top left y
+        LD SCRATCH_ONE, #2
+        SUB VA, SCRATCH_ONE
+        SUB VB, SCRATCH_ONE
+        LD VC, VA ; Bottom right x
+        LD VD, VB ; Bottom right y
+        ADD VC, #5
+        ADD VD, #5
+
+        CALL unstashFromPlayerData
 
         RET
 
@@ -263,7 +265,7 @@ inputReticle:
         JP upKeyNotPressed
 
         upKeyPressed:
-            SNE RETICLE_Y, #0
+            SNE RETICLE_Y, RETICLE_MIN
             JP downKey
 
             LD SCRATCH_ONE, RETICLE_SPEED
@@ -294,7 +296,7 @@ inputReticle:
         JP leftKeyNotPressed
 
         leftKeyPressed:
-            SNE RETICLE_X, #0
+            SNE RETICLE_X, RETICLE_MIN
             JP rightKey
 
             LD SCRATCH_ONE, #1
@@ -463,59 +465,54 @@ greaterThan:
 
 ; ------------------------------------------------------------------
 
-; Each explosion sprite quadrant is 3x3
-; The full explosion sprite is 6x6
-generateExplosionSprite:
-    RND SCRATCH_ONE, #E0
-    RND SCRATCH_TWO, #E0
-    RND SCRATCH_THREE, #E0
-    LD I, Sprite_ExplosionTopLeft
-    LD [I], SCRATCH_THREE
-
-    RND SCRATCH_ONE, #E0
-    RND SCRATCH_TWO, #E0
-    RND SCRATCH_THREE, #E0
-    LD I, Sprite_ExplosionBottomLeft
-    LD [I], SCRATCH_THREE
-
-    RND SCRATCH_ONE, #E0
-    RND SCRATCH_TWO, #E0
-    RND SCRATCH_THREE, #E0
-    LD I, Sprite_ExplosionTopRight
-    LD [I], SCRATCH_THREE
-
-    RND SCRATCH_ONE, #E0
-    RND SCRATCH_TWO, #E0
-    RND SCRATCH_THREE, #E0
-    LD I, Sprite_ExplosionBottomRight
-    LD [I], SCRATCH_THREE
-
+stashToPlayerData:
+    LD I, StashLocation_PlayerData
+    LD [I], VF
     RET
 
+unstashFromPlayerData:
+    LD I, StashLocation_PlayerData
+    LD VF, [I]
+    RET
+
+stashToMiscData:
+    LD I, StashLocation_MiscData
+    LD [I], VF
+    RET
+
+unstashFromMiscData:
+    LD I, StashLocation_MiscData
+    LD VF, [I]
+    RET
+
+; ------------------------------------------------------------------
+
+; Each explosion sprite quadrant is 3x3
+; The full explosion sprite is 6x6
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
+generateExplosionSprite:
+    CALL stashToMiscData
+    RND SCRATCH_ONE, #F8
+    RND SCRATCH_TWO, #F8
+    RND SCRATCH_THREE, #F8
+    RND SCRATCH_FOUR, #F8
+    RND V4, #F8
+    LD I, SPRITE_Explosion
+    LD [I], V4
+    CALL unstashFromMiscData
+    RET
+
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 renderExplosionSprite:
+    CALL stashToMiscData
     LD SCRATCH_ONE, TARGET_X
     LD SCRATCH_TWO, TARGET_Y
-    
     LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
-    LD I, Sprite_ExplosionTopLeft
-    DRW SCRATCH_ONE, SCRATCH_TWO, #3
-
-    ADD SCRATCH_TWO, #3
-    LD I, Sprite_ExplosionBottomLeft
-    DRW SCRATCH_ONE, SCRATCH_TWO, #3
-
-    ADD SCRATCH_ONE, #3
-    LD SCRATCH_THREE, #3
-    SUB SCRATCH_TWO, SCRATCH_THREE
-    LD I, Sprite_ExplosionTopRight
-    DRW SCRATCH_ONE, SCRATCH_TWO, #3
-
-    ADD SCRATCH_TWO, #3
-    LD I, Sprite_ExplosionBottomRight
-    DRW SCRATCH_ONE, SCRATCH_TWO, #3
-
+    LD I, SPRITE_Explosion
+    DRW SCRATCH_ONE, SCRATCH_TWO, #5
+    CALL unstashFromMiscData
     RET
 
 ; ------------------------------------------------------------------
@@ -557,7 +554,8 @@ StashLocation_MiscData:
     #00,
     #00,
     #00,
-    #00 ; VE
+    #00,
+    #00 ; VF
 
 StashLocation_PlayerData:
     db
@@ -575,28 +573,13 @@ StashLocation_PlayerData:
     #00,
     #00,
     #00,
-    #00 ; VE
+    #00,
+    #00 ; VF
 
-Sprite_ExplosionTopLeft:
+SPRITE_Explosion:
     db
     #00,
     #00,
-    #00
-
-Sprite_ExplosionBottomLeft:
-    db
-    #00,
-    #00,
-    #00
-
-Sprite_ExplosionTopRight:
-    db
-    #00,
-    #00,
-    #00
-
-Sprite_ExplosionBottomRight:
-    db
     #00,
     #00,
     #00
