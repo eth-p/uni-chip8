@@ -26,6 +26,7 @@ DEFINE DOWN_KEY #8
 DEFINE LEFT_KEY #7
 DEFINE RIGHT_KEY #9
 DEFINE LAUNCH_KEY #6
+DEFINE ABORT_LAUNCH_KEY #4
 
 DEFINE RETICLE_SPEED #1
 DEFINE LOOP_WAIT #2
@@ -227,23 +228,44 @@ inputLaunch:
     inputLaunchKeyPressed:
         CALL isMissileIdle
         SE SCRATCH_ONE, #1
-        JP inputLaunchKeyNotPressed
+        JP missileAlreadyFired
 
-        ; Missle can be fired
+        missileNotFired:
+            ; Missle can be fired
 
-        CALL getTargetX
-        LD TARGET_X, SCRATCH_ONE
+            CALL getTargetX
+            LD TARGET_X, SCRATCH_ONE
 
-        CALL getTargetY
-        LD TARGET_Y, SCRATCH_ONE
+            CALL getTargetY
+            LD TARGET_Y, SCRATCH_ONE
 
-        LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
-        LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+            LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
+            LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
 
-        LD SCRATCH_ONE, #3
-        LD ST, SCRATCH_ONE
+            LD SCRATCH_ONE, #3
+            LD ST, SCRATCH_ONE
+            JP abortMissileKey
+
+        missileAlreadyFired:
+            JP abortMissileKey
 
     inputLaunchKeyNotPressed:
+
+    abortMissileKey:
+        LD SCRATCH_ONE, ABORT_LAUNCH_KEY
+        SKNP SCRATCH_ONE
+        JP abortMissileKeyPressed
+
+        abortMissileDeny:
+            JP inputLaunchEnd
+
+        abortMissileKeyPressed:
+            CALL isMissileIdle
+            SNE SCRATCH_ONE, #1
+            JP abortMissileDeny
+            LD TARGET_X, MISSILE_X
+            LD TARGET_Y, MISSILE_Y
+            JP inputLaunchEnd
 
     inputLaunchEnd:
         RET

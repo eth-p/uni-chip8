@@ -128,7 +128,8 @@
 			"8": "DOWN",
 			"9": "RIGHT",
 			"7": "LEFT",
-			"6": "LAUNCH"
+			"6": "LAUNCH",
+			"4": "EARLY DETONATE"
 		}
 	}
 }
