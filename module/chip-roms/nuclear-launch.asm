@@ -35,7 +35,7 @@ DEFINE RETICLE_Y_MAX #1A
 DEFINE RETICLE_X_DEFAULT #1E
 DEFINE RETICLE_Y_DEFAULT #11
 
-DEFINE LAUNCHSILO_X #1F
+DEFINE LAUNCHSILO_X #1D
 DEFINE LAUNCHSILO_Y #1B
 
 DEFINE MISSILE_X_LAUNCH_LOCATION #20
@@ -52,7 +52,11 @@ init:
     CALL renderLaunchSilo
     CALL renderReticleNew
     CALL initMissile
-    ;CALL renderMissileNew
+
+    LD I, SPRITE_BuildingA
+    LD SCRATCH_ONE, #C
+    LD SCRATCH_TWO, #1B
+    DRW SCRATCH_ONE, SCRATCH_TWO, #4
 
     JP loop
 
@@ -544,13 +548,13 @@ SPRITE_Reticle:
     #70,
     #20
 
-; 3 x 4
+; 7 x 4
 SPRITE_LaunchSilo:
     db
-    #a0,
-    #a0,
-    #a0,
-    #e0
+    #28,
+    #28,
+    #6c,
+    #ba
 
 SPRITE_SingleDot:
     db
@@ -609,3 +613,11 @@ SPRITE_Explosion2:
     #00,
     #00,
     #00
+
+; 6 x 4
+SPRITE_BuildingA:
+    db
+    #78,
+    #fc,
+    #84,
+    #b4
