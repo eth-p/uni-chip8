@@ -29,7 +29,7 @@ DEFINE LAUNCH_KEY #6
 DEFINE RETICLE_SPEED #1
 DEFINE LOOP_WAIT #2
 DEFINE RETICLE_X_MAX #3B
-DEFINE RETICLE_Y_MAX #1B
+DEFINE RETICLE_Y_MAX #1A
 DEFINE RETICLE_X_DEFAULT #1E
 DEFINE RETICLE_Y_DEFAULT #11
 
@@ -37,10 +37,10 @@ DEFINE LAUNCHSILO_X #1D
 DEFINE LAUNCHSILO_Y #1B
 
 DEFINE LAUNCH_AVALIABLE_X #1E
-DEFINE LAUNCH_AVALIABLE_Y #1A
+DEFINE LAUNCH_AVALIABLE_Y #1B
 
 DEFINE MISSLE_X_LAUNCH_LOCATION #1E
-DEFINE MISSLE_Y_LAUNCH_LOCATION #1B
+DEFINE MISSLE_Y_LAUNCH_LOCATION #19
 
 
 init:
@@ -108,8 +108,45 @@ handleMissile:
     JP missileNotReachedTarget
 
     missileReachedTarget:
+        CALL renderMissileNew
         LD MISSILE_X, LAUNCH_AVALIABLE_X
         LD MISSILE_Y, LAUNCH_AVALIABLE_Y
+        LD MISSILE_X_OLD, MISSILE_X
+        LD MISSILE_Y_OLD, MISSILE_Y
+        CALL renderMissile
+
+        CALL generateExplosionSprite
+        CALL renderExplosionSprite
+        LD SCRATCH_ONE, #3
+        LD DT, SCRATCH_ONE
+        LD SCRATCH_TWO, #2
+        LD ST, SCRATCH_TWO
+        CALL wait
+
+        CALL generateExplosionSprite
+        CALL renderExplosionSprite
+        LD SCRATCH_ONE, #3
+        LD DT, SCRATCH_ONE
+        LD SCRATCH_TWO, #2
+        LD ST, SCRATCH_TWO
+        CALL wait
+
+        CALL generateExplosionSprite
+        CALL renderExplosionSprite
+        LD SCRATCH_ONE, #3
+        LD DT, SCRATCH_ONE
+        LD SCRATCH_TWO, #2
+        LD ST, SCRATCH_TWO
+        CALL wait
+
+        CALL generateExplosionSprite
+        CALL renderExplosionSprite
+        LD SCRATCH_ONE, #3
+        LD DT, SCRATCH_ONE
+        LD SCRATCH_TWO, #2
+        LD ST, SCRATCH_TWO
+        CALL wait
+
         RET
 
     missileNotReachedTarget:
@@ -319,7 +356,6 @@ renderReticleNew:
     RET
 
 renderMissile:
-
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
@@ -425,6 +461,65 @@ greaterThan:
             LD SCRATCH_ONE, #0
             RET
 
+; ------------------------------------------------------------------
+
+; Each explosion sprite quadrant is 3x3
+; The full explosion sprite is 6x6
+generateExplosionSprite:
+    RND SCRATCH_ONE, #E0
+    RND SCRATCH_TWO, #E0
+    RND SCRATCH_THREE, #E0
+    LD I, Sprite_ExplosionTopLeft
+    LD [I], SCRATCH_THREE
+
+    RND SCRATCH_ONE, #E0
+    RND SCRATCH_TWO, #E0
+    RND SCRATCH_THREE, #E0
+    LD I, Sprite_ExplosionBottomLeft
+    LD [I], SCRATCH_THREE
+
+    RND SCRATCH_ONE, #E0
+    RND SCRATCH_TWO, #E0
+    RND SCRATCH_THREE, #E0
+    LD I, Sprite_ExplosionTopRight
+    LD [I], SCRATCH_THREE
+
+    RND SCRATCH_ONE, #E0
+    RND SCRATCH_TWO, #E0
+    RND SCRATCH_THREE, #E0
+    LD I, Sprite_ExplosionBottomRight
+    LD [I], SCRATCH_THREE
+
+    RET
+
+renderExplosionSprite:
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_Y
+    
+    LD SCRATCH_THREE, #2
+    SUB SCRATCH_ONE, SCRATCH_THREE
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, Sprite_ExplosionTopLeft
+    DRW SCRATCH_ONE, SCRATCH_TWO, #3
+
+    ADD SCRATCH_TWO, #3
+    LD I, Sprite_ExplosionBottomLeft
+    DRW SCRATCH_ONE, SCRATCH_TWO, #3
+
+    ADD SCRATCH_ONE, #3
+    LD SCRATCH_THREE, #3
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, Sprite_ExplosionTopRight
+    DRW SCRATCH_ONE, SCRATCH_TWO, #3
+
+    ADD SCRATCH_TWO, #3
+    LD I, Sprite_ExplosionBottomRight
+    DRW SCRATCH_ONE, SCRATCH_TWO, #3
+
+    RET
+
+; ------------------------------------------------------------------
+
 ; 5 x 5
 SPRITE_Reticle:
     db
@@ -481,3 +576,27 @@ StashLocation_PlayerData:
     #00,
     #00,
     #00 ; VE
+
+Sprite_ExplosionTopLeft:
+    db
+    #00,
+    #00,
+    #00
+
+Sprite_ExplosionBottomLeft:
+    db
+    #00,
+    #00,
+    #00
+
+Sprite_ExplosionTopRight:
+    db
+    #00,
+    #00,
+    #00
+
+Sprite_ExplosionBottomRight:
+    db
+    #00,
+    #00,
+    #00
