@@ -29,7 +29,7 @@ DEFINE RIGHT_KEY #9
 DEFINE LAUNCH_KEY #6
 DEFINE ABORT_LAUNCH_KEY #4
 
-DEFINE RETICLE_SPEED #1
+DEFINE RETICLE_SPEED #2
 DEFINE LOOP_WAIT #2
 DEFINE RETICLE_MIN #0
 DEFINE RETICLE_X_MAX #3B
@@ -397,7 +397,7 @@ moveTarget:
         RND SCRATCH_TWO, #1
         RND SCRATCH_THREE, #1
         AND SCRATCH_ONE, SCRATCH_TWO
-        AND SCRATCH_ONE, SCRATCH_THREE
+        ;AND SCRATCH_ONE, SCRATCH_THREE
 
         CALL renderTarget
 
@@ -485,6 +485,8 @@ inputLaunch:
     inputLaunchEnd:
         RET
 
+; ------------------------------------------------------------------
+
 inputReticle:
 
     ; If the missile is active, don't handle input nor render
@@ -502,10 +504,23 @@ inputReticle:
             SNE RETICLE_Y, RETICLE_MIN
             JP downKey
 
-            LD SCRATCH_ONE, RETICLE_SPEED
-            SUB RETICLE_Y, SCRATCH_ONE
+            LD SCRATCH_ONE, RETICLE_Y
+            LD SCRATCH_TWO, RETICLE_SPEED
+            CALL lessThan
+            SNE SCRATCH_ONE, #0
+            JP normalReticleUpSpeed
+            
+            SlowReticleUpSpeed:
+                LD SCRATCH_ONE, #1
+                SUB RETICLE_Y, SCRATCH_ONE
 
-            JP downKey
+                JP downKey
+
+            normalReticleUpSpeed:
+                LD SCRATCH_ONE, RETICLE_SPEED
+                SUB RETICLE_Y, SCRATCH_ONE
+
+                JP downKey
 
         upKeyNotPressed:
 
@@ -518,7 +533,22 @@ inputReticle:
             SNE RETICLE_Y, RETICLE_Y_MAX
             JP leftKey
 
-            ADD RETICLE_Y, RETICLE_SPEED
+            LD SCRATCH_ONE, RETICLE_Y
+            LD SCRATCH_TWO, RETICLE_Y_MAX
+            LD SCRATCH_THREE, RETICLE_SPEED
+            SUB SCRATCH_TWO, SCRATCH_THREE
+
+            CALL greaterThan
+            SNE SCRATCH_ONE, #0
+            JP normalDownKey
+
+            slowDownKey:
+                ADD RETICLE_Y, #1
+                JP leftKey
+
+            normalDownKey:
+                ADD RETICLE_Y, RETICLE_SPEED
+                JP leftKey
 
             JP leftKey
 
@@ -533,10 +563,21 @@ inputReticle:
             SNE RETICLE_X, RETICLE_MIN
             JP rightKey
 
-            LD SCRATCH_ONE, #1
-            SUB RETICLE_X, SCRATCH_ONE
+            LD SCRATCH_ONE, RETICLE_X
+            LD SCRATCH_TWO, RETICLE_SPEED
+            CALL lessThan
+            SNE SCRATCH_ONE, #0
+            JP normalLeftKey
 
-            JP rightKey
+            slowLeftKey:
+                LD SCRATCH_ONE, #1
+                SUB RETICLE_X, SCRATCH_ONE
+                JP rightKey
+
+            normalLeftKey:
+                LD SCRATCH_ONE, RETICLE_SPEED
+                SUB RETICLE_X, SCRATCH_ONE
+                JP rightKey
 
         leftKeyNotPressed:
 
@@ -549,9 +590,22 @@ inputReticle:
             SNE RETICLE_X, RETICLE_X_MAX
             JP inputReticleEnd
 
-            ADD RETICLE_X, RETICLE_SPEED
+            LD SCRATCH_ONE, RETICLE_X
+            LD SCRATCH_TWO, RETICLE_X_MAX
+            LD SCRATCH_THREE, RETICLE_SPEED
+            SUB SCRATCH_TWO, SCRATCH_THREE
 
-            JP inputReticleEnd
+            CALL greaterThan
+            SNE SCRATCH_ONE, #0
+            JP normalRightKey
+
+            slowRightKey:
+                ADD RETICLE_X, #1
+                JP inputReticleEnd
+
+            normalRightKey:
+                ADD RETICLE_X, RETICLE_SPEED
+                JP inputReticleEnd
 
         rightKeyNotPressed:
 
