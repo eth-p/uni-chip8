@@ -128,16 +128,19 @@ handleMissile:
         CALL stashToPlayerData
 
         LD VA, #0
-        LD VB, #2
+        LD VB, #3
 
         CALL generateExplosion1Sprite
         CALL generateExplosion2Sprite
+        CALL generateExplosion3Sprite
 
         explosionSoundLoop:
             SNE VA, #0
             CALL renderExplosion1Sprite
             SNE VA, #1
             CALL renderExplosion2Sprite
+            SNE VA, #2
+            CALL renderExplosion3Sprite
             LD SCRATCH_ONE, #3
             LD DT, SCRATCH_ONE
             LD SCRATCH_TWO, #2
@@ -147,6 +150,7 @@ handleMissile:
             SE VA, VB
             JP explosionSoundLoop
 
+        CALL renderExplosion3Sprite
         CALL renderExplosion2Sprite
         CALL renderExplosion1Sprite ; Clear explosion
 
@@ -156,6 +160,9 @@ handleMissile:
 
 
         ; Enable the reticle for rendering
+        LD SCRATCH_ONE, #5
+        LD DT, SCRATCH_ONE
+        CALL wait
         CALL renderReticleNew
 
         RET
@@ -589,6 +596,33 @@ renderExplosion2Sprite:
     CALL unstashFromMiscData
     RET
 
+; The full explosion sprite is 5x5
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
+generateExplosion3Sprite:
+    CALL stashToMiscData
+    RND SCRATCH_ONE, #F8
+    RND SCRATCH_TWO, #F8
+    RND SCRATCH_THREE, #F8
+    RND SCRATCH_FOUR, #F8
+    RND V4, #F8
+    LD I, SPRITE_Explosion3
+    LD [I], V4
+    CALL unstashFromMiscData
+    RET
+
+; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
+renderExplosion3Sprite:
+    CALL stashToMiscData
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_THREE, #2
+    SUB SCRATCH_ONE, SCRATCH_THREE
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, SPRITE_Explosion3
+    DRW SCRATCH_ONE, SCRATCH_TWO, #5
+    CALL unstashFromMiscData
+    RET
+
 ; ------------------------------------------------------------------
 
 ; 5 x 5
@@ -678,6 +712,14 @@ SPRITE_Explosion1:
     #00
 
 SPRITE_Explosion2:
+    db
+    #00,
+    #00,
+    #00,
+    #00,
+    #00
+
+SPRITE_Explosion3:
     db
     #00,
     #00,
