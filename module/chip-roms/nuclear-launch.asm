@@ -63,7 +63,14 @@ init:
 
 loop:
     CALL inputReticle
+    CALL isMissileIdle
+    SNE SCRATCH_ONE, #0
+    JP stopReticleRender
+
     CALL renderReticle
+
+    stopReticleRender:
+
     CALL inputLaunch
     CALL handleMissile
 
@@ -144,6 +151,9 @@ handleMissile:
         CALL renderExplosion1Sprite ; Clear explosion
 
         CALL unstashFromPlayerData
+
+        CALL renderReticleNew
+
         RET
 
     missileNotReachedTarget:
@@ -242,6 +252,8 @@ inputLaunch:
             LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
             LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
 
+            CALL renderReticleNew
+
             LD SCRATCH_ONE, #3
             LD ST, SCRATCH_ONE
             JP abortMissileKey
@@ -271,6 +283,10 @@ inputLaunch:
         RET
 
 inputReticle:
+
+    CALL isMissileIdle
+    SNE SCRATCH_ONE, #0
+    RET
 
     LD RETICLE_X_OLD, RETICLE_X
     LD RETICLE_Y_OLD, RETICLE_Y
@@ -503,6 +519,16 @@ unstashFromMiscData:
     LD VF, [I]
     RET
 
+stashToTargetCoordinates:
+    LD I, StashLocation_TargetCoordinates
+    LD [I], VF
+    RET
+
+unstashFromTargetCoordinates:
+    LD I, StashLocation_TargetCoordinates
+    LD VF, [I]
+    RET
+
 ; ------------------------------------------------------------------
 
 ; The full explosion sprite is 5x5
@@ -602,6 +628,25 @@ StashLocation_MiscData:
     #00 ; VF
 
 StashLocation_PlayerData:
+    db
+    #00, ; V0
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00 ; VF
+
+StashLocation_TargetCoordinates:
     db
     #00, ; V0
     #00,
