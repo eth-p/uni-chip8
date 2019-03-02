@@ -1,18 +1,22 @@
-; -------------------------------------------------------------------------------------------------------------------- ;
+; ------------------------------------------------------------------------------------------------------------------------ ;
 ; Chip-8 Missile Defence                                                                                                      ;
 ; Copyright (C) 2019 Kyle Saburao                                                                                      ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
 ; It will later be converted to the syntax used for our assembler.                                                     ;
-; -------------------------------------------------------------------------------------------------------------------- ;
+; ------------------------------------------------------------------------------------------------------------------------ ;
 
 DEFINE SCRATCH_ONE V0
 DEFINE SCRATCH_TWO V1
 DEFINE SCRATCH_THREE V2
 DEFINE SCRATCH_FOUR V3
+DEFINE SCRATCH_FIVE V4
+DEFINE SCRATCH_SIX V5
+DEFINE TARGET_X V6
+DEFINE TARGET_Y V7
 
-DEFINE TARGET_X V8
-DEFINE TARGET_Y V9
+DEFINE TARGET_LOCK_X V8
+DEFINE TARGET_LOCK_Y V9
 DEFINE MISSILE_X VA
 DEFINE MISSILE_Y VB
 DEFINE MISSILE_ACTIVE VC
@@ -33,6 +37,8 @@ DEFINE RETICLE_X_MAX #3B
 DEFINE RETICLE_Y_MAX #1A
 DEFINE RETICLE_X_DEFAULT #1E
 DEFINE RETICLE_Y_DEFAULT #11
+DEFINE TARGET_X_MAX #3D
+DEFINE TARGET_Y_MAX #1E
 
 DEFINE LAUNCHSILO_X #1D
 DEFINE LAUNCHSILO_Y #1B
@@ -44,6 +50,7 @@ DEFINE MISSILE_Y_LAUNCH_LOCATION #1A
 
 
 init:
+    CLS
     LD RETICLE_X, RETICLE_X_DEFAULT
     LD RETICLE_Y, RETICLE_Y_DEFAULT
     CALL renderGround
@@ -51,6 +58,8 @@ init:
     CALL renderReticle
     CALL initMissile
     CALL renderMissile
+
+    CALL initRandomTarget
 
     LD I, SPRITE_BuildingA
     LD SCRATCH_ONE, #C
@@ -62,13 +71,34 @@ init:
 loop:
     CALL inputReticle
     CALL inputLaunch
-    CALL handleMissile
+    CALL moveTarget
+    SNE SCRATCH_ONE, #1
+    JP playerIsSafe
 
-    LD SCRATCH_ONE, LOOP_WAIT
-    LD DT, SCRATCH_ONE
-    CALL wait
+    playerLost:
+        LD SCRATCH_TWO, #0
+        LD SCRATCH_THREE, #10
+        tempLose:
+            tempLoseLoop:
+            LD SCRATCH_FOUR, #3
+            LD DT, SCRATCH_FOUR
+            LD SCRATCH_FOUR, #1
+            LD ST, SCRATCH_FOUR
+            CALL wait
+            ADD SCRATCH_TWO, #1
+            SE SCRATCH_TWO, SCRATCH_THREE
+            JP tempLoseLoop
+        JP init
 
-    JP loop
+    playerIsSafe:
+
+        CALL handleMissile
+
+        LD SCRATCH_ONE, LOOP_WAIT
+        LD DT, SCRATCH_ONE
+        CALL wait
+
+        JP loop
 
 wait:
     waitLoop:
@@ -76,6 +106,8 @@ wait:
         SE SCRATCH_ONE, #0
         JP waitLoop
     RET
+
+; ------------------------------------------------------------------
 
 initMissile:
     LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
@@ -114,10 +146,10 @@ handleMissile:
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
-    SNE MISSILE_X, TARGET_X
+    SNE MISSILE_X, TARGET_LOCK_X
     LD SCRATCH_ONE, #1
 
-    SNE MISSILE_Y, TARGET_Y
+    SNE MISSILE_Y, TARGET_LOCK_Y
     LD SCRATCH_TWO, #1
 
     AND SCRATCH_ONE, SCRATCH_TWO
@@ -173,11 +205,11 @@ handleMissile:
         ; Missile movement
 
         missileXHandling:
-            SNE MISSILE_X, TARGET_X
+            SNE MISSILE_X, TARGET_LOCK_X
             JP missileYHandling
 
             LD SCRATCH_ONE, MISSILE_X
-            LD SCRATCH_TWO, TARGET_X
+            LD SCRATCH_TWO, TARGET_LOCK_X
             CALL lessThan
 
             SNE SCRATCH_ONE, #1
@@ -193,11 +225,11 @@ handleMissile:
                 JP missileYHandling
 
         missileYHandling:
-            SNE MISSILE_Y, TARGET_Y
+            SNE MISSILE_Y, TARGET_LOCK_Y
             JP afterMissileTracking
 
             LD SCRATCH_ONE, MISSILE_Y
-            LD SCRATCH_TWO, TARGET_Y
+            LD SCRATCH_TWO, TARGET_LOCK_Y
             CALL lessThan
 
             SNE SCRATCH_ONE, #1
@@ -235,6 +267,69 @@ isMissileIdle:
         LD SCRATCH_ONE, #1
         RET
 
+; ------------------------------------------------------------------
+
+initRandomTarget:
+    RND TARGET_X, #3F
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_X_MAX
+    CALL greaterThan
+    SNE SCRATCH_ONE, #1
+    LD TARGET_X, TARGET_X_MAX
+    LD TARGET_Y, #0
+    CALL renderTarget
+    RET
+
+; S1 = Target has not destroyed player (Player is safe)
+moveTarget:
+    CALL hasTargetReachedGround
+    SNE SCRATCH_ONE, #0
+    JP playerSafe
+
+    playerNotSafe:
+        LD SCRATCH_ONE, #0
+        RET
+
+    playerSafe:
+        RND SCRATCH_ONE, #1
+        RND SCRATCH_TWO, #1
+        RND SCRATCH_THREE, #1
+        AND SCRATCH_ONE, SCRATCH_TWO
+        AND SCRATCH_ONE, SCRATCH_THREE
+
+        CALL renderTarget
+
+        SNE SCRATCH_ONE, #0
+        JP moveTargetFalse
+        moveTargetTrue:
+            ADD TARGET_Y, #1
+        moveTargetFalse:
+        CALL renderTarget
+        LD SCRATCH_ONE, #1
+        RET
+
+; S1 = Target 
+hasTargetReachedGround:
+    LD SCRATCH_ONE, TARGET_Y
+    ;ADD SCRATCH_ONE, #7
+    SE SCRATCH_ONE, TARGET_Y_MAX
+    JP targetNotReachedGround
+
+    targetReachedGround:
+        LD SCRATCH_ONE, #1
+        RET
+
+    targetNotReachedGround:
+        LD SCRATCH_ONE, #0
+        RET
+
+renderTarget:
+    LD I, SPRITE_Target
+    DRW TARGET_X, TARGET_Y, #8
+    RET
+
+; ------------------------------------------------------------------
+
 inputLaunch:
     LD SCRATCH_ONE, LAUNCH_KEY
     SKP SCRATCH_ONE
@@ -249,10 +344,10 @@ inputLaunch:
             ; Missle can be fired
 
             CALL getTargetX
-            LD TARGET_X, SCRATCH_ONE
+            LD TARGET_LOCK_X, SCRATCH_ONE
 
             CALL getTargetY
-            LD TARGET_Y, SCRATCH_ONE
+            LD TARGET_LOCK_Y, SCRATCH_ONE
 
             LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
             LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
@@ -281,8 +376,8 @@ inputLaunch:
             CALL isMissileIdle
             SNE SCRATCH_ONE, #1
             JP abortMissileDeny
-            LD TARGET_X, MISSILE_X
-            LD TARGET_Y, MISSILE_Y
+            LD TARGET_LOCK_X, MISSILE_X
+            LD TARGET_LOCK_Y, MISSILE_Y
             JP inputLaunchEnd
 
     inputLaunchEnd:
@@ -448,7 +543,7 @@ greaterThan:
             LD SCRATCH_ONE, #0
             RET
 
-; ------------------------------------------------------------------
+; ----------------------------------------------------------------------
 
 stashToPlayerData:
     LD I, StashLocation_PlayerData
@@ -480,7 +575,7 @@ unstashFromTargetCoordinates:
     LD VF, [I]
     RET
 
-; ------------------------------------------------------------------
+; ----------------------------------------------------------------------
 
 ; The full explosion sprite is 5x5
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
@@ -499,8 +594,8 @@ generateExplosion1Sprite:
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 renderExplosion1Sprite:
     CALL stashToMiscData
-    LD SCRATCH_ONE, TARGET_X
-    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_ONE, TARGET_LOCK_X
+    LD SCRATCH_TWO, TARGET_LOCK_Y
     LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
@@ -526,8 +621,8 @@ generateExplosion2Sprite:
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 renderExplosion2Sprite:
     CALL stashToMiscData
-    LD SCRATCH_ONE, TARGET_X
-    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_ONE, TARGET_LOCK_X
+    LD SCRATCH_TWO, TARGET_LOCK_Y
     LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
@@ -553,8 +648,8 @@ generateExplosion3Sprite:
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 renderExplosion3Sprite:
     CALL stashToMiscData
-    LD SCRATCH_ONE, TARGET_X
-    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_ONE, TARGET_LOCK_X
+    LD SCRATCH_TWO, TARGET_LOCK_Y
     LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
@@ -563,7 +658,7 @@ renderExplosion3Sprite:
     CALL unstashFromMiscData
     RET
 
-; ------------------------------------------------------------------
+; ----------------------------------------------------------------------
 
 ; 5 x 5
 SPRITE_Reticle:
@@ -674,3 +769,9 @@ SPRITE_BuildingA:
     #fc,
     #84,
     #b4
+
+; 3 x 2
+SPRITE_Target:
+    db
+    #a0,
+    #40
