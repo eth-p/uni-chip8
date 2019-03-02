@@ -299,7 +299,7 @@ handleMissile:
             LD SCRATCH_ONE, #5
             LD DT, SCRATCH_ONE
             CALL wait
-            CALL renderReticle
+            ;CALL renderReticle
             RET
 
     missileNotReachedTarget:
@@ -455,7 +455,7 @@ inputLaunch:
             LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
             LD MISSILE_ACTIVE, #1
 
-            CALL renderReticle
+            ;CALL renderReticle
 
             LD SCRATCH_ONE, #3
             LD ST, SCRATCH_ONE
@@ -490,11 +490,12 @@ inputLaunch:
 inputReticle:
 
     ; If the missile is active, don't handle input nor render
-    CALL isMissileIdle
-    SNE SCRATCH_ONE, #0
-    RET
+    ;CALL isMissileIdle
+    ;SNE SCRATCH_ONE, #0
+    ;RET
 
     CALL renderReticle
+
     upKey:
         LD SCRATCH_ONE, UP_KEY
         SKP SCRATCH_ONE
