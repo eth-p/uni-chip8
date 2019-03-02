@@ -349,10 +349,70 @@ handleMissile:
             ; Missile sound
             LD SCRATCH_ONE, #1
             LD ST, SCRATCH_ONE
-            CALL renderMissile
 
-        LD SCRATCH_TWO, #0
-        RET
+            inFlightCollisionDetection:
+                CALL renderMissile
+                SE VF, #1
+                JP endMissileHandling
+                
+                pixelUnset:
+                    inFlightCollideTargetTopLeft:
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD SCRATCH_THREE, TARGET_X
+                        LD SCRATCH_FOUR, TARGET_Y
+
+                        SNE MISSILE_X, SCRATCH_THREE
+                        LD SCRATCH_ONE, #1
+                        SNE MISSILE_Y, SCRATCH_FOUR
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP missileCollidedWithTarget
+
+                    inFlightCollideTargetBottom:
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD SCRATCH_THREE, TARGET_X
+                        LD SCRATCH_FOUR, TARGET_Y
+                        ADD SCRATCH_THREE, #1
+                        ADD SCRATCH_FOUR, #1
+
+                        SNE MISSILE_X, SCRATCH_THREE
+                        LD SCRATCH_ONE, #1
+                        SNE MISSILE_Y, SCRATCH_FOUR
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP missileCollidedWithTarget
+
+                    inFlightCollideTargetTopRight:
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD SCRATCH_THREE, TARGET_X
+                        LD SCRATCH_FOUR, TARGET_Y
+                        ADD SCRATCH_THREE, #2
+
+                        SNE MISSILE_X, SCRATCH_THREE
+                        LD SCRATCH_ONE, #1
+                        SNE MISSILE_Y, SCRATCH_FOUR
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP missileCollidedWithTarget
+
+                    JP endMissileHandling
+                    missileCollidedWithTarget:
+                        LD SCRATCH_ONE, #1F
+                        LD ST, SCRATCH_ONE
+                        LD TARGET_LOCK_X, MISSILE_X
+                        LD TARGET_LOCK_Y, MISSILE_Y
+                        LD SCRATCH_TWO, #1
+                        RET
+
+        endMissileHandling:        
+            LD SCRATCH_TWO, #0
+            RET
 
 ; S1 = Missile is idle
 isMissileIdle:
