@@ -152,6 +152,10 @@ handleMissile:
 
         CALL unstashFromPlayerData
 
+        ; Check for targets at this point
+
+
+        ; Enable the reticle for rendering
         CALL renderReticleNew
 
         RET
