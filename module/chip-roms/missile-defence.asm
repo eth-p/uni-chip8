@@ -6,20 +6,18 @@
 ; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 
-DEFINE TARGET_X V4
-DEFINE TARGET_Y V5
-DEFINE MISSILE_X V6
-DEFINE MISSILE_Y V7
-DEFINE MISSILE_X_OLD V8
-DEFINE MISSILE_Y_OLD V9
-DEFINE RETICLE_X VA
-DEFINE RETICLE_Y VB
-DEFINE RETICLE_X_OLD VC
-DEFINE RETICLE_Y_OLD VD
 DEFINE SCRATCH_ONE V0
 DEFINE SCRATCH_TWO V1
 DEFINE SCRATCH_THREE V2
 DEFINE SCRATCH_FOUR V3
+
+DEFINE TARGET_X V8
+DEFINE TARGET_Y V9
+DEFINE MISSILE_X VA
+DEFINE MISSILE_Y VB
+DEFINE MISSILE_ACTIVE VC
+DEFINE RETICLE_X VD
+DEFINE RETICLE_Y VE
 
 DEFINE UP_KEY #5
 DEFINE DOWN_KEY #8
@@ -39,11 +37,10 @@ DEFINE RETICLE_Y_DEFAULT #11
 DEFINE LAUNCHSILO_X #1D
 DEFINE LAUNCHSILO_Y #1B
 
-DEFINE MISSILE_X_LAUNCH_LOCATION #20
-DEFINE MISSILE_Y_LAUNCH_LOCATION #1A
-
 DEFINE MISSILE_X_IDLE #20
 DEFINE MISSILE_Y_IDLE #1B
+DEFINE MISSILE_X_LAUNCH_LOCATION #20
+DEFINE MISSILE_Y_LAUNCH_LOCATION #1A
 
 
 init:
@@ -51,8 +48,9 @@ init:
     LD RETICLE_Y, RETICLE_Y_DEFAULT
     CALL renderGround
     CALL renderLaunchSilo
-    CALL renderReticleNew
+    CALL renderReticle
     CALL initMissile
+    CALL renderMissile
 
     LD I, SPRITE_BuildingA
     LD SCRATCH_ONE, #C
@@ -63,14 +61,6 @@ init:
 
 loop:
     CALL inputReticle
-    CALL isMissileIdle
-    SNE SCRATCH_ONE, #0
-    JP stopReticleRender
-
-    CALL renderReticle
-
-    stopReticleRender:
-
     CALL inputLaunch
     CALL handleMissile
 
@@ -88,10 +78,12 @@ wait:
     RET
 
 initMissile:
+    LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
+    LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+    CALL renderMissile
     LD MISSILE_X, MISSILE_X_IDLE
     LD MISSILE_Y, MISSILE_Y_IDLE
-    LD MISSILE_X_OLD, MISSILE_X
-    LD MISSILE_Y_OLD, MISSILE_Y
+    LD MISSILE_ACTIVE, #0
     RET
 
 handleMissile:
@@ -99,13 +91,26 @@ handleMissile:
     SNE SCRATCH_ONE, #1
     RET ; Early exit
 
+    LD SCRATCH_ONE, #0
+    LD SCRATCH_TWO, #0
+
+    SNE MISSILE_X, MISSILE_X_IDLE
+    LD SCRATCH_ONE, #1
+    SNE MISSILE_Y, MISSILE_Y_IDLE
+    LD SCRATCH_TWO, #1
+    AND SCRATCH_ONE, SCRATCH_TWO
+    SNE SCRATCH_ONE, #0
+    JP afterLaunch
+
+    launch:
+        LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
+        LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+
+    afterLaunch:
+
     CALL renderMissile
 
-    LD MISSILE_X_OLD, MISSILE_X
-    LD MISSILE_Y_OLD, MISSILE_Y
-
     ; Is missile at the target?
-
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
@@ -121,10 +126,7 @@ handleMissile:
 
     missileReachedTarget:
 
-        CALL renderMissileNew
         CALL initMissile
-        CALL renderMissile
-
         CALL stashToPlayerData
 
         LD VA, #0
@@ -163,7 +165,7 @@ handleMissile:
         LD SCRATCH_ONE, #5
         LD DT, SCRATCH_ONE
         CALL wait
-        CALL renderReticleNew
+        CALL renderReticle
 
         RET
 
@@ -214,23 +216,15 @@ handleMissile:
             ; Missile sound
             LD SCRATCH_ONE, #1
             LD ST, SCRATCH_ONE
+            CALL renderMissile
 
     RET
 
 ; S1 = Missile is idle
 isMissileIdle:
-    ; Check that a missile can be fired
-    LD SCRATCH_ONE, #0
-    LD SCRATCH_TWO, #0
-
-    SNE MISSILE_X, MISSILE_X_IDLE
-    LD SCRATCH_ONE, #1
-
-    SNE MISSILE_Y, MISSILE_Y_IDLE
-    LD SCRATCH_TWO, #1
-
-    AND SCRATCH_ONE, SCRATCH_TWO
-    SNE SCRATCH_ONE, #1 ; At launch ready state
+    SNE MISSILE_ACTIVE, #1
+    JP isMissileIdleFalse
+    SNE MISSILE_ACTIVE, #0
     JP isMissileIdleTrue
 
     isMissileIdleFalse: ; Missile is active
@@ -262,8 +256,9 @@ inputLaunch:
 
             LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
             LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+            LD MISSILE_ACTIVE, #1
 
-            CALL renderReticleNew
+            CALL renderReticle
 
             LD SCRATCH_ONE, #3
             LD ST, SCRATCH_ONE
@@ -295,13 +290,12 @@ inputLaunch:
 
 inputReticle:
 
+    ; If the missile is active, don't handle input nor render
     CALL isMissileIdle
     SNE SCRATCH_ONE, #0
     RET
 
-    LD RETICLE_X_OLD, RETICLE_X
-    LD RETICLE_Y_OLD, RETICLE_Y
-
+    CALL renderReticle
     upKey:
         LD SCRATCH_ONE, UP_KEY
         SKP SCRATCH_ONE
@@ -365,69 +359,15 @@ inputReticle:
         rightKeyNotPressed:
 
     inputReticleEnd:
+        CALL renderReticle
         RET
 
 renderReticle:
-    LD SCRATCH_ONE, #0
-    LD SCRATCH_TWO, #0
-
-    SNE RETICLE_X, RETICLE_X_OLD
-    LD SCRATCH_ONE, #1
-
-    SNE RETICLE_Y, RETICLE_Y_OLD
-    LD SCRATCH_TWO, #1
-
-    AND SCRATCH_ONE, SCRATCH_TWO
-
-    SNE SCRATCH_ONE, #1
-    RET
-
-    LD I, SPRITE_Reticle
-
-    CALL renderReticleOld
-    CALL renderReticleNew
-
-    RET
-
-renderReticleOld:
-    LD I, SPRITE_Reticle
-    DRW RETICLE_X_OLD, RETICLE_Y_OLD, #5
-    RET
-
-renderReticleNew:
     LD I, SPRITE_Reticle
     DRW RETICLE_X, RETICLE_Y, #5
     RET
 
 renderMissile:
-    LD SCRATCH_ONE, #0
-    LD SCRATCH_TWO, #0
-
-    SNE MISSILE_X, MISSILE_X_OLD
-    LD SCRATCH_ONE, #1
-
-    SNE MISSILE_Y, MISSILE_Y_OLD
-    LD SCRATCH_TWO, #1
-
-    AND SCRATCH_ONE, SCRATCH_TWO
-
-    SNE SCRATCH_ONE, #1
-    JP renderMNew
-
-    renderMOld:
-        CALL renderMissileOld
-
-    renderMNew:
-        CALL renderMissileNew
-        
-    RET
-
-renderMissileOld:
-    LD I, SPRITE_SingleDot
-    DRW MISSILE_X_OLD, MISSILE_Y_OLD, #1
-    RET
-
-renderMissileNew:
     LD I, SPRITE_SingleDot
     DRW MISSILE_X, MISSILE_Y, #1
     RET
