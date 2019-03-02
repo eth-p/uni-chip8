@@ -14,7 +14,6 @@ DEFINE SCRATCH_FIVE V4
 DEFINE SCRATCH_SIX V5
 DEFINE TARGET_X V6
 DEFINE TARGET_Y V7
-
 DEFINE TARGET_LOCK_X V8
 DEFINE TARGET_LOCK_Y V9
 DEFINE MISSILE_X VA
@@ -92,13 +91,25 @@ loop:
 
     playerIsSafe:
 
-        CALL handleMissile
+        CALL handleMissile ; S2 = Target hit
 
-        LD SCRATCH_ONE, LOOP_WAIT
-        LD DT, SCRATCH_ONE
-        CALL wait
+        SNE SCRATCH_TWO, #1
+        JP loopTargetHit
 
-        JP loop
+        loopTargetNotHit:
+            JP loopAfterTargetHitCheck
+
+        loopTargetHit:
+            CALL renderTarget
+            CALL initRandomTarget
+            JP loopAfterTargetHitCheck
+
+        loopAfterTargetHitCheck:
+            LD SCRATCH_ONE, LOOP_WAIT
+            LD DT, SCRATCH_ONE
+            CALL wait
+
+            JP loop
 
 wait:
     waitLoop:
@@ -120,8 +131,13 @@ initMissile:
 
 handleMissile:
     CALL isMissileIdle
-    SNE SCRATCH_ONE, #1
+    SNE SCRATCH_ONE, #0
+    JP continueHandleMissile 
+
+    LD SCRATCH_TWO, #0
     RET ; Early exit
+
+    continueHandleMissile:
 
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
@@ -190,16 +206,101 @@ handleMissile:
 
         CALL unstashFromPlayerData
 
-        ; Check for targets at this point
+        ; Check for target at this point
 
+        targetCollideCheck:
+            CALL stashToPlayerData
+            targetCollideCheckLoop:
+                LD SCRATCH_FOUR, TARGET_LOCK_Y  ; Y
+                LD SCRATCH_FIVE, TARGET_LOCK_X ; X max
+                LD SCRATCH_SIX, TARGET_LOCK_Y  ; Y max
+                ; Using VD and VE for more scratch space
+                ADD SCRATCH_FIVE, #5
+                ADD SCRATCH_SIX, #5
 
-        ; Enable the reticle for rendering
-        LD SCRATCH_ONE, #5
-        LD DT, SCRATCH_ONE
-        CALL wait
-        CALL renderReticle
+                LD SCRATCH_ONE, #2
+                SUB SCRATCH_FOUR, SCRATCH_ONE
+                SUB SCRATCH_FIVE, SCRATCH_ONE
+                SUB SCRATCH_SIX, SCRATCH_ONE
 
-        RET
+                targetCollideCheckLoop_Y:
+                    LD SCRATCH_THREE, TARGET_LOCK_X
+                    LD SCRATCH_ONE, #2
+                    SUB SCRATCH_THREE, SCRATCH_ONE
+                    targetCollideCheckLoop_X:
+
+                        ; Target top left wing
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD VD, TARGET_X
+                        LD VE, TARGET_Y
+
+                        SNE SCRATCH_THREE, VD
+                        LD SCRATCH_ONE, #1
+                        SNE SCRATCH_FOUR, VE
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP targetWasHit
+
+                        ; Target bottom body
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD VD, TARGET_X
+                        LD VE, TARGET_Y
+                        ADD VD, #1
+                        ADD VE, #1
+
+                        SNE SCRATCH_THREE, VD
+                        LD SCRATCH_ONE, #1
+                        SNE SCRATCH_FOUR, VE
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP targetWasHit
+
+                        ; Target top right wing
+                        LD SCRATCH_ONE, #0
+                        LD SCRATCH_TWO, #0
+                        LD VD, TARGET_X
+                        LD VE, TARGET_Y
+                        ADD VD, #2
+
+                        SNE SCRATCH_THREE, VD
+                        LD SCRATCH_ONE, #1
+                        SNE SCRATCH_FOUR, VE
+                        LD SCRATCH_TWO, #1
+                        AND SCRATCH_ONE, SCRATCH_TWO
+                        SNE SCRATCH_ONE, #1
+                        JP targetWasHit
+
+                        ADD SCRATCH_THREE, #1
+                        SE SCRATCH_THREE, SCRATCH_FIVE
+                        JP targetCollideCheckLoop_X
+
+                    ADD SCRATCH_FOUR, #1
+                    SE SCRATCH_FOUR, SCRATCH_SIX
+                    JP targetCollideCheckLoop_Y
+
+                JP targetWasNotHit
+
+            targetWasHit:
+                CALL unstashFromPlayerData
+                LD SCRATCH_TWO, #1
+                JP afterTargetCheck
+
+            targetWasNotHit:
+                CALL unstashFromPlayerData
+                LD SCRATCH_TWO, #0
+                JP afterTargetCheck
+
+        afterTargetCheck:
+            ; Enable the reticle for rendering
+            LD SCRATCH_ONE, #5
+            LD DT, SCRATCH_ONE
+            CALL wait
+            CALL renderReticle
+            RET
 
     missileNotReachedTarget:
         ; Missile movement
@@ -250,7 +351,8 @@ handleMissile:
             LD ST, SCRATCH_ONE
             CALL renderMissile
 
-    RET
+        LD SCRATCH_TWO, #0
+        RET
 
 ; S1 = Missile is idle
 isMissileIdle:
