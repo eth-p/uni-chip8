@@ -194,58 +194,67 @@ handleBeam:
 
     beamReachedTarget:
 
-        ; Undo beam first
-        LD BEAM_X, BEAM_X_LAUNCH_LOCATION
-        LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
+        LD SCRATCH_THREE, #0
+        LD SCRATCH_FOUR, #3
 
-        undoBeamLoop:
-            undoBeamLoop_X:
-                SNE BEAM_X, TARGET_LOCK_X
-                JP undoBeamLoop_Y
+        beamTracing:
+            ; Undo beam first
+            LD BEAM_X, BEAM_X_LAUNCH_LOCATION
+            LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
 
-                LD SCRATCH_ONE, BEAM_X
-                LD SCRATCH_TWO, TARGET_LOCK_X
-                CALL lessThan
-                SNE SCRATCH_ONE, #1
-                JP beamUndoXLess
-
-                beamUndoXGreater:
-                    LD SCRATCH_ONE, #1
-                    SUB BEAM_X, SCRATCH_ONE
+            undoBeamLoop:
+                undoBeamLoop_X:
+                    SNE BEAM_X, TARGET_LOCK_X
                     JP undoBeamLoop_Y
 
-                beamUndoXLess:
-                    ADD BEAM_X, #1
-                    JP undoBeamLoop_Y
+                    LD SCRATCH_ONE, BEAM_X
+                    LD SCRATCH_TWO, TARGET_LOCK_X
+                    CALL lessThan
+                    SNE SCRATCH_ONE, #1
+                    JP beamUndoXLess
 
-            undoBeamLoop_Y:
-                SNE BEAM_Y, TARGET_LOCK_Y
-                JP undoBeamLoopEnd
+                    beamUndoXGreater:
+                        LD SCRATCH_ONE, #1
+                        SUB BEAM_X, SCRATCH_ONE
+                        JP undoBeamLoop_Y
 
-                LD SCRATCH_ONE, BEAM_Y
-                LD SCRATCH_TWO, TARGET_LOCK_Y
-                CALL lessThan
-                SNE SCRATCH_ONE, #1
-                JP beamUndoYLess
+                    beamUndoXLess:
+                        ADD BEAM_X, #1
+                        JP undoBeamLoop_Y
 
-                beamUndoYGreater:
+                undoBeamLoop_Y:
+                    SNE BEAM_Y, TARGET_LOCK_Y
+                    JP undoBeamLoopEnd
+
+                    LD SCRATCH_ONE, BEAM_Y
+                    LD SCRATCH_TWO, TARGET_LOCK_Y
+                    CALL lessThan
+                    SNE SCRATCH_ONE, #1
+                    JP beamUndoYLess
+
+                    beamUndoYGreater:
+                        LD SCRATCH_ONE, #1
+                        SUB BEAM_Y, SCRATCH_ONE
+                        JP undoBeamLoopEnd
+
+                    beamUndoYLess:
+                        ADD BEAM_Y, #1
+                        JP undoBeamLoopEnd
+
+                undoBeamLoopEnd:
+
                     LD SCRATCH_ONE, #1
-                    SUB BEAM_Y, SCRATCH_ONE
-                    JP undoBeamLoopEnd
+                    SE SCRATCH_THREE, #0
+                    LD ST, SCRATCH_ONE
 
-                beamUndoYLess:
-                    ADD BEAM_Y, #1
-                    JP undoBeamLoopEnd
+                    CALL renderBeam
+                    CALL isBeamAtTarget
+                    SNE SCRATCH_ONE, #0
+                    JP undoBeamLoop
 
-            undoBeamLoopEnd:
-
-                LD SCRATCH_ONE, #1
-                LD ST, SCRATCH_ONE
-
-                CALL renderBeam
-                CALL isBeamAtTarget
-                SNE SCRATCH_ONE, #0
-                JP undoBeamLoop
+            ADD SCRATCH_THREE, #1
+            SE SCRATCH_THREE, SCRATCH_FOUR
+            JP beamTracing
 
         CALL initBeam
         CALL stashToPlayerData
@@ -284,7 +293,7 @@ handleBeam:
         targetCollideCheck:
             CALL stashToPlayerData
             targetCollideCheckLoop:
-                LD SCRATCH_FOUR, TARGET_LOCK_Y  ; Y
+                LD SCRATCH_FOUR, TARGET_LOCK_Y ; Y
                 LD SCRATCH_FIVE, TARGET_LOCK_X ; X max
                 LD SCRATCH_SIX, TARGET_LOCK_Y  ; Y max
                 ; Using VD and VE for more scratch space
@@ -506,7 +515,9 @@ handleBeam:
                         LD TARGET_LOCK_X, BEAM_X
                         LD TARGET_LOCK_Y, BEAM_Y
                         LD SCRATCH_TWO, #1
-                        RET
+                        CALL renderBeam
+                        JP beamReachedTarget
+                        ; RET
 
         endBeamHandling:        
             LD SCRATCH_TWO, #0
