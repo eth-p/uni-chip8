@@ -47,8 +47,16 @@ DEFINE BEAM_Y_IDLE #1C
 DEFINE BEAM_X_LAUNCH_LOCATION #20
 DEFINE BEAM_Y_LAUNCH_LOCATION #1B
 
+DEFINE SCORE_TOP_X #3
+DEFINE SCORE_TOP_Y #3
+DEFINE SCORE_SPRITE_MARGIN #5
 
 init:
+    CLS
+    CALL initScore
+    JP gameRoundInit
+
+gameRoundInit:
     CLS
     LD RETICLE_X, RETICLE_X_DEFAULT
     LD RETICLE_Y, RETICLE_Y_DEFAULT
@@ -57,14 +65,13 @@ init:
     CALL renderReticle
     CALL initBeam
     CALL renderBeam
-
     CALL initRandomTarget
+    CALL renderCurrentScore
 
     LD I, SPRITE_BuildingA
     LD SCRATCH_ONE, #C
     LD SCRATCH_TWO, #1B
     DRW SCRATCH_ONE, SCRATCH_TWO, #4
-
     JP loop
 
 loop:
@@ -75,6 +82,7 @@ loop:
     JP playerIsSafe
 
     playerLost:
+        CALL decrementScore
         LD SCRATCH_TWO, #0
         LD SCRATCH_THREE, #10
         tempLose:
@@ -87,7 +95,7 @@ loop:
             ADD SCRATCH_TWO, #1
             SE SCRATCH_TWO, SCRATCH_THREE
             JP tempLoseLoop
-        JP init
+        JP gameRoundInit
 
     playerIsSafe:
 
@@ -118,6 +126,7 @@ loop:
             CALL renderTargetExplosion2Sprite
             CALL renderTargetExplosion1Sprite
             CALL initRandomTarget
+            CALL incrementScore
             JP loopAfterTargetHitCheck
 
         loopAfterTargetHitCheck:
@@ -899,17 +908,87 @@ unstashFromMiscData:
     LD VF, [I]
     RET
 
-stashToTargetCoordinates:
-    LD I, StashLocation_TargetCoordinates
+stashToScoreData:
+    LD I, StashLocation_ScoreData
     LD [I], VF
     RET
 
-unstashFromTargetCoordinates:
-    LD I, StashLocation_TargetCoordinates
+unstashFromScoreData:
+    LD I, StashLocation_ScoreData
     LD VF, [I]
     RET
 
 ; ----------------------------------------------------------------------
+
+initScore:
+    CALL stashToPlayerData
+    CALL unstashFromScoreData
+    LD V3, #0
+    CALL stashToScoreData
+    CALL unstashFromPlayerData
+    CALL renderCurrentScore
+    RET
+
+incrementScore:
+    CALL renderCurrentScore
+    CALL stashToPlayerData
+    CALL unstashFromScoreData
+
+    SNE V3, #FF
+    JP scoreOverFlow
+
+    scoreNoOverFlow:
+        ADD V3, #1
+        JP endIncrementScore
+
+    scoreOverFlow:
+        LD V3, #0
+        JP endIncrementScore
+
+    endIncrementScore:
+        CALL stashToScoreData
+        CALL unstashFromPlayerData
+        CALL renderCurrentScore
+        RET
+
+decrementScore:
+    CALL renderCurrentScore
+    CALL stashToPlayerData
+    CALL unstashFromScoreData
+    LD V4, #1
+    SE V3, #0
+    SUB V3, V4
+    CALL stashToScoreData
+    CALL unstashFromPlayerData
+    CALL renderCurrentScore
+    RET
+
+; ----------------------------------------------------------------------
+
+renderCurrentScore:
+    CALL stashToPlayerData
+    CALL unstashFromScoreData
+    LD I, StashLocation_ScoreData
+    LD B, V3 ; Load score value to bcd
+    LD V5, SCORE_TOP_X ; X
+    LD V6, SCORE_TOP_Y ; Y
+
+    LD V2, [I]
+
+    LD F, V0
+    DRW V5, V6, #5
+    ADD V5, SCORE_SPRITE_MARGIN
+
+    LD F, V1
+    DRW V5, V6, #5
+    ADD V5, SCORE_SPRITE_MARGIN
+
+    LD F, V2
+    DRW V5, V6, #5
+
+    CALL stashToScoreData
+    CALL unstashFromPlayerData
+    RET
 
 generateExplosionSpriteData:
     RND SCRATCH_ONE, #20
@@ -1100,15 +1179,15 @@ StashLocation_PlayerData:
     #00,
     #00 ; VF
 
-StashLocation_TargetCoordinates:
+StashLocation_ScoreData:
     db
-    #00, ; V0
-    #00,
-    #00,
-    #00,
-    #00,
-    #00,
-    #00,
+    #00, ; V0 BCD H
+    #00, ; V1 BCD T
+    #00, ; V2 BCD O
+    #00, ; V3 Score
+    #00, ; V4
+    #00, ; V5
+    #00, ; V6
     #00,
     #00,
     #00,
