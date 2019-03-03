@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------------------------------------------------------------ ;
-; Chip-8 Missile Defence                                                                                                      ;
+; Chip-8 Laser Defence                                                                                                      ;
 ; Copyright (C) 2019 Kyle Saburao                                                                                      ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
@@ -16,9 +16,9 @@ DEFINE TARGET_X V6
 DEFINE TARGET_Y V7
 DEFINE TARGET_LOCK_X V8
 DEFINE TARGET_LOCK_Y V9
-DEFINE MISSILE_X VA
-DEFINE MISSILE_Y VB
-DEFINE MISSILE_ACTIVE VC
+DEFINE BEAM_X VA
+DEFINE BEAM_Y VB
+DEFINE BEAM_ACTIVE VC
 DEFINE RETICLE_X VD
 DEFINE RETICLE_Y VE
 
@@ -39,13 +39,13 @@ DEFINE RETICLE_Y_DEFAULT #11
 DEFINE TARGET_X_MAX #3D
 DEFINE TARGET_Y_MAX #1E
 
-DEFINE LAUNCHSILO_X #1D
-DEFINE LAUNCHSILO_Y #1B
+DEFINE BEAMARRAY_X #1D
+DEFINE BEAMARRAY_Y #1A
 
-DEFINE MISSILE_X_IDLE #20
-DEFINE MISSILE_Y_IDLE #1B
-DEFINE MISSILE_X_LAUNCH_LOCATION #20
-DEFINE MISSILE_Y_LAUNCH_LOCATION #1A
+DEFINE BEAM_X_IDLE #20
+DEFINE BEAM_Y_IDLE #1C
+DEFINE BEAM_X_LAUNCH_LOCATION #20
+DEFINE BEAM_Y_LAUNCH_LOCATION #1B
 
 
 init:
@@ -53,10 +53,10 @@ init:
     LD RETICLE_X, RETICLE_X_DEFAULT
     LD RETICLE_Y, RETICLE_Y_DEFAULT
     CALL renderGround
-    CALL renderLaunchSilo
+    CALL renderBeamArray
     CALL renderReticle
-    CALL initMissile
-    CALL renderMissile
+    CALL initBeam
+    CALL renderBeam
 
     CALL initRandomTarget
 
@@ -91,7 +91,7 @@ loop:
 
     playerIsSafe:
 
-        CALL handleMissile ; S2 = Target hit
+        CALL handleBeam ; S2 = Target hit
 
         SNE SCRATCH_TWO, #1
         JP loopTargetHit
@@ -101,6 +101,22 @@ loop:
 
         loopTargetHit:
             CALL renderTarget
+            CALL generateTargetExplosion1Sprite
+            CALL generateTargetExplosion2Sprite
+            CALL renderTargetExplosion1Sprite
+            LD SCRATCH_ONE, #2
+            LD SCRATCH_TWO, #1
+            LD DT, SCRATCH_ONE
+            LD ST, SCRATCH_TWO
+            CALL wait
+            CALL renderTargetExplosion2Sprite
+            LD SCRATCH_ONE, #2
+            LD SCRATCH_TWO, #1
+            LD DT, SCRATCH_ONE
+            LD ST, SCRATCH_TWO
+            CALL wait
+            CALL renderTargetExplosion2Sprite
+            CALL renderTargetExplosion1Sprite
             CALL initRandomTarget
             JP loopAfterTargetHitCheck
 
@@ -120,61 +136,118 @@ wait:
 
 ; ------------------------------------------------------------------
 
-initMissile:
-    LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
-    LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
-    CALL renderMissile
-    LD MISSILE_X, MISSILE_X_IDLE
-    LD MISSILE_Y, MISSILE_Y_IDLE
-    LD MISSILE_ACTIVE, #0
+initBeam:
+    LD BEAM_X, BEAM_X_LAUNCH_LOCATION
+    LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
+    CALL renderBeam
+    LD BEAM_X, BEAM_X_IDLE
+    LD BEAM_Y, BEAM_Y_IDLE
+    LD BEAM_ACTIVE, #0
     RET
 
-handleMissile:
-    CALL isMissileIdle
+isBeamAtTarget:
+    LD SCRATCH_ONE, #0
+    LD SCRATCH_TWO, #0
+
+    SNE BEAM_X, TARGET_LOCK_X
+    LD SCRATCH_ONE, #1
+
+    SNE BEAM_Y, TARGET_LOCK_Y
+    LD SCRATCH_TWO, #1
+
+    AND SCRATCH_ONE, SCRATCH_TWO
+    RET
+
+handleBeam:
+    CALL isBeamIdle
     SNE SCRATCH_ONE, #0
-    JP continueHandleMissile 
+    JP continueHandleBeam 
 
     LD SCRATCH_TWO, #0
     RET ; Early exit
 
-    continueHandleMissile:
+    continueHandleBeam:
 
     LD SCRATCH_ONE, #0
     LD SCRATCH_TWO, #0
 
-    SNE MISSILE_X, MISSILE_X_IDLE
+    SNE BEAM_X, BEAM_X_IDLE
     LD SCRATCH_ONE, #1
-    SNE MISSILE_Y, MISSILE_Y_IDLE
+    SNE BEAM_Y, BEAM_Y_IDLE
     LD SCRATCH_TWO, #1
     AND SCRATCH_ONE, SCRATCH_TWO
     SNE SCRATCH_ONE, #0
     JP afterLaunch
 
     launch:
-        LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
-        LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+        LD BEAM_X, BEAM_X_LAUNCH_LOCATION
+        LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
 
     afterLaunch:
 
-    CALL renderMissile
+    CALL renderBeam
 
-    ; Is missile at the target?
-    LD SCRATCH_ONE, #0
-    LD SCRATCH_TWO, #0
-
-    SNE MISSILE_X, TARGET_LOCK_X
-    LD SCRATCH_ONE, #1
-
-    SNE MISSILE_Y, TARGET_LOCK_Y
-    LD SCRATCH_TWO, #1
-
-    AND SCRATCH_ONE, SCRATCH_TWO
+    ; Is beam at the target?
+    CALL isBeamAtTarget
     SNE SCRATCH_ONE, #0 ; Not yet
-    JP missileNotReachedTarget
+    JP beamNotReachedTarget
 
-    missileReachedTarget:
+    beamReachedTarget:
 
-        CALL initMissile
+        ; Undo beam first
+        LD BEAM_X, BEAM_X_LAUNCH_LOCATION
+        LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
+
+        undoBeamLoop:
+            undoBeamLoop_X:
+                SNE BEAM_X, TARGET_LOCK_X
+                JP undoBeamLoop_Y
+
+                LD SCRATCH_ONE, BEAM_X
+                LD SCRATCH_TWO, TARGET_LOCK_X
+                CALL lessThan
+                SNE SCRATCH_ONE, #1
+                JP beamUndoXLess
+
+                beamUndoXGreater:
+                    LD SCRATCH_ONE, #1
+                    SUB BEAM_X, SCRATCH_ONE
+                    JP undoBeamLoop_Y
+
+                beamUndoXLess:
+                    ADD BEAM_X, #1
+                    JP undoBeamLoop_Y
+
+            undoBeamLoop_Y:
+                SNE BEAM_Y, TARGET_LOCK_Y
+                JP undoBeamLoopEnd
+
+                LD SCRATCH_ONE, BEAM_Y
+                LD SCRATCH_TWO, TARGET_LOCK_Y
+                CALL lessThan
+                SNE SCRATCH_ONE, #1
+                JP beamUndoYLess
+
+                beamUndoYGreater:
+                    LD SCRATCH_ONE, #1
+                    SUB BEAM_Y, SCRATCH_ONE
+                    JP undoBeamLoopEnd
+
+                beamUndoYLess:
+                    ADD BEAM_Y, #1
+                    JP undoBeamLoopEnd
+
+            undoBeamLoopEnd:
+
+                LD SCRATCH_ONE, #1
+                LD ST, SCRATCH_ONE
+
+                CALL renderBeam
+                CALL isBeamAtTarget
+                SNE SCRATCH_ONE, #0
+                JP undoBeamLoop
+
+        CALL initBeam
         CALL stashToPlayerData
 
         LD VA, #0
@@ -295,80 +368,105 @@ handleMissile:
                 JP afterTargetCheck
 
         afterTargetCheck:
-            ; Enable the reticle for rendering
-            LD SCRATCH_ONE, #5
-            LD DT, SCRATCH_ONE
-            CALL wait
-            ;CALL renderReticle
             RET
 
-    missileNotReachedTarget:
-        ; Missile movement
+    beamNotReachedTarget:
+        ; Beam movement
 
-        missileXHandling:
-            SNE MISSILE_X, TARGET_LOCK_X
-            JP missileYHandling
+        beamXHandling:
+            SNE BEAM_X, TARGET_LOCK_X
+            JP beamYHandling
 
-            LD SCRATCH_ONE, MISSILE_X
+            LD SCRATCH_ONE, BEAM_X
             LD SCRATCH_TWO, TARGET_LOCK_X
             CALL lessThan
 
             SNE SCRATCH_ONE, #1
-            JP missileXLessThanTarget
+            JP beamXLessThanTarget
 
-            missileXGreaterThanTarget:
+            beamXGreaterThanTarget:
                 LD SCRATCH_ONE, #1
-                SUB MISSILE_X, SCRATCH_ONE
-                JP missileYHandling
+                SUB BEAM_X, SCRATCH_ONE
+                JP beamYHandling
 
-            missileXLessThanTarget:
-                ADD MISSILE_X, #1
-                JP missileYHandling
+            beamXLessThanTarget:
+                ADD BEAM_X, #1
+                JP beamYHandling
 
-        missileYHandling:
-            SNE MISSILE_Y, TARGET_LOCK_Y
-            JP afterMissileTracking
+        beamYHandling:
+            SNE BEAM_Y, TARGET_LOCK_Y
+            JP afterBeamTracking
 
-            LD SCRATCH_ONE, MISSILE_Y
+            LD SCRATCH_ONE, BEAM_Y
             LD SCRATCH_TWO, TARGET_LOCK_Y
             CALL lessThan
 
             SNE SCRATCH_ONE, #1
-            JP missileYLessThanTarget
+            JP beamYLessThanTarget
 
-            missileYGreaterThanTarget:
+            beamYGreaterThanTarget:
                 LD SCRATCH_ONE, #1
-                SUB MISSILE_Y, SCRATCH_ONE
-                JP afterMissileTracking
+                SUB BEAM_Y, SCRATCH_ONE
+                JP afterBeamTracking
 
-            missileYLessThanTarget:
-                ADD MISSILE_Y, #1
-                JP afterMissileTracking
+            beamYLessThanTarget:
+                ADD BEAM_Y, #1
+                JP afterBeamTracking
 
-        afterMissileTracking:
-            ; Missile sound
+        afterBeamTracking:
+            ; Beam sound
             LD SCRATCH_ONE, #1
             LD ST, SCRATCH_ONE
 
-            inFlightCollisionDetection:
-                CALL renderMissile
-                SE VF, #1
-                JP endMissileHandling
-                
-                pixelUnset:
+            ; If the beam is too far away on the x-axis, don't check for it
+            optimizeBeamDetection_X:
+                LD SCRATCH_ONE, BEAM_X
+                LD SCRATCH_TWO, TARGET_X
+                CALL lessThan
+                SNE SCRATCH_ONE, #0
+                JP optimizeBeamDetection_X_Greater
+
+                optimizeBeamDetection_X_Less:
+                    ; Beam < Target
+                    LD SCRATCH_ONE, TARGET_X
+                    LD SCRATCH_TWO, BEAM_X
+                    SUB SCRATCH_ONE, SCRATCH_TWO
+                    ; S1 = T - B
+                    LD SCRATCH_TWO, #4
+                    CALL greaterThan
+                    SNE SCRATCH_ONE, #1
+                    JP endBeamHandling
+
+                    JP postBeamDetectionOptimization
+                optimizeBeamDetection_X_Greater:
+                    ; Beam > Target
+                    LD SCRATCH_ONE, BEAM_X
+                    LD SCRATCH_TWO, TARGET_X
+                    SUB SCRATCH_ONE, SCRATCH_TWO
+                    ; S1 = B - T
+                    LD SCRATCH_TWO, #4
+                    CALL greaterThan
+                    SNE SCRATCH_ONE, #1
+                    JP endBeamHandling
+
+                    JP postBeamDetectionOptimization
+
+            postBeamDetectionOptimization:
+
+                inFlightCollisionDetection:
                     inFlightCollideTargetTopLeft:
                         LD SCRATCH_ONE, #0
                         LD SCRATCH_TWO, #0
                         LD SCRATCH_THREE, TARGET_X
                         LD SCRATCH_FOUR, TARGET_Y
 
-                        SNE MISSILE_X, SCRATCH_THREE
+                        SNE BEAM_X, SCRATCH_THREE
                         LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
+                        SNE BEAM_Y, SCRATCH_FOUR
                         LD SCRATCH_TWO, #1
                         AND SCRATCH_ONE, SCRATCH_TWO
                         SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
+                        JP beamCollidedWithTarget
 
                     inFlightCollideTargetBottom:
                         LD SCRATCH_ONE, #0
@@ -378,13 +476,13 @@ handleMissile:
                         ADD SCRATCH_THREE, #1
                         ADD SCRATCH_FOUR, #1
 
-                        SNE MISSILE_X, SCRATCH_THREE
+                        SNE BEAM_X, SCRATCH_THREE
                         LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
+                        SNE BEAM_Y, SCRATCH_FOUR
                         LD SCRATCH_TWO, #1
                         AND SCRATCH_ONE, SCRATCH_TWO
                         SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
+                        JP beamCollidedWithTarget
 
                     inFlightCollideTargetTopRight:
                         LD SCRATCH_ONE, #0
@@ -393,39 +491,39 @@ handleMissile:
                         LD SCRATCH_FOUR, TARGET_Y
                         ADD SCRATCH_THREE, #2
 
-                        SNE MISSILE_X, SCRATCH_THREE
+                        SNE BEAM_X, SCRATCH_THREE
                         LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
+                        SNE BEAM_Y, SCRATCH_FOUR
                         LD SCRATCH_TWO, #1
                         AND SCRATCH_ONE, SCRATCH_TWO
                         SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
+                        JP beamCollidedWithTarget
 
-                    JP endMissileHandling
-                    missileCollidedWithTarget:
+                    JP endBeamHandling
+                    beamCollidedWithTarget:
                         LD SCRATCH_ONE, #1F
                         LD ST, SCRATCH_ONE
-                        LD TARGET_LOCK_X, MISSILE_X
-                        LD TARGET_LOCK_Y, MISSILE_Y
+                        LD TARGET_LOCK_X, BEAM_X
+                        LD TARGET_LOCK_Y, BEAM_Y
                         LD SCRATCH_TWO, #1
                         RET
 
-        endMissileHandling:        
+        endBeamHandling:        
             LD SCRATCH_TWO, #0
             RET
 
-; S1 = Missile is idle
-isMissileIdle:
-    SNE MISSILE_ACTIVE, #1
-    JP isMissileIdleFalse
-    SNE MISSILE_ACTIVE, #0
-    JP isMissileIdleTrue
+; S1 = Beam is idle
+isBeamIdle:
+    SNE BEAM_ACTIVE, #1
+    JP isBeamIdleFalse
+    SNE BEAM_ACTIVE, #0
+    JP isBeamIdleTrue
 
-    isMissileIdleFalse: ; Missile is active
+    isBeamIdleFalse: ; Beam is active
         LD SCRATCH_ONE, #0
         RET
 
-    isMissileIdleTrue:
+    isBeamIdleTrue:
         LD SCRATCH_ONE, #1
         RET
 
@@ -498,11 +596,11 @@ inputLaunch:
     JP inputLaunchKeyNotPressed
 
     inputLaunchKeyPressed:
-        CALL isMissileIdle
+        CALL isBeamIdle
         SE SCRATCH_ONE, #1
-        JP missileAlreadyFired
+        JP beamAlreadyFired
 
-        missileNotFired:
+        beamNotFired:
             ; Missle can be fired
 
             CALL getTargetX
@@ -511,35 +609,43 @@ inputLaunch:
             CALL getTargetY
             LD TARGET_LOCK_Y, SCRATCH_ONE
 
-            LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
-            LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
-            LD MISSILE_ACTIVE, #1
+            LD BEAM_X, BEAM_X_LAUNCH_LOCATION
+            LD BEAM_Y, BEAM_Y_LAUNCH_LOCATION
+            LD BEAM_ACTIVE, #1
 
-            ;CALL renderReticle
+            LD SCRATCH_ONE, #0
+            LD SCRATCH_TWO, #0
+            SNE TARGET_LOCK_X, #20
+            LD SCRATCH_ONE, #1
+            SNE TARGET_LOCK_Y, #1C
+            LD SCRATCH_TWO, #1
+            AND SCRATCH_ONE, SCRATCH_TWO
+            SNE SCRATCH_ONE, #1
+            LD TARGET_LOCK_Y, #19
 
             LD SCRATCH_ONE, #3
             LD ST, SCRATCH_ONE
-            JP abortMissileKey
+            JP abortBeamKey
 
-        missileAlreadyFired:
-            JP abortMissileKey
+        beamAlreadyFired:
+            JP abortBeamKey
 
     inputLaunchKeyNotPressed:
 
-    abortMissileKey:
+    abortBeamKey:
         LD SCRATCH_ONE, ABORT_LAUNCH_KEY
         SKNP SCRATCH_ONE
-        JP abortMissileKeyPressed
+        JP abortBeamKeyPressed
 
-        abortMissileDeny:
+        abortBeamDeny:
             JP inputLaunchEnd
 
-        abortMissileKeyPressed:
-            CALL isMissileIdle
+        abortBeamKeyPressed:
+            CALL isBeamIdle
             SNE SCRATCH_ONE, #1
-            JP abortMissileDeny
-            LD TARGET_LOCK_X, MISSILE_X
-            LD TARGET_LOCK_Y, MISSILE_Y
+            JP abortBeamDeny
+            LD TARGET_LOCK_X, BEAM_X
+            LD TARGET_LOCK_Y, BEAM_Y
             JP inputLaunchEnd
 
     inputLaunchEnd:
@@ -549,8 +655,8 @@ inputLaunch:
 
 inputReticle:
 
-    ; If the missile is active, don't handle input nor render
-    ;CALL isMissileIdle
+    ; If the beam is active, don't handle input nor render
+    ;CALL isBeamIdle
     ;SNE SCRATCH_ONE, #0
     ;RET
 
@@ -679,16 +785,16 @@ renderReticle:
     DRW RETICLE_X, RETICLE_Y, #5
     RET
 
-renderMissile:
+renderBeam:
     LD I, SPRITE_SingleDot
-    DRW MISSILE_X, MISSILE_Y, #1
+    DRW BEAM_X, BEAM_Y, #1
     RET
 
-renderLaunchSilo:
-    LD I, SPRITE_LaunchSilo
-    LD SCRATCH_ONE, LAUNCHSILO_X
-    LD SCRATCH_TWO, LAUNCHSILO_Y
-    DRW SCRATCH_ONE, SCRATCH_TWO, #4
+renderBeamArray:
+    LD I, SPRITE_BeamArray
+    LD SCRATCH_ONE, BEAMARRAY_X
+    LD SCRATCH_TWO, BEAMARRAY_Y
+    DRW SCRATCH_ONE, SCRATCH_TWO, #5
     RET
 
 ; S1 = Reticle centre x
@@ -794,15 +900,19 @@ unstashFromTargetCoordinates:
 
 ; ----------------------------------------------------------------------
 
+generateExplosionSpriteData:
+    RND SCRATCH_ONE, #20
+    RND SCRATCH_TWO, #70
+    RND SCRATCH_THREE, #f8
+    RND SCRATCH_FOUR, #70
+    RND SCRATCH_FIVE, #20
+    RET
+
 ; The full explosion sprite is 5x5
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 generateExplosion1Sprite:
     CALL stashToMiscData
-    RND SCRATCH_ONE, #F8
-    RND SCRATCH_TWO, #F8
-    RND SCRATCH_THREE, #F8
-    RND SCRATCH_FOUR, #F8
-    RND V4, #F8
+    CALL generateExplosionSpriteData
     LD I, SPRITE_Explosion1
     LD [I], V4
     CALL unstashFromMiscData
@@ -825,11 +935,7 @@ renderExplosion1Sprite:
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 generateExplosion2Sprite:
     CALL stashToMiscData
-    RND SCRATCH_ONE, #F8
-    RND SCRATCH_TWO, #F8
-    RND SCRATCH_THREE, #F8
-    RND SCRATCH_FOUR, #F8
-    RND V4, #F8
+    CALL generateExplosionSpriteData
     LD I, SPRITE_Explosion2
     LD [I], V4
     CALL unstashFromMiscData
@@ -852,11 +958,7 @@ renderExplosion2Sprite:
 ; WARNING: UNSAFE REGISTER ACCESS. ONLY USE WITHIN STASHED CONTEXT.
 generateExplosion3Sprite:
     CALL stashToMiscData
-    RND SCRATCH_ONE, #F8
-    RND SCRATCH_TWO, #F8
-    RND SCRATCH_THREE, #F8
-    RND SCRATCH_FOUR, #F8
-    RND V4, #F8
+    CALL generateExplosionSpriteData
     LD I, SPRITE_Explosion3
     LD [I], V4
     CALL unstashFromMiscData
@@ -875,6 +977,56 @@ renderExplosion3Sprite:
     CALL unstashFromMiscData
     RET
 
+generateTargetExplosionSpriteData:
+    RND SCRATCH_ONE, #30
+    RND SCRATCH_TWO, #78
+    RND SCRATCH_THREE, #fc
+    RND SCRATCH_FOUR, #fc
+    RND SCRATCH_FIVE, #78
+    RND SCRATCH_SIX, #30
+    RET
+
+; 6 x 6 sprite
+generateTargetExplosion1Sprite:
+    CALL stashToMiscData
+    CALL generateTargetExplosionSpriteData
+    LD I, SPRITE_TargetExplosion1
+    LD [I], SCRATCH_SIX
+    CALL unstashFromMiscData
+    RET
+
+renderTargetExplosion1Sprite:
+    CALL stashToMiscData
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_THREE, #3
+    SUB SCRATCH_ONE, SCRATCH_THREE
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, SPRITE_TargetExplosion1
+    DRW SCRATCH_ONE, SCRATCH_TWO, #6
+    RET
+
+; 6 x 6 sprite
+generateTargetExplosion2Sprite:
+    CALL stashToMiscData
+    CALL generateTargetExplosionSpriteData
+    LD I, SPRITE_TargetExplosion2
+    LD [I], SCRATCH_SIX
+    CALL unstashFromMiscData
+    RET
+
+renderTargetExplosion2Sprite:
+    CALL stashToMiscData
+    LD SCRATCH_ONE, TARGET_X
+    LD SCRATCH_TWO, TARGET_Y
+    LD SCRATCH_THREE, #3
+    SUB SCRATCH_ONE, SCRATCH_THREE
+    SUB SCRATCH_TWO, SCRATCH_THREE
+    LD I, SPRITE_TargetExplosion2
+    DRW SCRATCH_ONE, SCRATCH_TWO, #6
+    CALL unstashFromMiscData
+    RET
+
 ; ----------------------------------------------------------------------
 
 ; 5 x 5
@@ -886,13 +1038,14 @@ SPRITE_Reticle:
     #70,
     #20
 
-; 7 x 4
-SPRITE_LaunchSilo:
+; 7 x 5
+SPRITE_BeamArray:
     db
+    #82,
+    #44,
     #28,
-    #28,
-    #6c,
-    #ba
+    #7c,
+    #44
 
 SPRITE_SingleDot:
     db
@@ -973,6 +1126,24 @@ SPRITE_Explosion2:
 
 SPRITE_Explosion3:
     db
+    #00,
+    #00,
+    #00,
+    #00,
+    #00
+
+SPRITE_TargetExplosion1:
+    db
+    #00,
+    #00,
+    #00,
+    #00,
+    #00,
+    #00
+
+SPRITE_TargetExplosion2:
+    db
+    #00,
     #00,
     #00,
     #00,
