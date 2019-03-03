@@ -117,19 +117,19 @@
 		}
 	},
 
-	"missile-defence.rom": {
+	"laser-defence.rom": {
 		"type": "GAME",
-		"name": "Missile Defence",
-		"info": "",
+		"name": "Laser Defence",
+		"info": "Lasers are vastly superior to siege engines.",
 		"author": "Kyle Saburao",
 		"author_url": "https://github.com/macedir",
 		"controls": {
-			"5": "UP",
-			"8": "DOWN",
-			"9": "RIGHT",
-			"7": "LEFT",
-			"6": "LAUNCH MISSILE",
-			"4": "DETONATE MISSILE"
+			"5": "TARGETING UP",
+			"8": "TARGETING DOWN",
+			"9": "TARGETING RIGHT",
+			"7": "TARGETING LEFT",
+			"6": "LAUNCH BEAM TARGETER",
+			"4": "FIRE BEAM EARLY"
 		}
 	}
 }
