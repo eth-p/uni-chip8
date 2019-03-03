@@ -129,6 +129,19 @@ initMissile:
     LD MISSILE_ACTIVE, #0
     RET
 
+isMissileAtTarget:
+    LD SCRATCH_ONE, #0
+    LD SCRATCH_TWO, #0
+
+    SNE MISSILE_X, TARGET_LOCK_X
+    LD SCRATCH_ONE, #1
+
+    SNE MISSILE_Y, TARGET_LOCK_Y
+    LD SCRATCH_TWO, #1
+
+    AND SCRATCH_ONE, SCRATCH_TWO
+    RET
+
 handleMissile:
     CALL isMissileIdle
     SNE SCRATCH_ONE, #0
@@ -159,20 +172,64 @@ handleMissile:
     CALL renderMissile
 
     ; Is missile at the target?
-    LD SCRATCH_ONE, #0
-    LD SCRATCH_TWO, #0
-
-    SNE MISSILE_X, TARGET_LOCK_X
-    LD SCRATCH_ONE, #1
-
-    SNE MISSILE_Y, TARGET_LOCK_Y
-    LD SCRATCH_TWO, #1
-
-    AND SCRATCH_ONE, SCRATCH_TWO
+    CALL isMissileAtTarget
     SNE SCRATCH_ONE, #0 ; Not yet
     JP missileNotReachedTarget
 
     missileReachedTarget:
+
+        ; Undo beam first
+        LD MISSILE_X, MISSILE_X_LAUNCH_LOCATION
+        LD MISSILE_Y, MISSILE_Y_LAUNCH_LOCATION
+
+        undoBeamLoop:
+            undoBeamLoop_X:
+                SNE MISSILE_X, TARGET_LOCK_X
+                JP undoBeamLoop_Y
+
+                LD SCRATCH_ONE, MISSILE_X
+                LD SCRATCH_TWO, TARGET_LOCK_X
+                CALL lessThan
+                SNE SCRATCH_ONE, #1
+                JP beamUndoXLess
+
+                beamUndoXGreater:
+                    LD SCRATCH_ONE, #1
+                    SUB MISSILE_X, SCRATCH_ONE
+                    JP undoBeamLoop_Y
+
+                beamUndoXLess:
+                    ADD MISSILE_X, #1
+                    JP undoBeamLoop_Y
+
+            undoBeamLoop_Y:
+                SNE MISSILE_Y, TARGET_LOCK_Y
+                JP undoBeamLoopEnd
+
+                LD SCRATCH_ONE, MISSILE_Y
+                LD SCRATCH_TWO, TARGET_LOCK_Y
+                CALL lessThan
+                SNE SCRATCH_ONE, #1
+                JP beamUndoYLess
+
+                beamUndoYGreater:
+                    LD SCRATCH_ONE, #1
+                    SUB MISSILE_Y, SCRATCH_ONE
+                    JP undoBeamLoopEnd
+
+                beamUndoYLess:
+                    ADD MISSILE_Y, #1
+                    JP undoBeamLoopEnd
+
+            undoBeamLoopEnd:
+
+                LD SCRATCH_ONE, #1
+                LD ST, SCRATCH_ONE
+
+                CALL renderMissile
+                CALL isMissileAtTarget
+                SNE SCRATCH_ONE, #0
+                JP undoBeamLoop
 
         CALL initMissile
         CALL stashToPlayerData
@@ -351,64 +408,59 @@ handleMissile:
             LD ST, SCRATCH_ONE
 
             inFlightCollisionDetection:
-                CALL renderMissile
-                SE VF, #1
+                inFlightCollideTargetTopLeft:
+                    LD SCRATCH_ONE, #0
+                    LD SCRATCH_TWO, #0
+                    LD SCRATCH_THREE, TARGET_X
+                    LD SCRATCH_FOUR, TARGET_Y
+
+                    SNE MISSILE_X, SCRATCH_THREE
+                    LD SCRATCH_ONE, #1
+                    SNE MISSILE_Y, SCRATCH_FOUR
+                    LD SCRATCH_TWO, #1
+                    AND SCRATCH_ONE, SCRATCH_TWO
+                    SNE SCRATCH_ONE, #1
+                    JP missileCollidedWithTarget
+
+                inFlightCollideTargetBottom:
+                    LD SCRATCH_ONE, #0
+                    LD SCRATCH_TWO, #0
+                    LD SCRATCH_THREE, TARGET_X
+                    LD SCRATCH_FOUR, TARGET_Y
+                    ADD SCRATCH_THREE, #1
+                    ADD SCRATCH_FOUR, #1
+
+                    SNE MISSILE_X, SCRATCH_THREE
+                    LD SCRATCH_ONE, #1
+                    SNE MISSILE_Y, SCRATCH_FOUR
+                    LD SCRATCH_TWO, #1
+                    AND SCRATCH_ONE, SCRATCH_TWO
+                    SNE SCRATCH_ONE, #1
+                    JP missileCollidedWithTarget
+
+                inFlightCollideTargetTopRight:
+                    LD SCRATCH_ONE, #0
+                    LD SCRATCH_TWO, #0
+                    LD SCRATCH_THREE, TARGET_X
+                    LD SCRATCH_FOUR, TARGET_Y
+                    ADD SCRATCH_THREE, #2
+
+                    SNE MISSILE_X, SCRATCH_THREE
+                    LD SCRATCH_ONE, #1
+                    SNE MISSILE_Y, SCRATCH_FOUR
+                    LD SCRATCH_TWO, #1
+                    AND SCRATCH_ONE, SCRATCH_TWO
+                    SNE SCRATCH_ONE, #1
+                    JP missileCollidedWithTarget
+
                 JP endMissileHandling
-                
-                pixelUnset:
-                    inFlightCollideTargetTopLeft:
-                        LD SCRATCH_ONE, #0
-                        LD SCRATCH_TWO, #0
-                        LD SCRATCH_THREE, TARGET_X
-                        LD SCRATCH_FOUR, TARGET_Y
-
-                        SNE MISSILE_X, SCRATCH_THREE
-                        LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
-                        LD SCRATCH_TWO, #1
-                        AND SCRATCH_ONE, SCRATCH_TWO
-                        SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
-
-                    inFlightCollideTargetBottom:
-                        LD SCRATCH_ONE, #0
-                        LD SCRATCH_TWO, #0
-                        LD SCRATCH_THREE, TARGET_X
-                        LD SCRATCH_FOUR, TARGET_Y
-                        ADD SCRATCH_THREE, #1
-                        ADD SCRATCH_FOUR, #1
-
-                        SNE MISSILE_X, SCRATCH_THREE
-                        LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
-                        LD SCRATCH_TWO, #1
-                        AND SCRATCH_ONE, SCRATCH_TWO
-                        SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
-
-                    inFlightCollideTargetTopRight:
-                        LD SCRATCH_ONE, #0
-                        LD SCRATCH_TWO, #0
-                        LD SCRATCH_THREE, TARGET_X
-                        LD SCRATCH_FOUR, TARGET_Y
-                        ADD SCRATCH_THREE, #2
-
-                        SNE MISSILE_X, SCRATCH_THREE
-                        LD SCRATCH_ONE, #1
-                        SNE MISSILE_Y, SCRATCH_FOUR
-                        LD SCRATCH_TWO, #1
-                        AND SCRATCH_ONE, SCRATCH_TWO
-                        SNE SCRATCH_ONE, #1
-                        JP missileCollidedWithTarget
-
-                    JP endMissileHandling
-                    missileCollidedWithTarget:
-                        LD SCRATCH_ONE, #1F
-                        LD ST, SCRATCH_ONE
-                        LD TARGET_LOCK_X, MISSILE_X
-                        LD TARGET_LOCK_Y, MISSILE_Y
-                        LD SCRATCH_TWO, #1
-                        RET
+                missileCollidedWithTarget:
+                    LD SCRATCH_ONE, #1F
+                    LD ST, SCRATCH_ONE
+                    LD TARGET_LOCK_X, MISSILE_X
+                    LD TARGET_LOCK_Y, MISSILE_Y
+                    LD SCRATCH_TWO, #1
+                    RET
 
         endMissileHandling:        
             LD SCRATCH_TWO, #0
