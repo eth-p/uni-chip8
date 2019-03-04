@@ -19,3 +19,4 @@
 
 - Kyle will continue on the Laser Defence game. (Title screen and lose)
 - Ethan will work on backstepping.
+- Firas will work on MAZE 2.0 and a SFU-related CHIP-8 program.

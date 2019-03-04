@@ -360,15 +360,18 @@ Space Invader was not completed in time, so it will not be made playable.
 
 ##### Notes
 
-This is not final as we have to compensate for being one release ahead of schedule.
-
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In progress|
 |**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
 |**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
+
+##### Reflection on Release 3
+
+We moved the reverse debugger back into release 3.
+Assembler will occur for release 4.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|

@@ -106,3 +106,6 @@
 ### Schedule
 
 - **Release:** Replace Vancouver Driving Simulator with Laser Defence.
+- **Release:** Move reverse-debugger into Release 3.
+- **Release:** Add MAZE 2.0 and SFU-related program to Release 3.
+- **Release:** Move assembler into Release 4.

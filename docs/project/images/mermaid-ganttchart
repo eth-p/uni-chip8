@@ -27,7 +27,7 @@ Opcodes: after R0, 1w
 Architecture: ARCH, after R0, 2w
 Optimizations: after R1, 03-13-2019
 Debugger: after R0, 02-06-2019
-Reverse Debugger: after R3, 04-01-2019
+Reverse Debugger: after R2, 03-12-2019
 Assembler: after R2, 04-01-2019
 General Refinement: after R3, 04-05-2019
 
@@ -45,10 +45,10 @@ Brick Breaker: after R1, 15d
 Google Dinosaur: after R1, 15d
 Snake: after R1, 15d
 Space Invaders: after R1, 15d
-Pong: after R1, 15d
 
-Laser Defence: After R2, 12d
-Flappy Bird: After R2, 12d
-Other misc. games: After R2, 12d
+Laser Defence: after R2, 03-10-2019
+Flappy Bird: after R2, 03-10-2019
+Other misc. games: after R2, 03-10-2019
+Maze 2.0: after R2, 03-10-2019
 
 General Refinement: after R3, 04-05-2019
