@@ -101,7 +101,8 @@
 ### Developer
 
 - **chip-roms:** Add work on Nuclear Launch game.
+- **chip-roms:** Add Laser Defence game.
 
 ### Schedule
 
-- **Release:** Replace Vancouver Driving Simulator with Nuclear Launch.
+- **Release:** Replace Vancouver Driving Simulator with Laser Defence.

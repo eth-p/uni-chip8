@@ -25,7 +25,7 @@
 |**6**|February 4|Release 1| |[Week 6](meeting-minutes/Week-6.md)|
 |**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 27|Release 2| |[Week 8](meeting-minutes/Week-8.md)|
-|**9**|March 4|Release 3| | |
+|**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
 |**10**|March 11|Release 3| | |
 |**11**|March 18|Release 4| | |
 |**12**|March 25|Release 4| | |
@@ -484,6 +484,10 @@ Considering the fact that we should have a reverse debugger, developers:
 - Dan Amarasinghe
 - Anthony Pham
 - Henry Wang
+
+### Release 3
+
+- Kyle Saburao
 
 ## Information Sources and Citations
 
