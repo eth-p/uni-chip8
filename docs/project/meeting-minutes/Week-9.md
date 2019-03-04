@@ -11,7 +11,11 @@
 ## Attendance
 
 - Kyle, *ksaburao@sfu.ca*
+- Ethan, *ethan_pini@sfu.ca*
 
 ## Discussion
 
 ## Decisions
+
+- Kyle will continue on the Laser Defence game. (Title screen and lose)
+- Ethan will work on backstepping.
