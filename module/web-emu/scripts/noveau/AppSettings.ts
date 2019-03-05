@@ -8,7 +8,7 @@ import Savestate from '../Savestate';
 // ---------------------------------------------------------------------------------------------------------------------
 
 class AppSettings extends Settings {
-	@Setting(500, {validator: speed => speed >= 1 && speed <= 5000})
+	@Setting(500, {validator: speed => speed >= 1 && speed <= 10000})
 	public cpu_speed!: number;
 
 	@Setting(true)

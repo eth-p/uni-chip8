@@ -29,7 +29,7 @@ mixin ui-window-settings
 
 				- // General Settings
 				+window-pane("settings-general")
-					+setting([1, 5000], 'cpu_speed', 'Clock Speed')
+					+setting([1, 10000], 'cpu_speed', 'Clock Speed')
 						div The clock speed of the emulated device. This is usually 500 Hz for the CHIP-8.
 						div Accepts: <code>1 - 5000</code> Hz.
 					+setting('boolean', 'enable_feedback_sound', 'Enable Sound')
