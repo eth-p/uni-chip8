@@ -76,6 +76,12 @@ gameRoundInit:
     LD SCRATCH_ONE, #C
     LD SCRATCH_TWO, #1B
     DRW SCRATCH_ONE, SCRATCH_TWO, #4
+
+    LD I, SPRITE_Tower
+    LD SCRATCH_ONE, #30
+    LD SCRATCH_TWO, #16
+    DRW SCRATCH_ONE, SCRATCH_TWO, #9
+
     JP loop
 
 loop:
@@ -165,7 +171,6 @@ pressToStart:
 	LD I, SPRITE_e
 	DRW V0, V1, #5
 	ADD V0, #4
-
 
 	LD I, SPRITE_s
 	DRW V0, V1, #5
@@ -1306,6 +1311,19 @@ SPRITE_BuildingA:
     #fc,
     #84,
     #b4
+
+; 6 x 9
+SPRITE_Tower:
+    db
+    #fc,
+    #84,
+    #a4,
+    #84,
+    #94,
+    #84,
+    #a4,
+    #84,
+    #94
 
 ; 3 x 2
 SPRITE_Target:
