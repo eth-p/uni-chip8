@@ -79,7 +79,6 @@ class LoadDialogController extends App {
 		});
 
 		// Add upload support.
-		console.log(this.dialogUploadField);
 		this.dialogUploadField.addEventListener('change', () => {
 			this.triggers.rom.loadLocal.trigger(this.dialogUploadField.files![0]);
 			return false;

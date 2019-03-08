@@ -77,7 +77,7 @@ main {
 		opacity: 0.25;
 	}
 
-	input[type='button'][data-action='emulator-play-pause'] {
+	input[type='button'][data-intent='play-pause-resume'] {
 		width: 60px;
 	}
 }

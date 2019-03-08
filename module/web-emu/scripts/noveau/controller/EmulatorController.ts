@@ -20,7 +20,6 @@ class EmulatorController extends App {
 
 	protected isLoaded: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
-	protected isErrored: StateProvider<boolean> = new StateProvider<boolean>(false);
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -32,18 +31,18 @@ class EmulatorController extends App {
 		// Add state providers.
 		this.state.emulator.loaded.addProvider(this.isLoaded);
 		this.state.emulator.loading.addProvider(this.isLoading);
+		this.state.emulator.errored.addProvider(this.emulator.getErrorState());
+		this.state.emulator.paused.addProvider(() =>
+			this.settings.enable_debugger ? false : this.state.emulator.errored.value
+		);
 
 		// Map state changes to emulator events.
-		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
 		this.state.emulator.turbo.addListener('change', val => this.emulator.setTurbo(val));
+		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
 
 		// Map emulator events to state changes.
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
-		this.emulator.addListener('reset', () => (this.isErrored.value = false));
-		this.emulator.addListener('error', error => {
-			this.isErrored.value = true;
-			(<any>this).emit('error', error, 'emulator');
-		});
+		this.emulator.addListener('error', error => (<any>this).emit('error', error, 'emulator'));
 
 		// Triggers.
 		this.triggers.rom.loadRemote.onTrigger(this.loadRemoteProgram.bind(this));

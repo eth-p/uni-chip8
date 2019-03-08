@@ -3,10 +3,11 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import App from './noveau/App';
-import KeybindController from './noveau/controller/KeybindController';
-import EmulatorController from './noveau/controller/EmulatorController';
-import TriggerController from './noveau/controller/TriggerController';
 import DialogController from './noveau/controller/DialogController';
+import EmulatorController from './noveau/controller/EmulatorController';
+import KeybindController from './noveau/controller/KeybindController';
+import PlayPauseController from './noveau/controller/PlayPauseController';
+import TriggerController from './noveau/controller/TriggerController';
 
 import ErrorDialogController from './noveau/dialog/error/ErrorDialogController';
 import LoadDialogController from './noveau/dialog/load/LoadDialogController';
@@ -15,6 +16,7 @@ App.depends([
 	KeybindController,
 	EmulatorController,
 	TriggerController,
+	PlayPauseController,
 	DialogController,
 	LoadDialogController,
 	ErrorDialogController
@@ -26,6 +28,7 @@ App.depends([
 (<any>window).Chipotle = App;
 (<any>window).ChipotleUI = {
 	kbc: new KeybindController(),
+	ppc: new PlayPauseController(),
 	emc: new EmulatorController(),
 	tgc: new TriggerController(),
 	doc: new DialogController(),

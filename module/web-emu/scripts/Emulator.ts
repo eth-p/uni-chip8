@@ -3,9 +3,13 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
+
 import VMContext from '@chipotle/vm/VMContext';
 import VMSnapshot from '@chipotle/vm/VMSnapshot';
+
 import Chip from '@chipotle/chip-arch/Chip';
+
+import StateProvider from '@chipotle/wfw/StateProvider';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Emulator:
@@ -76,6 +80,11 @@ class Emulator extends Emitter<
 	 */
 	protected lastError?: Error;
 
+	/**
+	 * A state provider for checking if the emulator has encountered an error.
+	 */
+	protected errored: StateProvider<boolean>;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -94,6 +103,7 @@ class Emulator extends Emitter<
 		this.intervalRate = 10;
 		this.intervalMiss = 0;
 		this.lastUpdate = Date.now();
+		this.errored = new StateProvider<boolean>(false);
 		this.turbo = false;
 		this._update = this._update.bind(this);
 	}
@@ -130,7 +140,6 @@ class Emulator extends Emitter<
 	public resume(): void {
 		if (!this.paused) return;
 		if (this.vm.program.data == null) return;
-		if (this.lastError != null) return;
 
 		this.lastUpdate = Date.now();
 		this.paused = false;
@@ -144,6 +153,7 @@ class Emulator extends Emitter<
 	public reset(): void {
 		try {
 			this.lastError = undefined;
+			this.errored.value = false;
 			this.vm.reset();
 			this.emit('reset');
 			this.lastUpdate = Date.now();
@@ -249,11 +259,19 @@ class Emulator extends Emitter<
 	}
 
 	/**
-	 * Gets the error state of the emulator.
-	 * @returns True if the emulator is halted due to an error.
+	 * Gets the error state provider of the emulator.
+	 * @returns True if the emulator encountered an error at some point since the last reset.
 	 */
-	public isError(): boolean {
-		return this.lastError != null;
+	public getErrorState(): StateProvider<boolean> {
+		return this.errored;
+	}
+
+	/**
+	 * Gets the last reported error.
+	 * @returns The last reported error, or null.
+	 */
+	public getError(): Error | null {
+		return this.lastError || null;
 	}
 
 	/**
@@ -297,6 +315,7 @@ class Emulator extends Emitter<
 	 */
 	protected _error(exception: Error) {
 		this.lastError = exception;
+		this.errored.value = true;
 		this.pause();
 		this.emit('error', exception);
 		throw exception;

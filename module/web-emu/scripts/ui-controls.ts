@@ -70,7 +70,7 @@ function checkPauseToggle() {
  */
 function checkProgram() {
 	let isLoaded = vm.program.data != null;
-	let isError = emulator.isError();
+	let isError = emulator.getErrorState().value;
 
 	function requiresProgram(element: HTMLElement) {
 		if (element instanceof HTMLInputElement) {
