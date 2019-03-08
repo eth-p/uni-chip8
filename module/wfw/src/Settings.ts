@@ -4,12 +4,14 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
 
-//! --------------------------------------------------------------------------------------------------------------------
+import SettingsEntry from './SettingsEntry';
+
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A decorator for specifying a configurable setting.
  */
-function Setting(value: any, options?: {validator: SettingsEntry['validator']}) {
+function Setting(value: any, options?: {validator: SettingsEntry<string>['validator']}) {
 	return function(target: any, property: string | symbol) {
 		target.constructor.entries.set(
 			property,
@@ -35,7 +37,7 @@ function Setting(value: any, options?: {validator: SettingsEntry['validator']}) 
  * An object for storing settings in localStorage.
  * This also provides an interface for listening for changes to the settings.
  */
-class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
+class Settings<KEYS extends string = string> extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -79,10 +81,29 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
+	 * Adds a listener for when a setting value changes.
+	 * @param setting The setting value (or values).
+	 * @param listener The listener function.
+	 */
+	public onChange(setting: KEYS | KEYS[], listener: (setting: KEYS, value: any) => void): void {
+		let settings = setting instanceof Array ? setting : [setting];
+
+		// Add listener for value changes.
+		this.addListener('update', (k, v) => {
+			if (settings.includes(k)) listener(k, v);
+		});
+
+		// Call for initial value.
+		for (let setting of settings) {
+			listener(setting, this.get(setting));
+		}
+	}
+
+	/**
 	 * Gets the settings keys.
 	 * @returns An array of valid settings keys.
 	 */
-	public getKeys(): string[] {
+	public getKeys(): KEYS[] {
 		return Array.from((<any>this.constructor).entries.keys());
 	}
 
@@ -90,7 +111,7 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	 * Gets a settings entry.
 	 * @param setting The setting key.
 	 */
-	public getEntry(setting: string): SettingsEntry | null {
+	public getEntry(setting: KEYS): SettingsEntry<KEYS> | null {
 		let entry = (<any>this.constructor).entries.get(setting);
 		if (entry === undefined) return null;
 		return entry;
@@ -100,7 +121,7 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	 * Gets the settings entry descriptors.
 	 * @returns An array of settings descriptors.
 	 */
-	public getEntries(): SettingsEntry[] {
+	public getEntries(): SettingsEntry<KEYS>[] {
 		return (<any>this.constructor).entries.values();
 	}
 
@@ -110,7 +131,7 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	 * @param value The value.
 	 * @returns True or false, depending on whether or not the data provided was valid.
 	 */
-	public set(setting: string, value: any): boolean {
+	public set(setting: KEYS, value: any): boolean {
 		let entry = this.getEntry(setting);
 
 		// Validate.
@@ -133,7 +154,7 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	 * @param setting The setting to get.
 	 * @returns The setting value, or null.
 	 */
-	public get(setting: string): any | null {
+	public get(setting: KEYS): any | null {
 		let key = `_${setting}`;
 		if (!(key in this)) return null;
 		return (<any>this)[key];
@@ -210,23 +231,6 @@ class Settings extends Emitter<'update' | 'load' | 'save' | 'invalid'> {
 	}
 }
 
-interface SettingsEntry {
-	/**
-	 * A function to validate the settings value.
-	 */
-	validator: (value: any) => boolean;
-
-	/**
-	 * The name of the setting.
-	 */
-	name: string;
-
-	/**
-	 * The default value of the setting.
-	 */
-	value: any;
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 export default Settings;
-export {Settings, SettingsEntry, Setting};
+export {Settings, Setting};
