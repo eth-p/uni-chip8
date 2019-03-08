@@ -2,7 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {Settings, SettingsEntry} from '@chipotle/wfw/Settings';
+import Settings from '@chipotle/wfw/Settings';
+import SettingsEntry from '@chipotle/wfw/SettingsEntry';
 
 import UIWindow from '@chipotle/web/UIWindow';
 import dom_ready from '@chipotle/web/dom_ready';
@@ -35,7 +36,7 @@ export function settingsUndo() {
 	for (let element of settings_fields) {
 		let key = element.getAttribute('data-setting')!;
 		let type = (element.getAttribute('data-setting-type') || element.getAttribute('type'))!;
-		let entry = settings.getEntry(key);
+		let entry = settings.getEntry(<any>key);
 
 		if (entry == null) {
 			element.classList.add('WARNING--setting-not-configured');
@@ -173,7 +174,7 @@ function changeListener(event: Event) {
 	let element = <HTMLInputElement>event.target;
 	let type = (element.getAttribute('data-setting-type') || element.getAttribute('type'))!;
 	let key = element.getAttribute('data-setting')!;
-	let entry = settings.getEntry(key);
+	let entry = settings.getEntry(<any>key);
 
 	if (entry == null) {
 		element.classList.add('WARNING--setting-not-configured');

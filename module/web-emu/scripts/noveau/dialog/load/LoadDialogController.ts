@@ -59,8 +59,8 @@ class LoadDialogController extends App {
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
 		// Connect triggers.
-		this.triggers.dialog.load.show.addListener('trigger', () => this.dialog.show());
-		this.triggers.dialog.load.hide.addListener('trigger', () => this.dialog.hide());
+		this.triggers.dialog.load.show.onTrigger(() => this.dialog.show());
+		this.triggers.dialog.load.hide.onTrigger(() => this.dialog.hide());
 
 		// Add listeners.
 		this.state.emulator.loading.addListener('change', v => (!v ? this.dialog.hide() : void 0));

@@ -4,25 +4,14 @@
 //! --------------------------------------------------------------------------------------------------------------------
 
 /**
- * An interface representing a settings entry.
+ * A class that represents a human friendly error message.
  */
-interface SettingsEntry<KEYS = string> {
-	/**
-	 * A function to validate the settings value.
-	 */
-	validator: (value: any) => boolean;
-
-	/**
-	 * The name of the setting.
-	 */
-	name: KEYS;
-
-	/**
-	 * The default value of the setting.
-	 */
-	value: any;
+interface ErrorMessage {
+	message: string;
+	troubleshooting: string;
+	trace?: string;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default SettingsEntry;
-export {SettingsEntry};
+export default ErrorMessage;
+export {ErrorMessage};

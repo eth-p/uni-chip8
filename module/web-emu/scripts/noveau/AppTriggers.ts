@@ -22,7 +22,15 @@ class AppTriggers {
 		load: {
 			show: new Trigger(),
 			hide: new Trigger()
-		}
+		},
+
+		error: {
+			show: new Trigger(),
+			hide: new Trigger(),
+			setError: new Trigger()
+		},
+
+		hideAll: new Trigger()
 	};
 
 	/**
@@ -50,6 +58,17 @@ class AppTriggers {
 		this.redraw.visualizer.onTrigger((...args) => {
 			this.redraw.visualizerRegisters.trigger(...args);
 		});
+
+		this.dialog.hideAll.onTrigger((...args) => {
+			this.dialog.load.hide.trigger();
+			this.dialog.error.hide.trigger();
+		});
+
+		for (let dTrigger of Object.values(this.dialog)) {
+			if ((<any>dTrigger).show instanceof Trigger) {
+				(<any>dTrigger).show.onTrigger(() => this.dialog.hideAll.trigger());
+			}
+		}
 	}
 }
 

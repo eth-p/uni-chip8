@@ -5,6 +5,7 @@
 import App from '../App';
 import StateProvider from '@chipotle/wfw/StateProvider';
 import XHR, {XHRType} from '@chipotle/wfw/XHR';
+import Emitter from '@chipotle/types/Emitter';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -19,6 +20,7 @@ class EmulatorController extends App {
 
 	protected isLoaded: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
+	protected isErrored: StateProvider<boolean> = new StateProvider<boolean>(false);
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -37,12 +39,18 @@ class EmulatorController extends App {
 
 		// Map emulator events to state changes.
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
+		this.emulator.addListener('reset', () => (this.isErrored.value = false));
+		this.emulator.addListener('error', error => {
+			this.isErrored.value = true;
+			(<any>this).emit('error', error, 'emulator');
+		});
 
 		// Triggers.
 		this.triggers.rom.loadRemote.onTrigger(this.loadRemoteProgram.bind(this));
 		this.triggers.rom.loadLocal.onTrigger(this.loadLocalProgram.bind(this));
 		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
 		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
+		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

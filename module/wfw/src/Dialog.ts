@@ -108,6 +108,15 @@ class Dialog<T = never> extends Emitter<'show' | 'hide' | T> {
 	}
 
 	/**
+	 * Gets an element inside the dialog.
+	 * @param query The query string.
+	 */
+	public getContentElement(query?: string): HTMLElement | null {
+		if (query == null) return this.content;
+		return this.content.querySelector(`:scope ${query}`);
+	}
+
+	/**
 	 * Gets the dialog's control button container.
 	 * @returns The control button container, or null if it doesn't exist.
 	 */

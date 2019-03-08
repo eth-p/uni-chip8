@@ -40,7 +40,7 @@ abstract class Keybind {
 	 * The name of the bound key.
 	 */
 	public get key(): string {
-		return App.settings.get(this.setting);
+		return App.settings.get(<any>this.setting);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

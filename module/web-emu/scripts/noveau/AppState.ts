@@ -33,7 +33,8 @@ class AppState {
 		paused: new State<boolean>(ANY_TRUE),
 		loading: new State<boolean>(ANY_TRUE),
 		loaded: new State<boolean>(ALL_TRUE),
-		keybind: new State<boolean>(ALL_TRUE)
+		keybind: new State<boolean>(ALL_TRUE),
+		errored: new State<boolean>(ANY_TRUE)
 	};
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -41,10 +42,10 @@ class AppState {
 	// -------------------------------------------------------------------------------------------------------------
 
 	constructor() {
+		this.emulator.turbo.addProvider(this.user.turbo);
 		this.emulator.paused.addProvider(this.user.pause);
 		this.emulator.paused.addProviderFrom(this.emulator.loading, v => v);
 		this.emulator.paused.addProviderFrom(this.emulator.loaded, v => !v);
-		this.emulator.turbo.addProvider(this.user.turbo);
 	}
 }
 

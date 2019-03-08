@@ -105,7 +105,7 @@ class KeybindController extends App {
 	 * @returns True if the event should be left alone.
 	 */
 	protected shouldIgnore(event: KeyboardEvent): boolean {
-		if (event.target instanceof HTMLInputElement) return true;
+		if (event.target instanceof HTMLInputElement && event.target.type !== 'button') return true;
 		if (event.metaKey || event.ctrlKey || event.altKey) return true;
 		return false;
 	}
