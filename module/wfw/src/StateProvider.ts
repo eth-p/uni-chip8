@@ -64,13 +64,15 @@ class StateProvider<T> {
 	 * Creates a provider function for a given State<T> object.
 	 *
 	 * @param state The state.
+	 * @param custom A custom provider function to use.
+	 *
 	 * @returns The provider function.
 	 */
-	public fn(state: State<T, unknown>): StateProviderFn<T> {
+	public fn(state: State<T, unknown>, custom?: (v: T) => T): StateProviderFn<T> {
 		this._states.push(state);
 
 		// Add listener to unbind automatically.
-		let provider = () => this._value;
+		let provider = custom ? custom.bind(this) : () => this._value;
 		let listener: any;
 		state.addListener(
 			'remove provider',

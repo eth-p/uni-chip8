@@ -73,10 +73,27 @@ class State<T, C = any> extends Emitter<'change' | 'refresh' | 'add provider' | 
 	 * Refreshes the cached values for the state.
 	 */
 	public refresh(): void {
+		let prev = this.reduced;
+
 		this.state = this.providers.map(provider => provider());
 		this.reduced = this.reducer(this.state);
 		this.emit('refresh');
-		this.emit('change', this.value);
+
+		if (this.reduced !== prev) {
+			this.emit('change', this.value);
+		}
+	}
+
+	/**
+	 * Uses another state as a provider for this state.
+	 * @param from The other state.
+	 * @param fn The value mutator.
+	 */
+	public addProviderFrom<O>(from: State<any, O>, fn: (value: O) => T) {
+		from.addListener('change', () => this.refresh());
+		this.addProvider(() => {
+			return fn(from.value!);
+		});
 	}
 
 	/**
@@ -87,6 +104,7 @@ class State<T, C = any> extends Emitter<'change' | 'refresh' | 'add provider' | 
 	public addProvider(provider: StateProviderFn<T> | StateProvider<T>): void {
 		this.providers.push(provider instanceof StateProvider ? provider.fn(this) : provider);
 		this.emit('add provider', provider);
+		this.refresh();
 	}
 
 	/**

@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import {XHR, XHRType} from '@chipotle/web/XHR';
+import {XHR, XHRType} from '@chipotle/wfw/XHR';
 import UIWindow from '@chipotle/web/UIWindow';
 import dom_ready from '@chipotle/web/dom_ready';
 

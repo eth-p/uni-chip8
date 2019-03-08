@@ -247,6 +247,5 @@ class FeedbackAudio {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default FeedbackAudio;
 export {FeedbackAudio};

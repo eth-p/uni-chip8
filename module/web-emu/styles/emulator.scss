@@ -83,13 +83,27 @@ main {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Windows:
+// Dialogs:
 // ---------------------------------------------------------------------------------------------------------------------
 
+// FIXME: Remove old implementation.
 .window {
 	height: 400px;
 	width: 80%;
 	max-width: 400px;
+
+	h2 {
+		margin: 10px 0 5px;
+		font-size: 16px;
+		font-weight: normal;
+	}
+}
+
+.dialog {
+	height: 80%;
+	min-height: 400px;
+
+	width: 80%;
 
 	h2 {
 		margin: 10px 0 5px;
@@ -109,4 +123,4 @@ main {
 @import 'window_error';
 @import 'window_savestates';
 @import 'window_settings';
-@import 'window_load';
+@import 'dialog_load';

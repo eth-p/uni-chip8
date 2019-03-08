@@ -17,6 +17,7 @@ include ../windows/window-error
 include ../windows/window-savestates
 include ../windows/window-settings
 include ../windows/window-load
+include ../dialogs/dialog-load
 
 - title = 'CHIP-8 Emulator'
 
@@ -37,7 +38,7 @@ mixin loading-screen
 +page.filled
 	+toolbar#toolbar
 		+item
-			input(type="button" value="Load" data-action="window-load-show")
+			input(type="button" value="Load" data-trigger="dialog.load->show")
 			input(type="button" value="Reset" data-action="emulator-reset")
 
 		+item
@@ -56,10 +57,11 @@ mixin loading-screen
 			input(type="button" value="Settings" data-action="window-settings-show")
 
 	+desktop
-		+ui-window-load
 		+ui-window-error
 		+ui-window-settings
 		+ui-window-savestates
+		+desktop-overlay#dialogs.centered.blocking
+			+ui-dialog-load
 
 		- // Layout
 		+desktop-content#emulator-layout

@@ -36,6 +36,5 @@ interface Savestate {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default Savestate;
 export {Savestate};

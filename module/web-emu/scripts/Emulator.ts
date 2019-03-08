@@ -110,7 +110,6 @@ class Emulator extends Emitter<
 		await this.vm.program.load(data);
 		this.reset();
 		this.emit('load');
-		this.resume();
 	}
 
 	/**
@@ -157,8 +156,6 @@ class Emulator extends Emitter<
 	 * Steps the emulator forwards by one instruction.
 	 */
 	public stepForwards(): void {
-		if (!this.paused) this.pause();
-
 		try {
 			this.vm.step();
 			this.emit('step');
@@ -197,8 +194,6 @@ class Emulator extends Emitter<
 	 * Steps the emulator backwards by one instruction.
 	 */
 	public stepBackwards(): void {
-		if (!this.paused) this.pause();
-
 		// TODO: Unimplemented.
 		this.emit('step');
 		this._error(new Error('UNIMPLEMENTED.'));
@@ -350,6 +345,5 @@ class Emulator extends Emitter<
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default Emulator;
 export {Emulator};

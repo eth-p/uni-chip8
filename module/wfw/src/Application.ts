@@ -55,9 +55,11 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 		protected constructor() {
 			super();
 
-			if (typeof (<any>this).init === 'function') {
-				DOMReady((<any>this).init.bind(this));
-			}
+			setTimeout(() => {
+				if (typeof (<any>this).init === 'function') {
+					DOMReady((<any>this).init.bind(this));
+				}
+			}, 0);
 		}
 
 		// -----------------------------------------------------------------------------------------------------

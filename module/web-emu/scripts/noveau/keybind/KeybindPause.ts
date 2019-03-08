@@ -15,11 +15,10 @@ const state = App.state;
  */
 class KeybindPause extends Keybind {
 	public onKeyDown(): void {
-		App.state.user.pause.value = !App.state.user.pause.value;
+		state.user.pause.value = !state.user.pause.value;
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default KeybindPause;
 export {KeybindPause};

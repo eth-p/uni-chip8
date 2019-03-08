@@ -1,0 +1,32 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-//  MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+mixin dialog(depth)
+	.dialog(class=`${depth == null ? 1 : depth}z`)&attributes(attributes)
+		block
+
+mixin dialog-title(title)
+	.dialog-title
+		.title=title
+		.buttons
+			block
+
+mixin dialog-tabs
+	.toolbar
+		block
+
+mixin dialog-tab(pane)
+	.toolbar-item(data-target=pane)&attributes(attributes)
+		block
+
+mixin dialog-pane(pane, isDefault)
+	- classes = attributes.class || '';
+	- if (isDefault !== true) classes += ' hide';
+	.section(data-pane=pane class=classes)&attributes(Object.assign((isDefault ? {'data-default': true} : {}), attributes))
+		block
+
+mixin dialog-content
+	.viewport&attributes(attributes)
+		.content
+			block

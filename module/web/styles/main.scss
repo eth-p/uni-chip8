@@ -157,5 +157,6 @@ header {
 @import 'component_common';
 @import 'component_desktop';
 @import 'component_toolbar';
-@import 'component_window';
+@import 'component_window'; // FIXME: Remove old implementation.
+@import 'component_dialog';
 @import 'component_loading_screen';

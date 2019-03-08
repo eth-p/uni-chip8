@@ -27,6 +27,5 @@ class KeybindPause extends Keybind {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default KeybindPause;
 export {KeybindPause};

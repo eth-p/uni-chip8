@@ -152,6 +152,5 @@ namespace AppSettings {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default AppSettings;
 export {AppSettings};

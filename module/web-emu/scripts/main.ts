@@ -5,8 +5,11 @@
 import App from './noveau/App';
 import KeybindController from './noveau/controller/KeybindController';
 import EmulatorController from './noveau/controller/EmulatorController';
+import TriggerController from './noveau/controller/TriggerController';
+import DialogController from './noveau/controller/DialogController';
+import LoadDialogController from './noveau/dialog/load/LoadDialogController';
 
-App.depends([KeybindController, EmulatorController]);
+App.depends([KeybindController, EmulatorController, TriggerController, DialogController, LoadDialogController]);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:
@@ -14,7 +17,12 @@ App.depends([KeybindController, EmulatorController]);
 (<any>window).Chipotle = App;
 (<any>window).ChipotleUI = {
 	kbc: new KeybindController(),
-	emc: new EmulatorController()
+	emc: new EmulatorController(),
+	tgc: new TriggerController(),
+	doc: new DialogController(),
+	dia: {
+		load: new LoadDialogController()
+	}
 };
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -36,7 +44,6 @@ import './ui-controls';
 import './ui-error';
 import './ui-settings';
 import './ui-screen';
-import './ui-load';
 import './ui-savestates';
 import './ui-registers';
 import './ui-stack';

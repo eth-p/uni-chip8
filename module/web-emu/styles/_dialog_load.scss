@@ -9,7 +9,7 @@
 // Settings:
 // ---------------------------------------------------------------------------------------------------------------------
 
-#emulator-load .window {
+#dialog-load {
 	// Program upload.
 	#program-upload {
 		display: none;
@@ -41,7 +41,7 @@
 	.program-library-list {
 		margin-top: 10px;
 
-		.program-library-entry {
+		.program-library-item {
 			font-size: 15px;
 			padding: 4px;
 			border: $program-list-border 1px solid;
@@ -59,16 +59,16 @@
 				border-bottom: none;
 			}
 
-			.program-library-entry-name {
+			.program-name {
 				font-weight: bold;
 			}
 
-			.program-library-entry-info {
+			.program-info {
 				font-size: 13px;
 				color: $text-dim;
 			}
 
-			.program-library-entry-author {
+			.program-author {
 				&,
 				&:link {
 					font-size: 13px;

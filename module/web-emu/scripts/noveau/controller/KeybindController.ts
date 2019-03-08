@@ -126,6 +126,5 @@ class KeybindController extends App {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default KeybindController;
 export {KeybindController};

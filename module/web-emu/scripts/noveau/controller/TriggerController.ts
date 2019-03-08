@@ -3,22 +3,19 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import App from '../App';
-import StateProvider from '@chipotle/wfw/StateProvider';
-import XHR, {XHRType} from '@chipotle/wfw/XHR';
+import Trigger from '@chipotle/wfw/Trigger';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * The class that handles user interaction with the emulator.
- * This is a glorified compatibility bridge between the user interface and the emulator itself.
+ * The class that handles binding HTML buttons to triggers.
  */
-class EmulatorController extends App {
+class TriggerController extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected isLoaded: StateProvider<boolean> = new StateProvider<boolean>(false);
-	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
+	protected listenerCache: Map<String, (click: MouseEvent) => void>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -27,19 +24,7 @@ class EmulatorController extends App {
 	public constructor() {
 		super();
 
-		// State providers.
-		this.state.emulator.loaded.addProvider(this.isLoaded);
-		this.state.emulator.loading.addProvider(this.isLoading);
-
-		// State -> Emulator
-		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
-		this.state.emulator.turbo.addListener('change', val => this.emulator.setTurbo(val));
-
-		// Emulator -> State
-		this.emulator.addListener('load', () => (this.isLoaded.value = true));
-
-		// Triggers.
-		this.triggers.rom.loadRemote.addListener('trigger', this.loadRemoteProgram.bind(this));
+		this.listenerCache = new Map();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -47,6 +32,10 @@ class EmulatorController extends App {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected init(this: App.Fragment<this>): void {
+		for (let button of document.querySelectorAll('[data-trigger]')) {
+			this.register(<HTMLElement>button);
+		}
+
 		this.ready();
 	}
 
@@ -54,25 +43,63 @@ class EmulatorController extends App {
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected async loadRemoteProgram(this: App.Fragment<this>, url: string): Promise<void> {
-		this.isLoading.value = true;
+	/**
+	 * Gets the listener for a specific trigger.
+	 *
+	 * @param trigger The trigger ID.
+	 *
+	 * @returns A function to call the trigger.
+	 * @throws Error When the trigger ID is invalid.
+	 */
+	protected getListener(this: App.Fragment<this>, trigger: string): (click: MouseEvent) => void {
+		let listener = this.listenerCache.get(trigger);
+		if (listener != null) return listener;
 
-		try {
-			let xhr = new XHR(url, XHRType.BINARY);
-			let rom = await xhr.get();
-
-			await this.emulator.load(rom);
-			this.isLoaded.value = true;
-
-			this.emit('load', null);
-		} catch (ex) {
-			this.emit('load', ex);
-		} finally {
-			this.isLoading.value = false;
+		// Find trigger object.
+		let splits = trigger.split(/(?:\.|->)/);
+		let target: any = this.triggers;
+		while (splits.length > 0) {
+			target = (<any>target)[splits.shift()!];
+			if (target == null) throw new Error(`Invalid trigger: ${trigger}.`);
 		}
+
+		if (!(target instanceof Trigger)) {
+			throw new Error(`Invalid trigger: ${trigger}.`);
+		}
+
+		// Create listener to call trigger object.
+		listener = () => {
+			target.trigger();
+		};
+
+		// Return it.
+		this.listenerCache.set(trigger, listener);
+		return listener;
+	}
+
+	/**
+	 * Adds an event listener to an element with a `data-trigger` attribute.
+	 * @param element The element.
+	 */
+	public register(this: App.Fragment<this>, element: HTMLElement): void {
+		let trigger = element.getAttribute('data-trigger');
+		if (trigger == null) return;
+
+		element.addEventListener('click', this.getListener(trigger));
+	}
+
+	/**
+	 * Removes an event listener from an element with a `data-trigger` attribute.
+	 * @param element The element.
+	 */
+	public unregister(this: App.Fragment<this>, element: HTMLElement): void {
+		let trigger = element.getAttribute('data-trigger');
+		if (trigger == null) return;
+
+		element.removeEventListener('click', this.getListener(trigger));
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default EmulatorController;
-export {EmulatorController};
+export default TriggerController;
+export {TriggerController};

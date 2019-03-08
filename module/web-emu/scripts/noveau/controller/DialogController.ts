@@ -2,62 +2,43 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from './App';
-import AppSettings from './AppSettings';
+import App from '../App';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An abstract class that specifies handler functions for keybinds.
+ * The class that handles showing and hiding the dialog overlay.
  */
-abstract class Keybind {
+class DialogController extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * The name of the setting for the keybind.
-	 */
-	public readonly setting: AppSettings.Keys;
+	protected overlay!: HTMLElement;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * Creates a new keybind handler.
-	 * @param setting The setting associated with the keybind key.
-	 */
-	public constructor(setting: AppSettings.Keys) {
-		this.setting = setting;
+	public constructor() {
+		super();
+
+		this.state.dialog.visible.addListener('change', visible => {
+			this.overlay.classList[visible ? 'add' : 'remove']('visible');
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Getters:                                                                                                  |
+	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * The name of the bound key.
-	 */
-	public get key(): string {
-		return App.settings.get(this.setting);
+	protected init(this: App.Fragment<this>): void {
+		this.overlay = <HTMLElement>document.getElementById('dialogs');
+
+		this.ready();
 	}
-
-	// -------------------------------------------------------------------------------------------------------------
-	// | Abstract:                                                                                                 |
-	// -------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * Called when the key is pressed.
-	 */
-	public abstract onKeyDown(): void;
-
-	/**
-	 * Called when the key is released.
-	 */
-	public onKeyUp(): void {}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default Keybind;
-export {Keybind};
+export default DialogController;
+export {DialogController};
