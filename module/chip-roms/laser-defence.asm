@@ -51,6 +51,10 @@ DEFINE SCORE_TOP_X #3
 DEFINE SCORE_TOP_Y #3
 DEFINE SCORE_SPRITE_MARGIN #5
 
+splashScreen:
+    CALL pressToStart
+    JP init
+
 init:
     CLS
     CALL initScore
@@ -72,6 +76,12 @@ gameRoundInit:
     LD SCRATCH_ONE, #C
     LD SCRATCH_TWO, #1B
     DRW SCRATCH_ONE, SCRATCH_TWO, #4
+
+    LD I, SPRITE_Tower
+    LD SCRATCH_ONE, #30
+    LD SCRATCH_TWO, #16
+    DRW SCRATCH_ONE, SCRATCH_TWO, #9
+
     JP loop
 
 loop:
@@ -144,6 +154,60 @@ wait:
     RET
 
 ; ------------------------------------------------------------------
+
+pressToStart:
+	LD V0, #8
+	LD V1, #1A
+
+	; V0 = x, V1 = y
+	LD I, SPRITE_p
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_r
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_e
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_s
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	DRW V0, V1, #5
+	ADD V0, #5
+
+	LD I, SPRITE_t
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_o
+	DRW V0, V1, #5
+	ADD V0, #5
+
+	LD I, SPRITE_s
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_t
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_a
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_r
+	DRW V0, V1, #5
+	ADD V0, #4
+
+	LD I, SPRITE_t
+	DRW V0, V1, #5
+
+	LD V0, K ; Halt
+	RET
 
 initBeam:
     LD BEAM_X, BEAM_X_LAUNCH_LOCATION
@@ -605,7 +669,7 @@ hasTargetReachedGround:
 
 renderTarget:
     LD I, SPRITE_Target
-    DRW TARGET_X, TARGET_Y, #8
+    DRW TARGET_X, TARGET_Y, #2
     RET
 
 ; ------------------------------------------------------------------
@@ -1248,8 +1312,42 @@ SPRITE_BuildingA:
     #84,
     #b4
 
+; 6 x 9
+SPRITE_Tower:
+    db
+    #fc,
+    #84,
+    #a4,
+    #84,
+    #94,
+    #84,
+    #a4,
+    #84,
+    #94
+
 ; 3 x 2
 SPRITE_Target:
     db
     #a0,
     #40
+
+SPRITE_p:
+    db #e0, #a0, #e0, #80, #80
+
+SPRITE_r:
+	db #e0, #a0, #c0, #a0, #a0
+
+SPRITE_e:
+	db #e0, #80, #e0, #80, #e0
+
+SPRITE_s:
+	db #e0, #80, #e0, #20, #e0
+
+SPRITE_t:
+	db #e0, #40, #40, #40, #40
+
+SPRITE_o:
+	db #e0, #a0, #a0, #a0, #e0
+
+SPRITE_a:
+	db #e0, #a0, #e0, #a0, #a0
