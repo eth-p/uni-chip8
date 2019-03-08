@@ -27,19 +27,22 @@ class EmulatorController extends App {
 	public constructor() {
 		super();
 
-		// State providers.
+		// Add state providers.
 		this.state.emulator.loaded.addProvider(this.isLoaded);
 		this.state.emulator.loading.addProvider(this.isLoading);
 
-		// State -> Emulator
+		// Map state changes to emulator events.
 		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
 		this.state.emulator.turbo.addListener('change', val => this.emulator.setTurbo(val));
 
-		// Emulator -> State
+		// Map emulator events to state changes.
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
 
 		// Triggers.
-		this.triggers.rom.loadRemote.addListener('trigger', this.loadRemoteProgram.bind(this));
+		this.triggers.rom.loadRemote.onTrigger(this.loadRemoteProgram.bind(this));
+		this.triggers.rom.loadLocal.onTrigger(this.loadLocalProgram.bind(this));
+		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
+		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -54,6 +57,10 @@ class EmulatorController extends App {
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Loads a program from a remote URL.
+	 * @param url The URL to load from.
+	 */
 	protected async loadRemoteProgram(this: App.Fragment<this>, url: string): Promise<void> {
 		this.isLoading.value = true;
 
@@ -66,7 +73,36 @@ class EmulatorController extends App {
 
 			this.emit('load', null);
 		} catch (ex) {
-			this.emit('load', ex);
+			this.emit('error', ex, 'load');
+		} finally {
+			this.isLoading.value = false;
+		}
+	}
+
+	/**
+	 * Loads a program from a File or Blob.
+	 * This can be used to load files from a file input element.
+	 *
+	 * @param file The file or blob object.
+	 */
+	protected async loadLocalProgram(this: App.Fragment<this>, file: File | Blob): Promise<void> {
+		this.isLoading.value = true;
+
+		try {
+			let rom = <Uint8Array>await new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onload = event => resolve(new Uint8Array(<ArrayBuffer>reader.result!));
+				reader.onerror = event => reject(event);
+				reader.onabort = event => reject(event);
+				reader.readAsArrayBuffer(file);
+			});
+
+			await this.emulator.load(rom);
+			this.isLoaded.value = true;
+
+			this.emit('load', null);
+		} catch (ex) {
+			this.emit('error', ex, 'load');
 		} finally {
 			this.isLoading.value = false;
 		}

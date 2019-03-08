@@ -29,7 +29,17 @@ class AppTriggers {
 	 * These triggers are used to deal with ROMs.
 	 */
 	public rom = {
-		loadRemote: new Trigger()
+		loadRemote: new Trigger(),
+		loadLocal: new Trigger()
+	};
+
+	/**
+	 * These triggers are used to control the emulator.
+	 */
+	public emulator = {
+		pause: new Trigger(),
+		resume: new Trigger(),
+		reset: new Trigger()
 	};
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -37,7 +47,7 @@ class AppTriggers {
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		this.redraw.visualizer.addListener('trigger', (...args) => {
+		this.redraw.visualizer.onTrigger((...args) => {
 			this.redraw.visualizerRegisters.trigger(...args);
 		});
 	}

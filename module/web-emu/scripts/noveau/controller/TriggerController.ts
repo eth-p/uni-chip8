@@ -85,7 +85,9 @@ class TriggerController extends App {
 		let trigger = element.getAttribute('data-trigger');
 		if (trigger == null) return;
 
-		element.addEventListener('click', this.getListener(trigger));
+		for (let pattern of trigger.includes(';') ? trigger.split(/;\s*/) : [trigger]) {
+			element.addEventListener('click', this.getListener(pattern));
+		}
 	}
 
 	/**
@@ -96,7 +98,9 @@ class TriggerController extends App {
 		let trigger = element.getAttribute('data-trigger');
 		if (trigger == null) return;
 
-		element.removeEventListener('click', this.getListener(trigger));
+		for (let pattern of trigger.includes(';') ? trigger.split(/;\s*/) : [trigger]) {
+			element.removeEventListener('click', this.getListener(pattern));
+		}
 	}
 }
 

@@ -22,6 +22,8 @@ class LoadDialogController extends App {
 
 	protected dialog!: DialogTabbed;
 	protected dialogLists!: Map<String, HTMLElement>;
+	protected dialogUploadBox!: HTMLElement;
+	protected dialogUploadField!: HTMLInputElement;
 	protected database: ProgramDatabase;
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -44,6 +46,8 @@ class LoadDialogController extends App {
 		this.database.load();
 
 		this.dialog = new DialogTabbed(document.getElementById('dialog-load')!);
+		this.dialogUploadBox = <HTMLElement>this.dialog.getElement().querySelector('#program-upload-display');
+		this.dialogUploadField = <HTMLInputElement>this.dialog.getElement().querySelector('#program-upload');
 
 		// Get library lists.
 		this.dialogLists = new Map();
@@ -74,7 +78,61 @@ class LoadDialogController extends App {
 			}
 		});
 
+		// Add upload support.
+		console.log(this.dialogUploadField);
+		this.dialogUploadField.addEventListener('change', () => {
+			this.triggers.rom.loadLocal.trigger(this.dialogUploadField.files![0]);
+			return false;
+		});
+
+		this.dialogUploadBox.addEventListener('drop', this.uploadDrop.bind(this));
+		this.dialogUploadBox.addEventListener('dragenter', this.uploadNothing.bind(this));
+		this.dialogUploadBox.addEventListener('dragover', e => {
+			e.preventDefault();
+			e.stopPropagation();
+			e.dataTransfer!.dropEffect = 'copy';
+		});
+
+		// Disable drag and drop on the window itself.
+		window.addEventListener('dragover', this.uploadNothing.bind(this));
+		window.addEventListener('drop', this.uploadNothing.bind(this));
+
+		// Ready!
 		this.ready();
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Handlers:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * An event handler to upload a program using drag and drop.
+	 * @param event The event.
+	 */
+	protected uploadDrop(event: DragEvent): boolean {
+		event.preventDefault();
+		event.stopPropagation();
+
+		if (event.dataTransfer!.files[0] instanceof Blob) {
+			this.triggers.rom.loadLocal.trigger(event.dataTransfer!.files[0]);
+		}
+
+		return false;
+	}
+
+	/**
+	 * An event handler to hide the drag and drop cursor.
+	 * @param event The event.
+	 */
+	protected uploadNothing(event: Event & DragEvent): boolean {
+		event.preventDefault();
+		event.stopPropagation();
+
+		if (event.dataTransfer != null) {
+			event.dataTransfer.dropEffect = 'none';
+		}
+
+		return false;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

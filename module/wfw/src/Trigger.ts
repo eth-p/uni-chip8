@@ -31,6 +31,14 @@ class Trigger extends Emitter<'trigger'> {
 	public trigger(...args: any[]): void {
 		this.emit('trigger', ...args);
 	}
+
+	/**
+	 * Adds a listener for the trigger event.
+	 * @param fn The listener function.
+	 */
+	public onTrigger(fn: () => void): void {
+		this.addListener('trigger', fn);
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
