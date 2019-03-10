@@ -64,6 +64,9 @@ class AppSettings extends Settings<keyof AppSettings> {
 	@Setting(false)
 	public enable_debugger!: boolean;
 
+	@Setting(false)
+	public debug_disable_timer!: boolean;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Graphics Settings:                                                                                        |
 	// -------------------------------------------------------------------------------------------------------------

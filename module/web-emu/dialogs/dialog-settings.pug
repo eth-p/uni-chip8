@@ -109,7 +109,7 @@ mixin settings-pane-debug
 		+setting-group("Visualizers")
 			+setting('boolean', 'show_registers', 'Register').requires-debugger-disable
 				div
-					| Show the register values.
+					| Shows the register values.
 					| When the emulator is paused, they can be changed.
 
 			+setting('boolean', 'show_stack', 'Stack').requires-debugger-disable
@@ -117,3 +117,9 @@ mixin settings-pane-debug
 
 			+setting('boolean', 'show_disassembler', 'Program').requires-debugger-disable
 				div Shows disassembled program code.
+
+		+setting-group("Hardware")
+			+setting('boolean', 'debug_disable_timer', 'Disable DT').requires-debugger-disable
+				div
+					| Disables the DT timer.
+					| This can greatly help with debugging.

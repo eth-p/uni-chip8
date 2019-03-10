@@ -5,7 +5,6 @@
 import App from '../App';
 import StateProvider from '@chipotle/wfw/StateProvider';
 import XHR, {XHRType} from '@chipotle/wfw/XHR';
-import Emitter from '@chipotle/types/Emitter';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -27,6 +26,8 @@ class EmulatorController extends App {
 
 	public constructor() {
 		super();
+
+		this.onTickDisableTimer = this.onTickDisableTimer.bind(this);
 
 		// Add state providers.
 		this.state.emulator.loaded.addProvider(this.isLoaded);
@@ -50,6 +51,15 @@ class EmulatorController extends App {
 		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
 		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
 		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
+
+		// Settings.
+		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
+			const settings = this.settings;
+			const emulator = this.emulator;
+
+			// Setting: debug_disable_timer
+			emulator.vm.setDebugOption('DISABLE_DT', settings.enable_debugger && settings.debug_disable_timer);
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -58,6 +68,15 @@ class EmulatorController extends App {
 
 	protected init(this: App.Fragment<this>): void {
 		this.ready();
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Handlers:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	protected onTickDisableTimer(this: App.Fragment<this>): void {
+		console.log('HAI');
+		this.emulator.vm.register_timer = 0;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
