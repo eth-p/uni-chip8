@@ -11,6 +11,7 @@ import ProgramError from '@chipotle/vm/ProgramError';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import VMContext from '@chipotle/vm/VMContext';
+import VMError from '@chipotle/vm/VMError';
 import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
 
 import ChipDisplay from './ChipDisplay';
@@ -360,6 +361,34 @@ class Chip extends Architecture<Chip> {
 	protected _tick(this: VMContext<Chip>): void {
 		if (this._timer_sound.value > 0) this._timer_sound.descend();
 		if (this._timer_timer.value > 0) this._timer_timer.descend();
+	}
+
+	/**
+	 * @override
+	 */
+	protected _debugOption(this: VMContext<Chip>, option: string, value: any): void {
+		switch (option) {
+			case 'DISABLE_DT': {
+				Object.defineProperty(this._timer_timer, 'value', {
+					enumerable: true,
+					configurable: true,
+					...(value === true
+						? {
+								get: () => 0,
+								set: () => {}
+						  }
+						: {
+								writable: true,
+								value: 0
+						  })
+				});
+
+				break;
+			}
+
+			default:
+				throw new VMError(`Unknown debug option: ${option}`);
+		}
 	}
 }
 
