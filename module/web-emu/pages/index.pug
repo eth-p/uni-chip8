@@ -13,12 +13,10 @@ include ../components/emulator-disassembler
 include ../components/emulator-registers
 include ../components/emulator-screen
 include ../components/emulator-stack
-include ../windows/window-error
 include ../windows/window-savestates
-include ../windows/window-settings
-include ../windows/window-load
-include ../dialogs/dialog-load
 include ../dialogs/dialog-error
+include ../dialogs/dialog-load
+include ../dialogs/dialog-settings
 
 - title = 'CHIP-8 Emulator'
 
@@ -55,15 +53,14 @@ mixin loading-screen
 			input(type="color" value="#000000" data-setting='screen_background')
 
 		+item
-			input(type="button" value="Settings" data-action="window-settings-show")
+			input(type="button" value="Settings" data-trigger="dialog.settings->show")
 
 	+desktop
-		+ui-window-error
-		+ui-window-settings
 		+ui-window-savestates
 		+desktop-overlay#dialogs.centered.blocking
 			+ui-dialog-error
 			+ui-dialog-load
+			+ui-dialog-settings
 
 		- // Layout
 		+desktop-content#emulator-layout

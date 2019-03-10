@@ -26,6 +26,16 @@ class AppBase {
 	protected triggers: AppTriggers = AppBase.triggers;
 
 	// -------------------------------------------------------------------------------------------------------------
+	// | Constructors:                                                                                             |
+	// -------------------------------------------------------------------------------------------------------------
+
+	public constructor() {
+		this.triggers.settings.save.onTrigger(() => this.settings.save());
+		this.triggers.settings.undo.onTrigger(() => this.settings.load());
+		this.triggers.settings.reset.onTrigger(() => this.settings.reset());
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
 	// | Static:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 

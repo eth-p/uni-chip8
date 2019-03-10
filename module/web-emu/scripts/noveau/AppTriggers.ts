@@ -30,7 +30,21 @@ class AppTriggers {
 			setError: new Trigger()
 		},
 
+		settings: {
+			show: new Trigger(),
+			hide: new Trigger()
+		},
+
 		hideAll: new Trigger()
+	};
+
+	/**
+	 * These triggers can be used to manipulate settings.
+	 */
+	public settings = {
+		save: new Trigger(),
+		undo: new Trigger(),
+		reset: new Trigger()
 	};
 
 	/**
@@ -60,8 +74,11 @@ class AppTriggers {
 		});
 
 		this.dialog.hideAll.onTrigger((...args) => {
-			this.dialog.load.hide.trigger();
-			this.dialog.error.hide.trigger();
+			for (let dTrigger of Object.values(this.dialog)) {
+				if ((<any>dTrigger).hide instanceof Trigger) {
+					(<any>dTrigger).hide.trigger();
+				}
+			}
 		});
 
 		for (let dTrigger of Object.values(this.dialog)) {

@@ -1,0 +1,79 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import 'theme';
+@import 'mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Settings
+// ---------------------------------------------------------------------------------------------------------------------
+
+.setting {
+	display: flex;
+	align-items: center;
+
+	padding: 4px;
+
+	// Settings label.
+	label {
+		flex: 1 1 auto;
+		display: block;
+
+		padding: 4px;
+		width: 100%;
+
+		font-size: 14px;
+
+		@include user-select(none);
+
+		.label {
+			font-size: 15px;
+		}
+
+		.description {
+			opacity: 0.5;
+			font-size: 14px;
+		}
+	}
+
+	// Simple settings (e.g. checkbox).
+	input {
+		flex: 0 1 auto;
+		width: 22px;
+		margin: 0;
+	}
+
+	// Multiline settings (e.g. textbox).
+	&.multiline {
+		flex-direction: column;
+		padding: 0 26px;
+
+		input {
+			margin-top: 4px;
+			width: 100%;
+		}
+
+		margin-bottom: 14px;
+	}
+}
+
+.setting-group {
+	&.grid,
+	&.grid-3,
+	&.grid-4 {
+		display: grid;
+		.multiline {
+			padding: 4px;
+			margin: 0;
+		}
+	}
+
+	&.grid-3 {
+		grid-template-columns: repeat(3, 33%);
+	}
+
+	&.grid-4 {
+		grid-template-columns: repeat(4, 25%);
+	}
+}

@@ -75,10 +75,13 @@ class KeybindController extends App {
 		});
 	}
 
+	// -------------------------------------------------------------------------------------------------------------
+	// | Handlers:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
 	protected onKeyDown(event: KeyboardEvent): boolean {
 		if (this.shouldIgnore(event)) return true;
-		let key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
-		let handler = this.handlerMap.get(key);
+		let handler = this.handlerMap.get(event.key);
 		if (handler == null) return true;
 		handler.onKeyDown();
 		return false;
@@ -86,8 +89,7 @@ class KeybindController extends App {
 
 	protected onKeyUp(event: KeyboardEvent): boolean {
 		if (this.shouldIgnore(event)) return true;
-		let key = event.key.length === 1 ? event.key.toUpperCase() : event.key;
-		let handler = this.handlerMap.get(key);
+		let handler = this.handlerMap.get(event.key);
 		if (handler == null) return true;
 		handler.onKeyUp();
 		return false;

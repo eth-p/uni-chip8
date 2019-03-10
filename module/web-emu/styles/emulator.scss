@@ -67,19 +67,27 @@ main {
 		}
 	}
 
-	.requires-debugger.no-debugger {
-		display: none !important;
-	}
-
-	.emulator-setting.requires-debugger.no-debugger {
-		display: flex !important;
-		pointer-events: none;
-		opacity: 0.25;
-	}
-
+	// Toolbar
 	input[type='button'][data-intent='play-pause-resume'] {
 		width: 60px;
 	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Conditional Visibility:
+// ---------------------------------------------------------------------------------------------------------------------
+
+.debugger-disabled .requires-debugger {
+	display: none !important;
+}
+
+.debugger-disabled .requires-debugger-disable {
+	pointer-events: none;
+	opacity: 0.25;
+}
+
+.advanced-disabled .requires-advanced {
+	display: none !important;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -124,3 +132,4 @@ main {
 @import 'window_settings';
 @import 'dialog_error';
 @import 'dialog_load';
+@import 'dialog_settings';

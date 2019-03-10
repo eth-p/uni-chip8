@@ -8,11 +8,42 @@ import Savestate from '../Savestate';
 // ---------------------------------------------------------------------------------------------------------------------
 
 class AppSettings extends Settings<keyof AppSettings> {
+	// -------------------------------------------------------------------------------------------------------------
+	// | General Settings:                                                                                         |
+	// -------------------------------------------------------------------------------------------------------------
+
 	@Setting(500, {validator: speed => speed >= 1 && speed <= 10000})
 	public cpu_speed!: number;
 
+	@Setting(false)
+	public enable_advanced_settings!: boolean;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Sound Settings:                                                                                           |
+	// -------------------------------------------------------------------------------------------------------------
+
+	@Setting(true)
+	public enable_feedback_sound!: boolean;
+
+	@Setting(false)
+	public enable_feedback_vibrate!: boolean;
+
+	@Setting(440, {validator: hz => hz >= 200 && hz <= 1000})
+	public sound_frequency!: number;
+
+	@Setting(15, {validator: volume => volume >= 0 && volume <= 100})
+	public sound_volume!: number;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Controls Settings:                                                                                        |
+	// -------------------------------------------------------------------------------------------------------------
+
 	@Setting(true)
 	public show_keypad!: boolean;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Debugger Settings:                                                                                        |
+	// -------------------------------------------------------------------------------------------------------------
 
 	@Setting(false)
 	public show_registers!: boolean;
@@ -26,29 +57,25 @@ class AppSettings extends Settings<keyof AppSettings> {
 	@Setting(false)
 	public enable_debugger!: boolean;
 
+	// -------------------------------------------------------------------------------------------------------------
+	// | Graphics Settings:                                                                                        |
+	// -------------------------------------------------------------------------------------------------------------
+
 	@Setting(true)
 	public display_frameless!: boolean;
 
 	@Setting(true)
 	public display_scaling!: boolean;
 
-	@Setting(true)
-	public enable_feedback_sound!: boolean;
-
-	@Setting(false)
-	public enable_feedback_vibrate!: boolean;
-
-	@Setting(440)
-	public sound_frequency!: number;
-
-	@Setting(15, {validator: volume => volume >= 0 && volume <= 100})
-	public sound_volume!: number;
-
 	@Setting('#ffffff', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_foreground!: string;
 
 	@Setting('#000000', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_background!: string;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Keybinds Settings:                                                                                        |
+	// -------------------------------------------------------------------------------------------------------------
 
 	@Setting('X')
 	public keybind_key_0!: string;
@@ -62,46 +89,46 @@ class AppSettings extends Settings<keyof AppSettings> {
 	@Setting('3')
 	public keybind_key_3!: string;
 
-	@Setting('Q')
+	@Setting('q')
 	public keybind_key_4!: string;
 
-	@Setting('W')
+	@Setting('w')
 	public keybind_key_5!: string;
 
-	@Setting('E')
+	@Setting('e')
 	public keybind_key_6!: string;
 
-	@Setting('A')
+	@Setting('a')
 	public keybind_key_7!: string;
 
-	@Setting('S')
+	@Setting('s')
 	public keybind_key_8!: string;
 
-	@Setting('D')
+	@Setting('d')
 	public keybind_key_9!: string;
 
-	@Setting('Z')
+	@Setting('z')
 	public keybind_key_A!: string;
 
-	@Setting('C')
+	@Setting('c')
 	public keybind_key_B!: string;
 
 	@Setting('4')
 	public keybind_key_C!: string;
 
-	@Setting('R')
+	@Setting('r')
 	public keybind_key_D!: string;
 
-	@Setting('F')
+	@Setting('f')
 	public keybind_key_E!: string;
 
-	@Setting('V')
+	@Setting('v')
 	public keybind_key_F!: string;
 
 	@Setting(' ')
 	public keybind_control_turbo!: string;
 
-	@Setting('P')
+	@Setting('p')
 	public keybind_control_pause!: string;
 
 	@Setting('=')
@@ -115,6 +142,10 @@ class AppSettings extends Settings<keyof AppSettings> {
 
 	@Setting('.')
 	public keybind_control_step_next!: string;
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Savestates:                                                                                               |
+	// -------------------------------------------------------------------------------------------------------------
 
 	@Setting({unset: true})
 	public savestate_quickslot!: Savestate | {unset: boolean};

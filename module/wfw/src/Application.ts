@@ -105,6 +105,11 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 	// Add loaded to fragment static.
 	fragment.depends = function(fragments: any) {
 		waiting.push(...fragments.map((fragment: any) => fragment._status));
+
+		for (let frag of fragments) {
+			new frag();
+		}
+
 		fireReady();
 	};
 

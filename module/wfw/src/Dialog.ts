@@ -109,11 +109,25 @@ class Dialog<T = never> extends Emitter<'show' | 'hide' | T> {
 
 	/**
 	 * Gets an element inside the dialog.
+	 *
 	 * @param query The query string.
+	 *
+	 * @returns The element, or null if none found.
 	 */
 	public getContentElement(query?: string): HTMLElement | null {
 		if (query == null) return this.content;
 		return this.content.querySelector(`:scope ${query}`);
+	}
+
+	/**
+	 * Gets elements inside the dialog.
+	 *
+	 * @param query The query string.
+	 *
+	 * @returns The elements, or an empty array.
+	 */
+	public getContentElements(query: string): HTMLElement[] {
+		return Array.from(this.content.querySelectorAll(`:scope ${query}`));
 	}
 
 	/**

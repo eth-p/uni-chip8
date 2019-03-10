@@ -3,40 +3,37 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import App from './noveau/App';
+
 import DialogController from './noveau/controller/DialogController';
 import EmulatorController from './noveau/controller/EmulatorController';
 import KeybindController from './noveau/controller/KeybindController';
 import PlayPauseController from './noveau/controller/PlayPauseController';
 import TriggerController from './noveau/controller/TriggerController';
+import VisibilityController from './noveau/controller/VisibilityController';
 
 import ErrorDialogController from './noveau/dialog/error/ErrorDialogController';
 import LoadDialogController from './noveau/dialog/load/LoadDialogController';
+import SettingsDialogController from './noveau/dialog/settings/SettingsDialogController';
 
 App.depends([
+	// Application controllers.
 	KeybindController,
 	EmulatorController,
 	TriggerController,
 	PlayPauseController,
 	DialogController,
+	VisibilityController,
+
+	// Dialog controllers.
+	ErrorDialogController,
 	LoadDialogController,
-	ErrorDialogController
+	SettingsDialogController
 ]);
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:
 // ---------------------------------------------------------------------------------------------------------------------
 (<any>window).Chipotle = App;
-(<any>window).ChipotleUI = {
-	kbc: new KeybindController(),
-	ppc: new PlayPauseController(),
-	emc: new EmulatorController(),
-	tgc: new TriggerController(),
-	doc: new DialogController(),
-	dia: {
-		load: new LoadDialogController(),
-		error: new ErrorDialogController()
-	}
-};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize App:
@@ -54,7 +51,7 @@ import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 
 import './ui-controls';
-import './ui-settings';
+// import './ui-settings';
 import './ui-screen';
 import './ui-savestates';
 import './ui-registers';
