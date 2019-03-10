@@ -11,7 +11,8 @@ mixin card-contents
 		block
 
 mixin card
-	.card(class=(attributes.theme ? `card-${attributes.theme}` : 'card-light'))
+	- var attr = Object.assign({}, attributes, {theme: null, href: null, img: null});
+	.card(class=(attributes.theme ? `card-${attributes.theme}` : 'card-light'))&attributes(attr)
 		if attributes.href
 			a(href=attributes.href)
 				+card-contents&attributes(attributes)
