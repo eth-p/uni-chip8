@@ -33,6 +33,17 @@ class AppBase {
 		this.triggers.settings.save.onTrigger(() => this.settings.save());
 		this.triggers.settings.undo.onTrigger(() => this.settings.load());
 		this.triggers.settings.reset.onTrigger(() => this.settings.reset());
+
+		if (
+			!this.settings.settings_versioned ||
+			this.settings.settings_version !== this.settings.getEntry('settings_version')!.value
+		) {
+			this.settings.reset();
+			this.settings.save();
+		}
+
+		this.settings.settings_versioned = true;
+		this.settings.save();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
