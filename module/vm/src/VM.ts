@@ -75,6 +75,11 @@ export class VMBase<A> extends Emitter {
 	protected _VM_executing: boolean;
 
 	/**
+	 * An object that represents
+	 */
+	protected _VM_debug: Map<string, any>;
+
+	/**
 	 * The program is waiting on a hardware event.
 	 * @internal
 	 */
@@ -92,6 +97,7 @@ export class VMBase<A> extends Emitter {
 		super();
 
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
+		this._VM_debug = new Map();
 		this._VM_executing = false;
 		this._VM_awaiting = false;
 		this.emit = Emitter.prototype.emit;
@@ -254,6 +260,27 @@ export class VMBase<A> extends Emitter {
 		// Return.
 		this.tick++;
 		this._VM_executing = false;
+	}
+
+	/**
+	 * Sets a debug option.
+	 *
+	 * @param option The debug option.
+	 * @param value The value to set it to.
+	 */
+	public setDebugOption(option: string, value: any): void {
+		this._VM_debug.set(option, value);
+		(<any>this)._debugOption(option, value);
+	}
+
+	/**
+	 * Gets a debug option.
+	 *
+	 * @param option The debug option.
+	 * @returns The current value of the option.
+	 */
+	public getDebugOption(option: string): any {
+		return this._VM_debug.get(option) === true;
 	}
 }
 

@@ -62,6 +62,17 @@ abstract class Architecture<A> {
 	 */
 	protected abstract _tick(this: VMContext<A>): void;
 
+	/**
+	 * Handles a debug option.
+	 * This is called when {@link setDebugOption} is called.
+	 *
+	 * @param option The option key.
+	 * @param value The option value.
+	 *
+	 * @protected
+	 */
+	protected abstract _debugOption(this: VMContext<A>, option: string, value: any): void;
+
 	// 	/**
 	// 	 * Stores the architecture state into a snapshot.
 	// 	 * @param snapshot The snapshot to store into.
