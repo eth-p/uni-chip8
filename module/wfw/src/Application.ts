@@ -29,13 +29,13 @@ import DOMReady from './DOMReady';
  * - `ready` -- Called when the app is loaded.
  */
 function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Fragment<BASE_CONSTRUCTOR, BASE_CLASS> {
-	let waiting: ([boolean])[] = [];
+	let waiting: ({_status: boolean})[] = [];
 	let ready_app = false;
 	let emitter = new Emitter();
 
 	function fireReady() {
 		if (ready_app) return;
-		if (waiting.find(([w]) => !w) === undefined) {
+		if (waiting.find(frag => !frag._status) === undefined) {
 			emitter.emit('ready');
 			ready_app = true;
 		}
@@ -46,7 +46,7 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 		// | Fields:                                                                                           |
 		// -----------------------------------------------------------------------------------------------------
 
-		private static _status = [false];
+		private static _status = false;
 
 		// -----------------------------------------------------------------------------------------------------
 		// | Constructor:                                                                                      |
@@ -55,28 +55,64 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 		protected constructor() {
 			super();
 
-			setTimeout(() => {
-				if (typeof (<any>this).init === 'function') {
-					DOMReady((<any>this).init.bind(this));
-				}
+			setTimeout(async () => {
+				// Stage 1.
+				await [
+					typeof this.initData === 'function' ? this.initData() : null,
+					typeof this.initDOM === 'function' ? DOMReady().then(() => this.initDOM!()) : null,
+					typeof this.initTrigger === 'function' ? this.initTrigger() : null,
+					typeof this.initState === 'function' ? this.initState() : null
+				].filter(f => f != null);
+
+				// Stage 2.
+				await [typeof this.initListener === 'function' ? this.initListener() : null].filter(f => f != null);
+
+				// Ready.
+				(<any>this.constructor).ready();
 			}, 0);
 		}
+
+		// -----------------------------------------------------------------------------------------------------
+		// | Hooks:                                                                                            |
+		// -----------------------------------------------------------------------------------------------------
+
+		/**
+		 * Called when the DOM is loaded.
+		 */
+		protected initDOM?: () => Promise<void>;
+
+		/**
+		 * Called when the fragment should load external data.
+		 */
+		protected initData?: () => Promise<void>;
+
+		/**
+		 * Called when the fragment should bind application triggers.
+		 */
+		protected initTrigger?: () => Promise<void>;
+
+		/**
+		 * Called when the fragment should add providers to the application state.
+		 */
+		protected initState?: () => Promise<void>;
+
+		/**
+		 * Called after all the other initializers.
+		 * This should add listeners to things.
+		 */
+		protected initListener?: () => Promise<void>;
 
 		// -----------------------------------------------------------------------------------------------------
 		// | Methods:                                                                                          |
 		// -----------------------------------------------------------------------------------------------------
 
-		protected ready(): void {
-			(<any>this.constructor).ready();
-		}
-
 		protected static ready(): void {
-			this._status[0] = true;
+			this._status = true;
 			fireReady();
 		}
 	};
 
-	// Hook emitter for 'ready' and 'dom'.
+	// Hook emitter for 'ready'.
 	emitter.addListener('[[emitter:add]]', (name: string, details: any) => {
 		switch (name) {
 			case 'ready': {
@@ -104,7 +140,7 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 
 	// Add loaded to fragment static.
 	fragment.depends = function(fragments: any) {
-		waiting.push(...fragments.map((fragment: any) => fragment._status));
+		waiting.push(...fragments);
 
 		for (let frag of fragments) {
 			new frag();
@@ -127,13 +163,7 @@ function Application<BASE_CONSTRUCTOR, BASE_CLASS>(base: BASE_CONSTRUCTOR): Frag
 /**
  * A fragment of the application.
  */
-interface FragmentClass<BASE> extends Emitter<'ready' | string> {
-	/**
-	 * Method to be called when the application fragment is loaded.
-	 * Failure to call this will result in the application never emitting `app ready` events.
-	 */
-	ready(): void;
-}
+interface FragmentClass<BASE> extends Emitter<'ready' | string> {}
 
 /**
  * A superclass for application fragments.
@@ -142,8 +172,7 @@ interface FragmentConstructor<BASE_CONSTRUCTOR, BASE_CLASS> extends Emitter<'rea
 	new <T>(): FragmentClass<BASE_CLASS> & BASE_CLASS;
 
 	/**
-	 * Notes which classes are required to call {@link FragmentClass#ready} before the application can be
-	 * considered ready.
+	 * Loads a class as an application fragment.
 	 */
 	depends(fragments: any[]): void;
 }

@@ -22,20 +22,20 @@ class DialogController extends App {
 
 	public constructor() {
 		super();
-
-		this.state.dialog.visible.addListener('change', visible => {
-			this.overlay.classList[visible ? 'add' : 'remove']('visible');
-		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
+	protected initDOM(this: App.Fragment<this>): void {
 		this.overlay = <HTMLElement>document.getElementById('dialogs');
+	}
 
-		this.ready();
+	protected initState(this: App.Fragment<this>): void {
+		this.state.dialog.visible.addListener('change', visible => {
+			this.overlay.classList[visible ? 'add' : 'remove']('visible');
+		});
 	}
 }
 

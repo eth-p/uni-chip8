@@ -2,8 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from '../App';
 import Trigger from '@chipotle/wfw/Trigger';
+
+import App from '../App';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -31,12 +32,10 @@ class TriggerController extends App {
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
+	protected initDOM(this: App.Fragment<this>): void {
 		for (let button of document.querySelectorAll('[data-trigger]')) {
 			this.register(<HTMLElement>button);
 		}
-
-		this.ready();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

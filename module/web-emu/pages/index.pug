@@ -38,10 +38,10 @@ mixin loading-screen
 	+toolbar#toolbar
 		+item
 			input(type="button" value="Load" data-trigger="dialog.load->show")
-			input(type="button" value="Reset" data-trigger="emulator->reset")
+			input(type="button" value="Reset" data-intent="reset" data-trigger="emulator->reset")
 
 		+item
-			input(type="button" value="[]" disabled="disabled" data-intent='play-pause-resume')
+			input(type="button" value="[]" disabled="disabled" data-intent="play-pause-resume")
 
 		+item
 			input(type="button" value="Savestates" data-action="window-savestates-show")

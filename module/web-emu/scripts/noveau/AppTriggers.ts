@@ -12,7 +12,10 @@ class AppTriggers {
 	 */
 	public redraw = {
 		visualizer: new Trigger(),
-		visualizerRegisters: new Trigger()
+		visualizerRegisters: new Trigger(),
+		visualizerStack: new Trigger(),
+		visualizerProgram: new Trigger(),
+		screen: new Trigger()
 	};
 
 	/**
@@ -71,12 +74,14 @@ class AppTriggers {
 	public constructor() {
 		this.redraw.visualizer.onTrigger((...args) => {
 			this.redraw.visualizerRegisters.trigger(...args);
+			this.redraw.visualizerProgram.trigger(...args);
+			this.redraw.visualizerStack.trigger(...args);
 		});
 
 		this.dialog.hideAll.onTrigger((...args) => {
 			for (let dTrigger of Object.values(this.dialog)) {
 				if ((<any>dTrigger).hide instanceof Trigger) {
-					(<any>dTrigger).hide.trigger();
+					(<any>dTrigger).hide.trigger(...args);
 				}
 			}
 		});

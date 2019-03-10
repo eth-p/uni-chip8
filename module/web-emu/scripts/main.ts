@@ -7,27 +7,27 @@ import App from './noveau/App';
 import DialogController from './noveau/controller/DialogController';
 import EmulatorController from './noveau/controller/EmulatorController';
 import KeybindController from './noveau/controller/KeybindController';
-import PlayPauseController from './noveau/controller/PlayPauseController';
+import EmulatorButtonController from './noveau/controller/EmulatorButtonController';
 import TriggerController from './noveau/controller/TriggerController';
 import VisibilityController from './noveau/controller/VisibilityController';
 
-import ErrorDialogController from './noveau/dialog/error/ErrorDialogController';
-import LoadDialogController from './noveau/dialog/load/LoadDialogController';
-import SettingsDialogController from './noveau/dialog/settings/SettingsDialogController';
+import ErrorDialog from './noveau/dialog/error/ErrorDialog';
+import LoadDialog from './noveau/dialog/load/LoadDialog';
+import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
 App.depends([
 	// Application controllers.
 	KeybindController,
 	EmulatorController,
 	TriggerController,
-	PlayPauseController,
+	EmulatorButtonController,
 	DialogController,
 	VisibilityController,
 
 	// Dialog controllers.
-	ErrorDialogController,
-	LoadDialogController,
-	SettingsDialogController
+	ErrorDialog,
+	LoadDialog,
+	SettingsDialog
 ]);
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -51,7 +51,6 @@ import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 
 import './ui-controls';
-// import './ui-settings';
 import './ui-screen';
 import './ui-savestates';
 import './ui-registers';

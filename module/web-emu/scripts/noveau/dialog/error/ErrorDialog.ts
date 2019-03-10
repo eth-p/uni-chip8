@@ -14,7 +14,7 @@ import ErrorTranslatorSimple from './ErrorTranslatorSimple';
 /**
  * The class for controlling the error dialog.
  */
-class ErrorDialogController extends App {
+class ErrorDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -43,28 +43,25 @@ class ErrorDialogController extends App {
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
+	protected initDOM(this: App.Fragment<this>): void {
 		this.dialog = new Dialog(<HTMLElement>document.querySelector('#dialog-error'));
 		this.dialogMessage = this.dialog.getContentElement('> .message')!;
 		this.dialogTroubleshoot = this.dialog.getContentElement('> .troubleshooting')!;
 		this.dialogTrace = this.dialog.getContentElement('> .trace')!;
 
-		// Add listeners.
-		this.addListener('error', (error, category) => {
-			this.setError(error);
-			this.dialog.show();
-		});
-
-		// Add providers.
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
+	}
 
-		// Connect triggers.
+	protected initTrigger(this: App.Fragment<this>): void {
 		this.triggers.dialog.error.hide.onTrigger(() => this.dialog.hide());
 		this.triggers.dialog.error.show.onTrigger(() => this.dialog.show());
 		this.triggers.dialog.error.setError.onTrigger(this.setError.bind(this));
 
-		// Ready.
-		this.ready();
+		// Automatically trigger on an application error.
+		this.addListener('error', (error, category) => {
+			this.setError(error);
+			this.triggers.dialog.error.show.trigger();
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -92,5 +89,5 @@ class ErrorDialogController extends App {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default ErrorDialogController;
-export {ErrorDialogController};
+export default ErrorDialog;
+export {ErrorDialog};

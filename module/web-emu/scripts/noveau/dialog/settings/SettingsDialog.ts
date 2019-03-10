@@ -18,7 +18,7 @@ import Optional from '@chipotle/types/Optional';
 /**
  * The class for controlling the settings dialog.
  */
-class SettingsDialogController extends App {
+class SettingsDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -46,24 +46,23 @@ class SettingsDialogController extends App {
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
+	protected initDOM(this: App.Fragment<this>): void {
 		this.dialog = new DialogTabbed(document.getElementById('dialog-settings')!);
 		this.fields = <HTMLInputElement[]>Array.from(document.querySelectorAll('[data-setting]'));
 
-		// Add providers.
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
-		// Connect triggers.
+		this.update();
+	}
+
+	protected initTrigger(this: App.Fragment<this>): void {
 		this.triggers.dialog.settings.show.onTrigger(() => this.dialog.show());
 		this.triggers.dialog.settings.hide.onTrigger(() => this.dialog.hide());
 		this.triggers.settings.undo.onTrigger(this.update.bind(this));
+	}
 
-		// Attach listeners.
+	protected initListener(this: App.Fragment<this>): void {
 		this.fields.forEach(this.register.bind(this));
-
-		// Ready!
-		this.update();
-		this.ready();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -145,5 +144,5 @@ class SettingsDialogController extends App {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default SettingsDialogController;
-export {SettingsDialogController};
+export default SettingsDialog;
+export {SettingsDialog};

@@ -50,9 +50,7 @@ class KeybindController extends App {
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
-		this.ready();
-
+	protected initDOM(this: App.Fragment<this>): void {
 		window.addEventListener('keydown', evt => {
 			if (!this.state.emulator.keybind.value) return;
 			if (!this.onKeyDown(evt)) {

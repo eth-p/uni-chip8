@@ -2,39 +2,49 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from '../App';
+
+import App from '../../App';
+import Animator from '@chipotle/wfw/Animator';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * The class that handles conditional visibility elements.
+ * Stack visualizer.
+ * This displays the state of the CHIP-8 stack.
  */
-class VisibilityController extends App {
+class StackVisualizer extends App {
+	// -------------------------------------------------------------------------------------------------------------
+	// | Fields:                                                                                                   |
+	// -------------------------------------------------------------------------------------------------------------
+
+	protected animator: Animator;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
 		super();
+
+		this.animator = new Animator(this.state.emulator.running, this.render.bind(this));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected initDOM(this: App.Fragment<this>): void {
-		this.settings.onChange('enable_debugger', (k, v) => {
-			document.body.classList[v ? 'add' : 'remove']('debugger-enabled');
-			document.body.classList[v ? 'remove' : 'add']('debugger-disabled');
-		});
+	protected init(this: App.Fragment<this>): void {}
 
-		this.settings.onChange('enable_advanced_settings', (k, v) => {
-			document.body.classList[v ? 'add' : 'remove']('advanced-enabled');
-			document.body.classList[v ? 'remove' : 'add']('advanced-disabled');
-		});
-	}
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                                    |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Renders the visualizer.
+	 */
+	public render(this: App.Fragment<this>): void {}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default VisibilityController;
-export {VisibilityController};
+export default StackVisualizer;
+export {StackVisualizer};

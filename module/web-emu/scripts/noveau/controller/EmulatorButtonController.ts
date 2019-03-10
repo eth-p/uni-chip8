@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Trigger from '@chipotle/wfw/Trigger';
-
 import App from '../App';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -12,12 +10,13 @@ import App from '../App';
  * The class that handles the play/pause button(s).
  * This stuff isn't simple, sadly.
  */
-class PlayPauseController extends App {
+class EmulatorButtonController extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected buttons!: HTMLInputElement[];
+	protected buttonsPause!: HTMLInputElement[];
+	protected buttonsReset!: HTMLInputElement[];
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -25,24 +24,30 @@ class PlayPauseController extends App {
 
 	public constructor() {
 		super();
+		this.update = this.update.bind(this);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
-		this.buttons = <HTMLInputElement[]>Array.from(document.querySelectorAll('[data-intent="play-pause-resume"]'));
-
-		let update = this.update.bind(this);
-		this.state.emulator.errored.addListener('change', update);
-		this.state.emulator.paused.addListener('change', update);
-		this.state.emulator.loading.addListener('change', update);
-		this.state.emulator.loaded.addListener('change', update);
-		this.settings.onChange('enable_debugger', update);
-
+	protected initDOM(this: App.Fragment<this>): void {
+		this.buttonsPause = <HTMLInputElement[]>(
+			Array.from(document.querySelectorAll('[data-intent="play-pause-resume"]'))
+		);
+		this.buttonsReset = <HTMLInputElement[]>Array.from(document.querySelectorAll('[data-intent="reset"]'));
 		this.update();
-		this.ready();
+	}
+
+	protected initTrigger(this: App.Fragment<this>): void {
+		this.state.emulator.errored.addListener('change', this.update);
+		this.state.emulator.paused.addListener('change', this.update);
+		this.state.emulator.loading.addListener('change', this.update);
+		this.state.emulator.loaded.addListener('change', this.update);
+	}
+
+	protected initListener(this: App.Fragment<this>): void {
+		this.settings.onChange('enable_debugger', this.update);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -75,14 +80,19 @@ class PlayPauseController extends App {
 			trigger = this.triggers.emulator.pause.trigger.bind(this.triggers.emulator.pause);
 		}
 
-		for (let button of this.buttons) {
+		for (let button of this.buttonsPause) {
 			button.value = label;
 			button.disabled = disabled;
 			button.onclick = trigger;
+		}
+
+		// And the reset buttons...
+		for (let button of this.buttonsReset) {
+			button.disabled = !this.state.emulator.loaded.value;
 		}
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default PlayPauseController;
-export {PlayPauseController};
+export default EmulatorButtonController;
+export {EmulatorButtonController};

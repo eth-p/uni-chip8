@@ -2,9 +2,10 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from '../App';
 import StateProvider from '@chipotle/wfw/StateProvider';
 import XHR, {XHRType} from '@chipotle/wfw/XHR';
+
+import App from '../App';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -28,8 +29,13 @@ class EmulatorController extends App {
 		super();
 
 		this.onTickDisableTimer = this.onTickDisableTimer.bind(this);
+	}
 
-		// Add state providers.
+	// -------------------------------------------------------------------------------------------------------------
+	// | Hooks:                                                                                                    |
+	// -------------------------------------------------------------------------------------------------------------
+
+	protected initState(this: App.Fragment<this>): void {
 		this.state.emulator.loaded.addProvider(this.isLoaded);
 		this.state.emulator.loading.addProvider(this.isLoading);
 		this.state.emulator.errored.addProvider(this.emulator.getErrorState());
@@ -45,13 +51,6 @@ class EmulatorController extends App {
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
 		this.emulator.addListener('error', error => (<any>this).emit('error', error, 'emulator'));
 
-		// Triggers.
-		this.triggers.rom.loadRemote.onTrigger(this.loadRemoteProgram.bind(this));
-		this.triggers.rom.loadLocal.onTrigger(this.loadLocalProgram.bind(this));
-		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
-		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
-		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
-
 		// Settings.
 		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
 			const settings = this.settings;
@@ -62,12 +61,13 @@ class EmulatorController extends App {
 		});
 	}
 
-	// -------------------------------------------------------------------------------------------------------------
-	// | Hooks:                                                                                                    |
-	// -------------------------------------------------------------------------------------------------------------
+	protected initTrigger(this: App.Fragment<this>): void {
+		this.triggers.rom.loadRemote.onTrigger(this.loadRemoteProgram.bind(this));
+		this.triggers.rom.loadLocal.onTrigger(this.loadLocalProgram.bind(this));
 
-	protected init(this: App.Fragment<this>): void {
-		this.ready();
+		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
+		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
+		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

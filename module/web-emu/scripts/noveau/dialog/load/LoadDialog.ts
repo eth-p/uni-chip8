@@ -15,7 +15,7 @@ import Program from './Program';
 /**
  * The class for controlling the load dialog.
  */
-class LoadDialogController extends App {
+class LoadDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -42,27 +42,28 @@ class LoadDialogController extends App {
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected init(this: App.Fragment<this>): void {
+	protected initDOM(this: App.Fragment<this>): void {
 		this.database.load();
 
 		this.dialog = new DialogTabbed(document.getElementById('dialog-load')!);
 		this.dialogUploadBox = <HTMLElement>this.dialog.getElement().querySelector('#program-upload-display');
 		this.dialogUploadField = <HTMLInputElement>this.dialog.getElement().querySelector('#program-upload');
 
+		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
+
 		// Get library lists.
 		this.dialogLists = new Map();
 		for (let element of this.dialog.getElement().querySelectorAll('[data-library]')) {
 			this.dialogLists.set(element.getAttribute('data-library')!, <HTMLElement>element);
 		}
+	}
 
-		// Add providers.
-		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
-
-		// Connect triggers.
+	protected initTrigger(this: App.Fragment<this>): void {
 		this.triggers.dialog.load.show.onTrigger(() => this.dialog.show());
 		this.triggers.dialog.load.hide.onTrigger(() => this.dialog.hide());
+	}
 
-		// Add listeners.
+	protected initListener(this: App.Fragment<this>): void {
 		this.state.emulator.loading.addListener('change', v => (!v ? this.dialog.hide() : void 0));
 		this.dialog.getElement().addEventListener('click', event => {
 			let target = <HTMLElement>event.target;
@@ -95,9 +96,6 @@ class LoadDialogController extends App {
 		// Disable drag and drop on the window itself.
 		window.addEventListener('dragover', this.uploadNothing.bind(this));
 		window.addEventListener('drop', this.uploadNothing.bind(this));
-
-		// Ready!
-		this.ready();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -199,5 +197,5 @@ const PROGRAM_ELEMENT = new ElementFactory('div', {
 	});
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default LoadDialogController;
-export {LoadDialogController};
+export default LoadDialog;
+export {LoadDialog};
