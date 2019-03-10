@@ -92,11 +92,11 @@ loop:
     JP playerIsSafe
 
     playerLost:
-        CALL decrementScore
         LD SCRATCH_TWO, #0
         LD SCRATCH_THREE, #10
-        tempLose:
-            tempLoseLoop:
+        LoseLoop:
+            CALL generateTargetExplosion1Sprite
+            CALL renderTargetExplosion1Sprite
             LD SCRATCH_FOUR, #3
             LD DT, SCRATCH_FOUR
             LD SCRATCH_FOUR, #1
@@ -104,7 +104,8 @@ loop:
             CALL wait
             ADD SCRATCH_TWO, #1
             SE SCRATCH_TWO, SCRATCH_THREE
-            JP tempLoseLoop
+            JP LoseLoop
+        CALL decrementScore
         JP gameRoundInit
 
     playerIsSafe:
@@ -1153,11 +1154,12 @@ renderTargetExplosion1Sprite:
     CALL stashToMiscData
     LD SCRATCH_ONE, TARGET_X
     LD SCRATCH_TWO, TARGET_Y
-    LD SCRATCH_THREE, #3
+    LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
     LD I, SPRITE_TargetExplosion1
     DRW SCRATCH_ONE, SCRATCH_TWO, #6
+    CALL unstashFromMiscData
     RET
 
 ; 6 x 6 sprite
@@ -1173,7 +1175,7 @@ renderTargetExplosion2Sprite:
     CALL stashToMiscData
     LD SCRATCH_ONE, TARGET_X
     LD SCRATCH_TWO, TARGET_Y
-    LD SCRATCH_THREE, #3
+    LD SCRATCH_THREE, #2
     SUB SCRATCH_ONE, SCRATCH_THREE
     SUB SCRATCH_TWO, SCRATCH_THREE
     LD I, SPRITE_TargetExplosion2
