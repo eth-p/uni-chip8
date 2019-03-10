@@ -87,7 +87,7 @@ class AppSettings extends Settings<keyof AppSettings> {
 	// | Keybinds Settings:                                                                                        |
 	// -------------------------------------------------------------------------------------------------------------
 
-	@Setting('X')
+	@Setting('x')
 	public keybind_key_0!: string;
 
 	@Setting('1')
