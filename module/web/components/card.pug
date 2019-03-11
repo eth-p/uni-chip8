@@ -6,6 +6,8 @@ mixin card-contents
 	if attributes.img
 		.card-image
 			img(src=attributes.img)
+	else
+		.card-image-placeholder
 
 	.card-data
 		block
