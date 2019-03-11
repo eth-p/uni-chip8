@@ -2,6 +2,8 @@
 -// Copyright (C) 2019 Team Chipotle
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
+include util
+-// --------------------------------------------------------------------------------------------------------------------
 mixin setting-input(type, key)
 	if type instanceof Array
 		input(id=`___setting___${key}`, type="number" min=type[0] max=type[1] data-setting=key data-setting-type="range")
@@ -30,10 +32,8 @@ mixin setting(type, key, name)
 			+setting-input(type, key)
 
 mixin setting-group(title)
-	- classes = attributes.class == null ? [] : attributes.class.split(' ');
-	- classes = classes.filter(c => ['requires-debugger', 'requires-advanced'].includes(c));
 
 	if title != null
-		h2&attributes({class: classes.join(' ')})=title
+		h2(class=Util.extractClasses(attributes, 'requires-debugger', 'requires-advanced'))=title
 	div.setting-group&attributes(attributes)
 		block

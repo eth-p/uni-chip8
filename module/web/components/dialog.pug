@@ -2,6 +2,8 @@
 -// Copyright (C) 2019 Team Chipotle
 -//  MIT License
 -// --------------------------------------------------------------------------------------------------------------------
+include util
+-// --------------------------------------------------------------------------------------------------------------------
 mixin dialog(depth)
 	.dialog(class=`${depth == null ? 1 : depth}z`)&attributes(attributes)
 		block
@@ -21,9 +23,9 @@ mixin dialog-tab(pane)
 		block
 
 mixin dialog-pane(pane, isDefault)
-	- classes = attributes.class || '';
-	- if (isDefault !== true) classes += ' hide';
-	.section(data-pane=pane class=classes)&attributes(Object.assign((isDefault ? {'data-default': true} : {}), attributes))
+	- classes = Util.extractClasses(attributes);
+	- if (isDefault !== true) classes.push('hide');
+	.section(data-pane=pane data-default=(isDefault === true ? true : null) class=classes)&attributes(attributes)
 		block
 
 mixin dialog-content

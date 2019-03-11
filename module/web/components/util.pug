@@ -53,16 +53,17 @@ if Util == null
 		* @param {string[]} extract The class names to extract.
 		*/
 		Util.extractClasses = (attributes, ...extract) => {
-			let options = (typeof extract[extract.length - 1] === 'object') ? extract.pop() : {};
-
-			if (typeof attributes === 'string') {
-				let extracted = attributes.split(' ').filter(f => extract.includes(f));
-				if (options.append) extracted = Object.assign(extracted, options.append);
-				if (!options.join) return extracted;
-				return extracted.join(' ');
+			if (typeof attributes !== 'string') {
+				return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...extract);
 			}
 
-			return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...extract);
+			let options = (typeof extract[extract.length - 1] === 'object') ? extract.pop() : {};
+
+			let extracted = attributes.split(' ');
+			if (extract.length > 0) extracted = extracted.filter(f => extract.includes(f));
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			if (!options.join) return extracted;
+			return extracted.join(' ');
 		};
 
 		/**
@@ -76,14 +77,15 @@ if Util == null
 		* @param {string[]} extract The class names to extract.
 		*/
 		Util.excludeClasses = (attributes, ...exclude) => {
-			let options = (typeof exclude[exclude.length - 1] === 'object') ? exclude.pop() : {};
-
-			if (typeof attributes === 'string') {
-				let extracted = attributes.split(' ').filter(f => !exclude.includes(f));
-				if (options.append) extracted = Object.assign(extracted, options.append);
-				if (!options.join) return extracted;
-				return extracted.join(' ');
+			if (typeof attributes !== 'string') {
+				return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...exclude);
 			}
 
-			return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...exclude);
+			let options = (typeof exclude[exclude.length - 1] === 'object') ? exclude.pop() : {};
+
+			let extracted = attributes.split(' ');
+			if (exclude.length > 0) extracted = extracted.filter(f => !exclude.includes(f));
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			if (!options.join) return extracted;
+			return extracted.join(' ');
 		};
