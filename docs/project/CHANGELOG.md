@@ -110,3 +110,4 @@
 - **Release:** Add MAZE 2.0 and SFU-related program to Release 3.
 - **Release:** Move assembler into Release 4.
 - **Release:** Update "About" page to show more details.
+- **Release:** Add analytics to website.
