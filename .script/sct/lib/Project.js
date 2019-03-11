@@ -41,6 +41,14 @@ module.exports = class Project {
 	}
 
 	/**
+	 * Gets the temp data directory.
+	 * @returns {string}
+	 */
+	getTempDirectory() {
+		return path.join(this._directory, 'temp');
+	}
+
+	/**
 	 * Gets the module directory.
 	 * @returns {string}
 	 */
