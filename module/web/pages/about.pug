@@ -25,7 +25,7 @@ include ../components/member
 -             return a;
 -         }, Object.assign({}, stats_none));
 -     }
-- } catch (ex) {}
+- } catch (ex) {console.log(ex)}
 - if (Object.keys(stats).length === 0) stats_none = null;
 
 -// --------------------------------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ include ../components/member
 		+member('Ethan Pini', {
 			role:  'Technical Lead',
 			href:  'https://ethan.pini.dev',
-			image: 'http://github.com/eth-p.png',
+			image: 'https://github.com/eth-p.png',
 			git:   stats['eth-p'] || stats_none
 		})
 
