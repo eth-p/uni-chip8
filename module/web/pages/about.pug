@@ -16,16 +16,21 @@ include ../components/member
 -// Stats:
 -// --------------------------------------------------------------------------------------------------------------------
 
-- try {
--     for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
--         stats[entry.author.login] = entry.weeks.reduce((a, c) => {
--             a.additions += c.a;
--             a.deletions += c.d;
--             a.commits   += c.c;
--             return a;
--         }, Object.assign({}, stats_none));
--     }
-- } catch (ex) {console.log(ex)}
+-
+	try {
+		for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
+			stats[entry.author.login] = entry.weeks.reduce((a, c) => {
+				a.additions += c.a;
+				a.deletions += c.d;
+				a.commits   += c.c;
+				return a;
+			}, Object.assign({}, stats_none));
+		}
+	} catch (ex) {
+		console.error('\x1B[31mCould not parse repository stats.\x1B[0m');
+		console.error(ex);
+	}
+
 - if (Object.keys(stats).length === 0) stats_none = null;
 
 -// --------------------------------------------------------------------------------------------------------------------
