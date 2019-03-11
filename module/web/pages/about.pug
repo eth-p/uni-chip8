@@ -8,6 +8,7 @@ include ../components/member
 
 - title = 'About Us - Team Chipotle'
 - stats = {};
+- stats_none = {additions: 0, deletions: 0, commits: 0};
 
 - stylesheets.push('/assets/styles/about.css')
 
@@ -22,9 +23,10 @@ include ../components/member
 -             a.deletions += c.d;
 -             a.commits   += c.c;
 -             return a;
--         }, {additions: 0, deletions: 0, commits: 0});
+-         }, Object.assign({}, stats_none));
 -     }
 - } catch (ex) {}
+- if (Object.keys(stats).length === 0) stats_none = null;
 
 -// --------------------------------------------------------------------------------------------------------------------
 -// Page:
@@ -40,41 +42,41 @@ include ../components/member
 			role:  'Project Manager',
 			href:  'https://github.com/macedir',
 			image: 'https://github.com/macedir.png',
-			git:   stats['macedir']
+			git:   stats['macedir'] || stats_none
 		})
 
 		+member('Ethan Pini', {
 			role:  'Technical Lead',
 			href:  'https://ethan.pini.dev',
 			image: 'http://github.com/eth-p.png',
-			git:   stats['eth-p']
+			git:   stats['eth-p'] || stats_none
 		})
 
 		+member('Firas Fakih', {
 			role:  'Team Member',
 			href:  null,
 			image: null,
-			git:   stats['ffakih']
+			git:   stats['ffakih'] || stats_none
 		})
 
 		+member('Anthony Pham', {
 			role: 'Team Member',
 			href:  null,
 			image: null,
-			git:   stats['cen357']
+			git:   stats['cen357'] || stats_none
 		})
 
 		+member('Henry Wang', {
 			role:  'Team Member',
 			href:  null,
 			image: null,
-			git:   stats['wziheng']
+			git:   stats['wziheng'] || stats_none
 		})
 
 		+member('Dan Amarasinghe', {
 			role:  'Team Member',
 			href:  null,
 			image: null,
-			git:   stats['danamaras']
+			git:   stats['danamaras'] || stats_none
 		})
 
