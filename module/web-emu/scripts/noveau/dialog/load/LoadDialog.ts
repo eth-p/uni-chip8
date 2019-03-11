@@ -3,7 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import DialogTabbed from '@chipotle/wfw/DialogTabbed';
-import ElementFactory from '@chipotle/wfw/ElementFactory';
+import Template from '@chipotle/wfw/Template';
 
 import App from '../../App';
 
@@ -36,6 +36,7 @@ class LoadDialog extends App {
 		this.database = new ProgramDatabase();
 		this.database.addListener('load', () => (<any>this).createLists());
 		this.database.addListener('error', () => (<any>this).errorLists());
+		this.database.addListener('error', ex => console.error(ex));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -163,38 +164,38 @@ class LoadDialog extends App {
 	 * @param program The program object.
 	 */
 	protected createListItem(this: App.Fragment<this>, program: Program): HTMLElement {
-		return PROGRAM_ELEMENT.template('rom', program.url)
-			.template('name', program.name)
-			.template('info', program.info)
-			.template('author', {name: program.authorName, url: program.authorPage})
-			.create();
+		return this.PROGRAM_TEMPLATE(program);
 	}
-}
 
-// ---------------------------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------------------
+	// | Templates:                                                                                                |
+	// -------------------------------------------------------------------------------------------------------------
 
-const PROGRAM_ELEMENT = new ElementFactory('div', {
-	classes: ['program-library-item'],
-	template: {
-		rom: (f, v) => f.data('program-rom', v)
-	}
-})
-	.child('div', {classes: 'program-name'}, f => {
-		f.setTemplateFunction('name', (f, n) => {
-			f.text(n);
-		});
-	})
-	.child('a', {classes: 'program-author'}, f => {
-		f.setTemplateFunction('author', (f, a) => {
-			f.text(a.name);
-			f.attr('href', a.url);
-		});
-	})
-	.child('div', {classes: 'program-info'}, f => {
-		f.setTemplateFunction('info', (f, i) => {
-			f.text(i);
-		});
+	protected readonly PROGRAM_TEMPLATE: (typeof LoadDialog)['PROGRAM_TEMPLATE'] = (<any>this).constructor
+		.PROGRAM_TEMPLATE;
+	protected static readonly PROGRAM_TEMPLATE = Template.compile<Program>({
+		classes: 'program-library-item',
+		oncreate: (e, o) => e.setAttribute('data-program-rom', o.url),
+		children: [
+			{
+				classes: 'program-name',
+				text: o => o.name
+			},
+			{
+				type: 'a',
+				classes: 'program-author',
+				text: o => o.authorName,
+				attr: {
+					href: o => o.authorPage
+				}
+			},
+			{
+				classes: 'program-info',
+				text: o => o.info
+			}
+		]
 	});
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 export default LoadDialog;
