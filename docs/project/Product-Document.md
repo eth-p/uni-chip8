@@ -26,7 +26,7 @@
 |**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 27|Release 2| |[Week 8](meeting-minutes/Week-8.md)|
 |**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
-|**10**|March 11|Release 3| | |
+|**10**|March 11|Release 3| |[Week 10](meeting-minutes/Week-10.md)|
 |**11**|March 18|Release 4| | |
 |**12**|March 25|Release 4| | |
 |**13**|April 1|Release 4| | |
@@ -372,11 +372,13 @@ Space Invader was not completed in time, so it will not be made playable.
 
 We moved the reverse debugger back into release 3.
 Assembler will occur for release 4.
+Ethan decided that he would not be able to complete the assembler due to timing conflicts with CMPT 384.
+The website was refactored for better code quality and maintainability.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
 |**General Product Refinement**|14/03/2019|Entire release|Not started|
-|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Further Programs**|14/03/2019|Entire Release|Not started|
 |**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In progress (early)|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
@@ -460,6 +462,16 @@ Considering the fact that we should have a reverse debugger, developers:
 - will be able to understand how limited the CHIP 8 emulator is.
 - will be able to use a program assembler to convert their program assembly files into executable bytecode.
 
+### Release 4
+
+#### Users
+
+- will be able to backstep their programs.
+
+#### Developers
+
+- will be able to debug their programs through backstepping.
+
 ## Project Schedule
 
 ![Gantt Chart](images/gantt.jpg)
@@ -491,6 +503,7 @@ Considering the fact that we should have a reverse debugger, developers:
 ### Release 3
 
 - Kyle Saburao
+- Ethan Pini
 
 ## Information Sources and Citations
 
