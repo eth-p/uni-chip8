@@ -7,9 +7,24 @@ include ../components/common
 include ../components/member
 
 - title = 'About Us - Team Chipotle'
+- stats = {};
 
 - stylesheets.push('/assets/styles/about.css')
 
+-// --------------------------------------------------------------------------------------------------------------------
+-// Stats:
+-// --------------------------------------------------------------------------------------------------------------------
+
+- try {
+-     for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
+-         stats[entry.author.login] = entry.weeks.reduce((a, c) => {
+-             a.additions += c.a;
+-             a.deletions += c.d;
+-             a.commits   += c.c;
+-             return a;
+-         }, {additions: 0, deletions: 0, commits: 0});
+-     }
+- } catch (ex) {}
 
 -// --------------------------------------------------------------------------------------------------------------------
 -// Page:
@@ -22,38 +37,44 @@ include ../components/member
 	+section.team-members
 
 		+member('Kyle Saburao', {
-			role: 'Project Manager',
-			href: 'https://github.com/macedir',
-			image: 'https://github.com/macedir.png'
+			role:  'Project Manager',
+			href:  'https://github.com/macedir',
+			image: 'https://github.com/macedir.png',
+			git:   stats['macedir']
 		})
 
 		+member('Ethan Pini', {
 			role:  'Technical Lead',
 			href:  'https://ethan.pini.dev',
-			image: 'http://github.com/eth-p.png'
+			image: 'http://github.com/eth-p.png',
+			git:   stats['eth-p']
 		})
 
 		+member('Firas Fakih', {
 			role:  'Team Member',
 			href:  null,
-			image: null
+			image: null,
+			git:   stats['ffakih']
 		})
 
 		+member('Anthony Pham', {
 			role: 'Team Member',
-			href: null,
-			image: null
+			href:  null,
+			image: null,
+			git:   stats['cen357']
 		})
 
 		+member('Henry Wang', {
 			role:  'Team Member',
 			href:  null,
-			image: null
+			image: null,
+			git:   stats['wziheng']
 		})
 
 		+member('Dan Amarasinghe', {
-			role: 'Team Member',
-			href: null,
-			image: null
+			role:  'Team Member',
+			href:  null,
+			image: null,
+			git:   stats['danamaras']
 		})
 
