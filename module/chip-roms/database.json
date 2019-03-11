@@ -92,11 +92,44 @@
 		"author_url": "https://github.com/macedir"
 	},
 
-	"invader.rom": {
+	"c8dino.rom": {
 		"type": "GAME",
-		"name": "Invader",
-		"info": "",
-		"author": "Dan Amarasinghe",
-		"author_url": "https://github.com/danamaras"
+		"name": "Chip 8 Dino",
+		"info": "Fun and challenging game similar to chrome dino game! (Recommended emulator speed 500Hz)",
+		"author": "Anthony Pham",
+		"author_url": "https://github.com/cen357",
+		"controls": {
+			"1": "JUMP"
+		}
+	},
+
+	"snake.rom": {
+		"type": "GAME",
+		"name": "Snake",
+		"info": "Grow your snake as long as possible before you eat yourself!",
+		"author": "Henry Wang",
+		"author_url": "https://github.com/wziheng",
+		"controls": {
+			"5": "UP",
+			"8": "DOWN",
+			"6": "RIGHT",
+			"4": "LEFT"
+		}
+	},
+
+	"laser-defence.rom": {
+		"type": "GAME",
+		"name": "Laser Defence",
+		"info": "Lasers are vastly superior to siege engines.",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir",
+		"controls": {
+			"5": "TARGETING UP",
+			"8": "TARGETING DOWN",
+			"9": "TARGETING RIGHT",
+			"7": "TARGETING LEFT",
+			"6": "LAUNCH BEAM TARGETER",
+			"4": "FIRE BEAM EARLY"
+		}
 	}
 }
