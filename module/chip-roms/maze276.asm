@@ -32,6 +32,7 @@ main:
 	JP main
 
 	endLoop:
+		LD V0, K
 		JP endLoop      
 
 		;Infinite Loop to keep state and not redraw sprites.     TIMESTAMP: WEDNESDAY MARCH 6th 8:31PM
