@@ -99,6 +99,9 @@ jobs:
           name: Prepare
           command: mkdir -p target artifacts || true
       - run:
+          name: Fetch
+          command: .script/sct/libexec/get-repository-stats.js
+      - run:
           name: Build
           command: ./sct build << parameters.args >>
       - persist_to_workspace:
