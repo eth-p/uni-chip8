@@ -333,10 +333,76 @@ describe('Operation Codes', () => {
 		vm.step();
 		expect(vm.register_timer).toStrictEqual(vm.register_data[0]);
 	});
-	it('fx18', async () => {});
-	it('fx1e', async () => {});
+	it('fx18', async () => {
+		let vm = await createVM([0xf018]);
+		let target: number = randomNumber(0xff);
+		vm.register_data[0] = target;
+		vm.step();
+		expect(vm.register_sound).toStrictEqual(target);
+	});
+	it('fx1e', async () => {
+		let vm = await createVM([0xf01e]);
+		let target = randomNumber(0xff);
+		vm.register_data[0] = target;
+		vm.register_index = 0x0;
+		vm.step();
+		expect(vm.register_index).toStrictEqual(target);
+	});
 	it('fx29', async () => {});
-	it('fx33', async () => {});
-	it('fx55', async () => {});
-	it('fx65', async () => {});
+	it('fx33', async () => {
+		let vm = await createVM([0xf033]);
+		if (vm.program.data != null) {
+			let num: number = randomNumber(0xff);
+			let i_location = 0x500;
+			vm.register_data[0] = num;
+			vm.register_index = i_location;
+			vm.step();
+			expect(vm.program.data[i_location]).toStrictEqual(Math.floor(num / 100));
+			expect(vm.program.data[i_location + 1]).toStrictEqual(Math.floor(num / 10) % 10);
+			expect(vm.program.data[i_location + 2]).toStrictEqual(num % 10);
+		}
+	});
+	it('fx55', async () => {
+		let nums: number[] = new Array<number>();
+		for (let i = 0; i < 16; ++i) {
+			nums.push(randomNumber(0xff));
+		}
+
+		let vm = await createVM([0xff55]);
+		let index_location = 0x500;
+		vm.register_index = index_location;
+		for (let i = 0; i < 16; ++i) {
+			vm.register_data[i] = nums[i];
+		}
+
+		if (vm.program.data != null) {
+			vm.step();
+
+			for (let i = 0; i < 16; ++i) {
+				expect(vm.program.data[index_location + i]).toStrictEqual(nums[i]);
+			}
+		}
+	});
+	it('fx65', async () => {
+		let nums: number[] = new Array<number>();
+		for (let i = 0; i < 16; ++i) {
+			nums.push(randomNumber(0xff));
+		}
+
+		let vm = await createVM([0xff65]);
+		let index_location = 0x500;
+		vm.register_index = index_location;
+
+		if (vm.program.data != null) {
+			for (let i = 0; i < 16; ++i) {
+				vm.program.data[index_location + i] = nums[i];
+			}
+
+			vm.step();
+
+			for (let i = 0; i < 16; ++i) {
+				expect(vm.register_data[i]).toStrictEqual(nums[i]);
+			}
+		}
+	});
 });
