@@ -9,8 +9,7 @@ import Program from './Program';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A visualizer for
- * This displays the state of the CHIP-8 stack.
+ * An entry in the program library list.
  */
 class LibraryEntry {
 	// -------------------------------------------------------------------------------------------------------------
@@ -55,8 +54,15 @@ class LibraryEntry {
 						type: 'input',
 						attr: {type: 'button', value: 'Help'},
 						oncreate: (e, o) => {
-							if (o.controls == null) e.style.display = 'none';
+							//if (o.controls == null) e.style.display = 'none';
+							e.style.display = 'none'; // FIXME: @eth-p Add actual dialog.
 						}
+					},
+					{
+						type: 'a',
+						text: 'Download',
+						attr: {href: o => o.url},
+						classes: 'desktop-only'
 					}
 				]
 			}
