@@ -12,7 +12,7 @@ import Program from './Program';
 /**
  * A database of our CHIP-8 programs.
  */
-class ProgramDatabase extends Emitter<'load' | 'error'> {
+class Library extends Emitter<'load' | 'error'> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
@@ -80,5 +80,5 @@ class ProgramDatabase extends Emitter<'load' | 'error'> {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default ProgramDatabase;
-export {ProgramDatabase};
+export default Library;
+export {Library};

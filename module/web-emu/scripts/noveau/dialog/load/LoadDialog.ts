@@ -7,8 +7,9 @@ import Template from '@chipotle/wfw/Template';
 
 import App from '../../App';
 
-import ProgramDatabase from './ProgramDatabase';
+import Library from './Library';
 import Program from './Program';
+import LibraryEntry from './LibraryEntry';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -24,7 +25,7 @@ class LoadDialog extends App {
 	protected dialogLists!: Map<String, HTMLElement>;
 	protected dialogUploadBox!: HTMLElement;
 	protected dialogUploadField!: HTMLInputElement;
-	protected database: ProgramDatabase;
+	protected database: Library;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -33,7 +34,7 @@ class LoadDialog extends App {
 	public constructor() {
 		super();
 
-		this.database = new ProgramDatabase();
+		this.database = new Library();
 		this.database.addListener('load', () => (<any>this).createLists());
 		this.database.addListener('error', () => (<any>this).errorLists());
 		this.database.addListener('error', ex => console.error(ex));
@@ -164,37 +165,8 @@ class LoadDialog extends App {
 	 * @param program The program object.
 	 */
 	protected createListItem(this: App.Fragment<this>, program: Program): HTMLElement {
-		return this.PROGRAM_TEMPLATE(program);
+		return new LibraryEntry(program).getElement();
 	}
-
-	// -------------------------------------------------------------------------------------------------------------
-	// | Templates:                                                                                                |
-	// -------------------------------------------------------------------------------------------------------------
-
-	protected readonly PROGRAM_TEMPLATE: (typeof LoadDialog)['PROGRAM_TEMPLATE'] = (<any>this).constructor
-		.PROGRAM_TEMPLATE;
-	protected static readonly PROGRAM_TEMPLATE = Template.compile<Program>({
-		classes: 'program-library-item',
-		oncreate: (e, o) => e.setAttribute('data-program-rom', o.url),
-		children: [
-			{
-				classes: 'program-name',
-				text: o => o.name
-			},
-			{
-				type: 'a',
-				classes: 'program-author',
-				text: o => o.authorName,
-				attr: {
-					href: o => o.authorPage
-				}
-			},
-			{
-				classes: 'program-info',
-				text: o => o.info
-			}
-		]
-	});
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
