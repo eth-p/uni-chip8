@@ -73,7 +73,7 @@ async function getStats(REPO_OWNER, REPO_NAME, API_TOKEN) {
 	let data = {};
 	while ((retries--) > 0) {
 		data = await getStats(REPO_OWNER, REPO_NAME, API_TOKEN);
-		if (Object.keys(data).length > 0) break;
+		if (Object.keys(JSON.parse(data)).length > 0) break;
 		await new Promise((resolve) => setTimeout(resolve, 2500));
 	}
 
