@@ -111,3 +111,4 @@
 - **Release:** Move assembler into Release 4.
 - **Release:** Update "About" page to show more details.
 - **Release:** Add analytics to website.
+- **Release:** Add 'ARTIFACT' ROM
