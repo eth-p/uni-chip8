@@ -147,5 +147,13 @@
 		"info": "A cool accident.",
 		"author": "Ethan Pini",
 		"author_url": "https://github.com/eth-p"
+	},
+
+	"advanced-warfare.rom": {
+		"type": "GAME",
+		"name": "Advanced Warfare",
+		"info": "A game of war, death, and respect.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
 	}
 }
