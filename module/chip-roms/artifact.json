@@ -1,0 +1,11 @@
+{
+	"type": "DEMO",
+	"name": "Artifact",
+	"date": "2019-03-11",
+	"featured": false,
+
+	"author": "Ethan Pini",
+	"author_url": "https://github.com/eth-p",
+
+	"info": "A cool accident."
+}

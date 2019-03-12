@@ -1,0 +1,18 @@
+{
+	"type": "GAME",
+	"name": "Warshaws' Revenge",
+	"date": "2019-01-31",
+	"featured": false,
+
+	"author": "Ethan Pini",
+	"author_url": "https://github.com/eth-p",
+
+	"info": "This fun shooter is the antithesis to the great crash of '83.",
+	"controls": {
+		"5": "UP",
+		"7": "LEFT",
+		"9": "DOWN",
+		"8": "RIGHT",
+		"B": "SHOOT"
+	}
+}

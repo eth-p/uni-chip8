@@ -1,0 +1,14 @@
+{
+	"type": "TOOL",
+	"name": "BCD Counter Test",
+	"date": "2019-02-22",
+	"featured": false,
+
+	"author": "Kyle Saburao",
+	"author_url": "https://github.com/macedir",
+
+	"info": "Test the functionality of 0xFX29 and 0xFX33.",
+	"controls": {
+		"1": "JUMP"
+	}
+}

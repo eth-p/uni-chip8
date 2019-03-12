@@ -1,0 +1,11 @@
+{
+	"type": "TOOL",
+	"name": "Team Chipotle Test",
+	"date": "2019-01-19",
+	"featured": false,
+
+	"author": "Ethan Pini",
+	"author_url": "https://github.com/eth-p",
+
+	"info": "A program which runs tests designed for 500 Hz CHIP-8 emulators."
+}

@@ -1,0 +1,15 @@
+{
+	"type": "GAME",
+	"name": "Corners Game",
+	"date": "2019-02-03",
+	"featured": false,
+
+	"author": "Kyle Saburao",
+	"author_url": "https://github.com/macedir",
+
+	"info": "The bouncing logo of a popular disc-shaped video storage medium... but this time, it's a game.",
+	"controls": {
+		"1": "LEFT",
+		"2": "RIGHT"
+	}
+}

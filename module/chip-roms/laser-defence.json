@@ -1,0 +1,19 @@
+{
+	"type": "GAME",
+	"name": "Laser Defence",
+	"date": "2019-01-30",
+	"featured": true,
+
+	"author": "Kyle Saburao",
+	"author_url": "https://github.com/macedir",
+
+	"info": "Lasers are vastly superior to siege engines.",
+	"controls": {
+		"5": "TARGETING UP",
+		"8": "TARGETING DOWN",
+		"9": "TARGETING RIGHT",
+		"7": "TARGETING LEFT",
+		"6": "LAUNCH BEAM TARGETER",
+		"4": "FIRE BEAM EARLY"
+	}
+}
