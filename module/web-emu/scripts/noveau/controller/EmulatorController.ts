@@ -51,6 +51,12 @@ class EmulatorController extends App {
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
 		this.emulator.addListener('error', error => (<any>this).emit('error', error, 'emulator'));
 
+		// Map emulator events to triggers.
+		this.emulator.addListener('step', () => {
+			this.triggers.screen.render.trigger();
+			this.triggers.visualizers.renderAll.trigger();
+		});
+
 		// Settings.
 		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
 			const settings = this.settings;
@@ -70,12 +76,15 @@ class EmulatorController extends App {
 		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
 	}
 
+	protected initListener(this: App.Fragment<this>): void {
+		this.addListener('load', () => this.triggers.visualizers.resetAll.trigger());
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Handlers:                                                                                                 |
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected onTickDisableTimer(this: App.Fragment<this>): void {
-		console.log('HAI');
 		this.emulator.vm.register_timer = 0;
 	}
 

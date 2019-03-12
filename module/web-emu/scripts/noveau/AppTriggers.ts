@@ -8,14 +8,21 @@ import Trigger from '@chipotle/wfw/Trigger';
 
 class AppTriggers {
 	/**
-	 * These triggers can be used to redraw components.
+	 * These triggers can be used to manipulate visualizers.
 	 */
-	public redraw = {
-		visualizer: new Trigger(),
-		visualizerRegisters: new Trigger(),
-		visualizerStack: new Trigger(),
-		visualizerProgram: new Trigger(),
-		screen: new Trigger()
+	public visualizer = {
+		stack: {
+			render: new Trigger(),
+			reset: new Trigger()
+		}
+	};
+
+	/**
+	 * Special container that merges all visualizer triggers.
+	 */
+	public visualizers = {
+		renderAll: new Trigger(),
+		resetAll: new Trigger()
 	};
 
 	/**
@@ -36,8 +43,13 @@ class AppTriggers {
 		settings: {
 			show: new Trigger(),
 			hide: new Trigger()
-		},
+		}
+	};
 
+	/**
+	 * Special container that merges all dialog triggers.
+	 */
+	public dialogs = {
 		hideAll: new Trigger()
 	};
 
@@ -67,28 +79,31 @@ class AppTriggers {
 		reset: new Trigger()
 	};
 
+	/**
+	 * These triggers are used to control the screen.
+	 */
+	public screen = {
+		render: new Trigger()
+	};
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		this.redraw.visualizer.onTrigger((...args) => {
-			this.redraw.visualizerRegisters.trigger(...args);
-			this.redraw.visualizerProgram.trigger(...args);
-			this.redraw.visualizerStack.trigger(...args);
-		});
+		// Create merge triggers.
+		this.visualizers.renderAll.connectAll(Object.values(this.visualizer).map(r => r.render));
+		this.visualizers.resetAll.connectAll(Object.values(this.visualizer).map(r => r.reset));
+		this.dialogs.hideAll.connectAll(Object.values(this.dialog).map(r => r.hide));
 
-		this.dialog.hideAll.onTrigger((...args) => {
-			for (let dTrigger of Object.values(this.dialog)) {
-				if ((<any>dTrigger).hide instanceof Trigger) {
-					(<any>dTrigger).hide.trigger(...args);
-				}
-			}
-		});
+		// Connect triggers together.
+		this.emulator.reset.connect(this.visualizers.resetAll);
 
+		// Any dialog->___->show trigger:
+		// Automatically hide other dialogs.
 		for (let dTrigger of Object.values(this.dialog)) {
 			if ((<any>dTrigger).show instanceof Trigger) {
-				(<any>dTrigger).show.onTrigger(() => this.dialog.hideAll.trigger());
+				(<any>dTrigger).show.onTrigger(() => this.dialogs.hideAll.trigger());
 			}
 		}
 	}

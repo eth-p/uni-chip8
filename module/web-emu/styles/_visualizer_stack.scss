@@ -10,19 +10,14 @@
 // Stack:
 // ---------------------------------------------------------------------------------------------------------------------
 
-#emulator-stack {
-	.title {
-		opacity: 0.5;
-		margin-bottom: 4px;
-	}
-
+#visualizer-stack {
 	.stack-frame {
 		display: flex;
 		padding: 0 4px;
 		text-align: left;
 		font-family: $font-monospace;
 
-		&.template {
+		&.hide {
 			display: none !important;
 		}
 

@@ -2,95 +2,91 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from '../../App';
-import Visualizer from '../../Visualizer';
+import Animator from '@chipotle/wfw/Animator';
 
-import StackFrame from './StackFrame';
+import App from './App';
+import Trigger from '@chipotle/wfw/Trigger';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Stack visualizer.
- * This displays the state of the CHIP-8 stack.
+ * An abstract base class for a visualizer.
  */
-class StackVisualizer extends Visualizer {
+abstract class Visualizer extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected container!: HTMLElement;
-	protected framePC: StackFrame;
-	protected frames: StackFrame[];
+	protected animator!: Animator;
+	protected setting: string;
 
-	protected lastPointer: number;
+	protected frame!: HTMLElement;
+	protected container!: HTMLElement;
+
+	private visible: boolean;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor() {
-		super(App.triggers.visualizer.stack, 'show_stack');
+	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string) {
+		super();
 
-		this.lastPointer = -1;
-		this.framePC = new StackFrame('PC');
-		this.frames = [];
-		for (let i = 0; i < this.emulator.vm.stack.getCapacity(); i++) {
-			this.frames[i] = new StackFrame(i);
-		}
-
-		console.log(this);
+		this.setting = setting;
+		this.visible = true;
+		this.render = this.render.bind(this);
+		triggers.render.onTrigger(() => this.animator.render());
+		triggers.reset.onTrigger(() => {
+			(<any>this).reset();
+			(<any>this).animator.render();
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected initDOM(this: App.Fragment<this>): void {
-		this.frame = <HTMLElement>document.querySelector('#visualizer-stack');
-		this.container = <HTMLElement>this.frame.querySelector(':scope > .visualizer-content');
+	protected initState(this: App.Fragment<this>): void {
+		this.animator = new Animator(this.state.emulator.running, this.render);
+	}
 
-		this.container.appendChild(this.framePC.getElement());
-		for (let frame of this.frames) {
-			this.container.appendChild(frame.getElement());
-		}
+	protected initListener(this: App.Fragment<this>): void {
+		this.settings.onChange(<any>this.setting, (e, v) => this.setVisible(v));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Implementation:                                                                                           |
+	// | Methods:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * @override
+	 * Sets the visibility of the visualizer.
+	 * @param visible The visibility.
 	 */
-	public render(this: App.Fragment<this>): void {
-		this.framePC.set(this.emulator.vm.program_counter);
-
-		const stackObject = this.emulator.vm.stack;
-		const stack = stackObject.inspectRaw();
-		const pointer = stackObject.getPointer();
-
-		if (pointer !== this.lastPointer) {
-			this.lastPointer = pointer;
-			for (let frame of this.frames) {
-				frame.setEmpty();
-			}
-		}
-
-		for (let i = 0; i <= pointer; i++) {
-			this.frames[pointer - i].set(stack[i]);
-		}
+	public setVisible(visible: boolean): void {
+		this.visible = visible;
+		this.frame.classList[visible ? 'remove' : 'add']('hide');
 	}
 
 	/**
-	 * @override
+	 * Gets the visibility state of the visualizer.
+	 * @returns True if the visualizer should be visible.
 	 */
-	public reset(): void {
-		this.framePC.reset();
-		this.lastPointer = -2;
-		for (let frame of this.frames) frame.reset();
+	public isVisible(): boolean {
+		return this.visible;
 	}
+
+	/**
+	 * Renders the visualizer.
+	 */
+	public abstract render(this: App.Fragment<this>): void;
+
+	/**
+	 * Resets the visualizer.
+	 */
+	public abstract reset(this: App.Fragment<this>): void;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default StackVisualizer;
-export {StackVisualizer};
+// ---------------------------------------------------------------------------------------------------------------------
+export default Visualizer;
+export {Visualizer};

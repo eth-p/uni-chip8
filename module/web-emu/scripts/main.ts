@@ -15,20 +15,7 @@ import ErrorDialog from './noveau/dialog/error/ErrorDialog';
 import LoadDialog from './noveau/dialog/load/LoadDialog';
 import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
-App.depends([
-	// Application controllers.
-	KeybindController,
-	EmulatorController,
-	TriggerController,
-	EmulatorButtonController,
-	DialogController,
-	VisibilityController,
-
-	// Dialog controllers.
-	ErrorDialog,
-	LoadDialog,
-	SettingsDialog
-]);
+import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:
@@ -46,6 +33,24 @@ App.addListener('ready', () => {
 	App.settings.broadcast();
 });
 
+App.depends([
+	// Application controllers.
+	KeybindController,
+	EmulatorController,
+	TriggerController,
+	EmulatorButtonController,
+	DialogController,
+	VisibilityController,
+
+	// Dialog controllers.
+	ErrorDialog,
+	LoadDialog,
+	SettingsDialog,
+
+	// Visualizers.
+	StackVisualizer
+]);
+
 // OLD CODE
 import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
@@ -54,7 +59,6 @@ import './ui-controls';
 import './ui-screen';
 import './ui-savestates';
 import './ui-registers';
-import './ui-stack';
 import './ui-disassembler';
 import './ui-keypad';
 import './keybind';
