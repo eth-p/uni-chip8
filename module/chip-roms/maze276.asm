@@ -6,9 +6,6 @@
 ;This Program spawns a random maze everytime it is loaded and the goal of the game is for the user to try and escape the maze.
 ;--------------------------------------------------------------------------
 
-
-
-
 vars:
 	LD V0,0
 	LD V1,0
@@ -34,10 +31,20 @@ main:
 	endLoop:
 		JP endLoop      
 
-		;Infinite Loop to keep state and not redraw sprites.     TIMESTAMP: WEDNESDAY MARCH 6th 8:31PM
+		; Infinite Loop to keep state and not redraw sprites.
+		; TIMESTAMP: WEDNESDAY MARCH 6th 8:31PM
 
 
 DRAW_X:
-	db 	%10000000, 	%01000000,	%00100000,	%00010000
+	db	%10000000,
+		%01000000,
+		%00100000,
+		%00010000
+		
 DRAW_Y:
-	db 	%00010000, 	%00100000, 	%01000000, 	%10000000			;TIMESTAMP FRIDAY MARCH 8TH 11:42PM
+	db	%00010000, 	
+		%00100000,
+		%01000000,
+		%10000000
+		
+		;TIMESTAMP FRIDAY MARCH 8TH 11:42PM
