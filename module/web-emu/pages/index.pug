@@ -19,10 +19,12 @@ include ../dialogs/dialog-load
 include ../dialogs/dialog-settings
 
 - title = 'CHIP-8 Emulator'
+- description = 'A fancy (and fast) web-based CHIP-8 emulator and debugger. Supports and runs on mobile devices.'
+- keywords.push('CHIP8', 'CHIP-8', 'CHIP-8 Emulator', 'CHIP8 Emulator', '.ch8')
 
 - stylesheets.push('/assets/styles/emulator.css')
 - scripts.push('/scripts/web-emu/main.js')
-- shims[':scope'] = true;
+- shims[':scope'] = true
 
 -// --------------------------------------------------------------------------------------------------------------------
 -// Screen: Loading
