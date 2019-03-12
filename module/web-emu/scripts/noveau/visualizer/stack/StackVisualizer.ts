@@ -69,13 +69,20 @@ class StackVisualizer extends Visualizer {
 		const stack = stackObject.inspectRaw();
 		const pointer = stackObject.getPointer();
 
+		// Clear all frames.
 		if (pointer !== this.lastPointer) {
 			this.lastPointer = pointer;
+
+			if (pointer < stackObject.getCapacity() - 1) {
+				this.frames[pointer + 1].setVisible(true);
+			}
+
 			for (let frame of this.frames) {
 				frame.setEmpty();
 			}
 		}
 
+		// Render used frames.
 		for (let i = 0; i <= pointer; i++) {
 			this.frames[pointer - i].set(stack[i]);
 		}
