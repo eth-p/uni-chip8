@@ -7,6 +7,9 @@ include ../components/common
 include ../components/member
 
 - title = 'About Us - Team Chipotle'
+- description = 'Team 15 / Team Chipotle. Kyle Saburao, Ethan Pini, Firas Fakih, Anthony Pham, Henry Wang, Dan Amarasinghe';
+- keywords.push('Team Chipotle', 'CHIP-8', 'CHIP8')
+
 - stats = {};
 - stats_none = {additions: 0, deletions: 0, commits: 0};
 
@@ -16,16 +19,21 @@ include ../components/member
 -// Stats:
 -// --------------------------------------------------------------------------------------------------------------------
 
-- try {
--     for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
--         stats[entry.author.login] = entry.weeks.reduce((a, c) => {
--             a.additions += c.a;
--             a.deletions += c.d;
--             a.commits   += c.c;
--             return a;
--         }, Object.assign({}, stats_none));
--     }
-- } catch (ex) {console.log(ex)}
+-
+	try {
+		for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
+			stats[entry.author.login] = entry.weeks.reduce((a, c) => {
+				a.additions += c.a;
+				a.deletions += c.d;
+				a.commits   += c.c;
+				return a;
+			}, Object.assign({}, stats_none));
+		}
+	} catch (ex) {
+		console.error('\x1B[31mCould not parse repository stats.\x1B[0m');
+		console.error(ex);
+	}
+
 - if (Object.keys(stats).length === 0) stats_none = null;
 
 -// --------------------------------------------------------------------------------------------------------------------
@@ -79,4 +87,3 @@ include ../components/member
 			image: null,
 			git:   stats['danamaras'] || stats_none
 		})
-
