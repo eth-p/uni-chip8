@@ -10,7 +10,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 #dialog-load {
-	// Program upload.
 	#program-upload {
 		display: none;
 	}
@@ -29,58 +28,42 @@
 		align-items: center;
 
 		cursor: pointer;
-		border: $program-list-border 1px dashed;
-	}
-
-	// Program library.
-	.program-library-list:empty::after {
-		content: 'Loading...';
-		font-style: italic;
+		border: $control-list-border 1px dashed;
 	}
 
 	.program-library-list {
 		margin-top: 10px;
+	}
+}
 
-		.program-library-item {
-			font-size: 15px;
-			padding: 4px;
-			border: $program-list-border 1px solid;
-			transition: background $animation-time ease;
+// ---------------------------------------------------------------------------------------------------------------------
+// Program Library:
+// ---------------------------------------------------------------------------------------------------------------------
 
-			color: $text;
-			background: $program-list-background;
-			cursor: pointer;
+.program-library-list:empty::after {
+	content: 'Loading...';
+	font-style: italic;
+}
 
-			&:hover {
-				background: $program-list-background-hover;
-			}
+.program-library-list .control-item {
+	.program-name {
+		font-weight: bold;
+	}
 
-			&:not(:last-child) {
-				border-bottom: none;
-			}
+	.program-info {
+		font-size: 13px;
+		color: $text-dim;
+	}
 
-			.program-name {
-				font-weight: bold;
-			}
+	.program-author,
+	.program-author:link {
+		font-size: 13px;
 
-			.program-info {
-				font-size: 13px;
-				color: $text-dim;
-			}
+		text-decoration: none;
+		color: $accent-1;
 
-			.program-author {
-				&,
-				&:link {
-					font-size: 13px;
-
-					text-decoration: none;
-					color: $accent-1;
-
-					&:hover {
-						text-decoration: underline;
-					}
-				}
-			}
+		&:hover {
+			text-decoration: underline;
 		}
 	}
 }

@@ -63,7 +63,7 @@ class Template<O = any, X = never> {
 		if (structure.oncreate != null) this.genCreateListener(structure.oncreate);
 
 		let compiled = new Function(
-			'var late = arguments[0];console.log(late);' +
+			'var late = arguments[0];' +
 				'return function (opts) {' +
 				`    ${this.code.join(';\n')};` +
 				'    for (var i = 0; i < late.length; i++) late[i]($, opts);' +

@@ -1,0 +1,128 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Control List
+// ---------------------------------------------------------------------------------------------------------------------
+
+main .control-list {
+	.control-item {
+		font-size: 15px;
+		margin: 6px 0;
+
+		color: $text;
+		border: $control-list-border 1px solid;
+		background: $control-list-background;
+
+		// Layout.
+		> .image {
+			flex: 1 0 auto;
+		}
+
+		> .details {
+			flex: 1 1 auto;
+			padding: 4px;
+		}
+
+		> .controls {
+			display: flex;
+			flex: 0 0 auto;
+		}
+
+		@include mobile {
+			display: flex;
+			margin: 8px 0;
+
+			border-bottom: $control-list-border 1px solid;
+
+			> .controls {
+				display: flex;
+				flex-direction: column;
+
+				margin-left: 6px;
+
+				> * {
+					flex: 1 0 auto;
+				}
+			}
+		}
+
+		@include desktop {
+			> .details {
+				padding: 6px;
+			}
+
+			> .controls {
+				border-top: $control-list-border 1px solid;
+			}
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		// Style.
+		> .controls {
+			input[type='button'] {
+				@include custom-button;
+
+				cursor: pointer;
+
+				color: $control-list-button-color;
+				border: $control-list-button-border 1px solid;
+				border-bottom: none;
+				background: $control-list-button-background;
+
+				transition: color $animation-time ease, background $animation-time ease;
+
+				&:hover {
+					color: $control-list-button-color-hover;
+					background: $control-list-button-background-hover;
+				}
+
+				@include desktop {
+					padding: 8px;
+				}
+
+				// Accented.
+				&.accent-1 {
+					background: $accent-1-dim;
+					&:hover {
+						background: $accent-1;
+					}
+				}
+
+				&.accent-2 {
+					background: $accent-2-dim;
+					&:hover {
+						background: $accent-2;
+					}
+				}
+			}
+
+			// Borders:
+			@include mobile {
+				> * {
+					border-right: none !important;
+					min-height: 50px;
+					min-width: 50px;
+				}
+
+				> *:first-child {
+					border-top: none !important;
+				}
+			}
+
+			@include desktop {
+				> * {
+					border-top: none !important;
+					border-left: none !important;
+				}
+			}
+		}
+	}
+}

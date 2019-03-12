@@ -4,7 +4,6 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import Template from '@chipotle/wfw/Template';
 
-import App from '../../App';
 import Program from './Program';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,24 +19,46 @@ class LibraryEntry {
 
 	protected readonly TEMPLATE: (typeof LibraryEntry)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
 	public static readonly TEMPLATE = Template.compile<Program>({
-		classes: 'program-library-item',
-		oncreate: (e, o) => e.setAttribute('data-program-rom', o.url),
+		classes: 'control-item',
 		children: [
 			{
-				classes: 'program-name',
-				text: o => o.name
+				classes: 'details',
+				children: [
+					{
+						classes: 'program-name',
+						text: o => o.name
+					},
+					{
+						type: 'a',
+						classes: 'program-author',
+						text: o => o.authorName,
+						attr: {
+							href: o => o.authorPage
+						}
+					},
+					{
+						classes: 'program-info',
+						text: o => o.info
+					}
+				]
 			},
 			{
-				type: 'a',
-				classes: 'program-author',
-				text: o => o.authorName,
-				attr: {
-					href: o => o.authorPage
-				}
-			},
-			{
-				classes: 'program-info',
-				text: o => o.info
+				classes: 'controls',
+				children: [
+					{
+						type: 'input',
+						attr: {type: 'button', value: 'Load'},
+						data: {'program-rom': o => o.url},
+						classes: 'accent-1'
+					},
+					{
+						type: 'input',
+						attr: {type: 'button', value: 'Help'},
+						oncreate: (e, o) => {
+							if (o.controls == null) e.style.display = 'none';
+						}
+					}
+				]
 			}
 		]
 	});
