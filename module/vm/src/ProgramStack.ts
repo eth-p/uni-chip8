@@ -20,12 +20,17 @@ export default class ProgramStack {
 	/**
 	 * The stack.
 	 */
-	protected stack: ProgramAddress[];
+	protected stack: Uint16Array;
+
+	/**
+	 * The stack pointer.
+	 */
+	protected pointer: number;
 
 	/**
 	 * The maximum size of the stack.
 	 */
-	public readonly MAX: number;
+	protected readonly MAX: number;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -39,7 +44,8 @@ export default class ProgramStack {
 	public constructor(max: number) {
 		assert(max > 0, "Parameter 'max' is less than 1");
 
-		this.stack = [];
+		this.stack = new Uint16Array(max);
+		this.pointer = -1;
 		this.MAX = max;
 	}
 
@@ -52,8 +58,8 @@ export default class ProgramStack {
 	 * @param address The address to push.
 	 */
 	push(address: ProgramAddress): void {
-		if (this.stack.length === this.MAX) throw new ProgramError(ProgramError.STACK_OVERFLOW);
-		this.stack.push(address);
+		if (this.pointer === this.MAX - 1) throw new ProgramError(ProgramError.STACK_OVERFLOW);
+		this.stack[++this.pointer] = address;
 	}
 
 	/**
@@ -61,8 +67,8 @@ export default class ProgramStack {
 	 * @throws ProgramError When the stack is empty.
 	 */
 	pop(): ProgramAddress {
-		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
-		return <ProgramAddress>this.stack.pop();
+		if (this.pointer === -1) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
+		return this.stack[this.pointer--];
 	}
 
 	/**
@@ -72,7 +78,7 @@ export default class ProgramStack {
 	 */
 	top(): ProgramAddress {
 		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
-		return <ProgramAddress>this.stack[this.stack.length - 1];
+		return this.stack[this.pointer];
 	}
 
 	/**
@@ -80,7 +86,8 @@ export default class ProgramStack {
 	 * THIS SHOULD ONLY BE USED FOR RESETTING THE PROGRAM!
 	 */
 	clear(): void {
-		this.stack = [];
+		this.stack.fill(0);
+		this.pointer = 0;
 	}
 
 	/**
@@ -88,7 +95,21 @@ export default class ProgramStack {
 	 * @returns The program stack.
 	 */
 	inspect(): ProgramAddress[] {
-		return this.stack.slice(0);
+		return Array.from(this.stack);
+	}
+
+	/**
+	 * Gets the stack pointer.
+	 */
+	getPointer(): number {
+		return this.pointer;
+	}
+
+	/**
+	 * Gets the stack capacity.
+	 */
+	getCapacity(): number {
+		return this.MAX;
 	}
 
 	/**
@@ -97,7 +118,8 @@ export default class ProgramStack {
 	 */
 	public snapshot(): JsonType {
 		return {
-			stack: this.stack.slice(0),
+			stack: this.inspect(),
+			pointer: this.pointer,
 			max: this.MAX
 		};
 	}
@@ -107,7 +129,9 @@ export default class ProgramStack {
 	 * @param snapshot The JSON-compatible snapshot.
 	 */
 	public restore(snapshot: any) {
-		this.stack = snapshot.stack.slice(0);
 		(<any>this).MAX = snapshot.max;
+		this.pointer = snapshot.pointer;
+		this.stack = new Uint16Array(snapshot.max);
+		this.stack.set(snapshot.stack);
 	}
 }

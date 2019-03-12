@@ -33,6 +33,18 @@ describe('ProgramStack', () => {
 		expect(stack.inspect()).toEqual([5]);
 	});
 
+	it('getPointer', () => {
+		let stack = new ProgramStack(1);
+		expect(stack.getPointer()).toEqual(-1);
+		stack.push(5);
+		expect(stack.getPointer()).toEqual(0);
+	});
+
+	it('getCapacity', () => {
+		let stack = new ProgramStack(1);
+		expect(stack.getCapacity()).toEqual(1);
+	});
+
 	it('snapshot + restore', () => {
 		let stack = new ProgramStack(1);
 		let copy = new ProgramStack(1);
