@@ -40,7 +40,6 @@ main .control-list {
 			border-bottom: $control-list-border 1px solid;
 
 			> .controls {
-				display: flex;
 				flex-direction: column;
 
 				margin-left: 6px;
@@ -67,11 +66,20 @@ main .control-list {
 
 		// Style.
 		> .controls {
-			input[type='button'] {
+			display: flex;
+			flex-direction: row;
+
+			// Buttons / Links.
+			input[type='button'],
+			a:link {
 				@include custom-button;
+
+				display: inline-block;
+				font-size: 11px;
 
 				cursor: pointer;
 
+				text-decoration: none;
 				color: $control-list-button-color;
 				border: $control-list-button-border 1px solid;
 				border-bottom: none;
@@ -104,7 +112,14 @@ main .control-list {
 				}
 			}
 
-			// Borders:
+			// Separators.
+			@include desktop {
+				.separator {
+					flex: 1 1 auto;
+				}
+			}
+
+			// Borders.
 			@include mobile {
 				> * {
 					border-right: none !important;
