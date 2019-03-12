@@ -64,12 +64,14 @@ class Template<O = any, X = never> {
 
 		let compiled = new Function(
 			'var late = arguments[0];' +
+				'var condition = arguments[1];' +
 				'return function (opts) {' +
+				'    if (!condition(opts)) return null;' +
 				`    ${this.code.join(';\n')};` +
 				'    for (var i = 0; i < late.length; i++) late[i]($, opts);' +
 				'    return $;' +
 				'}'
-		)(this.late);
+		)(this.late, structure.condition == null ? () => true : structure.condition);
 
 		// Clean up.
 		this.code = [];
@@ -198,7 +200,8 @@ class Template<O = any, X = never> {
 	protected genChildren(children: Template.Compiled<O>[]): void {
 		this.late.push(function(e, o) {
 			for (let child of children) {
-				e.appendChild(child(o));
+				let generated = child(o);
+				if (generated != null) e.appendChild(generated);
 			}
 		});
 	}
@@ -259,6 +262,7 @@ namespace Template {
 		classes?: (string | LateValue<O, string>) | (string | LateValue<O, Optional<string>>)[];
 		events?: ElementListeners<O>;
 		oncreate?: (element: HTMLElement, options: O) => void;
+		condition?: (options: O) => boolean;
 		children?: Children<O, X>;
 	}
 }

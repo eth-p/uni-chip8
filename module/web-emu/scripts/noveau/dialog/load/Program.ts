@@ -45,6 +45,12 @@ class Program {
 	public readonly authorPage: string;
 
 	/**
+	 * The program shouldn't be easily downloaded.
+	 * That's not saying it's impossible to do so, but we might as well not make it easy.
+	 */
+	public readonly drm: boolean;
+
+	/**
 	 * The program controls.
 	 */
 	public readonly controls?: {[key: string]: string};
@@ -69,6 +75,7 @@ class Program {
 		this.authorName = info.author;
 		this.authorPage = info.author_url;
 		this.controls = info.controls;
+		this.drm = info.drm === true;
 		this.cachedData = null;
 	}
 
