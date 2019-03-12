@@ -59,7 +59,8 @@
 		"ts-jest": "^23.10.5",
 		"tslint": "^5.13.1",
 		"typescript": "^3.3.3333",
-		"undertaker": "^1.2.0"
+		"undertaker": "^1.2.0",
+		"vinyl": "^2.2.0"
 	},
 	"_moduleAliases": {
 		"@sct": ".script/sct/lib/SCT.js",

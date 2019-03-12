@@ -149,12 +149,12 @@ modules:
 
   chip-roms:
     description: "CHIP-8: Demonstration programs."
-    tasks: [copy]
+    tasks: [copy, rom-db]
     sources:
       - '**/*.rom'
-      - './database.json'
+      - '**/*.asm'
+      - '**/*.json'
     copy:
-      './*.json': 'assets/rom/'
       './*.rom': 'assets/rom/'
 
 # ----------------------------------------------------------------------------------------------------------------------
