@@ -47,8 +47,10 @@ class StackFrame {
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor(frame: 'PC' | number) {
+		const label = frame === 'PC' ? 'PC' : `-${frame.toString().padStart(2, '0')}`;
+
 		this.frame = frame;
-		this.element = this.TEMPLATE(`-${frame.toString().padStart(2, '0')}`);
+		this.element = this.TEMPLATE(label);
 		this.label = <HTMLElement>this.element.querySelector(':scope > .stack-frame-index');
 		this.value = <HTMLElement>this.element.querySelector(':scope > .stack-frame-value');
 
