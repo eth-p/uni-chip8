@@ -54,7 +54,7 @@ class RomDatabaseBuilder extends Transform {
 
 			let data = JSON.parse(program.contents.toString('utf8'));
 			let rom = path.basename(program.path, '.json');
-			database[`${rom}.json`] = data;
+			database[`${rom}.rom`] = data;
 		}
 
 		this.push(new vinyl({
