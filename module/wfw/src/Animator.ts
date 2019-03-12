@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import State from '@chipotle/wfw/State';
+// ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * A wrapper around {@link requestAnimationFrame}.
@@ -15,7 +16,6 @@ class Animator {
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected state: State<boolean> | boolean;
 	protected fn: () => void;
 	protected hooked: boolean;
 	protected paused: boolean;
@@ -43,15 +43,18 @@ class Animator {
 	public constructor(stateOrFn: (() => void) | (State<boolean> | boolean), fn?: () => void) {
 		if (fn != null) {
 			this.fn = fn;
-			this.state = <boolean | State<boolean>>stateOrFn;
-			this.paused = typeof this.state === 'boolean' ? this.state : this.state.value;
-
-			(<State<boolean>>this.state).addListener('change', enabled => {
-				this.paused = !enabled;
-			});
+			let state = <boolean | State<boolean>>stateOrFn;
+			if (stateOrFn instanceof State) {
+				this.paused = !(<State<boolean>>state).value;
+				(<State<boolean>>state).addListener('change', enabled => {
+					if (enabled) this.resume();
+					else this.pause();
+				});
+			} else {
+				this.paused = <boolean>state;
+			}
 		} else {
 			this.fn = <() => void>stateOrFn;
-			this.state = true;
 			this.paused = false;
 		}
 
