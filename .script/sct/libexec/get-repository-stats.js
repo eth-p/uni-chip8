@@ -35,6 +35,23 @@ function onError(error) {
 	process.exit(1);
 }
 
+async function getStats(REPO_OWNER, REPO_NAME, API_TOKEN) {
+	try {
+		return await request({
+			url: `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/stats/contributors`,
+			headers: {
+				'User-Agent': 'Build Script (eth-p)',
+				'Authorization': API_TOKEN == null ? null : `Basic ${(Buffer.from(API_TOKEN)).toString('base64')}`
+			}
+		});
+	} catch (ex) {
+		console.error("Failed to get statistics.");
+		console.error('Repo:  %s/%s', REPO_OWNER, REPO_NAME);
+		console.error('Error: %s', JSON.parse(ex.response.body).message);
+		process.exit(1);
+	}
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Main:
 // ---------------------------------------------------------------------------------------------------------------------
@@ -52,21 +69,22 @@ function onError(error) {
 		process.exit(2);
 	}
 
-	let data;
-	try {
-		data = await request({
-			url: `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/stats/contributors`,
-			headers: {
-				'User-Agent': 'Build Script (eth-p)',
-				'Authorization': API_TOKEN == null ? null : `Basic ${(Buffer.from(API_TOKEN)).toString('base64')}`
-			}
-		});
-	} catch (ex) {
+	let retries = 4;
+	let data = {};
+	while ((retries--) > 0) {
+		data = await getStats(REPO_OWNER, REPO_NAME, API_TOKEN);
+		if (Object.keys(JSON.parse(data)).length > 0) break;
+		await new Promise((resolve) => setTimeout(resolve, 2500));
+	}
+
+	if (Object.keys(data).length === 0) {
 		console.error("Failed to get statistics.");
 		console.error('Repo:  %s/%s', REPO_OWNER, REPO_NAME);
-		console.error('Error: %s', JSON.parse(ex.response.body).message);
+		console.error('Error: GitHub API Returned Empty Response');
 		process.exit(1);
 	}
+
+	console.log("Fetched information for %d contributors.", JSON.parse(data).length);
 
 	await fs.ensureDir(dir);
 	await fs.writeFile(path.join(dir, 'stats.json'), data, 'utf8');

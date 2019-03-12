@@ -15,6 +15,14 @@
 		"author_url": "https://github.com/eth-p"
 	},
 
+	"artifact.rom": {
+		"type": "DEMO",
+		"name": "Artifacts",
+		"info": "A cool accident.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
+	},
+
 	"czero.rom": {
 		"type": "GAME",
 		"name": "C-ZERO",
@@ -26,6 +34,22 @@
 			"7": "LEFT",
 			"9": "BRAKE",
 			"8": "RIGHT"
+		}
+	},
+
+	"laser-defence.rom": {
+		"type": "GAME",
+		"name": "Laser Defence",
+		"info": "Lasers are vastly superior to siege engines.",
+		"author": "Kyle Saburao",
+		"author_url": "https://github.com/macedir",
+		"controls": {
+			"5": "TARGETING UP",
+			"8": "TARGETING DOWN",
+			"9": "TARGETING RIGHT",
+			"7": "TARGETING LEFT",
+			"6": "LAUNCH BEAM TARGETER",
+			"4": "FIRE BEAM EARLY"
 		}
 	},
 
@@ -84,6 +108,14 @@
 		}
 	},
 
+	"advanced-warfare.rom": {
+		"type": "GAME",
+		"name": "Advanced Warfare",
+		"info": "A game of war, death, and respect.",
+		"author": "Ethan Pini",
+		"author_url": "https://github.com/eth-p"
+	},
+
 	"counter-test.rom": {
 		"type": "TOOL",
 		"name": "BCD Counter Test",
@@ -117,19 +149,11 @@
 		}
 	},
 
-	"laser-defence.rom": {
-		"type": "GAME",
-		"name": "Laser Defence",
-		"info": "Lasers are vastly superior to siege engines.",
-		"author": "Kyle Saburao",
-		"author_url": "https://github.com/macedir",
-		"controls": {
-			"5": "TARGETING UP",
-			"8": "TARGETING DOWN",
-			"9": "TARGETING RIGHT",
-			"7": "TARGETING LEFT",
-			"6": "LAUNCH BEAM TARGETER",
-			"4": "FIRE BEAM EARLY"
-		}
+	"maze276.rom": {
+		"type": "DEMO",
+		"name": "Maze",
+		"info": "Generate a random maze every time.",
+		"author": "Firas Fakih",
+		"author_url": "https://github.com/ffakih"
 	}
 }
