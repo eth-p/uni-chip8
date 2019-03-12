@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; C-ZERO                                                                                                               ;
+; Advanced Warfare (F to Pay Respects)                                                                                 ;
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
