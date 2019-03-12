@@ -133,11 +133,19 @@
 		}
 	},
 
+	"maze276.rom": {
+		"type": "DEMO",
+		"name": "Maze",
+		"info": "Generate a random maze every time.",
+		"author": "Firas Fakih",
+		"author_url": "https://github.com/ffakih"
+	},
+  
 	"artifact.rom": {
 		"type": "DEMO",
 		"name": "Artifacts",
 		"info": "A cool accident.",
 		"author": "Ethan Pini",
 		"author_url": "https://github.com/eth-p"
-	}
+  }
 }
