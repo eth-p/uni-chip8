@@ -22,32 +22,25 @@ main:
 	LD I,DRAW_X
 	DRW V0,V1,4
 	ADD V0,5            ; We have to update V0 (X coordinate)
-	LD V4,50
+	LD V4,60
 	SE V0,V4
 	JP main
 	LD V0,0
-	ADD V1,5
-	LD V4,30            ; Update V1 (Y Cooridinate)
+	ADD V1,5			 ; Update V1 (Y Cooridinate)
+	LD V4,30           
 	SE V1,V4
 	JP main
 
 	endLoop:
-		LD V0, K
 		JP endLoop      
 
 		;Infinite Loop to keep state and not redraw sprites.     TIMESTAMP: WEDNESDAY MARCH 6th 8:31PM
 
 
 DRAW_X:
-	db 	%10000000,
-	 	%01000000,
-		%00100000,
-		%00010000
+	db 	%10000000, 	%01000000,	%00100000,	%00010000
 DRAW_Y:
-	db 	%00010000,
-	 	%00100000,
-	 	%01000000,
-	 	%10000000			;TIMESTAMP THURSDAY MARCH 8TH 11:42PM
+	db 	%00010000, 	%00100000, 	%01000000, 	%10000000			;TIMESTAMP FRIDAY MARCH 8TH 11:42PM
 
 
 
