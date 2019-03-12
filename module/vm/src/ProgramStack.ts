@@ -91,10 +91,18 @@ export default class ProgramStack {
 	}
 
 	/**
+	 * Returns a trimmed copy of the program stack.
+	 * @returns The program stack up until and including the pointer.
+	 */
+	inspect(): ProgramAddress[] {
+		return Array.from(this.stack).slice(0, this.pointer + 1);
+	}
+
+	/**
 	 * Returns an exact as-is copy of the program stack.
 	 * @returns The program stack.
 	 */
-	inspect(): ProgramAddress[] {
+	inspectRaw(): ProgramAddress[] {
 		return Array.from(this.stack);
 	}
 

@@ -26,11 +26,19 @@ describe('ProgramStack', () => {
 	});
 
 	it('inspect', () => {
-		let stack = new ProgramStack(1);
+		let stack = new ProgramStack(3);
 		stack.push(5);
 		expect(stack.inspect()).toEqual([5]);
 		stack.inspect()[0] = 1;
 		expect(stack.inspect()).toEqual([5]);
+	});
+
+	it('inspectRaw', () => {
+		let stack = new ProgramStack(3);
+		stack.push(5);
+		expect(stack.inspectRaw()).toEqual([5, 0, 0]);
+		stack.inspect()[0] = 1;
+		expect(stack.inspectRaw()).toEqual([5, 0, 0]);
 	});
 
 	it('getPointer', () => {
