@@ -25,6 +25,16 @@ describe('ProgramStack', () => {
 		expect(() => stack.pop()).toThrow();
 	});
 
+	it('clear', () => {
+		let stack = new ProgramStack(3);
+		stack.push(3);
+		stack.push(5);
+		stack.pop();
+		stack.clear();
+		expect(stack.getPointer()).toEqual(-1);
+		expect(Array.from(stack.inspectRaw())).toEqual([0, 0, 0]);
+	});
+
 	it('inspect', () => {
 		let stack = new ProgramStack(3);
 		stack.push(5);

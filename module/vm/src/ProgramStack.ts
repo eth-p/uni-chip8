@@ -77,7 +77,7 @@ export default class ProgramStack {
 	 * @returns Top address from the call stack.
 	 */
 	top(): ProgramAddress {
-		if (this.stack.length === 0) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
+		if (this.pointer === -1) throw new ProgramError(ProgramError.STACK_UNDERFLOW);
 		return this.stack[this.pointer];
 	}
 
@@ -87,7 +87,7 @@ export default class ProgramStack {
 	 */
 	clear(): void {
 		this.stack.fill(0);
-		this.pointer = 0;
+		this.pointer = -1;
 	}
 
 	/**
