@@ -157,7 +157,7 @@
 		}
 	},
 
-	"stop_wactch.rom": {
+	"stop_watch.rom": {
 		"type": "DEMO",
 		"name": "Stop watch",
 		"info": " Stop watch simulation for CHIP-8 (Recommended emulator speed 1300Hz)",
