@@ -141,5 +141,19 @@
 		"info": "Generate a random maze every time.",
 		"author": "Firas Fakih",
 		"author_url": "https://github.com/ffakih"
+	},
+
+	"snake.rom": {
+		"type": "GAME",
+		"name": "Snake",
+		"info": "Snake for the CHIP-8.",
+		"author": "Henry Wang",
+		"author_url": "https://github.com/wziheng",
+		"controls": {
+			"5": "UP",
+			"7": "LEFT",
+			"9": "DOWN",
+			"8": "RIGHT"
+		}
 	}
 }
