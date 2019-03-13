@@ -3,14 +3,87 @@
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
 include ../templates/page
-include ../components/card
+include ../components/common
+include ../components/member
 
 - title = 'About Us - Team Chipotle'
+- description = 'Team 15 / Team Chipotle. Kyle Saburao, Ethan Pini, Firas Fakih, Anthony Pham, Henry Wang, Dan Amarasinghe';
+- keywords.push('Team Chipotle', 'CHIP-8', 'CHIP8')
 
+- stats = {};
+- stats_none = {additions: 0, deletions: 0, commits: 0};
+
+- stylesheets.push('/assets/styles/about.css')
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Stats:
+-// --------------------------------------------------------------------------------------------------------------------
+
+-
+	try {
+		for (let entry of File.readJSON(Path.join(Path.TEMP, 'stats.json'))) {
+			stats[entry.author.login] = entry.weeks.reduce((a, c) => {
+				a.additions += c.a;
+				a.deletions += c.d;
+				a.commits   += c.c;
+				return a;
+			}, Object.assign({}, stats_none));
+		}
+	} catch (ex) {
+		console.error('\x1B[31mCould not parse repository stats.\x1B[0m');
+		console.error(ex);
+	}
+
+- if (Object.keys(stats).length === 0) stats_none = null;
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Page:
+-// --------------------------------------------------------------------------------------------------------------------
 +page.padded
 	h1 About Us
-	|
-	p We are Team 15, Chipotle. 
-	| Our members are Ethan Pini, Kyle Saburao, Firas Fakih, Anthony Pham,
-	| Henry Wang, Dan Amarasinghe.
+	p Team 15 / Team Chipotle
+	p We are a diverse group of software engineering students tasked with creating a web-based CHIP-8 emulator.
 
+	+section.team-members
+
+		+member('Kyle Saburao', {
+			role:  'Project Manager',
+			href:  'https://github.com/macedir',
+			image: 'https://github.com/macedir.png',
+			git:   stats['macedir'] || stats_none
+		})
+
+		+member('Ethan Pini', {
+			role:  'Technical Lead',
+			href:  'https://ethan.pini.dev',
+			image: 'https://github.com/eth-p.png',
+			git:   stats['eth-p'] || stats_none
+		})
+
+		+member('Firas Fakih', {
+			role:  'Team Member',
+			href:  null,
+			image: null,
+			git:   stats['ffakih'] || stats_none
+		})
+
+		+member('Anthony Pham', {
+			role: 'Team Member',
+			href:  null,
+			image: null,
+			git:   stats['cen357'] || stats_none
+		})
+
+		+member('Henry Wang', {
+			role:  'Team Member',
+			href:  null,
+			image: null,
+			git:   stats['wziheng'] || stats_none
+		})
+
+		+member('Dan Amarasinghe', {
+			role:  'Team Member',
+			href:  null,
+			image: null,
+			git:   stats['danamaras'] || stats_none
+		})

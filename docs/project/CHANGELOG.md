@@ -102,6 +102,9 @@
 
 - **chip-roms:** Add work on Nuclear Launch game.
 - **chip-roms:** Add Laser Defence game.
+- **web-x:** Update "About" page to show more details.
+- **web-x:** Add analytics to website.
+- **chip-roms:** Add 'ARTIFACT' ROM.
 
 ### Schedule
 
