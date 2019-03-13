@@ -69,17 +69,6 @@ import {settings} from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Event Listeners:
 // ---------------------------------------------------------------------------------------------------------------------
-settings.addListener('update', (setting, value) => {
-	switch (setting) {
-		case 'cpu_speed':
-			emulator.setFrequency(value);
-			break;
-
-		default:
-			break;
-	}
-});
-
 emulator.addListener('snapshot', (id, snapshot) => {
 	(<any>settings)[`savestate_${id}`] = {
 		screenshot: null, // TODO: Real screenshots

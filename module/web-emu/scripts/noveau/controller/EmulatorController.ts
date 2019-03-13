@@ -7,6 +7,7 @@ import XHR, {XHRType} from '@chipotle/wfw/XHR';
 
 import App from '../App';
 import {emulator} from '../../instance';
+import {settings} from '../../settings';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -61,6 +62,10 @@ class EmulatorController extends App {
 		});
 
 		// Settings.
+		this.settings.onChange('cpu_speed', (setting, value) => {
+			this.emulator.setFrequency(value);
+		});
+
 		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
 			const settings = this.settings;
 			const emulator = this.emulator;
