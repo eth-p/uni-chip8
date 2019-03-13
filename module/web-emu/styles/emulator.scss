@@ -21,6 +21,10 @@ main {
 			flex-direction: column;
 		}
 
+		.emulator-debugger {
+			color: $text;
+		}
+
 		.emulator-debugger > * {
 			padding: $component-margin;
 			border-bottom: $component-separator 1px solid;

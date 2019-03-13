@@ -3,16 +3,18 @@
 -// MIT License
 -// --------------------------------------------------------------------------------------------------------------------
 include ../templates/page
-include ../components/card
+include ../components/member
 
 - title = 'Team Chipotle'
+- description = 'A class project revolving around the CHIP-8.'
+- keywords.push('Team Chipotle', 'CHIP8', 'CHIP-8', 'CHIP-8 Emulator')
 
+-// --------------------------------------------------------------------------------------------------------------------
+-// Page:
+-// --------------------------------------------------------------------------------------------------------------------
 +page.seamless.centered
 	.wrap.wrap-center.wrap-padded
 
 		+card(href="/emulator" img="/assets/images/preview-emulator.png" theme="dark")
 			.text Our CHIP-8 emulator.
-
-		//- +card(href="/tools/assembler" img="/assets/images/preview-assembler.png" theme="dark")
-			.text A powerful CHIP-8 macro assembler.
 

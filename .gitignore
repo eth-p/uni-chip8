@@ -8,6 +8,7 @@ node_modules
 
 # Build
 /module/*/out
+/temp
 /out
 
 # Documents
