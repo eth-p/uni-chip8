@@ -315,7 +315,38 @@ describe('Operation Codes', () => {
 			}
 		}
 	});
-	it('dxyn', async () => {});
+	it('dxyn', async () => {
+		let vm = await createVM([0xd001]);
+
+		if (vm.program.data != null && vm.display != null) {
+			let sprite_location: number = 0x500;
+			let sprite_coordinate: number = 0x1;
+			vm.program.data[sprite_location] = 0x80; // Single dot
+			vm.register_index = sprite_location;
+			vm.register_data[0] = sprite_coordinate;
+
+			// Test single dot
+			vm.step();
+			for (let y: number = 0; y < vm.display.HEIGHT; ++y) {
+				for (let x: number = 0; x < vm.display.WIDTH; ++x) {
+					let expected_state: boolean = x === sprite_coordinate && y === sprite_coordinate;
+					expect(vm.display.get(x, y)).toStrictEqual(expected_state);
+				}
+			}
+
+			vm.jump(0x200);
+
+			// Test dot undraw
+			vm.step();
+			expect(vm.register_flag).toStrictEqual(1);
+			for (let y: number = 0; y < vm.display.HEIGHT; ++y) {
+				for (let x: number = 0; x < vm.display.WIDTH; ++x) {
+					let expected_state: boolean = false;
+					expect(vm.display.get(x, y)).toStrictEqual(expected_state);
+				}
+			}
+		}
+	});
 	it('ex9e', async () => {});
 	it('exa1', async () => {});
 	it('fx07', async () => {
