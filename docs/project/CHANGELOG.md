@@ -92,4 +92,23 @@
 ### Schedule
 
 - **Release:** Moved reverse debugger to release 4.
+- **Release:** Changed assembler to encompass release 3 & 4.
 - **Release:** Added Vancouver Driving Simulator to release 3.
+- **Release:** Added Flappy Bird to release 3.
+
+## Release 3
+
+### Developer
+
+- **chip-roms:** Add work on Nuclear Launch game.
+- **chip-roms:** Add Laser Defence game.
+
+### Schedule
+
+- **Release:** Replace Vancouver Driving Simulator with Laser Defence.
+- **Release:** Move reverse-debugger into Release 3.
+- **Release:** Add MAZE 2.0 and SFU-related program to Release 3.
+- **Release:** Move assembler into Release 4.
+- **Release:** Update "About" page to show more details.
+- **Release:** Add analytics to website.
+- **Release:** Add 'ARTIFACT' ROM

@@ -25,46 +25,6 @@ The sprite maker follows the sprite *'specification'* of 8 bits wide and at most
 
 - Kyle Saburao, ksaburao@sfu.ca
 
-### Release 1
-
-**Targets:**  
-
-- N/A
-
-**Developers:**  
-
-- N/A
-
-### Release 2
-
-**Targets:**  
-
-- N/A
-
-**Developers:**  
-
-- Name, user@sfu.ca
-
-### Release 3
-
-**Targets:**  
-
-- N/A
-
-**Developers:**  
-
-- Name, user@sfu.ca
-
-### Release 4
-
-**Targets:**  
-
-- Optimizations and refactoring
-
-**Developers:**  
-
-- Name, user@sfu.ca
-
 ## Developer Resources and Citations
 
 - [Wikipedia Page on Bitwise Operations](https://en.wikipedia.org/wiki/Bitwise_operation)

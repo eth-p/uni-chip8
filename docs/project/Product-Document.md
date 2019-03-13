@@ -25,7 +25,7 @@
 |**6**|February 4|Release 1| |[Week 6](meeting-minutes/Week-6.md)|
 |**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 27|Release 2| |[Week 8](meeting-minutes/Week-8.md)|
-|**9**|March 4|Release 3| | |
+|**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
 |**10**|March 11|Release 3| | |
 |**11**|March 18|Release 4| | |
 |**12**|March 25|Release 4| | |
@@ -360,15 +360,18 @@ Space Invader was not completed in time, so it will not be made playable.
 
 ##### Notes
 
-This is not final as we have to compensate for being one release ahead of schedule.
-
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
+|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In progress|
 |**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
 |**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Started|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
+
+##### Reflection on Release 3
+
+We moved the reverse debugger back into release 3.
+Assembler will occur for release 4.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
@@ -449,11 +452,13 @@ Considering the fact that we should have a reverse debugger, developers:
 
 #### Users
 
-- Will be able to enjoy original CHIP-8 games, i.e. the games will be unique.
+- will be able to enjoy original CHIP-8 games, i.e. the games will be unique.
 
 #### Developers
 
-- Will be able to use a program assembler to convert their program assembly files into executable bytecode.
+- will be able to experience writing assembly programs.
+- will be able to understand how limited the CHIP 8 emulator is.
+- will be able to use a program assembler to convert their program assembly files into executable bytecode.
 
 ## Project Schedule
 
@@ -481,6 +486,11 @@ Considering the fact that we should have a reverse debugger, developers:
 - Kyle Saburao
 - Dan Amarasinghe
 - Anthony Pham
+- Henry Wang
+
+### Release 3
+
+- Kyle Saburao
 
 ## Information Sources and Citations
 

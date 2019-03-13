@@ -50,8 +50,8 @@ Live versions can be found [here](https://chip.netlify.com).
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Done|
-|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Not started|
+|**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Complete|
+|**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Snake**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
 
@@ -61,7 +61,8 @@ Live versions can be found [here](https://chip.netlify.com).
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Program: Vancouver Driving Simulator**|28/02/2019|12 days|Started|
+|**CHIP-8 Program: Laser Defence**|28/02/2019|12 days|Complete|
+|**CHIP-8 Program: Maze 2.0 and SFU-related program**|28/02/2019|12 days|Not started|
 |**CHIP-8 Program: Flappy Bird**|28/02/2019|12 days|Started|
 
 ### Release 4
