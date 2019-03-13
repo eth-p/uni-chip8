@@ -20,6 +20,8 @@ section Module - Tools
 Simple Contribution Tool: done, SCT, 01-04-2019, 01-12-2019
 CircleCI: done, TEST, 01-04-2019, 01-07-2019
 Build System: BUILD, 01-12-2019, 01-18-2019
+Sprite Maker 1.0: 01-04-2019, 3d
+Sprite Maker 2.0: after R3, 04-04-2019
 
 section Module - Emulator
 R&D Build: 01-06-2019, 01-17-2019
@@ -27,14 +29,14 @@ Opcodes: after R0, 1w
 Architecture: ARCH, after R0, 2w
 Optimizations: after R1, 03-13-2019
 Debugger: after R0, 02-06-2019
-Reverse Debugger: after R2, 03-12-2019
-Assembler: after R2, 04-01-2019
-General Refinement: after R3, 04-05-2019
+Reverse Debugger: after R2, 04-04-2019
+General Refinement: after R3, 04-04-2019
 
 section Module - Webpage
 Website Design: after R0, 01-24-2019
 Website Implementation: after R0, 02-06-2019
-General Refinement: after R3, 04-05-2019
+Refactoring: after R2, 04-04-2019
+General Refinement: after R3, 04-04-2019
 
 section Module - Programs
 R&D Bouncing DVD Logo: 01-15-2019, 01-17-2019
@@ -44,11 +46,10 @@ Warshaws' Revenge: after R0, 1w
 Brick Breaker: after R1, 15d
 Google Dinosaur: after R1, 15d
 Snake: after R1, 15d
-Space Invaders: after R1, 15d
 
 Laser Defence: after R2, 03-10-2019
-Flappy Bird: after R2, 03-10-2019
+Advanced Warfare: after R2, 03-10-2019
 Other misc. games: after R2, 03-10-2019
 Maze 2.0: after R2, 03-10-2019
 
-General Refinement: after R3, 04-05-2019
+General Refinement: after R3, 04-04-2019
