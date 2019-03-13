@@ -9,13 +9,13 @@
 // Disassembler:
 // ---------------------------------------------------------------------------------------------------------------------
 
-#emulator-disassembler {
+#visualizer-program {
 	.title {
 		opacity: 0.5;
 		margin-bottom: 4px;
 	}
 
-	.program-op {
+	.program-frame {
 		display: flex;
 		padding: 0 4px;
 		text-align: left;
@@ -26,17 +26,17 @@
 		}
 
 		&.unused {
-			> .program-op-value {
+			> .program-frame-value {
 				opacity: 0.5;
 			}
 		}
 
 		// Display current instruction.
-		&.current .program-op-index::before {
+		.program-frame-index.current::before {
 			content: '>';
 		}
 
-		.program-op-index::before {
+		.program-frame-index::before {
 			display: inline-block;
 			text-align: center;
 			content: '';
@@ -45,7 +45,7 @@
 		}
 
 		// Display instruction address.
-		.program-op-index {
+		.program-frame-index {
 			min-width: 30px;
 			opacity: 0.5;
 			padding-right: 3px;
@@ -53,7 +53,7 @@
 		}
 
 		// Display instruction disassembly.
-		.program-op-value {
+		.program-frame-value {
 			padding-left: 3px;
 		}
 	}

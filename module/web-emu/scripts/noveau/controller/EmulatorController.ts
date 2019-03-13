@@ -82,6 +82,8 @@ class EmulatorController extends App {
 		this.triggers.emulator.pause.onTrigger(() => (this.state.user.pause.value = true));
 		this.triggers.emulator.resume.onTrigger(() => (this.state.user.pause.value = false));
 		this.triggers.emulator.reset.onTrigger(() => this.emulator.reset());
+		this.triggers.emulator.stepPrev.onTrigger(() => this.emulator.stepBackwards());
+		this.triggers.emulator.stepNext.onTrigger(() => this.emulator.stepForwards());
 	}
 
 	protected initListener(this: App.Fragment<this>): void {

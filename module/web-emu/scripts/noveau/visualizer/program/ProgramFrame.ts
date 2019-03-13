@@ -9,24 +9,23 @@ import Template from '@chipotle/wfw/Template';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An entry in the stack visualizer.
+ * An entry in the program visualizer.
  */
-class StackFrame {
+class ProgramFrame {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected readonly TEMPLATE: (typeof StackFrame)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
-	public static readonly TEMPLATE = Template.compile<string>({
-		classes: 'stack-frame',
+	protected readonly TEMPLATE: (typeof ProgramFrame)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
+	public static readonly TEMPLATE = Template.compile<boolean>({
+		classes: 'program-frame',
 		children: [
 			{
-				classes: 'stack-frame-index',
-				text: label => label
+				classes: ['program-frame-index', current => (current ? 'current' : undefined)],
+				text: '----'
 			},
 			{
-				classes: 'stack-frame-value',
-				text: '----'
+				classes: 'program-frame-value'
 			}
 		]
 	});
@@ -35,8 +34,7 @@ class StackFrame {
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected frame: 'PC' | number;
-	protected hidden: boolean;
+	protected offset: number;
 
 	protected element: HTMLElement;
 	protected label: HTMLElement;
@@ -46,16 +44,15 @@ class StackFrame {
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(frame: 'PC' | number) {
-		const label = frame === 'PC' ? 'PC' : `-${frame.toString().padStart(2, '0')}`;
-
-		this.frame = frame;
-		this.element = this.TEMPLATE(label);
-		this.label = <HTMLElement>this.element.querySelector(':scope > .stack-frame-index');
-		this.value = <HTMLElement>this.element.querySelector(':scope > .stack-frame-value');
-
-		this.hidden = frame !== 'PC';
-		this.setVisible(frame === 'PC');
+	/**
+	 * Creates a new program frame.
+	 * @param offset The offset from the program counter.
+	 */
+	public constructor(offset: number) {
+		this.offset = offset;
+		this.element = this.TEMPLATE(offset === 0);
+		this.label = <HTMLElement>this.element.querySelector(':scope > .program-frame-index');
+		this.value = <HTMLElement>this.element.querySelector(':scope > .program-frame-value');
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -63,7 +60,7 @@ class StackFrame {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Gets the element for the stack frame.
+	 * Gets the element for the program frame.
 	 * @returns The HTML element.
 	 */
 	public getElement(): HTMLElement {
@@ -71,47 +68,30 @@ class StackFrame {
 	}
 
 	/**
-	 * Sets the visibility of the element.
-	 * @param visible The visibility.
-	 */
-	public setVisible(visible: boolean): void {
-		this.hidden = !visible;
-		this.element.classList[visible ? 'remove' : 'add']('hide');
-	}
-
-	/**
-	 * Gets the visibility of the element.
-	 * @returns True if the element is visible.
-	 */
-	public isVisible(): boolean {
-		return !this.hidden;
-	}
-
-	/**
-	 * Sets the value of the stack frame.
+	 * Sets the value of the program frame.
 	 * @param value The value.
 	 */
-	public set(value: ProgramAddress): void {
-		if (this.hidden) this.setVisible(true);
-		this.value.textContent = toHexString(value);
+	public set(address: ProgramAddress, value: string): void {
+		this.label.textContent = toHexString(address);
+		this.value.textContent = value;
 	}
 
 	/**
 	 * Sets an empty value for the stack frame.
 	 */
 	public setEmpty(): void {
-		this.value.textContent = '----';
+		this.label.textContent = '----';
+		this.value.textContent = '';
 	}
 
 	/**
 	 * Resets the stack frame.
 	 */
 	public reset(): void {
-		this.setVisible(this.frame === 'PC');
 		this.setEmpty();
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default StackFrame;
-export {StackFrame};
+export default ProgramFrame;
+export {ProgramFrame};

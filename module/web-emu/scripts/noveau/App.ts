@@ -10,8 +10,10 @@ import Application, {FragmentClass} from '@chipotle/wfw/Application';
 
 import AppSettings from './AppSettings';
 import AppState from './AppState';
-import Emulator from '../Emulator';
 import AppTriggers from './AppTriggers';
+
+import Emulator from '../Emulator';
+import Disassembler from './Disassembler';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -24,6 +26,7 @@ class AppBase {
 	protected settings: AppSettings = AppBase.settings;
 	protected state: AppState = AppBase.state;
 	protected triggers: AppTriggers = AppBase.triggers;
+	protected disassembler: Disassembler<Chip> = AppBase.disassembler;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Static:                                                                                                   |
@@ -33,6 +36,7 @@ class AppBase {
 	public static settings: AppSettings = new AppSettings('emulator');
 	public static state: AppState = new AppState();
 	public static triggers: AppTriggers = new AppTriggers();
+	public static disassembler: Disassembler<Chip> = new Disassembler(AppBase.emulator.vm);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

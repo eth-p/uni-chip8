@@ -8,9 +8,9 @@ include ../../web/components/desktop
 include ../../web/components/toolbar
 include ../../web/components/window
 include ../components/emulator-keypad
-include ../components/emulator-debug-tools
-include ../components/emulator-disassembler
 include ../components/emulator-registers
+include ../components/debug-tools
+include ../components/visualizer-program
 include ../components/emulator-screen
 include ../components/visualizer-stack
 include ../windows/window-savestates
@@ -70,7 +70,7 @@ mixin loading-screen
 				+emulator-screen
 				+emulator-keypad
 			.emulator-debugger.requires-debugger
-				+emulator-debug-tools
+				+debug-tools
 				+emulator-registers
 				+visualizer-stack
-				+emulator-disassembler
+				+visualizer-program

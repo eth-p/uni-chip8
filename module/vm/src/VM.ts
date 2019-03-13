@@ -75,7 +75,8 @@ export class VMBase<A> extends Emitter {
 	protected _VM_executing: boolean;
 
 	/**
-	 * An object that represents
+	 * An object that contains the VM debug options.
+	 * @internal
 	 */
 	protected _VM_debug: Map<string, any>;
 
@@ -139,7 +140,7 @@ export class VMBase<A> extends Emitter {
 		// Instruction wasn't located in the cache.
 		// The IR will need to be created now.
 		let operation = this.isa.lookup(instruction);
-		if (operation === null) return undefined;
+		if (operation === undefined) return undefined;
 
 		// Decode the operands and create an IR.
 		ir = {
@@ -281,6 +282,14 @@ export class VMBase<A> extends Emitter {
 	 */
 	public getDebugOption(option: string): any {
 		return this._VM_debug.get(option) === true;
+	}
+
+	/**
+	 * Gets the virtual machine architecture.
+	 * The architecture.
+	 */
+	public getArchitecture(): Architecture<A> {
+		return this._VM_arch;
 	}
 }
 

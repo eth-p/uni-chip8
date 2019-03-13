@@ -58,6 +58,12 @@ class AppSettings extends Settings<keyof AppSettings> {
 	@Setting(false)
 	public show_disassembler!: boolean;
 
+	@Setting(4, {validator: num => num >= 0 && num < 16})
+	public disassemble_prev_count!: number;
+
+	@Setting(8, {validator: num => num >= 0 && num < 16})
+	public disassemble_next_count!: number;
+
 	@Setting(false)
 	public show_stack!: boolean;
 

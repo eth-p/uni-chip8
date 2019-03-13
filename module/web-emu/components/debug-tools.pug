@@ -4,12 +4,9 @@
 -// --------------------------------------------------------------------------------------------------------------------
 include ../../web/components/toolbar
 
-mixin emulator-debug-tools
-	#emulator-debug-tools
+mixin debug-tools
+	#debug-tools
 		+toolbar
 			+item
-				input(type="button" value="Prev" data-action="emulator-debug-step-prev")
-				input(type="button" value="Next" data-action="emulator-debug-step-next")
-
-			+item
-				input(type="button" value="Clear DT" data-action="emulator-debug-reset-timers")
+				input(type="button" value="Prev" data-trigger="emulator->pause; emulator->stepPrev")
+				input(type="button" value="Next" data-action="emulator->pause; emulator->stepNext")

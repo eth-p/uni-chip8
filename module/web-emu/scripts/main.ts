@@ -15,6 +15,7 @@ import ErrorDialog from './noveau/dialog/error/ErrorDialog';
 import LoadDialog from './noveau/dialog/load/LoadDialog';
 import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
+import ProgramVisualizer from './noveau/visualizer/program/ProgramVisualizer';
 import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -48,6 +49,7 @@ App.depends([
 	SettingsDialog,
 
 	// Visualizers.
+	ProgramVisualizer,
 	StackVisualizer
 ]);
 
@@ -59,7 +61,6 @@ import './ui-controls';
 import './ui-screen';
 import './ui-savestates';
 import './ui-registers';
-import './ui-disassembler';
 import './ui-keypad';
 import './keybind';
 import './feedback';

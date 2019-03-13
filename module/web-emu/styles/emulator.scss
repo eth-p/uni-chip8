@@ -30,7 +30,7 @@ main {
 			border-bottom: $component-separator 1px solid;
 		}
 
-		.emulator-debugger #emulator-debug-tools {
+		.emulator-debugger #debug-tools {
 			padding: 0;
 
 			input[type='button'] {
@@ -131,11 +131,11 @@ main {
 // ---------------------------------------------------------------------------------------------------------------------
 // Components:
 // ---------------------------------------------------------------------------------------------------------------------
-@import 'emulator_disassembler';
 @import 'emulator_keypad';
 @import 'emulator_registers';
 @import 'emulator_screen';
 @import 'visualizer';
+@import 'visualizer_program';
 @import 'visualizer_stack';
 @import 'dialog_error';
 @import 'dialog_load';

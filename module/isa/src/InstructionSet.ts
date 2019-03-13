@@ -6,6 +6,7 @@ import assert from '@chipotle/types/assert';
 
 import {Instruction, MAX as INSTRUCTION_MAX, and, bitscanf, bitshiftr, isValid} from './Instruction';
 import Operation from './Operation';
+import Optional from '@chipotle/types/Optional';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -97,20 +98,20 @@ class InstructionSet<I = void> {
 	 * Looks up an operation from an instruction.
 	 *
 	 * @param instruction The instruction.
-	 * @returns The corresponding operation, or null if not found.
+	 * @returns The corresponding operation, or undefined if not found.
 	 */
-	public lookup(instruction: Instruction): (Operation & I) | null {
+	public lookup(instruction: Instruction): Optional<Operation & I> {
 		assert(isValid(instruction), "Parameter 'instruction' is out of range for Instruction");
 
 		let index = bitshiftr(and(this.mask, instruction), this.maskshift);
 		let lut = this.table[index];
-		if (lut == null) return null;
+		if (lut == null) return undefined;
 
 		for (let op of lut) {
 			if (op.matches(instruction)) return <Operation & I>op;
 		}
 
-		return null;
+		return undefined;
 	}
 }
 

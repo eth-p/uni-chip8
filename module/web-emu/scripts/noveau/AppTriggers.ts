@@ -14,6 +14,10 @@ class AppTriggers {
 		stack: {
 			render: new Trigger(),
 			reset: new Trigger()
+		},
+		program: {
+			render: new Trigger(),
+			reset: new Trigger()
 		}
 	};
 
@@ -76,7 +80,9 @@ class AppTriggers {
 	public emulator = {
 		pause: new Trigger(),
 		resume: new Trigger(),
-		reset: new Trigger()
+		reset: new Trigger(),
+		stepPrev: new Trigger(),
+		stepNext: new Trigger()
 	};
 
 	/**
