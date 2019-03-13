@@ -45,17 +45,19 @@ class SAKeybind extends SettingAdapter {
 
 	public attach(element: HTMLInputElement, name: string): void {
 		element.addEventListener('keydown', this.onKeyDown);
+		element.addEventListener('input', this.onInput);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Handlers:                                                                                                 |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected onKeyDown(event: KeyboardEvent) {
+	protected onKeyDown(event: KeyboardEvent): boolean {
 		event.preventDefault();
 		event.stopPropagation();
 
 		if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return false;
+		if (event.key === 'Unidentified') return false;
 		let element = <HTMLInputElement>event.target;
 
 		element.setAttribute('data-keybind-value', event.key);
@@ -67,6 +69,12 @@ class SAKeybind extends SettingAdapter {
 		element.dispatchEvent(change);
 
 		// Return.
+		return false;
+	}
+
+	protected onInput(event: Event): boolean {
+		event.preventDefault();
+		event.stopImmediatePropagation();
 		return false;
 	}
 
