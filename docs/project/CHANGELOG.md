@@ -104,12 +104,17 @@
 - **chip-roms:** Add Laser Defence game.
 - **web-x:** Update "About" page to show more details.
 - **web-x:** Add analytics to website.
-- **chip-roms:** Add 'ARTIFACT' ROM.
+- **web-x:** Refactor everything part 1.
+- **chip-roms:** Add 'Artifacts' ROM.
+- **chip-roms:** Add 'Stop watch' ROM.
+- **chip-roms:** Add 'Advanced Warfare' game.
+- **chip-roms:** Add 'Maze' ROM.
 
 ### Schedule
 
 - **Release:** Replace Vancouver Driving Simulator with Laser Defence.
 - **Release:** Move reverse-debugger into Release 3.
 - **Release:** Add MAZE 2.0 and SFU-related program to Release 3.
+- **Release:** Add Sprite Maker 2.0 into Release 4.
 - **Release:** Move assembler into Release 4.
 - **Release:** Remove assembler from Release 4.
