@@ -2,7 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-@import '../../web/styles/_theme';
+@import '../../web/styles/theme';
+@import '../../web/styles/mixin';
 
 $component-margin: 4px;
 $component-separator: $toolbar-border;
