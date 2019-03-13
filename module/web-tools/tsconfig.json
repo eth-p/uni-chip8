@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": "scripts/web-tools",
+		"declarationDir": "types/web-tools"
+	},
+	"include": [
+		"scripts/**/*.ts"
+	],
+	"tests": [
+		"test/**/*.ts"
+	]
+}

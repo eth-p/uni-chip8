@@ -138,10 +138,17 @@ modules:
 
   web-emu:
     <<: *website
-    description: "Website: CHIP-8 assembler."
+    description: "Website: CHIP-8 emulator."
     output:
       <<: *website.output
       pages:  "emulator"
+
+  web-tools:
+    <<: *website
+    description: "Website: CHIP-8 tools."
+    output:
+      <<: *website.output
+      pages:  "tools"
 
   # .------.
   # | ROMS |
