@@ -63,6 +63,14 @@ class Library extends Emitter<'load' | 'error'> {
 				this.programs.push(new Program(`${this.urlBase}/${rom}`, data));
 			}
 
+			// Sort programs:
+			// - Featured
+			// - Newer
+			this.programs.sort((a, b) => {
+				if (a.featured && !b.featured) return -1;
+				if (b.featured && !a.featured) return 1;
+				return a.date.getTime() > b.date.getTime() ? -1 : 1;
+			});
 			this.emit('load', this);
 		} catch (ex) {
 			this.emit('error', ex);

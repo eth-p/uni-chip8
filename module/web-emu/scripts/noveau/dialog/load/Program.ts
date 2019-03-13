@@ -45,6 +45,16 @@ class Program {
 	public readonly authorPage: string;
 
 	/**
+	 * The program is featured (sorted to the top).
+	 */
+	public readonly featured: boolean;
+
+	/**
+	 * The program release date.
+	 */
+	public readonly date: Date;
+
+	/**
 	 * The program shouldn't be easily downloaded.
 	 * That's not saying it's impossible to do so, but we might as well not make it easy.
 	 */
@@ -76,6 +86,8 @@ class Program {
 		this.authorPage = info.author_url;
 		this.controls = info.controls;
 		this.drm = info.drm === true;
+		this.featured = info.featured === true;
+		this.date = new Date(info.date);
 		this.cachedData = null;
 	}
 
