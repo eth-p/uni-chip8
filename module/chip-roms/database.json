@@ -155,5 +155,18 @@
 			"9": "DOWN",
 			"8": "RIGHT"
 		}
+	},
+
+	"stop_wactch.rom": {
+		"type": "DEMO",
+		"name": "Stop watch",
+		"info": " Stop watch simulation for CHIP-8 (Recommended emulator speed 1300Hz)",
+		"author": "Anthony Pham",
+		"author_url": "https://github.com/cen357",
+		"controls": {
+			"1": "START",
+			"2": "STOP",
+			"3": "RESET"
+		}
 	}
 }
