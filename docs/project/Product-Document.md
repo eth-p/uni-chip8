@@ -26,7 +26,7 @@
 |**7**|February 11|Release 2| |[Week 7](meeting-minutes/Week-7.md)|
 |**8**|February 27|Release 2| |[Week 8](meeting-minutes/Week-8.md)|
 |**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
-|**10**|March 11|Release 3| | |
+|**10**|March 11|Release 3| |[Week 10](meeting-minutes/Week-10.md)|
 |**11**|March 18|Release 4| | |
 |**12**|March 25|Release 4| | |
 |**13**|April 1|Release 4| | |
@@ -38,7 +38,6 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Assembler**](item-description/Assembler/index.md)
 - [**CHIP-8 Programs**](item-description/chip8-programs.md)
 
 ### Finalizing
@@ -345,7 +344,7 @@ Since the emulator and website visualizer were pretty much done during release 1
 |**CHIP-8 Program: Brick Breaker**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Google Dinosaur**|07/02/2019|15 days|Complete|
 |**CHIP-8 Program: Snake**|07/02/2019|15 days|Complete|
-|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Started|
+|**CHIP-8 Program: Space Invaders**|07/02/2019|15 days|Cancelled|
 
 Release 2 will include programs as the emulator has been pretty much completed. While the assembler is being researched, we will be using [this assembler](https://github.com/wernsey/chip8/blob/master/README.md) by [Werner Stoop](https://github.com/wernsey) to compile our CHIP-8 assembly programs.
 
@@ -364,7 +363,7 @@ Space Invader was not completed in time, so it will not be made playable.
 |----|----|---------|------|
 |**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In progress|
 |**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
-|**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Started|
+|**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Complete|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
 
@@ -372,18 +371,38 @@ Space Invader was not completed in time, so it will not be made playable.
 
 We moved the reverse debugger back into release 3.
 Assembler will occur for release 4.
+Ethan decided that he would not be able to complete the assembler due to timing conflicts with CMPT 384.
+The website was refactored for better code quality and maintainability.
+
+Dan's Space Invaders program was due on Release 2, but it still isn't avaliable so it has been cancelled.
+
+Instead of an assembler, we will have an improved sprite maker that can help with large multi-sprite sprites.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**General Product Refinement**|14/03/2019|Entire release|Not started|
-|**CHIP-8 Assembler**|28/02/2019|Entire Release|In progress (early)|
-|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In progress (early)|
+|**General Product Refinement**|14/03/2019|Entire Release|Not Started|
+|**Sprite Maker 2.0**|14/03/2019|Entire Release|Not Started|
+|**Website Refactoring**|10/03/2019|Entire Release|In Progress|
+|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In Progress (early)|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
 **Code freeze will be in effect starting April 5th, 12:00 AM.** No new changes or modifications will be accepted into the master branch. It is expected that the entire product has been validated for final release.
 
 ### Member Roles
+
+#### Planned Roles
+
+|Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
+|------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
+|**Ethan Pini**| X | X | X | X | X | X |
+|**Kyle Saburao**| X | X | X | X | X | X |
+|**Anthony Pham**| | X | | X | | X |
+|**Henry Wang**| | X | | X | | X |
+|**Dan Amarasinghe**| | | | X | X | X |  
+|**Firas Fakih**| | | | X | X | X |
+
+#### Actual Roles
 
 |Member|Team Lead|Emulator Dev|Tool Dev|Program Dev|Interactive Dev|Documentor|
 |------:|:---------:|:------------:|:----------:|:--------:|:---------:|:----:|
@@ -393,6 +412,8 @@ We are targeting to bring the deliverables into a release ready state. Source co
 |**Henry Wang**| | | | X | | X |
 |**Dan Amarasinghe**| | | | X | | X |  
 |**Firas Fakih**| | | | X | | X |
+
+These roles are representative of what has actually been occuring over the course of the project.
 
 ### Roles
 
@@ -448,7 +469,7 @@ Considering the fact that we should have a reverse debugger, developers:
 - will be able to enjoy their uploaded CHIP-8 ROM on a functional and optimized multi-platform emulator website.
 - will be able to enjoy classic games such as Pong.
 
-### Release 3
+### Release 3 Use Cases
 
 #### Users
 
@@ -459,6 +480,20 @@ Considering the fact that we should have a reverse debugger, developers:
 - will be able to experience writing assembly programs.
 - will be able to understand how limited the CHIP 8 emulator is.
 - will be able to use a program assembler to convert their program assembly files into executable bytecode.
+
+### Release 4 Use Cases
+
+#### Users
+
+- will be able to backstep their programs.
+- will have an improved experience with the website. It will be faster and new features will be added.
+- will be able to download our programs.
+- will be able to save program states and load from them.
+
+#### Developers
+
+- will be able to debug their programs through backstepping.
+- will be able to easily create both small and large CHIP-8 sprites with a new sprite maker.
 
 ## Project Schedule
 
@@ -484,13 +519,15 @@ Considering the fact that we should have a reverse debugger, developers:
 
 - Ethan Pini
 - Kyle Saburao
-- Dan Amarasinghe
 - Anthony Pham
 - Henry Wang
 
 ### Release 3
 
 - Kyle Saburao
+- Ethan Pini
+- Anthony Pham
+- Firas Fakih
 
 ## Information Sources and Citations
 
