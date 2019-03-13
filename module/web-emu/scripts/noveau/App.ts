@@ -26,27 +26,6 @@ class AppBase {
 	protected triggers: AppTriggers = AppBase.triggers;
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Constructors:                                                                                             |
-	// -------------------------------------------------------------------------------------------------------------
-
-	public constructor() {
-		this.triggers.settings.save.onTrigger(() => this.settings.save());
-		this.triggers.settings.undo.onTrigger(() => this.settings.load());
-		this.triggers.settings.reset.onTrigger(() => this.settings.reset());
-
-		if (
-			!this.settings.settings_versioned ||
-			this.settings.settings_version !== this.settings.getEntry('settings_version')!.value
-		) {
-			this.settings.reset();
-			this.settings.save();
-		}
-
-		this.settings.settings_versioned = true;
-		this.settings.save();
-	}
-
-	// -------------------------------------------------------------------------------------------------------------
 	// | Static:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
@@ -61,6 +40,34 @@ class AppBase {
 const App = Application<typeof AppBase, AppBase>(AppBase);
 namespace App {
 	export type Fragment<T> = FragmentClass<AppBase> & T;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Initialization:
+
+{
+	// Bind settings.
+	App.triggers.settings.save.onTrigger(() => App.settings.save());
+	App.triggers.settings.undo.onTrigger(() => App.settings.load());
+	App.triggers.settings.reset.onTrigger(() => App.settings.reset());
+
+	// Reenable scrolling on load.
+	App.addListener('ready', () => {
+		document.body.classList.remove('no-scroll');
+	});
+
+	// Reset settings if mismatched settings version.
+	// This is to account for incompatible changes in the settings schema.
+	if (
+		!App.settings.settings_versioned ||
+		App.settings.settings_version !== App.settings.getEntry('settings_version')!.value
+	) {
+		App.settings.reset();
+		App.settings.save();
+	}
+
+	App.settings.settings_versioned = true;
+	App.settings.save();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -35,6 +35,7 @@ class DialogController extends App {
 	protected initState(this: App.Fragment<this>): void {
 		this.state.dialog.visible.addListener('change', visible => {
 			this.overlay.classList[visible ? 'add' : 'remove']('visible');
+			document.body.classList[visible ? 'add' : 'remove']('no-scroll');
 		});
 	}
 }

@@ -43,7 +43,7 @@ mixin page
 		if shims[':scope']
 			script(src="/assets/shim/scopedQuerySelectorShim.js")
 
-	body(class=Util.extractClasses(attributes, 'seamless', 'padded'))
+	body(class=Util.extractClasses(attributes, 'seamless', 'padded', 'no-scroll'))
 		if pug_mixins['loading-screen']
 			#loading-screen
 				div

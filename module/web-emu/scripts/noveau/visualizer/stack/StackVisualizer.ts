@@ -37,8 +37,6 @@ class StackVisualizer extends Visualizer {
 		for (let i = 0; i < this.emulator.vm.stack.getCapacity(); i++) {
 			this.frames[i] = new StackFrame(i);
 		}
-
-		console.log(this);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

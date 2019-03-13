@@ -24,6 +24,10 @@ body {
 
 	--accent-1: #{$accent-1};
 	--accent-2: #{$accent-2};
+
+	&.no-scroll {
+		overflow: hidden;
+	}
 }
 
 #page {
