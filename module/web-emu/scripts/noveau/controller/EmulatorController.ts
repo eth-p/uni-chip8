@@ -6,6 +6,7 @@ import StateProvider from '@chipotle/wfw/StateProvider';
 import XHR, {XHRType} from '@chipotle/wfw/XHR';
 
 import App from '../App';
+import {emulator} from '../../instance';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ class EmulatorController extends App {
 
 	protected isLoaded: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
+	protected isElsewhere: StateProvider<boolean> = new StateProvider<boolean>(false);
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -39,6 +41,7 @@ class EmulatorController extends App {
 		this.state.emulator.loaded.addProvider(this.isLoaded);
 		this.state.emulator.loading.addProvider(this.isLoading);
 		this.state.emulator.errored.addProvider(this.emulator.getErrorState());
+		this.state.emulator.paused.addProvider(this.isElsewhere);
 		this.state.emulator.paused.addProvider(() =>
 			this.settings.enable_debugger ? false : this.state.emulator.errored.value
 		);
@@ -78,6 +81,11 @@ class EmulatorController extends App {
 
 	protected initListener(this: App.Fragment<this>): void {
 		this.addListener('load', () => this.triggers.visualizers.resetAll.trigger());
+
+		// Pause the emulator when it's in another tab.
+		document.addEventListener('visibilitychange', () => {
+			this.isElsewhere.value = document.hidden;
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

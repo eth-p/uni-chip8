@@ -69,17 +69,6 @@ import {settings} from './settings';
 // ---------------------------------------------------------------------------------------------------------------------
 // Event Listeners:
 // ---------------------------------------------------------------------------------------------------------------------
-let userPause = false;
-document.addEventListener('visibilitychange', () => {
-	if (document.hidden) {
-		userPause = emulator.isPaused();
-		emulator.pause();
-	} else {
-		if (!userPause) emulator.resume();
-		userPause = false;
-	}
-});
-
 settings.addListener('update', (setting, value) => {
 	switch (setting) {
 		case 'cpu_speed':
