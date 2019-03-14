@@ -284,10 +284,10 @@ A bouncing DVD logo screensaver was made to show the capabilities of the prototy
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Emulator, excluding reverse stepping**|19/01/2019|2 weeks|Finished|
-|**CHIP-8 Opcodes**|19/01/2019|1 week|Finished|
-|**CHIP-8 Website, including Debugger**|19/01/2019|2 weeks|Finished|
-|**CHIP-8 Basic Programs**|19/01/2019|1 week|Finished|
+|**CHIP-8 Emulator, excluding reverse stepping**|19/01/2019|2 weeks|Completed|
+|**CHIP-8 Opcodes**|19/01/2019|1 week|Completed|
+|**CHIP-8 Website, including Debugger**|19/01/2019|2 weeks|Completed|
+|**CHIP-8 Basic Programs**|19/01/2019|1 week|Completed|
 
 We will be releasing an initial minimum-viable-product emulator.  
 The emulator will be able to perform the the basic operation codes of the [CHIP-8 specification](https://en.wikipedia.org/wiki/CHIP-8).  
@@ -376,12 +376,14 @@ The website was refactored for better code quality and maintainability.
 
 Dan's Space Invaders program was due on Release 2, but it still isn't avaliable so it has been cancelled.
 
+Anthony's Flappy Bird was cancelled, but instead he made a timer program.
+
 Instead of an assembler, we will have an improved sprite maker that can help with large multi-sprite sprites.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**General Product Refinement**|14/03/2019|Entire Release|Not Started|
-|**Sprite Maker 2.0**|14/03/2019|Entire Release|Not Started|
+|**General Product Refinement**|14/03/2019|Entire Release|In Progress|
+|**Sprite Maker 2.0**|14/03/2019|Entire Release|In Progress|
 |**Website Refactoring**|10/03/2019|Entire Release|In Progress|
 |**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In Progress (early)|
 
@@ -489,6 +491,7 @@ Considering the fact that we should have a reverse debugger, developers:
 - will have an improved experience with the website. It will be faster and new features will be added.
 - will be able to download our programs.
 - will be able to save program states and load from them.
+- will be able to use the final version of our emulator.
 
 #### Developers
 
