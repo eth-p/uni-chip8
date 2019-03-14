@@ -376,6 +376,8 @@ The website was refactored for better code quality and maintainability.
 
 Dan's Space Invaders program was due on Release 2, but it still isn't avaliable so it has been cancelled.
 
+Anthony's Flappy Bird was cancelled, but instead he made a timer program.
+
 Instead of an assembler, we will have an improved sprite maker that can help with large multi-sprite sprites.
 
 |Task|Date|Timeframe|Status|
