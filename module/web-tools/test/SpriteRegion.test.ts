@@ -1,0 +1,62 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+
+import SpriteRegion from '../scripts/SpriteRegion';
+
+describe('Sprite Region', () => {
+	it('Constructor', () => {
+		// The constructor should fill false to all pixels.
+		let testRegion: SpriteRegion = new SpriteRegion();
+		for (let row: number = 0; row < testRegion.ROWS; ++row) {
+			for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+				expect(testRegion.getPixel(column, row)).toStrictEqual(false);
+			}
+		}
+	});
+
+	it('Pixel Set', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+
+		// Test single pixel
+		let randomColumn: number = Math.floor(Math.random() * (testRegion.COLUMNS - 1));
+		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+
+		testRegion.setPixel(randomColumn, randomRow, true);
+		expect(testRegion.getPixel(randomColumn, randomRow)).toStrictEqual(true);
+	});
+
+	it('Pixel Unset', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+
+		// Test single pixel
+		let randomColumn: number = Math.floor(Math.random() * (testRegion.COLUMNS - 1));
+		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+
+		testRegion.setPixel(randomColumn, randomRow, true);
+		testRegion.setPixel(randomColumn, randomRow, false);
+		expect(testRegion.getPixel(randomColumn, randomRow)).toStrictEqual(false);
+	});
+
+	it('Row Conversion', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+
+		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+		let targetColumns: number[] = new Array<number>();
+		for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+			if (Math.random() >= 0.5) {
+				targetColumns.push(column);
+			}
+        }
+        
+        let expectedAccumulator: number = 0;
+
+		targetColumns.forEach((column: number) => {
+            testRegion.setPixel(column, randomRow, true);
+            expectedAccumulator += (Math.pow(2, testRegion.COLUMNS - 1 - column));
+        });
+        
+        expect(testRegion.getRow(randomRow)).toStrictEqual(expectedAccumulator);
+	});
+});
