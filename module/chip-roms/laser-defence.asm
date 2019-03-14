@@ -1353,3 +1353,25 @@ SPRITE_o:
 
 SPRITE_a:
 	db #e0, #a0, #e0, #a0, #a0
+
+SPRITE_Title_L:
+    db
+    #c0,
+    #c0,
+    #c0,
+    #c0,
+    #c0,
+    #c0,
+    #f0,
+    #f0
+
+SPRITE_Title_D:
+    db
+    #e0,
+    #b0,
+    #90,
+    #90,
+    #90,
+    #90,
+    #b0,
+    #e0
