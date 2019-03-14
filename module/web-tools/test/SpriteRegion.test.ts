@@ -58,5 +58,35 @@ describe('Sprite Region', () => {
         });
         
         expect(testRegion.getRow(randomRow)).toStrictEqual(expectedAccumulator);
-	});
+    });
+    
+    it('Data Get', () => {
+        let testRegion: SpriteRegion = new SpriteRegion();
+    
+        let expectedData: number[] = [];
+
+        for (let row: number = 0; row < testRegion.ROWS; ++row) {
+            let expectedAccumulator: number = 0;
+
+            if (Math.random() >= 0.5) {
+                for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+                    if (Math.random() >= 0.5) {
+                        testRegion.setPixel(column, row, true);
+                        expectedAccumulator += (Math.pow(2, testRegion.COLUMNS - 1 - column));
+                    }
+                }
+            }
+            expectedData.push(expectedAccumulator);
+        }
+
+        let spriteData: number[] = testRegion.getData();
+
+        // Test that all rows were included
+        expect(expectedData.length).toStrictEqual(spriteData.length);
+
+        for (let i: number = 0; i < expectedData.length; ++i) {
+            expect(expectedData[i]).toStrictEqual(spriteData[i]);
+        }
+
+    });
 });
