@@ -6,14 +6,13 @@ include ../../web/templates/page
 include ../../web/components/common
 include ../../web/components/desktop
 include ../../web/components/toolbar
-include ../../web/components/window
 include ../components/emulator-keypad
-include ../components/emulator-registers
+include ../components/visualizer-registers
 include ../components/debug-tools
 include ../components/visualizer-program
 include ../components/emulator-screen
 include ../components/visualizer-stack
-include ../windows/window-savestates
+include ../dialogs/dialog-savestates
 include ../dialogs/dialog-error
 include ../dialogs/dialog-load
 include ../dialogs/dialog-settings
@@ -46,7 +45,7 @@ mixin loading-screen
 			input(type="button" value="[]" disabled="disabled" data-intent="play-pause-resume")
 
 		+item
-			input(type="button" value="Savestates" data-action="window-savestates-show")
+			input(type="button" value="Savestates" data-trigger="dialog.savestates->show")
 
 		+item.spacer
 
@@ -58,10 +57,10 @@ mixin loading-screen
 			input(type="button" value="Settings" data-trigger="dialog.settings->show")
 
 	+desktop
-		+ui-window-savestates
 		+desktop-overlay#dialogs.centered.blocking
 			+ui-dialog-error
 			+ui-dialog-load
+			+ui-dialog-savestates
 			+ui-dialog-settings
 
 		- // Layout
@@ -71,6 +70,6 @@ mixin loading-screen
 				+emulator-keypad
 			.emulator-debugger.requires-debugger
 				+debug-tools
-				+emulator-registers
+				+visualizer-registers
 				+visualizer-stack
 				+visualizer-program

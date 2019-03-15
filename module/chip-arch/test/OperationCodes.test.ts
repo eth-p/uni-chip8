@@ -3,7 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 // import VM from '@chipotle/vm/VM';
-import VM from '../../vm/src/VM';
+import VM from '@chipotle/vm/VM';
 
 import Chip from '../src/Chip';
 

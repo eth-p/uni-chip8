@@ -18,6 +18,10 @@ class AppTriggers {
 		program: {
 			render: new Trigger(),
 			reset: new Trigger()
+		},
+		register: {
+			render: new Trigger(),
+			reset: new Trigger()
 		}
 	};
 
@@ -34,6 +38,11 @@ class AppTriggers {
 	 */
 	public dialog = {
 		load: {
+			show: new Trigger(),
+			hide: new Trigger()
+		},
+
+		savestates: {
 			show: new Trigger(),
 			hide: new Trigger()
 		},
@@ -89,7 +98,9 @@ class AppTriggers {
 	 * These triggers are used to control the screen.
 	 */
 	public screen = {
-		render: new Trigger()
+		render: new Trigger(),
+		resize: new Trigger(),
+		reset: new Trigger()
 	};
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -104,6 +115,7 @@ class AppTriggers {
 
 		// Connect triggers together.
 		this.emulator.reset.connect(this.visualizers.resetAll);
+		this.emulator.reset.connect(this.screen.render);
 
 		// Any dialog->___->show trigger:
 		// Automatically hide other dialogs.

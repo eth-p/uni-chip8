@@ -19,18 +19,32 @@ main .control-list {
 		background: $control-list-background;
 
 		// Layout.
-		> .image {
-			flex: 1 0 auto;
-		}
-
+		> .content,
 		> .details {
 			flex: 1 1 auto;
-			padding: 4px;
 		}
 
 		> .controls {
 			display: flex;
 			flex: 0 0 auto;
+		}
+
+		> .details,
+		> .content > .details {
+			padding: 4px;
+		}
+
+		> .content {
+			display: flex;
+			flex-direction: row;
+
+			> .image {
+				flex: 0 0 auto;
+			}
+
+			> * {
+				flex: 1 1 auto;
+			}
 		}
 
 		@include mobile {
@@ -51,7 +65,8 @@ main .control-list {
 		}
 
 		@include desktop {
-			> .details {
+			> .details,
+			> .content > .details {
 				padding: 6px;
 			}
 
@@ -122,13 +137,10 @@ main .control-list {
 			// Borders.
 			@include mobile {
 				> * {
+					border-top: none !important;
 					border-right: none !important;
 					min-height: 50px;
 					min-width: 50px;
-				}
-
-				> *:first-child {
-					border-top: none !important;
 				}
 			}
 

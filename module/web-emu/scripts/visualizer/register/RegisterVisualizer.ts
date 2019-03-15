@@ -4,36 +4,35 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import App from '../../App';
 import Visualizer from '../../Visualizer';
-import ProgramFrame from './ProgramFrame';
-import {vm} from '../../../instance';
+
+import RegisterDisplay from './RegisterDisplay';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Program visualizer.
- * This displays the CHIP-8 program.
+ * Register visualizer.
+ * This displays the CHIP-8 register contents.
  */
-class ProgramVisualizer extends Visualizer {
+class RegisterVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected container!: HTMLElement;
 
-	protected itemsBefore: number;
-	protected itemsAfter: number;
-
-	protected frames!: ProgramFrame[];
+	protected displays!: RegisterDisplay[];
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		super(App.triggers.visualizer.program, 'show_disassembler');
+		super(App.triggers.visualizer.register, 'show_registers');
 
-		this.itemsBefore = 0;
-		this.itemsAfter = 0;
+		this.displays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 'DT', 'ST', 'I', 'PC'].map(
+			<any>this.createDisplay,
+			this
+		);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -41,14 +40,23 @@ class ProgramVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected initDOM(this: App.Fragment<this>): void {
-		this.frame = <HTMLElement>document.querySelector('#visualizer-program');
+		this.frame = <HTMLElement>document.querySelector('#visualizer-registers');
 		this.container = <HTMLElement>this.frame.querySelector(':scope > .visualizer-content');
-		this.regenerate();
+
+		for (let display of this.displays) {
+			this.container.appendChild(display.getElement());
+		}
 	}
 
-	protected async initListener(this: App.Fragment<this>): Promise<void> {
-		await (<any>Visualizer.prototype).initListener.call(<any>this);
-		this.settings.onChange(['disassemble_prev_count', 'disassemble_next_count'], () => this.regenerate());
+	protected async initState(this: App.Fragment<this>): Promise<void> {
+		await (<any>Visualizer.prototype).initState.call(<any>this);
+
+		this.state.emulator.paused.addListener('change', paused => {
+			const loaded = this.state.emulator.loaded.value;
+			for (let display of this.displays) {
+				display.setEditable(paused && loaded);
+			}
+		});
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -56,22 +64,42 @@ class ProgramVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * Regenerates the visualizer items.
+	 * Creates a register display component.
+	 *
+	 * @param register The register.
+	 * @returns The display component.
 	 */
-	protected regenerate() {
-		while (this.container.firstChild != null) this.container.removeChild(this.container.firstChild);
+	protected createDisplay(register: number | 'DT' | 'ST' | 'I' | 'PC'): RegisterDisplay {
+		const vm = this.emulator.vm;
 
-		// Cache the draw numbers.
-		this.itemsBefore = this.settings.disassemble_prev_count;
-		this.itemsAfter = this.settings.disassemble_next_count;
+		if (typeof register === 'number') {
+			const vRegisters = vm.register_data;
+			return new RegisterDisplay(
+				`V${register.toString(16).toUpperCase()}`,
+				() => {
+					return vRegisters[register];
+				},
+				v => {
+					vRegisters[register] = v;
+				}
+			);
+		}
 
-		// Create the frames.
-		this.frames = [];
-		for (let i = -this.itemsBefore; i < this.itemsAfter; i++) {
-			let frame = new ProgramFrame(i);
+		switch (register) {
+			case 'DT':
+				return new RegisterDisplay('DT', () => vm.register_timer, v => (vm.register_timer = v));
 
-			this.frames.push(frame);
-			this.container.appendChild(frame.getElement());
+			case 'ST':
+				return new RegisterDisplay('ST', () => vm.register_sound, v => (vm.register_sound = v));
+
+			case 'I':
+				return new RegisterDisplay('I', () => vm.register_index, v => (vm.register_index = v));
+
+			case 'PC':
+				return new RegisterDisplay('PC', () => vm.program_counter, v => (vm.program_counter = v));
+
+			default:
+				throw new Error(`Unknown register: ${register}`);
 		}
 	}
 
@@ -83,23 +111,8 @@ class ProgramVisualizer extends Visualizer {
 	 * @override
 	 */
 	public render(this: App.Fragment<this>): void {
-		const start = this.emulator.vm.program_counter - this.itemsBefore * 2;
-		const max = this.itemsBefore + this.itemsAfter;
-		const eof = vm.program.data == null ? 0 : vm.program.data.length;
-
-		const program = this.emulator.vm.program;
-		const disassembler = this.disassembler;
-
-		// Draw.
-		let addr = start;
-		for (let i = 0; i < max; i++, addr += 2) {
-			const frame = this.frames[i];
-
-			if (addr < 0 || addr >= eof) {
-				frame.reset();
-			} else {
-				frame.set(addr, disassembler.disassemble(program.fetch(addr)));
-			}
+		for (let display of this.displays) {
+			display.render();
 		}
 	}
 
@@ -107,12 +120,12 @@ class ProgramVisualizer extends Visualizer {
 	 * @override
 	 */
 	public reset(): void {
-		for (let frame of this.frames) {
-			frame.reset();
+		for (let display of this.displays) {
+			display.reset();
 		}
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default ProgramVisualizer;
-export {ProgramVisualizer};
+export default RegisterVisualizer;
+export {RegisterVisualizer};

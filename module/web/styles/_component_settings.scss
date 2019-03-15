@@ -60,6 +60,7 @@
 
 .setting-group {
 	&.grid,
+	&.grid-2,
 	&.grid-3,
 	&.grid-4 {
 		display: grid;
@@ -69,11 +70,9 @@
 		}
 	}
 
-	&.grid-3 {
-		grid-template-columns: repeat(3, 33%);
-	}
-
-	&.grid-4 {
-		grid-template-columns: repeat(4, 25%);
+	@for $i from 1 through 4 {
+		&.grid-#{$i} {
+			grid-template-columns: repeat($i, 100% / $i);
+		}
 	}
 }

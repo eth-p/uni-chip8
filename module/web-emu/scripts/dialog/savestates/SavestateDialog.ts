@@ -2,91 +2,67 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Animator from '@chipotle/wfw/Animator';
+import Dialog from '@chipotle/wfw/Dialog';
 
-import App from './App';
-import Trigger from '@chipotle/wfw/Trigger';
+import App from '../../App';
+
+import SavestateEntry from './SavestateEntry';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * An abstract base class for a visualizer.
+ * The class for controlling the savestates dialog.
  */
-abstract class Visualizer extends App {
+class SavestateDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected animator!: Animator;
-	protected setting: string;
-
-	protected frame!: HTMLElement;
-	protected container!: HTMLElement;
-
-	private visible: boolean;
+	protected dialog!: Dialog;
+	protected entries: SavestateEntry[];
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string) {
+	public constructor() {
 		super();
 
-		this.setting = setting;
-		this.visible = true;
-		this.render = this.render.bind(this);
-		triggers.render.onTrigger(() => this.animator.render());
-		triggers.reset.onTrigger(() => {
-			(<any>this).reset();
-			(<any>this).animator.render();
-		});
+		this.entries = ['quicksave', 1, 2, 3, 4, 5, 6, 7, 8, 9].map(slot => new SavestateEntry(<any>slot));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Hooks:                                                                                                    |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected initState(this: App.Fragment<this>): void {
-		this.animator = new Animator(this.state.emulator.running, this.render);
+	protected initDOM(this: App.Fragment<this>): void {
+		this.dialog = new Dialog(document.getElementById('dialog-savestates')!);
+		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
+
+		const container = this.dialog.getContentElement()!;
+
+		// Generate list.
+		for (let entry of this.entries) {
+			container.appendChild(entry.getElement());
+		}
 	}
 
-	protected initListener(this: App.Fragment<this>): void {
-		this.settings.onChange(<any>this.setting, (e, v) => this.setVisible(v));
+	protected initTrigger(this: App.Fragment<this>): void {
+		this.triggers.dialog.savestates.show.onTrigger(() => this.dialog.show());
+		this.triggers.dialog.savestates.hide.onTrigger(() => this.dialog.hide());
 	}
+
+	protected initListener(this: App.Fragment<this>): void {}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                                    |
+	// | Handlers:                                                                                                 |
 	// -------------------------------------------------------------------------------------------------------------
 
-	/**
-	 * Sets the visibility of the visualizer.
-	 * @param visible The visibility.
-	 */
-	public setVisible(visible: boolean): void {
-		this.visible = visible;
-		this.frame.classList[visible ? 'remove' : 'add']('hide');
-	}
-
-	/**
-	 * Gets the visibility state of the visualizer.
-	 * @returns True if the visualizer should be visible.
-	 */
-	public isVisible(): boolean {
-		return this.visible;
-	}
-
-	/**
-	 * Renders the visualizer.
-	 */
-	public abstract render(this: App.Fragment<this>): void;
-
-	/**
-	 * Resets the visualizer.
-	 */
-	public abstract reset(this: App.Fragment<this>): void;
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-export default Visualizer;
-export {Visualizer};
+export default SavestateDialog;
+export {SavestateDialog};

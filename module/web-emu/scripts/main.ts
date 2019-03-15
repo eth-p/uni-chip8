@@ -2,21 +2,28 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from './noveau/App';
+import app_ready from '@chipotle/web/app_ready';
 
-import DialogController from './noveau/controller/DialogController';
-import EmulatorController from './noveau/controller/EmulatorController';
-import KeybindController from './noveau/controller/KeybindController';
-import EmulatorButtonController from './noveau/controller/EmulatorButtonController';
-import TriggerController from './noveau/controller/TriggerController';
-import VisibilityController from './noveau/controller/VisibilityController';
+import App from './App';
 
-import ErrorDialog from './noveau/dialog/error/ErrorDialog';
-import LoadDialog from './noveau/dialog/load/LoadDialog';
-import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
+import DialogController from './controller/DialogController';
+import EmulatorController from './controller/EmulatorController';
+import EmulatorButtonController from './controller/EmulatorButtonController';
+import EmulatorFeedbackController from './controller/EmulatorFeedbackController';
+import KeybindController from './controller/KeybindController';
+import TriggerController from './controller/TriggerController';
+import VisibilityController from './controller/VisibilityController';
 
-import ProgramVisualizer from './noveau/visualizer/program/ProgramVisualizer';
-import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
+import ErrorDialog from './dialog/error/ErrorDialog';
+import LoadDialog from './dialog/load/LoadDialog';
+import SavestatesDialog from './dialog/savestates/SavestateDialog';
+import SettingsDialog from './dialog/settings/SettingsDialog';
+
+import KeypadVisualizer from './visualizer/keypad/KeypadVisualizer';
+import ProgramVisualizer from './visualizer/program/ProgramVisualizer';
+import RegisterVisualizer from './visualizer/register/RegisterVisualizer';
+import ScreenVisualizer from './visualizer/screen/ScreenVisualizer';
+import StackVisualizer from './visualizer/stack/StackVisualizer';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:
@@ -26,12 +33,13 @@ import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize App:
 // ---------------------------------------------------------------------------------------------------------------------
-App.emulator = emulator;
 App.settings.suppressListeners('update', true);
+
 App.addListener('ready', () => {
-	console.log('READY!');
 	App.settings.suppressListeners('update', false);
 	App.settings.broadcast();
+
+	app_ready.done();
 });
 
 App.depends([
@@ -40,49 +48,20 @@ App.depends([
 	EmulatorController,
 	TriggerController,
 	EmulatorButtonController,
+	EmulatorFeedbackController,
 	DialogController,
 	VisibilityController,
 
 	// Dialog controllers.
 	ErrorDialog,
 	LoadDialog,
+	SavestatesDialog,
 	SettingsDialog,
 
 	// Visualizers.
+	KeypadVisualizer,
 	ProgramVisualizer,
+	RegisterVisualizer,
+	ScreenVisualizer,
 	StackVisualizer
 ]);
-
-// OLD CODE
-import dom_ready from '@chipotle/web/dom_ready';
-import app_ready from '@chipotle/web/app_ready';
-
-import './ui-controls';
-import './ui-screen';
-import './ui-savestates';
-import './ui-registers';
-import './ui-keypad';
-import './keybind';
-import './feedback';
-
-import {emulator} from './instance';
-import {settings} from './settings';
-// ---------------------------------------------------------------------------------------------------------------------
-// Event Listeners:
-// ---------------------------------------------------------------------------------------------------------------------
-emulator.addListener('snapshot', (id, snapshot) => {
-	(<any>settings)[`savestate_${id}`] = {
-		screenshot: null, // TODO: Real screenshots
-		snapshot: snapshot,
-		date: new Date().toUTCString(),
-		unset: false
-	};
-});
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Finish Load:
-// ---------------------------------------------------------------------------------------------------------------------
-dom_ready(() => {
-	settings.broadcast();
-	app_ready.done();
-});

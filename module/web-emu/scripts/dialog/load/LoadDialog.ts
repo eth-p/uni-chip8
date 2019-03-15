@@ -3,7 +3,6 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import DialogTabbed from '@chipotle/wfw/DialogTabbed';
-import Template from '@chipotle/wfw/Template';
 
 import App from '../../App';
 
@@ -48,14 +47,14 @@ class LoadDialog extends App {
 		this.database.load();
 
 		this.dialog = new DialogTabbed(document.getElementById('dialog-load')!);
-		this.dialogUploadBox = <HTMLElement>this.dialog.getElement().querySelector('#program-upload-display');
-		this.dialogUploadField = <HTMLInputElement>this.dialog.getElement().querySelector('#program-upload');
+		this.dialogUploadBox = this.dialog.getContentElement('#program-upload-display')!;
+		this.dialogUploadField = <HTMLInputElement>this.dialog.getContentElement('#program-upload');
 
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
 		// Get library lists.
 		this.dialogLists = new Map();
-		for (let element of this.dialog.getElement().querySelectorAll('[data-library]')) {
+		for (let element of this.dialog.getContentElements('[data-library]')) {
 			this.dialogLists.set(element.getAttribute('data-library')!, <HTMLElement>element);
 		}
 	}

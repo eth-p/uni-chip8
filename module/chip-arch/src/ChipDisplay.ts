@@ -2,7 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import assert from '@chipotle/types/assert';
 import Emitter from '@chipotle/types/Emitter';
 
 import Bitfield from '@chipotle/types/Bitfield';
@@ -26,7 +25,7 @@ import ChipSprite from './ChipSprite';
  *
  * 64x32 pixels.
  */
-export default class ChipDisplay extends Emitter {
+class ChipDisplay extends Emitter {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constants:                                                                                                |
 	// -------------------------------------------------------------------------------------------------------------
@@ -275,3 +274,7 @@ export default class ChipDisplay extends Emitter {
 		return `${border}\n${lines.map(x => `|${x}|`).join('\n')}\n${border}`;
 	}
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+export default ChipDisplay;
+export {ChipDisplay};

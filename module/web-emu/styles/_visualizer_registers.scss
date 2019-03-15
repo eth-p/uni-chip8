@@ -8,13 +8,13 @@
 // Registers:
 // ---------------------------------------------------------------------------------------------------------------------
 
-#emulator-registers {
-	.registers-grid {
+#visualizer-registers {
+	.visualizer-content {
 		display: grid;
 		grid-template-columns: 33% 33% 33%;
 	}
 
-	.register-visualizer {
+	.register-display {
 		display: flex;
 
 		padding: 4px;
@@ -22,22 +22,24 @@
 		justify-content: center;
 
 		.register-value {
-			font-family: $font-monospace;
 			text-align: left;
-			padding-left: 3px;
 			border: transparent 1px solid;
 
-			&.focused {
+			cursor: pointer;
+
+			background: none;
+			color: $text;
+
+			width: 50px;
+
+			&:focus {
 				outline: none;
 				background: $input-background;
 				border-color: $input-border;
 			}
 
-			&[contenteditable='true'] {
-				cursor: pointer;
-				&.focused {
-					cursor: text;
-				}
+			&:disabled {
+				cursor: text;
 			}
 		}
 
@@ -48,8 +50,12 @@
 		}
 
 		> * {
+			font-family: $font-monospace;
+			font-size: 15px;
+
 			min-width: 20px;
 			height: 20px;
+			padding: 0 3px;
 		}
 	}
 }

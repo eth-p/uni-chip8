@@ -36,6 +36,21 @@ class DialogController extends App {
 		this.state.dialog.visible.addListener('change', visible => {
 			this.overlay.classList[visible ? 'add' : 'remove']('visible');
 			document.body.classList[visible ? 'add' : 'remove']('no-scroll');
+			document.body.scrollTop = 0;
+		});
+	}
+
+	protected initListener(this: App.Fragment<this>): void {
+		// When a dialog is visible, reset the scroll position on input unfocus.
+		// This fixes a bug where the scroll will be stuck on phones after typing something.
+		document.addEventListener('focusout', event => {
+			if (!this.state.dialog.visible.value) return;
+			if (event.target == null || (<Node>event.target).nodeName !== 'INPUT') return;
+
+			const target = <HTMLInputElement>event.target;
+			if (target.type === 'color' || target.type === 'checkbox') return;
+
+			document.body.scrollTop = 0;
 		});
 	}
 }

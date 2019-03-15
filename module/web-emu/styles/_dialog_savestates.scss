@@ -2,17 +2,33 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-//  Developer notes:
-//  @eth-p: This is a singleton class for interacting with the emulator and virtual machine.
-// ---------------------------------------------------------------------------------------------------------------------
-import App from './noveau/App';
+@import './common';
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Variables:
-let vm = App.emulator.vm; // FIXME: Legacy compatibility shim.
-let emulator = App.emulator; // FIXME: Legacy compatibility shim.
-
+// Dialog: Savestates
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
-export {emulator};
-export {vm};
+
+#dialog-savestates {
+	.control-item .image {
+		background: black;
+
+		min-width: 64px;
+		min-height: 32px;
+	}
+
+	.control-item .details {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.savestate-info {
+		.savestate-name {
+		}
+
+		.savestate-date {
+			opacity: 0.5;
+			font-size: 13px;
+		}
+	}
+}
