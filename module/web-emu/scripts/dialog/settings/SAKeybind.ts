@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import Settings from '../../../../wfw/src/Settings';
+import Settings from '@chipotle/wfw/Settings';
 
 import SettingAdapter from './SettingAdapter';
 

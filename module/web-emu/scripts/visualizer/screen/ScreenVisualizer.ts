@@ -2,7 +2,7 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import ChipDisplayRenderer from '../../../../chip-arch/src/ChipDisplayRenderer';
+import ChipDisplayRenderer from '@chipotle/chip-arch/ChipDisplayRenderer';
 
 import App from '../../App';
 import Visualizer from '../../Visualizer';

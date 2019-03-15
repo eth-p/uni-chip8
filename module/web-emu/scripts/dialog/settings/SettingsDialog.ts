@@ -2,7 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import DialogTabbed from '../../../../wfw/src/DialogTabbed';
+import Optional from '@chipotle/types/Optional';
+import DialogTabbed from '@chipotle/wfw/DialogTabbed';
 
 import App from '../../App';
 
@@ -11,7 +12,6 @@ import SAColor from './SAColor';
 import SABoolean from './SABoolean';
 import SAKeybind from './SAKeybind';
 import SARange from './SARange';
-import Optional from '../../../../types/src/Optional';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
