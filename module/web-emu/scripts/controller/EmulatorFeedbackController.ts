@@ -3,8 +3,8 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import App from '../App';
-import FeedbackAudio from '../../FeedbackAudio';
-import FeedbackVibrate from '../../FeedbackVibrate';
+import FeedbackAudio from '../FeedbackAudio';
+import FeedbackVibrate from '../FeedbackVibrate';
 
 // ---------------------------------------------------------------------------------------------------------------------
 

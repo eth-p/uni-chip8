@@ -4,26 +4,26 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import app_ready from '@chipotle/web/app_ready';
 
-import App from './noveau/App';
+import App from './App';
 
-import DialogController from './noveau/controller/DialogController';
-import EmulatorController from './noveau/controller/EmulatorController';
-import EmulatorButtonController from './noveau/controller/EmulatorButtonController';
-import EmulatorFeedbackController from './noveau/controller/EmulatorFeedbackController';
-import KeybindController from './noveau/controller/KeybindController';
-import TriggerController from './noveau/controller/TriggerController';
-import VisibilityController from './noveau/controller/VisibilityController';
+import DialogController from './controller/DialogController';
+import EmulatorController from './controller/EmulatorController';
+import EmulatorButtonController from './controller/EmulatorButtonController';
+import EmulatorFeedbackController from './controller/EmulatorFeedbackController';
+import KeybindController from './controller/KeybindController';
+import TriggerController from './controller/TriggerController';
+import VisibilityController from './controller/VisibilityController';
 
-import ErrorDialog from './noveau/dialog/error/ErrorDialog';
-import LoadDialog from './noveau/dialog/load/LoadDialog';
-import SavestatesDialog from './noveau/dialog/savestates/SavestateDialog';
-import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
+import ErrorDialog from './dialog/error/ErrorDialog';
+import LoadDialog from './dialog/load/LoadDialog';
+import SavestatesDialog from './dialog/savestates/SavestateDialog';
+import SettingsDialog from './dialog/settings/SettingsDialog';
 
-import KeypadVisualizer from './noveau/visualizer/keypad/KeypadVisualizer';
-import ProgramVisualizer from './noveau/visualizer/program/ProgramVisualizer';
-import RegisterVisualizer from './noveau/visualizer/register/RegisterVisualizer';
-import ScreenVisualizer from './noveau/visualizer/screen/ScreenVisualizer';
-import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
+import KeypadVisualizer from './visualizer/keypad/KeypadVisualizer';
+import ProgramVisualizer from './visualizer/program/ProgramVisualizer';
+import RegisterVisualizer from './visualizer/register/RegisterVisualizer';
+import ScreenVisualizer from './visualizer/screen/ScreenVisualizer';
+import StackVisualizer from './visualizer/stack/StackVisualizer';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize UI:

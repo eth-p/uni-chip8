@@ -3,9 +3,9 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Animator from '@chipotle/wfw/Animator';
+import Trigger from '@chipotle/wfw/Trigger';
 
 import App from './App';
-import Trigger from '@chipotle/wfw/Trigger';
 
 // ---------------------------------------------------------------------------------------------------------------------
 

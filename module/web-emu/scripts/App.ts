@@ -12,8 +12,8 @@ import AppSettings from './AppSettings';
 import AppState from './AppState';
 import AppTriggers from './AppTriggers';
 
-import Emulator from '../Emulator';
 import Disassembler from './Disassembler';
+import Emulator from './Emulator';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
