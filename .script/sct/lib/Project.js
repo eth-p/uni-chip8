@@ -111,7 +111,11 @@ module.exports = class Project {
 	 * @returns {string} The friendly branch name, or unknown.
 	 */
 	async getBranch() {
+		if (process.env['BRANCH'] != null) return process.env['BRANCH'];
+
 		let repo = await this.getRepository();
+		if (repo == null) return 'Unknown';
+
 		let branch = await repo.getCurrentBranch();
 		return branch.shorthand();
 	}
