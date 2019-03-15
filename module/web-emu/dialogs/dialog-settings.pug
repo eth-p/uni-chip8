@@ -84,11 +84,11 @@ mixin settings-pane-controls
 
 		+setting-group("Emulator Keybinds").grid-3
 			+setting('keybind', 'keybind_control_pause', 'Pause')
-			//+setting('keybind', 'keybind_control_quicksave', 'Quicksave')
-			//+setting('keybind', 'keybind_control_quickload', 'Quickload')
+			+setting('keybind', 'keybind_control_quicksave', 'Quicksave')
+			+setting('keybind', 'keybind_control_quickload', 'Quickload')
 			+setting('keybind', 'keybind_control_turbo', 'Turbo')
 			+setting('keybind', 'keybind_control_step_next', 'Step Forwards').requires-debugger
-			//+setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
+			+setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
 
 -// --------------------------------------------------------------------------------------------------------------------
 -// Pane: Debug
@@ -101,10 +101,10 @@ mixin settings-pane-debug
 			+setting('boolean', 'enable_debugger', 'Enable Debugger')
 				div Enables the debugger and visualizers.
 
-			//+setting('boolean', 'enable_tracing', 'Enable Tracing').requires-debugger-disable
-			//	div
-			//		| Enables reverse-stepping.
-			//		| This has large performance and memory implications.
+			+setting('boolean', 'enable_tracing', 'Enable Tracing').requires-debugger-disable
+				div
+					| Enables reverse-stepping.
+					| This has large performance and memory implications.
 
 		+setting-group("Visualizers")
 			+setting('boolean', 'show_registers', 'Register').requires-debugger-disable
