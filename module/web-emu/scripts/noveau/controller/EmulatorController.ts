@@ -6,8 +6,6 @@ import StateProvider from '@chipotle/wfw/StateProvider';
 import XHR, {XHRType} from '@chipotle/wfw/XHR';
 
 import App from '../App';
-import {emulator} from '../../instance';
-import {settings} from '../../settings';
 
 // ---------------------------------------------------------------------------------------------------------------------
 

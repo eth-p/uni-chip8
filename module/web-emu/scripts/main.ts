@@ -33,7 +33,6 @@ import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 // ---------------------------------------------------------------------------------------------------------------------
 // Initialize App:
 // ---------------------------------------------------------------------------------------------------------------------
-App.emulator = emulator;
 App.settings.suppressListeners('update', true);
 
 App.addListener('ready', () => {
@@ -66,19 +65,3 @@ App.depends([
 	ScreenVisualizer,
 	StackVisualizer
 ]);
-
-// OLD CODE
-
-import {emulator} from './instance';
-import {settings} from './settings';
-// ---------------------------------------------------------------------------------------------------------------------
-// Event Listeners:
-// ---------------------------------------------------------------------------------------------------------------------
-emulator.addListener('snapshot', (id, snapshot) => {
-	(<any>settings)[`savestate_${id}`] = {
-		screenshot: null, // TODO: Real screenshots
-		snapshot: snapshot,
-		date: new Date().toUTCString(),
-		unset: false
-	};
-});
