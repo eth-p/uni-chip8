@@ -1,0 +1,11 @@
+{
+	"type": "DEMO",
+	"name": "Maze",
+	"date": "2019-03-10",
+	"featured": false,
+
+	"author": "Firas Fakih",
+	"author_url": "https://github.com/ffakih",
+
+	"info": "Generate a random maze every time."
+}

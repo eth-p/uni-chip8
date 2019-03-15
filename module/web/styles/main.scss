@@ -24,6 +24,10 @@ body {
 
 	--accent-1: #{$accent-1};
 	--accent-2: #{$accent-2};
+
+	&.no-scroll {
+		overflow: hidden;
+	}
 }
 
 #page {
@@ -155,7 +159,9 @@ header {
 // ---------------------------------------------------------------------------------------------------------------------
 @import 'component_card';
 @import 'component_common';
+@import '_component_control_list';
 @import 'component_desktop';
-@import 'component_toolbar';
-@import 'component_window';
+@import 'component_dialog';
 @import 'component_loading_screen';
+@import 'component_toolbar';
+@import 'component_settings';

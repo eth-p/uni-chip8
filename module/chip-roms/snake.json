@@ -1,0 +1,17 @@
+{
+	"type": "DEMO",
+	"name": "Snake",
+	"date": "2019-03-12",
+	"featured": false,
+
+	"author": "Henry Wang",
+	"author_url": "https://github.com/wziheng",
+
+	"info": "Snake for the CHIP-8.",
+	"controls": {
+		"5": "UP",
+		"7": "LEFT",
+		"9": "DOWN",
+		"8": "RIGHT"
+	}
+}

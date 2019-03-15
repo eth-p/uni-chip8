@@ -25,11 +25,50 @@ describe('ProgramStack', () => {
 		expect(() => stack.pop()).toThrow();
 	});
 
+	it('clear', () => {
+		let stack = new ProgramStack(3);
+		stack.push(3);
+		stack.push(5);
+		stack.pop();
+		stack.clear();
+		expect(stack.getPointer()).toEqual(-1);
+		expect(Array.from(stack.inspectRaw())).toEqual([0, 0, 0]);
+	});
+
 	it('inspect', () => {
-		let stack = new ProgramStack(1);
+		let stack = new ProgramStack(3);
 		stack.push(5);
 		expect(stack.inspect()).toEqual([5]);
 		stack.inspect()[0] = 1;
 		expect(stack.inspect()).toEqual([5]);
+	});
+
+	it('inspectRaw', () => {
+		let stack = new ProgramStack(3);
+		stack.push(5);
+		expect(stack.inspectRaw()).toEqual([5, 0, 0]);
+		stack.inspect()[0] = 1;
+		expect(stack.inspectRaw()).toEqual([5, 0, 0]);
+	});
+
+	it('getPointer', () => {
+		let stack = new ProgramStack(1);
+		expect(stack.getPointer()).toEqual(-1);
+		stack.push(5);
+		expect(stack.getPointer()).toEqual(0);
+	});
+
+	it('getCapacity', () => {
+		let stack = new ProgramStack(1);
+		expect(stack.getCapacity()).toEqual(1);
+	});
+
+	it('snapshot + restore', () => {
+		let stack = new ProgramStack(1);
+		let copy = new ProgramStack(1);
+		stack.push(5);
+		copy.restore(stack.snapshot());
+
+		expect(stack).toEqual(copy);
 	});
 });

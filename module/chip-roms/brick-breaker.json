@@ -1,0 +1,15 @@
+{
+	"type": "GAME",
+	"name": "Brick Breaker",
+	"date": "2019-02-07",
+	"featured": false,
+
+	"author": "Kyle Saburao",
+	"author_url": "https://github.com/macedir",
+
+	"info": "Brick Breaker, now avaliable for the CHIP-8!",
+	"controls": {
+		"7": "LEFT",
+		"9": "RIGHT"
+	}
+}

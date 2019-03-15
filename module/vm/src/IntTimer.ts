@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Timer from './Timer';
+import JsonType from '@chipotle/types/JsonType';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -67,6 +68,26 @@ class IntTimer extends Timer {
 
 		this.value = updated | 0;
 		this.error = updated - this.value;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @override
+	 */
+	public snapshot(): JsonType {
+		return {
+			value: this.value,
+			error: this.error
+		};
+	}
+
+	/**
+	 * @inheritDoc
+	 * @override
+	 */
+	public restore(snapshot: any) {
+		this.value = snapshot.value;
+		this.error = snapshot.error;
 	}
 }
 

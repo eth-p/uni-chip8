@@ -8,13 +8,22 @@ import Uint16 from '@chipotle/types/Uint16';
 import Interpreted from './Interpreted';
 // ---------------------------------------------------------------------------------------------------------------------
 
+namespace IR {
+	/**
+	 * Intermediate representation of an operation.
+	 * This is the common ancestor of all IR variations.
+	 */
+	export interface COMMON<A> {
+		operation: Operation;
+		operands: Uint16[];
+	}
+}
+
 /**
  * Intermediate representation of an executable operation.
  */
-interface IR<A> {
+interface IR<A> extends IR.COMMON<A> {
 	execute: Interpreted<A>['execute'];
-	operation: Operation;
-	operands: Uint16[];
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

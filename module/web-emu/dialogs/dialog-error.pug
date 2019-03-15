@@ -1,0 +1,23 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+include ../../web/components/dialog
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Dialog: Load
+-// --------------------------------------------------------------------------------------------------------------------
+mixin ui-dialog-error
+	+dialog#dialog-error.error
+		+dialog-title("Error")
+			input(type="button" value="reset" data-trigger="dialog.error->hide; emulator->reset; emulator->resume")
+			input(type="button" value="close" data-trigger="dialog.error->hide").requires-debugger
+
+		+dialog-content
+			div.message
+			div.troubleshooting
+			div.trace.requires-debugger

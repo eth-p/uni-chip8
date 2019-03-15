@@ -9,5 +9,7 @@ import MathFlag from './MathFlag';
  * The result of a math operation.
  */
 type MathResult<T> = [T, MathFlag];
+
+// ---------------------------------------------------------------------------------------------------------------------
 export default MathResult;
 export {MathResult};

@@ -20,6 +20,10 @@ main .card {
 	box-shadow: $card-shadow 1px 1px 1px;
 
 	> a {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+
 		text-decoration: none;
 		color: inherit;
 	}

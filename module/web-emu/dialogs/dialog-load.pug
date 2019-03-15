@@ -1,0 +1,41 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+include ../../web/components/dialog
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Dialog: Load
+-// --------------------------------------------------------------------------------------------------------------------
+mixin ui-dialog-load
+	+dialog#dialog-load.tabbed
+		+dialog-title("Load Program")
+			input(type="button" value="cancel" data-trigger="dialog.load->hide")
+
+		+dialog-tabs
+			+dialog-tab("demos") Demos
+			+dialog-tab("games") Games
+			+dialog-tab("tools").requires-debugger Tools
+			+dialog-tab("upload") Upload
+
+		+dialog-content
+			+dialog-pane("upload")
+				input(type="file")#program-upload
+				label(for="program-upload")#program-upload-display
+					div Upload a ROM.
+
+			+dialog-pane("demos", true)
+				div Use our library of CHIP-8 demos.
+				div.program-library-list.control-list(data-library="DEMO")
+
+			+dialog-pane("tools")
+				div Use our library of CHIP-8 tools.
+				div.program-library-list.control-list(data-library="TOOL")
+
+			+dialog-pane("games")
+				div Use our library of CHIP-8 games.
+				div.program-library-list.control-list(data-library="GAME")

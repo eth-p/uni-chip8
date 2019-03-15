@@ -1,0 +1,12 @@
+{
+	"type": "DEMO",
+	"name": "Team Chipotle Intro",
+	"date": "2019-01-30",
+	"featured": true,
+	"drm": true,
+
+	"author": "Ethan Pini",
+	"author_url": "https://github.com/eth-p",
+
+	"info": "A demo animation for our idea of a start-up screen."
+}

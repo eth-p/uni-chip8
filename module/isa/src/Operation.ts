@@ -165,7 +165,6 @@ interface OperationCtor {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-
 export default Operation;
 export {Operation};
 export {OperationCtor};

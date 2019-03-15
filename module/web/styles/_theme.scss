@@ -6,15 +6,15 @@
 $background: #212429;
 $background-dark: #111119;
 $accent-1: #5ba2e0;
+$accent-1-dim: #304768;
 $accent-2: #eac349;
+$accent-2-dim: #715f20;
 $text: #fff;
 $text-dim: #bbb;
 $animation-time: 0.2s;
 
 $font-regular: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
 $font-monospace: 'Monaco', 'Lucida Console', whitespace;
-
-$layout-boundary: 800px; // The cutoff point between mobile and desktop.
 
 // Header:
 $header-height: 45px;
@@ -85,10 +85,14 @@ $error-window-border: #400000;
 $error-window-title-background: #300000;
 $error-window-background: #200000;
 
-// Program List:
-$program-list-border: #555a64;
-$program-list-background: #3a3d41;
-$program-list-background-hover: #555a64;
+// Control List:
+$control-list-border: #555a64;
+$control-list-background: #3a3d41;
+$control-list-button-color: $text-dim;
+$control-list-button-color-hover: $text;
+$control-list-button-background: #34363a;
+$control-list-button-border: #555a64;
+$control-list-button-background-hover: #555a64;
 
 // Input:
 $input-background: #393c40;

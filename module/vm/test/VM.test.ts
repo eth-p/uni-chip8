@@ -79,6 +79,8 @@ class Test extends Architecture<Test> {
 	protected _tick(): void {
 		this.status = TestStatus.CALLED_TICK;
 	}
+
+	protected _debugOption(option: string, value: any): void {}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

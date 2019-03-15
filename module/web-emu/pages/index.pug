@@ -6,16 +6,16 @@ include ../../web/templates/page
 include ../../web/components/common
 include ../../web/components/desktop
 include ../../web/components/toolbar
-include ../../web/components/window
 include ../components/emulator-keypad
-include ../components/emulator-debug-tools
-include ../components/emulator-disassembler
-include ../components/emulator-registers
+include ../components/visualizer-registers
+include ../components/debug-tools
+include ../components/visualizer-program
 include ../components/emulator-screen
-include ../components/emulator-stack
-include ../windows/window-error
-include ../windows/window-settings
-include ../windows/window-load
+include ../components/visualizer-stack
+include ../dialogs/dialog-savestates
+include ../dialogs/dialog-error
+include ../dialogs/dialog-load
+include ../dialogs/dialog-settings
 
 - title = 'CHIP-8 Emulator'
 - description = 'A fancy (and fast) web-based CHIP-8 emulator and debugger. Supports and runs on mobile devices.'
@@ -35,17 +35,17 @@ mixin loading-screen
 -// --------------------------------------------------------------------------------------------------------------------
 -// Page:
 -// --------------------------------------------------------------------------------------------------------------------
-+page.filled
++page.filled.no-scroll
 	+toolbar#toolbar
 		+item
-			input(type="button" value="Load" data-action="window-load-show")
-			input(type="button" value="Reset" data-action="emulator-reset")
+			input(type="button" value="Load" data-trigger="dialog.load->show")
+			input(type="button" value="Reset" data-intent="reset" data-trigger="emulator->reset")
 
 		+item
-			input(type="button" value="Pause" data-action="emulator-play-pause")
+			input(type="button" value="[]" disabled="disabled" data-intent="play-pause-resume")
 
 		+item
-			input(type="button" value="Settings" data-action="window-settings-show")
+			input(type="button" value="Savestates" data-trigger="dialog.savestates->show")
 
 		+item.spacer
 
@@ -53,10 +53,15 @@ mixin loading-screen
 			input(type="color" value="#ffffff" data-setting='screen_foreground')
 			input(type="color" value="#000000" data-setting='screen_background')
 
+		+item
+			input(type="button" value="Settings" data-trigger="dialog.settings->show")
+
 	+desktop
-		+ui-window-load
-		+ui-window-error
-		+ui-window-settings
+		+desktop-overlay#dialogs.centered.blocking
+			+ui-dialog-error
+			+ui-dialog-load
+			+ui-dialog-savestates
+			+ui-dialog-settings
 
 		- // Layout
 		+desktop-content#emulator-layout
@@ -64,7 +69,7 @@ mixin loading-screen
 				+emulator-screen
 				+emulator-keypad
 			.emulator-debugger.requires-debugger
-				+emulator-debug-tools
-				+emulator-registers
-				+emulator-stack
-				+emulator-disassembler
+				+debug-tools
+				+visualizer-registers
+				+visualizer-stack
+				+visualizer-program

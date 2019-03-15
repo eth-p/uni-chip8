@@ -136,6 +136,5 @@ class FeedbackVibrate {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default FeedbackVibrate;
 export {FeedbackVibrate};

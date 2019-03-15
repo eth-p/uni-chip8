@@ -3,8 +3,13 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
+
 import VMContext from '@chipotle/vm/VMContext';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
+
 import Chip from '@chipotle/chip-arch/Chip';
+
+import StateProvider from '@chipotle/wfw/StateProvider';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Emulator:
@@ -20,11 +25,19 @@ import Chip from '@chipotle/chip-arch/Chip';
  * - `resume`
  * - `load`
  * - `error`
+ * - `snapshot`
  */
-class Emulator extends Emitter {
+class Emulator extends Emitter<
+	'error' | 'load' | 'pause' | 'resume' | 'reset' | 'step' | 'snapshot' | 'keydown' | 'keyup'
+> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * The virtual machine instance.
+	 */
+	public readonly vm: VMContext<Chip>;
 
 	/**
 	 * Whether or not the emulator is paused.
@@ -39,7 +52,7 @@ class Emulator extends Emitter {
 	/**
 	 * The setInterval timer ID for calling update.
 	 */
-	protected interval: number | null;
+	protected interval: any | null;
 
 	/**
 	 * The update interval rate.
@@ -58,11 +71,6 @@ class Emulator extends Emitter {
 	protected speed: number;
 
 	/**
-	 * The virtual machine instance.
-	 */
-	protected vm: VMContext<Chip>;
-
-	/**
 	 * The last time (in milliseconds) update() was called.
 	 */
 	protected lastUpdate: number;
@@ -71,6 +79,11 @@ class Emulator extends Emitter {
 	 * The last error that occurred when executing the program.
 	 */
 	protected lastError?: Error;
+
+	/**
+	 * A state provider for checking if the emulator has encountered an error.
+	 */
+	protected errored: StateProvider<boolean>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
@@ -90,6 +103,7 @@ class Emulator extends Emitter {
 		this.intervalRate = 10;
 		this.intervalMiss = 0;
 		this.lastUpdate = Date.now();
+		this.errored = new StateProvider<boolean>(false);
 		this.turbo = false;
 		this._update = this._update.bind(this);
 	}
@@ -106,7 +120,6 @@ class Emulator extends Emitter {
 		await this.vm.program.load(data);
 		this.reset();
 		this.emit('load');
-		this.resume();
 	}
 
 	/**
@@ -127,7 +140,6 @@ class Emulator extends Emitter {
 	public resume(): void {
 		if (!this.paused) return;
 		if (this.vm.program.data == null) return;
-		if (this.lastError != null) return;
 
 		this.lastUpdate = Date.now();
 		this.paused = false;
@@ -141,6 +153,7 @@ class Emulator extends Emitter {
 	public reset(): void {
 		try {
 			this.lastError = undefined;
+			this.errored.value = false;
 			this.vm.reset();
 			this.emit('reset');
 			this.lastUpdate = Date.now();
@@ -153,8 +166,6 @@ class Emulator extends Emitter {
 	 * Steps the emulator forwards by one instruction.
 	 */
 	public stepForwards(): void {
-		if (!this.paused) this.pause();
-
 		try {
 			this.vm.step();
 			this.emit('step');
@@ -165,11 +176,34 @@ class Emulator extends Emitter {
 	}
 
 	/**
+	 * Creates a snapshot of the emulator state.
+	 *
+	 * @param id The snapshot ID, passed to any event listeners.
+	 *
+	 * @returns The snapshot object.
+	 */
+	public snapshot(id?: string): VMSnapshot {
+		// TODO: Create snapshot
+		let snapshot: VMSnapshot = <any>null;
+
+		this.emit('snapshot', id || 'snapshot', snapshot);
+		return snapshot;
+	}
+
+	/**
+	 * Restores a snapshot of the emulator state.
+	 *
+	 * @param snapshot The snapshot object.
+	 * @throws VMError When the snapshot is invalid.
+	 */
+	public restore(snapshot: VMSnapshot): void {
+		// TODO: Restore snapshot.
+	}
+
+	/**
 	 * Steps the emulator backwards by one instruction.
 	 */
 	public stepBackwards(): void {
-		if (!this.paused) this.pause();
-
 		// TODO: Unimplemented.
 		this.emit('step');
 		this._error(new Error('UNIMPLEMENTED.'));
@@ -225,11 +259,19 @@ class Emulator extends Emitter {
 	}
 
 	/**
-	 * Gets the error state of the emulator.
-	 * @returns True if the emulator is halted due to an error.
+	 * Gets the error state provider of the emulator.
+	 * @returns True if the emulator encountered an error at some point since the last reset.
 	 */
-	public isError(): boolean {
-		return this.lastError != null;
+	public getErrorState(): StateProvider<boolean> {
+		return this.errored;
+	}
+
+	/**
+	 * Gets the last reported error.
+	 * @returns The last reported error, or null.
+	 */
+	public getError(): Error | null {
+		return this.lastError || null;
 	}
 
 	/**
@@ -273,6 +315,7 @@ class Emulator extends Emitter {
 	 */
 	protected _error(exception: Error) {
 		this.lastError = exception;
+		this.errored.value = true;
 		this.pause();
 		this.emit('error', exception);
 		throw exception;
@@ -321,6 +364,5 @@ class Emulator extends Emitter {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Exports:
 export default Emulator;
 export {Emulator};

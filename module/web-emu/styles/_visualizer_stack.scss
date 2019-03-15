@@ -1,0 +1,39 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Stack:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#visualizer-stack {
+	.stack-frame {
+		display: flex;
+		padding: 0 4px;
+		text-align: left;
+		font-family: $font-monospace;
+
+		&.hide {
+			display: none !important;
+		}
+
+		&.unused {
+			> .stack-frame-value {
+				opacity: 0.5;
+			}
+		}
+
+		.stack-frame-index {
+			min-width: 30px;
+			opacity: 0.5;
+			padding-right: 3px;
+			text-align: right;
+		}
+
+		.stack-frame-value {
+			padding-left: 3px;
+		}
+	}
+}
