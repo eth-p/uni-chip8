@@ -98,6 +98,24 @@ module.exports = class Project {
 		return Object.values(this._modules);
 	}
 
+	/**
+	 * Gets the version string of the project.
+	 * @returns {string} The version, or unknown.
+	 */
+	getVersion() {
+		return this._config.version || 'Unknown';
+	}
+
+	/**
+	 * Gets the current branch of the project.
+	 * @returns {string} The friendly branch name, or unknown.
+	 */
+	async getBranch() {
+		let repo = await this.getRepository();
+		let branch = await repo.getCurrentBranch();
+		return branch.shorthand();
+	}
+
 	async _load() {
 		let waits = [];
 
