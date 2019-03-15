@@ -7,7 +7,7 @@ include ../../web/components/common
 include ../../web/components/desktop
 include ../../web/components/toolbar
 include ../components/emulator-keypad
-include ../components/emulator-registers
+include ../components/visualizer-registers
 include ../components/debug-tools
 include ../components/visualizer-program
 include ../components/emulator-screen
@@ -70,6 +70,6 @@ mixin loading-screen
 				+emulator-keypad
 			.emulator-debugger.requires-debugger
 				+debug-tools
-				+emulator-registers
+				+visualizer-registers
 				+visualizer-stack
 				+visualizer-program

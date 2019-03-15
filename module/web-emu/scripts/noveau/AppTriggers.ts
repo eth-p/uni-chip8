@@ -18,6 +18,10 @@ class AppTriggers {
 		program: {
 			render: new Trigger(),
 			reset: new Trigger()
+		},
+		register: {
+			render: new Trigger(),
+			reset: new Trigger()
 		}
 	};
 

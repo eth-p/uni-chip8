@@ -21,6 +21,7 @@ import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
 import KeypadVisualizer from './noveau/visualizer/keypad/KeypadVisualizer';
 import ProgramVisualizer from './noveau/visualizer/program/ProgramVisualizer';
+import RegisterVisualizer from './noveau/visualizer/register/RegisterVisualizer';
 import ScreenVisualizer from './noveau/visualizer/screen/ScreenVisualizer';
 import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 
@@ -61,12 +62,12 @@ App.depends([
 	// Visualizers.
 	KeypadVisualizer,
 	ProgramVisualizer,
+	RegisterVisualizer,
 	ScreenVisualizer,
 	StackVisualizer
 ]);
 
 // OLD CODE
-import './ui-registers';
 
 import {emulator} from './instance';
 import {settings} from './settings';

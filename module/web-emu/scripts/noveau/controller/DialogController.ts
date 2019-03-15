@@ -44,7 +44,6 @@ class DialogController extends App {
 		// When a dialog is visible, reset the scroll position on input unfocus.
 		// This fixes a bug where the scroll will be stuck on phones after typing something.
 		document.addEventListener('focusout', event => {
-			console.log(event);
 			if (!this.state.dialog.visible.value) return;
 			if (event.target == null || (<Node>event.target).nodeName !== 'INPUT') return;
 
