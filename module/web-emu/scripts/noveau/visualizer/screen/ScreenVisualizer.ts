@@ -69,6 +69,12 @@ class ScreenVisualizer extends Visualizer {
 			}
 		});
 
+		// Listeners for redrawing the screen.
+		// This one will clear the screen when a program is loaded.
+		this.addListener('load', () => {
+			this.render();
+		});
+
 		// Listeners for screen settings.
 		this.settings.onChange('screen_foreground', (s, v) => {
 			this.renderer.setForeground(v);

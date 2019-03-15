@@ -6,8 +6,9 @@ import App from './noveau/App';
 
 import DialogController from './noveau/controller/DialogController';
 import EmulatorController from './noveau/controller/EmulatorController';
-import KeybindController from './noveau/controller/KeybindController';
 import EmulatorButtonController from './noveau/controller/EmulatorButtonController';
+import EmulatorFeedbackController from './noveau/controller/EmulatorFeedbackController';
+import KeybindController from './noveau/controller/KeybindController';
 import TriggerController from './noveau/controller/TriggerController';
 import VisibilityController from './noveau/controller/VisibilityController';
 
@@ -42,6 +43,7 @@ App.depends([
 	EmulatorController,
 	TriggerController,
 	EmulatorButtonController,
+	EmulatorFeedbackController,
 	DialogController,
 	VisibilityController,
 
@@ -62,8 +64,6 @@ import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 
 import './ui-registers';
-import './keybind';
-import './feedback';
 
 import {emulator} from './instance';
 import {settings} from './settings';
