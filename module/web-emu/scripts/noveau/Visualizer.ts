@@ -18,7 +18,7 @@ abstract class Visualizer extends App {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected animator!: Animator;
-	protected setting: string;
+	protected setting: string | null;
 
 	protected frame!: HTMLElement;
 	protected container!: HTMLElement;
@@ -29,7 +29,7 @@ abstract class Visualizer extends App {
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string) {
+	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string | null) {
 		super();
 
 		this.setting = setting;
@@ -51,7 +51,9 @@ abstract class Visualizer extends App {
 	}
 
 	protected initListener(this: App.Fragment<this>): void {
-		this.settings.onChange(<any>this.setting, (e, v) => this.setVisible(v));
+		if (this.setting != null) {
+			this.settings.onChange(<any>this.setting, (e, v) => this.setVisible(v));
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

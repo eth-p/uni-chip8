@@ -89,7 +89,9 @@ class AppTriggers {
 	 * These triggers are used to control the screen.
 	 */
 	public screen = {
-		render: new Trigger()
+		render: new Trigger(),
+		resize: new Trigger(),
+		reset: new Trigger()
 	};
 
 	// -------------------------------------------------------------------------------------------------------------
