@@ -38,6 +38,11 @@ class AppTriggers {
 			hide: new Trigger()
 		},
 
+		savestates: {
+			show: new Trigger(),
+			hide: new Trigger()
+		},
+
 		error: {
 			show: new Trigger(),
 			hide: new Trigger(),

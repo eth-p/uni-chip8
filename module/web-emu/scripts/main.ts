@@ -14,6 +14,7 @@ import VisibilityController from './noveau/controller/VisibilityController';
 
 import ErrorDialog from './noveau/dialog/error/ErrorDialog';
 import LoadDialog from './noveau/dialog/load/LoadDialog';
+import SavestatesDialog from './noveau/dialog/savestates/SavestateDialog';
 import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
 import KeypadVisualizer from './noveau/visualizer/keypad/KeypadVisualizer';
@@ -50,6 +51,7 @@ App.depends([
 	// Dialog controllers.
 	ErrorDialog,
 	LoadDialog,
+	SavestatesDialog,
 	SettingsDialog,
 
 	// Visualizers.
