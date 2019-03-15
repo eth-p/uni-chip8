@@ -106,6 +106,7 @@ class AppTriggers {
 
 		// Connect triggers together.
 		this.emulator.reset.connect(this.visualizers.resetAll);
+		this.emulator.reset.connect(this.screen.render);
 
 		// Any dialog->___->show trigger:
 		// Automatically hide other dialogs.
