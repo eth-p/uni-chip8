@@ -123,3 +123,10 @@ mixin settings-pane-debug
 				div
 					| Disables the DT timer.
 					| This can greatly help with debugging.
+
+		+setting-group("Information").grid-2
+			span Version:
+			span=Project.VERSION
+
+			span Branch:
+			span=Project.BRANCH
