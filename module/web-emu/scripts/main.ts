@@ -2,6 +2,8 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import app_ready from '@chipotle/web/app_ready';
+
 import App from './noveau/App';
 
 import DialogController from './noveau/controller/DialogController';
@@ -32,10 +34,12 @@ import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 // ---------------------------------------------------------------------------------------------------------------------
 App.emulator = emulator;
 App.settings.suppressListeners('update', true);
+
 App.addListener('ready', () => {
-	console.log('READY!');
 	App.settings.suppressListeners('update', false);
 	App.settings.broadcast();
+
+	app_ready.done();
 });
 
 App.depends([
@@ -62,9 +66,6 @@ App.depends([
 ]);
 
 // OLD CODE
-import dom_ready from '@chipotle/web/dom_ready';
-import app_ready from '@chipotle/web/app_ready';
-
 import './ui-registers';
 
 import {emulator} from './instance';
@@ -79,12 +80,4 @@ emulator.addListener('snapshot', (id, snapshot) => {
 		date: new Date().toUTCString(),
 		unset: false
 	};
-});
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Finish Load:
-// ---------------------------------------------------------------------------------------------------------------------
-dom_ready(() => {
-	settings.broadcast();
-	app_ready.done();
 });
