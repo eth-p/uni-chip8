@@ -117,7 +117,7 @@ class ChipDisplayRenderer {
 		}
 
 		// Fill background.
-		context.fillRect(left, top, virtualWidth * scale, virtualWidth * scale);
+		context.fillRect(left, top, virtualWidth * scale, virtualHeight * scale);
 
 		// Draw foreground.
 		context.fillStyle = foreground;
