@@ -52,7 +52,7 @@ class Emulator extends Emitter<
 	/**
 	 * The setInterval timer ID for calling update.
 	 */
-	protected interval: number | null;
+	protected interval: any | null;
 
 	/**
 	 * The update interval rate.

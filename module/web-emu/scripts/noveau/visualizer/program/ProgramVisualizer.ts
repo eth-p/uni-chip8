@@ -4,8 +4,8 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import App from '../../App';
 import Visualizer from '../../Visualizer';
+
 import ProgramFrame from './ProgramFrame';
-import {vm} from '../../../instance';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -83,7 +83,8 @@ class ProgramVisualizer extends Visualizer {
 	 * @override
 	 */
 	public render(this: App.Fragment<this>): void {
-		const start = this.emulator.vm.program_counter - this.itemsBefore * 2;
+		const vm = this.emulator.vm;
+		const start = vm.program_counter - this.itemsBefore * 2;
 		const max = this.itemsBefore + this.itemsAfter;
 		const eof = vm.program.data == null ? 0 : vm.program.data.length;
 
