@@ -15,6 +15,7 @@ import ErrorDialog from './noveau/dialog/error/ErrorDialog';
 import LoadDialog from './noveau/dialog/load/LoadDialog';
 import SettingsDialog from './noveau/dialog/settings/SettingsDialog';
 
+import KeypadVisualizer from './noveau/visualizer/keypad/KeypadVisualizer';
 import ProgramVisualizer from './noveau/visualizer/program/ProgramVisualizer';
 import StackVisualizer from './noveau/visualizer/stack/StackVisualizer';
 
@@ -49,6 +50,7 @@ App.depends([
 	SettingsDialog,
 
 	// Visualizers.
+	KeypadVisualizer,
 	ProgramVisualizer,
 	StackVisualizer
 ]);
@@ -57,11 +59,9 @@ App.depends([
 import dom_ready from '@chipotle/web/dom_ready';
 import app_ready from '@chipotle/web/app_ready';
 
-import './ui-controls';
 import './ui-screen';
 import './ui-savestates';
 import './ui-registers';
-import './ui-keypad';
 import './keybind';
 import './feedback';
 
