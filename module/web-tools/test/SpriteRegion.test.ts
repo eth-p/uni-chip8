@@ -111,4 +111,31 @@ describe('Sprite Region', () => {
 			expect(actualData[i]).toStrictEqual(expectedData[i]);
 		}
 	});
+
+	it('Horizontal Shift', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+		testRegion.setPixel(0, 0, true);
+
+		testRegion.shiftRight();
+		expect(testRegion.getPixel(0, 0)).toStrictEqual(false);
+		expect(testRegion.getPixel(1, 0)).toStrictEqual(true);
+
+		testRegion.shiftLeft();
+		expect(testRegion.getPixel(0, 0)).toStrictEqual(true);
+		expect(testRegion.getPixel(1, 0)).toStrictEqual(false);
+	});
+
+	it('Vertical Shift', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+		// return;
+		testRegion.setPixel(0 , 0, true);
+
+		testRegion.shiftDown();
+		expect(testRegion.getPixel(0, 0)).toStrictEqual(false);
+		expect(testRegion.getPixel(0, 1)).toStrictEqual(true);
+
+		testRegion.shiftUp();
+		expect(testRegion.getPixel(0, 0)).toStrictEqual(true);
+		expect(testRegion.getPixel(0, 1)).toStrictEqual(false);
+	});
 });

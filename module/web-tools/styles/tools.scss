@@ -8,8 +8,13 @@ main {
 	// YOUR STYLES HERE
 }
 
+#content {
+	float: left;
+}
+
 table#region {
 	padding: 5px;
+	padding-left: 0px;
 }
 
 #region tr {
@@ -30,4 +35,8 @@ table#region {
 
 #region .pixelState.off {
 	background-color: black;
+}
+
+#output {
+	width: 255px;
 }

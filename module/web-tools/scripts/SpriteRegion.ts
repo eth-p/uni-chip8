@@ -10,11 +10,11 @@ export default class SpriteRegion {
 	public static readonly COLUMNS = 8;
 	public static readonly ROWS = 15;
 
-	private spriteData: boolean[];
+	private data: number[];
 
 	constructor() {
-		this.spriteData = new Array<boolean>(SpriteRegion.COLUMNS * SpriteRegion.ROWS);
-		this.spriteData.fill(false);
+		this.data = new Array<number>(SpriteRegion.ROWS);
+		this.data.fill(0);
 	}
 
 	/**
@@ -25,7 +25,11 @@ export default class SpriteRegion {
 	 * @param state The state the pixel will take.
 	 */
 	setPixel(column: number, row: number, state: boolean): void {
-		this.spriteData[SpriteRegion.convertCoordinateToIndex(column, row)] = state;
+		if (state) {
+			this.data[row] |= 1 << (7 - column);
+		} else {
+			this.data[row] &= ~(1 << (7 - column));
+		}
 	}
 
 	/**
@@ -35,7 +39,7 @@ export default class SpriteRegion {
 	 * @param row The row to search.
 	 */
 	getPixel(column: number, row: number): boolean {
-		return this.spriteData[SpriteRegion.convertCoordinateToIndex(column, row)];
+		return ((this.data[row] >> (7 - column)) & 1) === 1 ? true : false;
 	}
 
 	/**
@@ -44,13 +48,7 @@ export default class SpriteRegion {
 	 * @param row The row to access.
 	 */
 	getRow(row: number): number {
-		let accumulator: number = 0;
-		for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
-			let pixelState: boolean = this.getPixel(column, row);
-			let allowAccumulate = pixelState ? 1 : 0;
-			accumulator += allowAccumulate * Math.pow(2, SpriteRegion.COLUMNS - 1 - column);
-		}
-		return accumulator;
+		return this.data[row];
 	}
 
 	/**
@@ -64,13 +62,60 @@ export default class SpriteRegion {
 		return data;
 	}
 
-	/**
-	 * Convert a coordinate into a one-dimensional index.
-	 *
-	 * @param column The column to convert.
-	 * @param row The row to convert.
-	 */
-	private static convertCoordinateToIndex(column: number, row: number): number {
-		return row * SpriteRegion.COLUMNS + column;
+	shiftLeft(): void {
+		this.horizontalShift(-1);
+	}
+
+	shiftRight(): void {
+		this.horizontalShift(1);
+	}
+
+	shiftUp(): void {
+		this.verticalShift(-1);
+	}
+
+	shiftDown(): void {
+		this.verticalShift(1);
+	}
+
+	private horizontalShift(amount: number): void {
+		if (amount === 0) {
+			return;
+		}
+
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+			if (amount > 0) {
+				this.data[row] >>= amount;
+			} else {
+				this.data[row] <<= Math.abs(amount);
+			}
+		}
+	}
+
+	private verticalShift(amount: number): void {
+		if (amount === 0) {
+			return;
+		}
+
+		if (amount > 0) {
+			// Shift down (+row)
+			for (let row: number = SpriteRegion.ROWS - 1; row - amount >= 0; --row) {
+				this.data[row] = this.data[row - amount];
+			}
+			for (let row: number = amount - 1; row >= 0; --row) {
+				this.data[row] = 0;
+			}
+		} else {
+
+			amount = Math.abs(amount);
+
+			// Shift up (-row)
+			for (let row: number = 0; row + amount < SpriteRegion.ROWS; ++row) {
+				this.data[row] = this.data[row + amount];
+			}
+			for (let row: number = SpriteRegion.ROWS - amount; row < SpriteRegion.ROWS; ++row) {
+				this.data[row] = 0;
+			}
+		}
 	}
 }
