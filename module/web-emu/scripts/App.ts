@@ -62,16 +62,11 @@ namespace App {
 
 	// Reset settings if mismatched settings version.
 	// This is to account for incompatible changes in the settings schema.
-	if (
-		!App.settings.settings_versioned ||
-		App.settings.settings_version !== App.settings.getEntry('settings_version')!.value
-	) {
+	if (App.settings.settings_version !== AppSettings.VERSION) {
 		App.settings.reset();
+		App.settings.settings_version = AppSettings.VERSION;
 		App.settings.save();
 	}
-
-	App.settings.settings_versioned = true;
-	App.settings.save();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

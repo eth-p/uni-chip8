@@ -7,9 +7,12 @@ import Emitter from '@chipotle/types/Emitter';
 import VMContext from '@chipotle/vm/VMContext';
 import VMSnapshot from '@chipotle/vm/VMSnapshot';
 
+import StateProvider from '@chipotle/wfw/StateProvider';
+
 import Chip from '@chipotle/chip-arch/Chip';
 
-import StateProvider from '@chipotle/wfw/StateProvider';
+import Savestate from './Savestate';
+import SavestateRenderer from './SavestateRenderer';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Emulator:
@@ -85,8 +88,13 @@ class Emulator extends Emitter<
 	 */
 	protected errored: StateProvider<boolean>;
 
+	/**
+	 * A display renderer used for savestate screenshots.
+	 */
+	protected savestateRenderer: SavestateRenderer;
+
 	// -------------------------------------------------------------------------------------------------------------
-	// | Constructor:                                                                                              |
+	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -105,13 +113,14 @@ class Emulator extends Emitter<
 		this.lastUpdate = Date.now();
 		this.errored = new StateProvider<boolean>(false);
 		this.turbo = false;
+		this.savestateRenderer = new SavestateRenderer(vm);
 		this._update = this._update.bind(this);
 
 		this.vm.addListener('restore', (...args) => this.emit('load', ...args));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
-	// | Methods:                                                                                              |
+	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -178,27 +187,6 @@ class Emulator extends Emitter<
 	}
 
 	/**
-	 * Creates a snapshot of the emulator state.
-	 *
-	 * @param id The snapshot ID, passed to any event listeners.
-	 *
-	 * @returns The snapshot object.
-	 */
-	public snapshot(id?: string): VMSnapshot {
-		return this.vm.snapshot();
-	}
-
-	/**
-	 * Restores a snapshot of the emulator state.
-	 *
-	 * @param snapshot The snapshot object.
-	 * @throws VMError When the snapshot is invalid.
-	 */
-	public restore(snapshot: VMSnapshot): void {
-		this.vm.restore(snapshot);
-	}
-
-	/**
 	 * Steps the emulator backwards by one instruction.
 	 */
 	public stepBackwards(): void {
@@ -234,6 +222,31 @@ class Emulator extends Emitter<
 
 		this.emit('keyup', key);
 		(<any>this.vm.keyboard)[keyid] = false;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods: Savestates                                                                                       |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Creates a savestate of the emulator.
+	 * @returns The emulator savestate.
+	 */
+	public saveState(): Savestate {
+		return {
+			screenshot: this.savestateRenderer.render(),
+			snapshot: this._snapshot(),
+			date: new Date().toUTCString()
+		};
+	}
+
+	/**
+	 * Loads a savestate of the emulator.
+	 * @param state The emulator savestate to load.
+	 */
+	public loadState(state: Savestate): void {
+		if (state.snapshot == null) throw new Error('The savestate contains no snapshot.');
+		this._restore(state.snapshot);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -306,8 +319,33 @@ class Emulator extends Emitter<
 	// -------------------------------------------------------------------------------------------------------------
 
 	/**
+	 * Creates a snapshot of the emulator state.
+	 *
+	 * @returns The snapshot object.
+	 *
+	 * @internal
+	 */
+	protected _snapshot(): VMSnapshot {
+		return this.vm.snapshot();
+	}
+
+	/**
+	 * Restores a snapshot of the emulator state.
+	 *
+	 * @param snapshot The snapshot object.
+	 *
+	 * @throws VMError When the snapshot is invalid.
+	 * @internal
+	 */
+	protected _restore(snapshot: VMSnapshot): void {
+		this.vm.restore(snapshot);
+	}
+
+	/**
 	 * Halts execution and emits an error.
+	 *
 	 * @param exception The error.
+	 *
 	 * @throws The error.
 	 * @internal
 	 */
