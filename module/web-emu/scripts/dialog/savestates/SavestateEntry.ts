@@ -15,7 +15,7 @@ class SavestateEntry {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected readonly TEMPLATE: (typeof SavestateEntry)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
-	public static readonly TEMPLATE = Template.compile<{slot: 'quicksave' | number}>({
+	public static readonly TEMPLATE = Template.compile<{slot: 'quickslot' | number}>({
 		classes: 'control-item',
 		data: {savestate: o => o.slot.toString()},
 		children: [
@@ -35,7 +35,7 @@ class SavestateEntry {
 						children: [
 							{
 								classes: 'savestate-name',
-								text: o => (o.slot === 'quicksave' ? 'Quicksave' : `Savestate ${o.slot}`)
+								text: o => (o.slot === 'quickslot' ? 'Quicksave' : `Savestate ${o.slot}`)
 							},
 							{
 								classes: 'savestate-date'
@@ -66,7 +66,7 @@ class SavestateEntry {
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected slot: 'quicksave' | number;
+	protected slot: 'quickslot' | number;
 
 	protected element: HTMLElement;
 	protected buttonLoad: HTMLInputElement;
@@ -78,7 +78,7 @@ class SavestateEntry {
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(slot: 'quicksave' | number) {
+	public constructor(slot: 'quickslot' | number) {
 		this.slot = slot;
 
 		this.element = this.TEMPLATE({slot: slot});
@@ -98,7 +98,7 @@ class SavestateEntry {
 	/**
 	 * Gets the savestate slot.
 	 */
-	public getSlot(): 'quicksave' | number {
+	public getSlot(): 'quickslot' | number {
 		return this.slot;
 	}
 
@@ -131,7 +131,7 @@ class SavestateEntry {
 	 * @param date The date, or null if not set.
 	 */
 	public setDate(date: Date | null): void {
-		this.dateField.textContent = date == null ? 'No Savestate' : date.toDateString();
+		this.dateField.textContent = date == null ? 'No Savestate' : date.toLocaleString();
 	}
 
 	/**

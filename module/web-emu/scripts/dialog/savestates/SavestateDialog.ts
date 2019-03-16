@@ -5,6 +5,7 @@
 import Dialog from '@chipotle/wfw/Dialog';
 
 import App from '../../App';
+import Savestate from '../../Savestate';
 
 import SavestateEntry from './SavestateEntry';
 
@@ -28,7 +29,7 @@ class SavestateDialog extends App {
 	public constructor() {
 		super();
 
-		this.entries = ['quicksave', 1, 2, 3, 4, 5, 6, 7, 8, 9].map(slot => new SavestateEntry(<any>slot));
+		this.entries = ['quickslot', 1, 2, 3, 4, 5, 6, 7, 8, 9].map(slot => new SavestateEntry(<any>slot));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -42,6 +43,7 @@ class SavestateDialog extends App {
 		const container = this.dialog.getContentElement()!;
 
 		// Generate list.
+		this.refresh();
 		for (let entry of this.entries) {
 			container.appendChild(entry.getElement());
 		}
@@ -52,7 +54,11 @@ class SavestateDialog extends App {
 		this.triggers.dialog.savestates.hide.onTrigger(() => this.dialog.hide());
 	}
 
-	protected initListener(this: App.Fragment<this>): void {}
+	protected initListener(this: App.Fragment<this>): void {
+		this.settings.addListener('update', setting => {
+			if (setting.startsWith('savestate_')) this.refresh();
+		});
+	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Handlers:                                                                                                 |
@@ -61,6 +67,20 @@ class SavestateDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Refreshes the savestate dialog entries.
+	 * This will update the image and date.
+	 */
+	public refresh(): void {
+		for (let entry of this.entries) {
+			let savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
+			if (savestate != null) {
+				entry.setImage(savestate.screenshot);
+				entry.setDate(new Date(savestate.date));
+			}
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
