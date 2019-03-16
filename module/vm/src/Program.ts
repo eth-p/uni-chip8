@@ -92,8 +92,12 @@ export default class Program<A> {
 	 * @param snapshot The program snapshot.
 	 */
 	public restore(snapshot: string): void {
-		const buffer = Decoder.string(Decoder.base64(snapshot));
-		if (this.data == null) this.data = new Uint8Array(buffer);
-		this.data.set(new Uint8Array(buffer));
+		const buffer = new Uint8Array(Decoder.string(Decoder.base64(snapshot)));
+
+		if (this.data == null) {
+			this.data = buffer;
+		} else {
+			this.data.set(new Uint8Array(buffer));
+		}
 	}
 }
