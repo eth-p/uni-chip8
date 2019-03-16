@@ -220,9 +220,7 @@ export class VMBase<A> extends Emitter {
 	public reset(): void {
 		this.program_counter = 0;
 		this.tick = 0;
-		this._VM_executing = false;
-		this._VM_awaiting = false;
-		this.emit = Emitter.prototype.emit;
+		this._resetVM();
 		(<any>this)._reset();
 	}
 
@@ -320,7 +318,7 @@ export class VMBase<A> extends Emitter {
 		if (snapshot.__ARCH !== this._VM_arch.name) throw new VMError(VMError.SNAPSHOT_ARCH_MISMATCH);
 
 		// Reset virtual machine state.
-		this.reset();
+		this._resetVM();
 
 		// Restore virtual machine data.
 		this.tick = <number>snapshot.__TICK;
@@ -333,6 +331,20 @@ export class VMBase<A> extends Emitter {
 		// Done!
 		this.emit('restore');
 		this.opcache.invalidateAll();
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Internal:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Resets any special virtual machine hooks and variables.
+	 * @internal
+	 */
+	protected _resetVM(): void {
+		this._VM_executing = false;
+		this._VM_awaiting = false;
+		this.emit = Emitter.prototype.emit;
 	}
 }
 
