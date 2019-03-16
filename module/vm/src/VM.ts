@@ -2,7 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import assert from '@chipotle/types/assert';
 import Emitter from '@chipotle/types/Emitter';
+import Optional from '@chipotle/types/Optional';
 
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
@@ -13,11 +15,9 @@ import Program from './Program';
 import {ProgramAddress, isValid} from './ProgramAddress';
 import ProgramError from './ProgramError';
 import VMContext from './VMContext';
-import VMInstructionSet from './VMInstructionSet';
-
-import assert from '@chipotle/types/assert';
 import VMError from '@chipotle/vm/VMError';
-import Optional from '@chipotle/types/Optional';
+import VMInstructionSet from './VMInstructionSet';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -290,6 +290,49 @@ export class VMBase<A> extends Emitter {
 	 */
 	public getArchitecture(): Architecture<A> {
 		return this._VM_arch;
+	}
+
+	/**
+	 * Creates a snapshot of the virtual machine.
+	 * This snapshot can be restored at a later time.
+	 */
+	public snapshot(): VMSnapshot {
+		return {
+			program_counter: this.program_counter,
+			program: this.program.snapshot(),
+			...(<any>this)._saveSnapshot(),
+			__TICK: this.tick,
+			__ARCH: this._VM_arch.name,
+			__VERS: VMSnapshot.VERSION
+		};
+	}
+
+	/**
+	 * Restores a virtual machine snapshot.
+	 * This will set the state of the virtual machine back to the one it had when the snapshot was created.
+	 *
+	 * @param snapshot The snapshot to restore.
+	 *
+	 * @throws VMError When the snapshot is invalid.
+	 */
+	public restore(snapshot: VMSnapshot): void {
+		if (snapshot.__VERS !== VMSnapshot.VERSION) throw new VMError(VMError.SNAPSHOT_VERS_MISMATCH);
+		if (snapshot.__ARCH !== this._VM_arch.name) throw new VMError(VMError.SNAPSHOT_ARCH_MISMATCH);
+
+		// Reset virtual machine state.
+		this.reset();
+
+		// Restore virtual machine data.
+		this.tick = <number>snapshot.__TICK;
+		this.program_counter = <number>snapshot.program_counter;
+		this.program.restore(<string>snapshot.program);
+
+		// Restore architecture data.
+		(<any>this)._loadSnapshot(snapshot);
+
+		// Done!
+		this.emit('restore');
+		this.opcache.invalidateAll();
 	}
 }
 

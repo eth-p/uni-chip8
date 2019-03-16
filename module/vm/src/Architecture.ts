@@ -2,10 +2,12 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import JsonType from '@chipotle/types/JsonType';
+
 import ProgramSource from './ProgramSource';
 import VMContext from './VMContext';
 import VMInstructionSet from './VMInstructionSet';
-import VMSnapshot from '@chipotle/vm/VMSnapshot';
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -22,6 +24,11 @@ abstract class Architecture<A> {
 	 */
 	public readonly isa: VMInstructionSet<A>;
 
+	/**
+	 * The architecture name.
+	 */
+	public readonly name: string;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -32,6 +39,7 @@ abstract class Architecture<A> {
 	 */
 	protected constructor(isa: VMInstructionSet<A>) {
 		this.isa = isa;
+		this.name = this.constructor.name.replace(/[^a-zA-Z]/, '_');
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -73,17 +81,19 @@ abstract class Architecture<A> {
 	 */
 	protected abstract _debugOption(this: VMContext<A>, option: string, value: any): void;
 
-	// 	/**
-	// 	 * Stores the architecture state into a snapshot.
-	// 	 * @param snapshot The snapshot to store into.
-	// 	 */
-	// 	protected abstract _saveSnapshot(this: VMContext<A>, snapshot: VMSnapshot): void;
-	//
-	// 	/**
-	// 	 * Restores the architecture state from a snapshot.
-	// 	 * @param snapshot The snapshot to restore from.
-	// 	 */
-	// 	protected abstract _loadSnapshot(this: VMContext<A>, snapshot: VMSnapshot): void;
+	/**
+	 * Saves the current state of the architecture into a snapshot.
+	 * @returns The snapshot.
+	 */
+	protected abstract _saveSnapshot(this: VMContext<A>): JsonType;
+
+	/**
+	 * Restores the architecture state from a snapshot.
+	 * @param snapshot The snapshot to restore from.
+	 *
+	 * @throws VMError When the snapshot is invalid.
+	 */
+	protected abstract _loadSnapshot(this: VMContext<A>, snapshot: JsonType): void;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
