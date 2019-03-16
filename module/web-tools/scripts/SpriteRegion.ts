@@ -106,7 +106,6 @@ export default class SpriteRegion {
 				this.data[row] = 0;
 			}
 		} else {
-
 			amount = Math.abs(amount);
 
 			// Shift up (-row)

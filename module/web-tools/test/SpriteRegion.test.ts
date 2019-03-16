@@ -128,7 +128,7 @@ describe('Sprite Region', () => {
 	it('Vertical Shift', () => {
 		let testRegion: SpriteRegion = new SpriteRegion();
 		// return;
-		testRegion.setPixel(0 , 0, true);
+		testRegion.setPixel(0, 0, true);
 
 		testRegion.shiftDown();
 		expect(testRegion.getPixel(0, 0)).toStrictEqual(false);
