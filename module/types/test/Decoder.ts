@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Decoder from '../src/Decoder';
+import Encoder from '../src/Encoder';
 // ---------------------------------------------------------------------------------------------------------------------
 describe('Decoder', () => {
 	it('string', () => {
@@ -16,5 +17,14 @@ describe('Decoder', () => {
 	it('base64', () => {
 		let str = Decoder.base64('aGVsbG8gd29ybGQ=');
 		expect(str).toStrictEqual('hello world');
+	});
+
+	it('Consistency', () => {
+		let buffer = new Uint8Array(256);
+		for (let i = 0; i <= 255; i++) buffer[i] = i;
+
+		let encoded = Encoder.string(buffer);
+		let decoded = new Uint8Array(Decoder.string(encoded));
+		expect(decoded).toEqual(buffer);
 	});
 });

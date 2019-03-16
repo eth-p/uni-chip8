@@ -18,11 +18,11 @@ namespace Encoder {
 		const ui8 = array instanceof Uint8Array ? array : new Uint8Array(array);
 
 		let chunks = [];
-		for (let i = 0; i < array.byteLength; i += 64) {
-			chunks.push(String.fromCharCode.apply(null, ui8.slice(i, Math.min(i + 64, array.byteLength))));
+		for (let i = 0; i < ui8.length; i += 64) {
+			chunks.push(String.fromCharCode.apply(null, ui8.slice(i, Math.min(i + 64, ui8.length))));
 		}
 
-		return chunks.join();
+		return chunks.join('');
 	}
 
 	/**
