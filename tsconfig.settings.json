@@ -17,6 +17,7 @@
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 		"preserveConstEnums": true,
+		"skipLibCheck": true,
 		"noEmit": true,
 		"baseUrl": ".",
 		"paths": {
