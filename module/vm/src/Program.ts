@@ -69,6 +69,7 @@ export default class Program<A> {
 	 * @returns The fetched instruction.
 	 */
 	public fetch(address: ProgramAddress): Instruction {
+		assert(this.data != null, 'Program is not loaded');
 		assert(address < this.data!.length - 1, "Parameter 'address' is out of bounds for program (over)");
 		assert(address >= 0, "Parameter 'address' is out of bounds for program (over)");
 		return or(bitshiftl(this.data![address], 8), this.data![address + 1]);
