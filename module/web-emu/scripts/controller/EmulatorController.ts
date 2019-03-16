@@ -59,6 +59,11 @@ class EmulatorController extends App {
 			this.triggers.visualizers.renderAll.trigger();
 		});
 
+		this.emulator.addListener('load', () => {
+			this.triggers.screen.render.trigger();
+			this.triggers.visualizers.renderAll.trigger();
+		});
+
 		// Settings.
 		this.settings.onChange('cpu_speed', (setting, value) => {
 			this.emulator.setFrequency(value);
