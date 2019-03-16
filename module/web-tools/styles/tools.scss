@@ -7,3 +7,27 @@
 main {
 	// YOUR STYLES HERE
 }
+
+table#region {
+	padding: 5px;
+}
+
+#region tr {
+	padding: 0px;
+	margin: 0px;
+}
+
+#region .pixelState {
+	width: 30px;
+	height: 30px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#region .pixelState.on {
+	background-color: white;
+}
+
+#region .pixelState.off {
+	background-color: black;
+}
