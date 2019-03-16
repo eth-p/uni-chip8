@@ -9,8 +9,8 @@ describe('Sprite Region', () => {
 	it('Constructor', () => {
 		// The constructor should fill false to all pixels.
 		let testRegion: SpriteRegion = new SpriteRegion();
-		for (let row: number = 0; row < testRegion.ROWS; ++row) {
-			for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+			for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 				expect(testRegion.getPixel(column, row)).toStrictEqual(false);
 			}
 		}
@@ -20,8 +20,8 @@ describe('Sprite Region', () => {
 		let testRegion: SpriteRegion = new SpriteRegion();
 
 		// Test single pixel
-		let randomColumn: number = Math.floor(Math.random() * (testRegion.COLUMNS - 1));
-		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+		let randomColumn: number = Math.floor(Math.random() * (SpriteRegion.COLUMNS - 1));
+		let randomRow: number = Math.floor(Math.random() * (SpriteRegion.ROWS - 1));
 
 		testRegion.setPixel(randomColumn, randomRow, true);
 		expect(testRegion.getPixel(randomColumn, randomRow)).toStrictEqual(true);
@@ -31,8 +31,8 @@ describe('Sprite Region', () => {
 		let testRegion: SpriteRegion = new SpriteRegion();
 
 		// Test single pixel
-		let randomColumn: number = Math.floor(Math.random() * (testRegion.COLUMNS - 1));
-		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+		let randomColumn: number = Math.floor(Math.random() * (SpriteRegion.COLUMNS - 1));
+		let randomRow: number = Math.floor(Math.random() * (SpriteRegion.ROWS - 1));
 
 		testRegion.setPixel(randomColumn, randomRow, true);
 		testRegion.setPixel(randomColumn, randomRow, false);
@@ -42,9 +42,9 @@ describe('Sprite Region', () => {
 	it('Row Conversion', () => {
 		let testRegion: SpriteRegion = new SpriteRegion();
 
-		let randomRow: number = Math.floor(Math.random() * (testRegion.ROWS - 1));
+		let randomRow: number = Math.floor(Math.random() * (SpriteRegion.ROWS - 1));
 		let targetColumns: number[] = new Array<number>();
-		for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+		for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 			if (Math.random() >= 0.5) {
 				targetColumns.push(column);
 			}
@@ -54,7 +54,7 @@ describe('Sprite Region', () => {
 
 		targetColumns.forEach((column: number) => {
 			testRegion.setPixel(column, randomRow, true);
-			expectedAccumulator += Math.pow(2, testRegion.COLUMNS - 1 - column);
+			expectedAccumulator += Math.pow(2, SpriteRegion.COLUMNS - 1 - column);
 		});
 
 		expect(testRegion.getRow(randomRow)).toStrictEqual(expectedAccumulator);
@@ -65,14 +65,14 @@ describe('Sprite Region', () => {
 
 		let expectedData: number[] = [];
 
-		for (let row: number = 0; row < testRegion.ROWS; ++row) {
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
 			let expectedAccumulator: number = 0;
 
 			if (Math.random() >= 0.5) {
-				for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+				for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 					if (Math.random() >= 0.5) {
 						testRegion.setPixel(column, row, true);
-						expectedAccumulator += Math.pow(2, testRegion.COLUMNS - 1 - column);
+						expectedAccumulator += Math.pow(2, SpriteRegion.COLUMNS - 1 - column);
 					}
 				}
 			}
