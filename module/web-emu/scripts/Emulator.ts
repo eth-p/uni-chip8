@@ -106,6 +106,8 @@ class Emulator extends Emitter<
 		this.errored = new StateProvider<boolean>(false);
 		this.turbo = false;
 		this._update = this._update.bind(this);
+
+		this.vm.addListener('restore', (...args) => this.emit('load', ...args));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -183,11 +185,7 @@ class Emulator extends Emitter<
 	 * @returns The snapshot object.
 	 */
 	public snapshot(id?: string): VMSnapshot {
-		// TODO: Create snapshot
-		let snapshot: VMSnapshot = <any>null;
-
-		this.emit('snapshot', id || 'snapshot', snapshot);
-		return snapshot;
+		return this.vm.snapshot();
 	}
 
 	/**
@@ -197,7 +195,7 @@ class Emulator extends Emitter<
 	 * @throws VMError When the snapshot is invalid.
 	 */
 	public restore(snapshot: VMSnapshot): void {
-		// TODO: Restore snapshot.
+		this.vm.restore(snapshot);
 	}
 
 	/**
