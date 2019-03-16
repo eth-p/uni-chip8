@@ -9,7 +9,7 @@ import SpriteRegion from './SpriteRegion';
 
 function main(): void {
 	let region: SpriteRegion = new SpriteRegion();
-	for (let i = 0; i < region.COLUMNS; ++i) {
+	for (let i = 0; i < SpriteRegion.COLUMNS; ++i) {
 		region.setPixel(i, i, true);
 	}
 

@@ -3,14 +3,17 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Sprite Region class to provide sprite row codes.
+ */
 export default class SpriteRegion {
-	public readonly COLUMNS = 8;
-	public readonly ROWS = 15;
+	public static readonly COLUMNS = 8;
+	public static readonly ROWS = 15;
 
 	private spriteData: boolean[];
 
 	constructor() {
-		this.spriteData = new Array<boolean>(this.COLUMNS * this.ROWS);
+		this.spriteData = new Array<boolean>(SpriteRegion.COLUMNS * SpriteRegion.ROWS);
 		this.spriteData.fill(false);
 	}
 
@@ -22,7 +25,7 @@ export default class SpriteRegion {
 	 * @param state The state the pixel will take.
 	 */
 	setPixel(column: number, row: number, state: boolean): void {
-		this.spriteData[this.convertCoordinateToIndex(column, row)] = state;
+		this.spriteData[SpriteRegion.convertCoordinateToIndex(column, row)] = state;
 	}
 
 	/**
@@ -32,7 +35,7 @@ export default class SpriteRegion {
 	 * @param row The row to search.
 	 */
 	getPixel(column: number, row: number): boolean {
-		return this.spriteData[this.convertCoordinateToIndex(column, row)];
+		return this.spriteData[SpriteRegion.convertCoordinateToIndex(column, row)];
 	}
 
 	/**
@@ -42,10 +45,10 @@ export default class SpriteRegion {
 	 */
 	getRow(row: number): number {
 		let accumulator: number = 0;
-		for (let column: number = 0; column < this.COLUMNS; ++column) {
+		for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 			let pixelState: boolean = this.getPixel(column, row);
 			let allowAccumulate = pixelState ? 1 : 0;
-			accumulator += allowAccumulate * Math.pow(2, this.COLUMNS - 1 - column);
+			accumulator += allowAccumulate * Math.pow(2, SpriteRegion.COLUMNS - 1 - column);
 		}
 		return accumulator;
 	}
@@ -55,7 +58,7 @@ export default class SpriteRegion {
 	 */
 	getData(): number[] {
 		let data: number[] = new Array<number>();
-		for (let row = 0; row < this.ROWS; ++row) {
+		for (let row = 0; row < SpriteRegion.ROWS; ++row) {
 			data.push(this.getRow(row));
 		}
 		return data;
@@ -67,7 +70,7 @@ export default class SpriteRegion {
 	 * @param column The column to convert.
 	 * @param row The row to convert.
 	 */
-	private convertCoordinateToIndex(column: number, row: number): number {
-		return row * this.COLUMNS + column;
+	private static convertCoordinateToIndex(column: number, row: number): number {
+		return row * SpriteRegion.COLUMNS + column;
 	}
 }

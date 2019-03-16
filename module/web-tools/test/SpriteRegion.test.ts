@@ -48,45 +48,67 @@ describe('Sprite Region', () => {
 			if (Math.random() >= 0.5) {
 				targetColumns.push(column);
 			}
-        }
-        
-        let expectedAccumulator: number = 0;
+		}
+
+		let expectedAccumulator: number = 0;
 
 		targetColumns.forEach((column: number) => {
-            testRegion.setPixel(column, randomRow, true);
-            expectedAccumulator += (Math.pow(2, testRegion.COLUMNS - 1 - column));
-        });
-        
-        expect(testRegion.getRow(randomRow)).toStrictEqual(expectedAccumulator);
-    });
-    
-    it('Data Get', () => {
-        let testRegion: SpriteRegion = new SpriteRegion();
-    
-        let expectedData: number[] = [];
+			testRegion.setPixel(column, randomRow, true);
+			expectedAccumulator += Math.pow(2, testRegion.COLUMNS - 1 - column);
+		});
 
-        for (let row: number = 0; row < testRegion.ROWS; ++row) {
-            let expectedAccumulator: number = 0;
+		expect(testRegion.getRow(randomRow)).toStrictEqual(expectedAccumulator);
+	});
 
-            if (Math.random() >= 0.5) {
-                for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
-                    if (Math.random() >= 0.5) {
-                        testRegion.setPixel(column, row, true);
-                        expectedAccumulator += (Math.pow(2, testRegion.COLUMNS - 1 - column));
-                    }
-                }
-            }
-            expectedData.push(expectedAccumulator);
-        }
+	it('Data Get', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
 
-        let spriteData: number[] = testRegion.getData();
+		let expectedData: number[] = [];
 
-        // Test that all rows were included
-        expect(expectedData.length).toStrictEqual(spriteData.length);
+		for (let row: number = 0; row < testRegion.ROWS; ++row) {
+			let expectedAccumulator: number = 0;
 
-        for (let i: number = 0; i < expectedData.length; ++i) {
-            expect(expectedData[i]).toStrictEqual(spriteData[i]);
-        }
+			if (Math.random() >= 0.5) {
+				for (let column: number = 0; column < testRegion.COLUMNS; ++column) {
+					if (Math.random() >= 0.5) {
+						testRegion.setPixel(column, row, true);
+						expectedAccumulator += Math.pow(2, testRegion.COLUMNS - 1 - column);
+					}
+				}
+			}
+			expectedData.push(expectedAccumulator);
+		}
 
-    });
+		let spriteData: number[] = testRegion.getData();
+
+		// Test that all rows were included
+		expect(expectedData.length).toStrictEqual(spriteData.length);
+
+		for (let i: number = 0; i < expectedData.length; ++i) {
+			expect(expectedData[i]).toStrictEqual(spriteData[i]);
+		}
+	});
+
+	it('8 Sprite', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+		for (let row: number = 0; row <= 4; row += 2) {
+			for (let column: number = 0; column <= 2; ++column) {
+				testRegion.setPixel(column, row, true);
+			}
+		}
+
+		for (let row: number = 1; row <= 3; row += 2) {
+			testRegion.setPixel(0, row, true);
+			testRegion.setPixel(2, row, true);
+		}
+
+		let expectedData: number[] = [0xe0, 0xa0, 0xe0, 0xa0, 0xe0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0];
+
+		let actualData: number[] = testRegion.getData();
+
+		expect(expectedData.length).toStrictEqual(actualData.length);
+		for (let i: number = 0; i < expectedData.length; ++i) {
+			expect(actualData[i]).toStrictEqual(expectedData[i]);
+		}
+	});
 });

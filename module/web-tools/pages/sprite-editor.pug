@@ -20,7 +20,8 @@ include ../../web/components/desktop
 
 	+desktop
 		+desktop-content
-			table
-				tr
-					td abc
-					td abcd
+			table#region
+				for row in new Array(15)
+					tr
+						for col in new Array(8)
+							td(data-x=col, data-y=row).pixelState.off
