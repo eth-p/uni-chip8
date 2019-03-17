@@ -27,7 +27,7 @@ class RegisterVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		super(App.triggers.visualizer.register, 'show_registers');
+		super(App.triggers.visualizer.register, 'show_registers', true);
 
 		this.displays = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 'DT', 'ST', 'I', 'PC'].map(
 			<any>this.createDisplay,

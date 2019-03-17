@@ -30,7 +30,7 @@ class ProgramVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		super(App.triggers.visualizer.program, 'show_disassembler');
+		super(App.triggers.visualizer.program, 'show_disassembler', true);
 
 		this.itemsBefore = 0;
 		this.itemsAfter = 0;

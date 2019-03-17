@@ -21,6 +21,7 @@ class EmulatorController extends App {
 	protected isLoaded: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isElsewhere: StateProvider<boolean> = new StateProvider<boolean>(false);
+	protected isDebugging: StateProvider<boolean> = new StateProvider<boolean>(false);
 
 	protected tracingTimer: any | null;
 
@@ -42,6 +43,7 @@ class EmulatorController extends App {
 		this.state.emulator.loaded.addProvider(this.isLoaded);
 		this.state.emulator.loading.addProvider(this.isLoading);
 		this.state.emulator.errored.addProvider(this.emulator.getErrorState());
+		this.state.emulator.debug.addProvider(this.isDebugging);
 		this.state.emulator.paused.addProvider(this.isElsewhere);
 		this.state.emulator.paused.addProvider(() =>
 			this.settings.enable_debugger ? false : this.state.emulator.errored.value
@@ -78,6 +80,9 @@ class EmulatorController extends App {
 		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
 			const settings = this.settings;
 			const emulator = this.emulator;
+
+			// State change.
+			this.isDebugging.value = settings.enable_debugger;
 
 			// Setting: debug_disable_timer
 			emulator.vm.setDebugOption('DISABLE_DT', settings.enable_debugger && settings.debug_disable_timer);

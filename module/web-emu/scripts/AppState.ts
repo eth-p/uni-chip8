@@ -35,7 +35,8 @@ class AppState {
 		loading: new State<boolean>(ANY_TRUE),
 		loaded: new State<boolean>(ALL_TRUE),
 		keybind: new State<boolean>(ALL_TRUE),
-		errored: new State<boolean>(ANY_TRUE)
+		errored: new State<boolean>(ANY_TRUE),
+		debug: new State<boolean>(ALL_TRUE)
 	};
 
 	// -------------------------------------------------------------------------------------------------------------
