@@ -6,6 +6,8 @@ import {Uint8} from '@chipotle/types/Uint8';
 import {Uint16} from '@chipotle/types/Uint16';
 import Decoder from '@chipotle/types/Decoder';
 import Encoder from '@chipotle/types/Encoder';
+import Random from '@chipotle/types/Random';
+import Xorshift from '@chipotle/types/PrngXorshift';
 import JsonType from '@chipotle/types/JsonType';
 
 import Architecture from '@chipotle/vm/Architecture';
@@ -224,6 +226,11 @@ class Chip extends Architecture<Chip> {
 	public display: ChipDisplay;
 
 	/**
+	 * The pseudo random number generator.
+	 */
+	public random: Random;
+
+	/**
 	 * The timer register's timer.
 	 * Decrements at 60 Hz.
 	 */
@@ -293,6 +300,7 @@ class Chip extends Architecture<Chip> {
 		this.register_index = 0;
 		this._timer_sound = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
+		this.random = new Xorshift();
 		this.display = new ChipDisplay();
 		this.keyboard = new ChipKeyboard();
 		this.stack = new ProgramStack(this.MAX_STACK);
@@ -373,6 +381,7 @@ class Chip extends Architecture<Chip> {
 		this.register_data.set(new Uint8Array(Decoder.string(Decoder.base64(<string>snapshot.register_data))));
 		this.register_sound = <number>snapshot.register_sound;
 		this.register_timer = <number>snapshot.register_timer;
+		this.random.state = <number>snapshot.random;
 		this.stack.restore(snapshot.stack);
 		this.display.restore(<string>snapshot.display);
 	}
@@ -386,7 +395,8 @@ class Chip extends Architecture<Chip> {
 			register_sound: this.register_sound,
 			register_timer: this.register_timer,
 			stack: this.stack.snapshot(),
-			display: this.display.snapshot()
+			display: this.display.snapshot(),
+			random: this.random.state
 		};
 	}
 
