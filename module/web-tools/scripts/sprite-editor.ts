@@ -40,6 +40,8 @@ function main(): void {
 	let shiftDownButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-shift-down');
 	let shiftLeftButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-shift-left');
 	let shiftRightButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-shift-right');
+	let renderAlignButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-render-align');
+	let clearButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-clear');
 
 	render(region, regionTable);
 	updateDataOutput(region, output);
@@ -76,9 +78,28 @@ function main(): void {
 		});
 	}
 
+	if (renderAlignButton) {
+		renderAlignButton.addEventListener('click', ev => {
+			region.renderAlign();
+			render(region, regionTable);
+			updateDataOutput(region, output);
+		});
+	}
+
+	if (clearButton) {
+		clearButton.addEventListener('click', ev => {
+			region.clear();
+			render(region, regionTable);
+			updateDataOutput(region, output);
+		});
+	}
 	output.readOnly = true;
 
 	regionTable.addEventListener('click', e => {
+		if (e.button !== 0) {
+			return;
+		}
+
 		let tableData: HTMLTableDataCellElement = <HTMLTableDataCellElement>e.target;
 		let tableRow: HTMLTableRowElement = <HTMLTableRowElement>tableData.closest('tr');
 
