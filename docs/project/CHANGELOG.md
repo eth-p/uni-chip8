@@ -118,3 +118,12 @@
 - **Release:** Add Sprite Maker 2.0 into Release 4.
 - **Release:** Move assembler into Release 4.
 - **Release:** Remove assembler from Release 4.
+
+## Release 4
+
+### Developer
+
+- **web-tools:** Add Sprite Maker 2.0
+- **web-emu:** Add savestates.
+- **web-emu:** Add backstepping.
+- **web-x:** Refactor everything part 2.
