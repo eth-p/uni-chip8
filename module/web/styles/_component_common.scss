@@ -93,9 +93,16 @@ main {
 
 	// Text.
 	input[type='text'],
-	input[type='number'] {
+	input[type='number'],
+	textarea {
 		padding: 2px;
 		border: #aaa 1px solid;
+
+		&.themed {
+			background: $input-background;
+			border-color: $input-border;
+			color: $text;
+		}
 	}
 
 	// Invalid.

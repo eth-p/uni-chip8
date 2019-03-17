@@ -3,9 +3,9 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import dom_ready from '@chipotle/web/dom_ready';
-// YOUR CODE HERE
 
 import SpriteRegion from './SpriteRegion';
+//! --------------------------------------------------------------------------------------------------------------------
 
 function render(spriteRegion: SpriteRegion, table: HTMLTableElement) {
 	if (table !== null) {
@@ -80,7 +80,7 @@ function main(): void {
 
 	if (renderAlignButton) {
 		renderAlignButton.addEventListener('click', ev => {
-			region.renderAlign();
+			region.align();
 			render(region, regionTable);
 			updateDataOutput(region, output);
 		});
@@ -93,14 +93,18 @@ function main(): void {
 			updateDataOutput(region, output);
 		});
 	}
-	output.readOnly = true;
 
 	regionTable.addEventListener('click', e => {
-		if (e.button !== 0) {
+		if (e.button !== 0 || e.target == null) {
 			return;
 		}
 
-		let tableData: HTMLTableDataCellElement = <HTMLTableDataCellElement>e.target;
+		let target = <HTMLElement>e.target!;
+		if (target.parentNode != null && target.parentNode.nodeName === 'TD') {
+			target = <HTMLTableCellElement>target.parentNode;
+		}
+
+		let tableData: HTMLTableDataCellElement = <HTMLTableDataCellElement>target;
 		let tableRow: HTMLTableRowElement = <HTMLTableRowElement>tableData.closest('tr');
 
 		if (tableRow && tableData) {

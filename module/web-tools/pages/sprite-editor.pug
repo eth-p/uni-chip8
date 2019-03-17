@@ -5,6 +5,7 @@
 include ../../web/templates/page
 include ../../web/components/common
 include ../../web/components/desktop
+include ../../web/components/toolbar
 
 - title = 'CHIP-8 Sprite Editor'
 - description = 'A simple, yet powerful sprite editor for the CHIP-8.'
@@ -16,24 +17,27 @@ include ../../web/components/desktop
 -// --------------------------------------------------------------------------------------------------------------------
 -// Page:
 -// --------------------------------------------------------------------------------------------------------------------
-+page.filled.padded
++page.filled
+	+toolbar#toolbar
+		+item
+			input(type='button' value='Shift Up')#btn-shift-up
+			input(type='button' value='Shift Down')#btn-shift-down
+			input(type='button' value='Shift Left')#btn-shift-left
+			input(type='button' value='Shift Right')#btn-shift-right
+
+		+item
+			input(type='button' value='Align')#btn-render-align
+			input(type='button' value='Clear')#btn-clear
 
 	+desktop
-		+desktop-content#content
-			table#region
-				for row in new Array(15)
-					tr
-						for col in new Array(8)
-							td(data-x=col, data-y=row).pixelState.off
+		+desktop-content#sprite-editor.centered
+			+section#content
+				textarea#output.themed(readonly=true)
 
-			textArea#output
-			br
-			button#btn-shift-up(type='submit') Shift Up
-			button#btn-shift-down(type='submit') Shift Down
-			button#btn-shift-left(type='submit') Shift Left
-			button#btn-shift-right(type='submit') Shift Right
-			br
-			button#btn-render-align(type='submit') Align
-			button#btn-clear(type='submit') Clear
-
+				table#region
+					for row in new Array(15)
+						tr
+							for col in new Array(8)
+								td(data-x=col, data-y=row).pixel.off
+									div
 
