@@ -195,11 +195,14 @@ class Emulator extends Emitter<
 	 */
 	public stepForwards(): void {
 		try {
+			// Create snapshot for stepping backwards.
+			if (this.periodicIntermediaries == null) this.periodicIntermediaries = [];
+			this.periodicIntermediaries.push(this._snapshot());
+
+			// Step forwards.
 			this.vm.step();
 			this.emit('step');
 			this.lastUpdate = Date.now();
-			if (this.periodicIntermediaries == null) this.periodicIntermediaries = [];
-			this.periodicIntermediaries.push(this._snapshot());
 		} catch (ex) {
 			this._error(ex);
 		}
