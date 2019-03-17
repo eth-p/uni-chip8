@@ -23,6 +23,11 @@ interface VMSnapshot {
 	__VERS: number;
 
 	/**
+	 * The tick where the snapshot was created.
+	 */
+	__TICK: number;
+
+	/**
 	 * A snapshot value.
 	 */
 	[key: string]: JsonType;

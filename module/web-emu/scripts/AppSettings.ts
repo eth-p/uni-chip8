@@ -68,6 +68,9 @@ class AppSettings extends Settings<keyof AppSettings> {
 	public enable_debugger!: boolean;
 
 	@Setting(false)
+	public enable_tracing!: boolean;
+
+	@Setting(false)
 	public debug_disable_timer!: boolean;
 
 	// -------------------------------------------------------------------------------------------------------------

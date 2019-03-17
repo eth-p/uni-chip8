@@ -22,6 +22,8 @@ class EmulatorController extends App {
 	protected isLoading: StateProvider<boolean> = new StateProvider<boolean>(false);
 	protected isElsewhere: StateProvider<boolean> = new StateProvider<boolean>(false);
 
+	protected tracingTimer: any | null;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
@@ -29,7 +31,7 @@ class EmulatorController extends App {
 	public constructor() {
 		super();
 
-		this.onTickDisableTimer = this.onTickDisableTimer.bind(this);
+		this.tracingTimer = null;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -47,7 +49,10 @@ class EmulatorController extends App {
 
 		// Map state changes to emulator events.
 		this.state.emulator.turbo.addListener('change', val => this.emulator.setTurbo(val));
-		this.state.emulator.paused.addListener('change', val => (val ? this.emulator.pause() : this.emulator.resume()));
+		this.state.emulator.paused.addListener('change', val => {
+			val ? this.emulator.pause() : this.emulator.resume();
+			this.refreshTracingTimer();
+		});
 
 		// Map emulator events to state changes.
 		this.emulator.addListener('load', () => (this.isLoaded.value = true));
@@ -69,6 +74,7 @@ class EmulatorController extends App {
 			this.emulator.setFrequency(value);
 		});
 
+		this.settings.onChange('enable_tracing', () => this.refreshTracingTimer());
 		this.settings.onChange(['enable_debugger', 'debug_disable_timer'], () => {
 			const settings = this.settings;
 			const emulator = this.emulator;
@@ -102,8 +108,22 @@ class EmulatorController extends App {
 	// | Handlers:                                                                                                 |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected onTickDisableTimer(this: App.Fragment<this>): void {
-		this.emulator.vm.register_timer = 0;
+	protected refreshTracingTimer(this: App.Fragment<this>): void {
+		const enabled = this.settings.enable_tracing && !this.state.emulator.paused.value;
+
+		// Clear the old timer.
+		if (this.tracingTimer != null) {
+			clearInterval(this.tracingTimer);
+		}
+
+		// Start the new timer (if enabled).
+		if (enabled) {
+			this.tracingTimer = setInterval(() => {
+				this.emulator.createPeriodic();
+			}, 250);
+		} else {
+			this.tracingTimer = null;
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

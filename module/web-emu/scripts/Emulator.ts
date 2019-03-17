@@ -93,6 +93,18 @@ class Emulator extends Emitter<
 	 */
 	protected savestateRenderer: SavestateRenderer;
 
+	/**
+	 * An array of periodically-saved snapshots.
+	 * This is used for debugging and reverse stepping.
+	 */
+	protected periodics: VMSnapshot[];
+
+	/**
+	 * An array of intermediary snapshots between two periodic snapshots.
+	 * This is used for reverse stepping.
+	 */
+	protected periodicIntermediaries: null | VMSnapshot[];
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
@@ -114,6 +126,8 @@ class Emulator extends Emitter<
 		this.errored = new StateProvider<boolean>(false);
 		this.turbo = false;
 		this.savestateRenderer = new SavestateRenderer(vm);
+		this.periodics = [];
+		this.periodicIntermediaries = null;
 		this._update = this._update.bind(this);
 
 		this.vm.addListener('restore', (...args) => this.emit('load', ...args));
@@ -152,6 +166,7 @@ class Emulator extends Emitter<
 		if (!this.paused) return;
 		if (this.vm.program.data == null) return;
 
+		this.periodicIntermediaries = null;
 		this.lastUpdate = Date.now();
 		this.paused = false;
 		this.interval = setInterval(this._update, this.intervalRate);
@@ -163,6 +178,8 @@ class Emulator extends Emitter<
 	 */
 	public reset(): void {
 		try {
+			this.periodics = [];
+			this.periodicIntermediaries = null;
 			this.lastError = undefined;
 			this.errored.value = false;
 			this.vm.reset();
@@ -181,18 +198,50 @@ class Emulator extends Emitter<
 			this.vm.step();
 			this.emit('step');
 			this.lastUpdate = Date.now();
+			if (this.periodicIntermediaries == null) this.periodicIntermediaries = [];
+			this.periodicIntermediaries.push(this._snapshot());
 		} catch (ex) {
 			this._error(ex);
 		}
 	}
 
 	/**
+	 * Creates a periodic snapshot.
+	 */
+	public createPeriodic(): void {
+		if (this.periodics.length > 500) this.periodics.shift();
+		this.periodics.push(this._snapshot());
+		this.periodicIntermediaries = [];
+
+		console.log('Created periodic snapshot.');
+	}
+
+	/**
 	 * Steps the emulator backwards by one instruction.
 	 */
 	public stepBackwards(): void {
-		// TODO: Unimplemented.
+		if (this.periodicIntermediaries == null || this.periodicIntermediaries.length === 0) {
+			// Generate intermediate snapshots.
+			if (this.periodics.length === 0) {
+				console.warn('Nothing to step backwards to.');
+				return;
+			}
+
+			const periodic = this.periodics.pop()!;
+			const target = this.vm.tick - 1;
+
+			this.periodicIntermediaries = [];
+			this._restore(periodic);
+			while (this.vm.tick < target) {
+				this.periodicIntermediaries.push(this._snapshot());
+				this.vm.step();
+			}
+		} else {
+			// Pop intermediate snapshot.
+			this._restore(this.periodicIntermediaries.pop()!);
+		}
+
 		this.emit('step');
-		this._error(new Error('UNIMPLEMENTED.'));
 	}
 
 	/**
@@ -246,6 +295,8 @@ class Emulator extends Emitter<
 	 */
 	public loadState(state: Savestate): void {
 		if (state.snapshot == null) throw new Error('The savestate contains no snapshot.');
+		this.periodicIntermediaries = null;
+		this.periodics = [];
 		this._restore(state.snapshot);
 	}
 
