@@ -88,6 +88,7 @@ export default class SpriteRegion {
 				this.data[row] >>= amount;
 			} else {
 				this.data[row] <<= Math.abs(amount);
+				this.data[row] &= 0xff;
 			}
 		}
 	}
