@@ -29,7 +29,7 @@ class StackVisualizer extends Visualizer {
 	// -------------------------------------------------------------------------------------------------------------
 
 	public constructor() {
-		super(App.triggers.visualizer.stack, 'show_stack');
+		super(App.triggers.visualizer.stack, 'show_stack', true);
 
 		this.lastPointer = -1;
 		this.framePC = new StackFrame('PC');

@@ -28,23 +28,28 @@ abstract class Visualizer extends App {
 	protected container!: HTMLElement;
 
 	private visible: StateProvider<boolean>;
-	private debugging: StateProvider<boolean>;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string | null) {
+	/**
+	 * Creates a new visualizer.
+	 *
+	 * @param triggers The visualizer triggers.
+	 * @param setting The visualizer enabled setting.
+	 *
+	 * @param requires_debug If the visualizer requires debugging enabled.
+	 */
+	public constructor(triggers: {render: Trigger; reset: Trigger}, setting: string | null, requires_debug?: boolean) {
 		super();
 
 		this.setting = setting;
 		this.visible = new StateProvider<boolean>(true);
-		this.debugging = new StateProvider<boolean>(true);
 		this.render = this.render.bind(this);
 
 		this.animatorState = new State<boolean>(ALL_TRUE);
 		this.animatorState.addProvider(this.visible);
-		this.animatorState.addProvider(this.debugging);
 		this.animatorState.addProviderFrom(this.state.emulator.running, value => value);
 
 		triggers.render.onTrigger(() => this.animator.render());
@@ -52,6 +57,10 @@ abstract class Visualizer extends App {
 			(<any>this).reset();
 			(<any>this).animator.render();
 		});
+
+		if (requires_debug) {
+			this.animatorState.addProviderFrom(this.state.emulator.debug, v => v);
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -65,7 +74,6 @@ abstract class Visualizer extends App {
 	protected initListener(this: App.Fragment<this>): void {
 		if (this.setting != null) {
 			this.settings.onChange(<any>this.setting, (e, v) => this.setVisible(v));
-			this.settings.onChange('enable_debugger', (s, v) => (this.debugging.value = v));
 		}
 	}
 
