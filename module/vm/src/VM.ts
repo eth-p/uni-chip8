@@ -15,9 +15,9 @@ import Program from './Program';
 import {ProgramAddress, isValid} from './ProgramAddress';
 import ProgramError from './ProgramError';
 import VMContext from './VMContext';
-import VMError from '@chipotle/vm/VMError';
+import VMError from './VMError';
 import VMInstructionSet from './VMInstructionSet';
-import VMSnapshot from '@chipotle/vm/VMSnapshot';
+import VMSnapshot from './VMSnapshot';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
