@@ -7,3 +7,36 @@
 main {
 	// YOUR STYLES HERE
 }
+
+#content {
+	float: left;
+}
+
+table#region {
+	padding: 5px;
+	padding-left: 0px;
+}
+
+#region tr {
+	padding: 0px;
+	margin: 0px;
+}
+
+#region .pixelState {
+	width: 30px;
+	height: 30px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#region .pixelState.on {
+	background-color: white;
+}
+
+#region .pixelState.off {
+	background-color: black;
+}
+
+#output {
+	width: 255px;
+}

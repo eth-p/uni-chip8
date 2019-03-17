@@ -19,5 +19,19 @@ include ../../web/components/desktop
 +page.filled.padded
 
 	+desktop
-		+desktop-content
-			p Hi
+		+desktop-content#content
+
+			textArea#output
+
+			table#region
+				for row in new Array(15)
+					tr
+						for col in new Array(8)
+							td(data-x=col, data-y=row).pixelState.off
+
+			button#btn-shift-up(type='submit') Shift Up
+			button#btn-shift-down(type='submit') Shift Down
+			button#btn-shift-left(type='submit') Shift Left
+			button#btn-shift-right(type='submit') Shift Right
+
+
