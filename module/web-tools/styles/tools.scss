@@ -8,6 +8,8 @@
 // Sprite Editor:
 // ---------------------------------------------------------------------------------------------------------------------
 main #sprite-editor {
+	overflow-x: auto;
+	overflow-y: auto;
 	#region {
 		border-spacing: 0;
 		border-collapse: separate;
