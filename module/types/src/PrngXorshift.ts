@@ -28,6 +28,7 @@ class PrngXorshift implements Random {
 
 	public constructor(seed?: number) {
 		this.state = seed == null ? Math.random() * PrngXorshift.MAX : seed;
+		this.generate();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
