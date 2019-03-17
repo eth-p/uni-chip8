@@ -124,5 +124,7 @@
 ### Developer
 
 - **web-tools:** Add Sprite Maker 2.0
+- **web-emu:** Add savestates.
 - **web-emu:** Add backstepping.
-  - Due to a nondeterministic PRNG, stepping backwards may result in different code execution flow. If the screen output or expected state changes drastically when stepping backwards from a running state, this is why. 
+  - Due to a nondeterministic PRNG, stepping backwards may result in different code execution flow. If the screen output or expected state changes drastically when stepping backwards from a running state, this is why.
+- **web-x:** Refactor everything part 2.
