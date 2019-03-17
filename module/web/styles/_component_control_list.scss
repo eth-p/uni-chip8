@@ -115,9 +115,9 @@ main .control-list {
 				@include mobile {
 					border-left: none;
 
-					&:last-child,
+					&:first-child,
 					&:only-child {
-						border-bottom: none;
+						border-top: none;
 					}
 				}
 
@@ -153,8 +153,8 @@ main .control-list {
 			// Borders.
 			@include mobile {
 				> * {
-					border-top: none !important;
 					border-right: none !important;
+					border-bottom: none !important;
 					min-height: 50px;
 					min-width: 50px;
 				}
