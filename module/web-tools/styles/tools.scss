@@ -4,39 +4,55 @@
 //! --------------------------------------------------------------------------------------------------------------------
 @import './common';
 
-main {
-	// YOUR STYLES HERE
-}
+// ---------------------------------------------------------------------------------------------------------------------
+// Sprite Editor:
+// ---------------------------------------------------------------------------------------------------------------------
+main #sprite-editor {
+	#region {
+		border-spacing: 0;
+		border-collapse: separate;
 
-#content {
-	float: left;
-}
+		.pixel {
+			padding: 2px;
 
-table#region {
-	padding: 5px;
-	padding-left: 0px;
-}
+			> div {
+				cursor: pointer;
+			}
 
-#region tr {
-	padding: 0px;
-	margin: 0px;
-}
+			// Size pixel.
+			&,
+			> div {
+				width: 30px;
+				height: 30px;
+			}
 
-#region .pixelState {
-	width: 30px;
-	height: 30px;
-	padding: 0px;
-	margin: 0px;
-}
+			// Draw pixel.
+			&.on > div {
+				background: white;
+			}
 
-#region .pixelState.on {
-	background-color: white;
-}
+			&.off > div {
+				background: black;
+			}
 
-#region .pixelState.off {
-	background-color: black;
-}
+			// Fix alignment.
+			&:first-child {
+				padding-left: 0;
+			}
 
-#output {
-	width: 255px;
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+	}
+
+	#content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#output {
+		margin-bottom: 5px;
+		resize: none;
+	}
 }

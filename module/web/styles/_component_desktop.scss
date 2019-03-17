@@ -63,8 +63,15 @@
 	// | This will determine the desktop height.                                                                   |
 	// |                                                                                                           |
 	// | .frameless - Do not use the default frame.                                                                |
+	// | .centered  - Center the content.                                                                          |
 	// *-----------------------------------------------------------------------------------------------------------*
 	.desktop-content {
 		flex: 1 0 auto;
+
+		&.centered {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 	}
 }

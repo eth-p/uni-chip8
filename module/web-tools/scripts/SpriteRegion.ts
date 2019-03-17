@@ -10,16 +10,24 @@ export default class SpriteRegion {
 	public static readonly COLUMNS = 8;
 	public static readonly ROWS = 15;
 
-	private data: number[];
+	// -------------------------------------------------------------------------------------------------------------
+	// | Fields:                                                                                                   |
+	// -------------------------------------------------------------------------------------------------------------
+
+	protected data: number[];
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Constructors:                                                                                             |
+	// -------------------------------------------------------------------------------------------------------------
 
 	constructor() {
 		this.data = new Array<number>(SpriteRegion.ROWS);
 		this.data.fill(0);
 	}
 
-	clear() {
-		this.data.fill(0);
-	}
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods:                                                                                                  |
+	// -------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * Set the pixel at a coordinate.
@@ -28,7 +36,7 @@ export default class SpriteRegion {
 	 * @param row The row to set.
 	 * @param state The state the pixel will take.
 	 */
-	setPixel(column: number, row: number, state: boolean): void {
+	public setPixel(column: number, row: number, state: boolean): void {
 		if (state) {
 			this.data[row] |= 1 << (7 - column);
 		} else {
@@ -42,8 +50,8 @@ export default class SpriteRegion {
 	 * @param column The column to search.
 	 * @param row The row to search.
 	 */
-	getPixel(column: number, row: number): boolean {
-		return ((this.data[row] >> (7 - column)) & 1) === 1 ? true : false;
+	public getPixel(column: number, row: number): boolean {
+		return ((this.data[row] >> (7 - column)) & 1) === 1;
 	}
 
 	/**
@@ -51,14 +59,14 @@ export default class SpriteRegion {
 	 *
 	 * @param row The row to access.
 	 */
-	getRow(row: number): number {
+	public getRow(row: number): number {
 		return this.data[row];
 	}
 
 	/**
 	 * Get the sprite data.
 	 */
-	getData(): number[] {
+	public getData(): number[] {
 		let data: number[] = new Array<number>();
 		for (let row = 0; row < SpriteRegion.ROWS; ++row) {
 			data.push(this.getRow(row));
@@ -66,24 +74,45 @@ export default class SpriteRegion {
 		return data;
 	}
 
-	shiftLeft(): void {
+	/**
+	 * Shifts the sprite left by one pixel.
+	 */
+	public shiftLeft(): void {
 		this.horizontalShift(-1);
 	}
 
-	shiftRight(): void {
+	/**
+	 * Shifts the sprite right by one pixel.
+	 */
+	public shiftRight(): void {
 		this.horizontalShift(1);
 	}
 
-	shiftUp(): void {
+	/**
+	 * Shifts the sprite up by one pixel.
+	 */
+	public shiftUp(): void {
 		this.verticalShift(-1);
 	}
 
-	shiftDown(): void {
+	/**
+	 * Shifts the sprite down by one pixel.
+	 */
+	public shiftDown(): void {
 		this.verticalShift(1);
 	}
 
-	// Align the sprite to the top-left most possible position.
-	renderAlign(): void {
+	/**
+	 * Clears all the pixels.
+	 */
+	public clear() {
+		this.data.fill(0);
+	}
+
+	/**
+	 * Align the sprite to the top-left most possible position.
+	 */
+	public align(): void {
 		let firstSetColumn: number = this.findFirstSetColumn();
 		let firstSetRow: number = this.findFirstSetRow();
 
@@ -96,7 +125,11 @@ export default class SpriteRegion {
 		}
 	}
 
-	private findFirstSetColumn(): number {
+	// -------------------------------------------------------------------------------------------------------------
+	// | Internal:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	protected findFirstSetColumn(): number {
 		for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 			for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
 				if (this.getPixel(column, row)) {
@@ -107,7 +140,7 @@ export default class SpriteRegion {
 		return -1;
 	}
 
-	private findFirstSetRow(): number {
+	protected findFirstSetRow(): number {
 		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
 			for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
 				if (this.getPixel(column, row)) {
@@ -118,7 +151,7 @@ export default class SpriteRegion {
 		return -1;
 	}
 
-	private horizontalShift(amount: number): void {
+	protected horizontalShift(amount: number): void {
 		if (amount === 0) {
 			return;
 		}
@@ -133,7 +166,7 @@ export default class SpriteRegion {
 		}
 	}
 
-	private verticalShift(amount: number): void {
+	protected verticalShift(amount: number): void {
 		if (amount === 0) {
 			return;
 		}
