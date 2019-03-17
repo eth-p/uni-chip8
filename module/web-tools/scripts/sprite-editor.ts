@@ -99,7 +99,7 @@ function main(): void {
 		if (e.button !== 0) {
 			return;
 		}
-		
+
 		let tableData: HTMLTableDataCellElement = <HTMLTableDataCellElement>e.target;
 		let tableRow: HTMLTableRowElement = <HTMLTableRowElement>tableData.closest('tr');
 

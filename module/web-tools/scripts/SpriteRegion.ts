@@ -90,7 +90,7 @@ export default class SpriteRegion {
 		if (firstSetColumn > 0) {
 			this.horizontalShift(-firstSetColumn);
 		}
-		
+
 		if (firstSetRow > 0) {
 			this.verticalShift(-firstSetRow);
 		}
