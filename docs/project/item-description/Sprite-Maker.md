@@ -9,13 +9,15 @@ The user may simply click the canvas to draw, and to get all of the sprite byte 
 
 The sprite maker follows the sprite *'specification'* of 8 bits wide and at most 15 bits tall.
 
-[Website Link](https://macedir.github.io/CHIP8-SpriteMaker/)
+[Website Link 1.0](https://macedir.github.io/CHIP8-SpriteMaker/)  
+[Website Link 2.0](https://chip.netlify.com/tools/sprite-editor)
 
 ![sprite maker image](../images/sprite-maker.jpg)
+![sprite maker image](../images/sprite-maker-2.png)
 
 ## Release History
 
-### Release 0
+### Release 0 (1.0)
 
 **Targets:**  
 
@@ -24,6 +26,17 @@ The sprite maker follows the sprite *'specification'* of 8 bits wide and at most
 **Developers:**  
 
 - Kyle Saburao, ksaburao@sfu.ca
+
+### Release 4 (2.0)
+
+**Targets:**  
+
+- Implement basic functionality.
+
+**Developers:**  
+
+- Kyle Saburao, ksaburao@sfu.ca
+- Ethan Pini
 
 ## Developer Resources and Citations
 
