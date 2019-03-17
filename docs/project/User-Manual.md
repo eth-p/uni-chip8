@@ -162,11 +162,14 @@ Outputs the addresses stored in the call stack.
 
 Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for disassembled instructions around the current instruction.
 
+#### Prev
+
+Reverses the CHIP-8 emulator to the last instruction.  
+Due to a non-deterministic PRNG, backstepping may result in changed or unexpected behaviour.
+
 #### Next
 
 Steps the CHIP-8 emulator to the next instruction.
-
-**Note:** Reverse stepping is not implemented at this point.
 
 #### Clear DT
 
