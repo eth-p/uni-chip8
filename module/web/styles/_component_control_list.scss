@@ -114,10 +114,9 @@ main .control-list {
 
 				@include mobile {
 					border-left: none;
-					border-right: none;
-					border-top: none;
 
-					&:last-child {
+					&:last-child,
+					&:only-child {
 						border-bottom: none;
 					}
 				}

@@ -53,9 +53,9 @@ class LibraryEntry {
 					{
 						type: 'input',
 						attr: {type: 'button', value: 'Help'},
+						condition: o => false,
 						oncreate: (e, o) => {
-							//if (o.controls == null) e.style.display = 'none';
-							e.style.display = 'none'; // FIXME: @eth-p Add actual dialog.
+							if (o.controls == null) e.style.display = 'none';
 						}
 					},
 					{
