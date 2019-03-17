@@ -69,9 +69,11 @@
 		flex: 1 0 auto;
 
 		&.centered {
+			flex: 1 1 auto;
 			display: flex;
+			margin: auto;
+
 			justify-content: center;
-			align-items: center;
 		}
 	}
 }

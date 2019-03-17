@@ -21,6 +21,13 @@ main {
 
 		.emulator-debugger {
 			color: $text;
+
+			// Hide the debugging pane when
+			@include mobile {
+				.no-scroll & {
+					display: none;
+				}
+			}
 		}
 
 		.emulator-debugger > * {
