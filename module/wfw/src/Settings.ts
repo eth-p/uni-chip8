@@ -179,11 +179,7 @@ class Settings<KEYS extends string = string> extends Emitter<'update' | 'load' |
 		for (let entry of this.getEntries()) {
 			let {name, value, validator} = entry;
 			let jsonValue = json[name];
-			if (
-				jsonValue == null ||
-				typeof jsonValue !== typeof value ||
-				(validator != null && !validator(jsonValue))
-			) {
+			if (jsonValue == null || (validator != null && !validator(jsonValue))) {
 				this.set(name, value);
 				continue;
 			}

@@ -9,11 +9,8 @@ import Savestate from './Savestate';
 // ---------------------------------------------------------------------------------------------------------------------
 
 class AppSettings extends Settings<keyof AppSettings> {
-	@Setting(1)
-	public settings_version!: number;
-
-	@Setting(false)
-	public settings_versioned!: boolean;
+	@Setting(null)
+	public settings_version!: number | null;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | General Settings:                                                                                         |
@@ -163,39 +160,40 @@ class AppSettings extends Settings<keyof AppSettings> {
 	// | Savestates:                                                                                               |
 	// -------------------------------------------------------------------------------------------------------------
 
-	@Setting({unset: true})
-	public savestate_quickslot!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_quickslot!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_1!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_1!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_2!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_2!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_3!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_3!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_4!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_4!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_5!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_5!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_6!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_6!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_7!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_7!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_8!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_8!: Savestate | null;
 
-	@Setting({unset: true})
-	public savestate_9!: Savestate | {unset: boolean};
+	@Setting(null)
+	public savestate_9!: Savestate | null;
 }
 
 namespace AppSettings {
 	export type Keys = keyof AppSettings;
+	export const VERSION = 2;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

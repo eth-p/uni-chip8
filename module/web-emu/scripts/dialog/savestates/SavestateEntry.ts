@@ -15,9 +15,8 @@ class SavestateEntry {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected readonly TEMPLATE: (typeof SavestateEntry)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
-	public static readonly TEMPLATE = Template.compile<{slot: 'quicksave' | number}>({
+	public static readonly TEMPLATE = Template.compile<{slot: 'quickslot' | number}>({
 		classes: 'control-item',
-		data: {savestate: o => o.slot.toString()},
 		children: [
 			{
 				classes: 'content',
@@ -35,7 +34,7 @@ class SavestateEntry {
 						children: [
 							{
 								classes: 'savestate-name',
-								text: o => (o.slot === 'quicksave' ? 'Quicksave' : `Savestate ${o.slot}`)
+								text: o => (o.slot === 'quickslot' ? 'Quicksave' : `Savestate ${o.slot}`)
 							},
 							{
 								classes: 'savestate-date'
@@ -50,12 +49,18 @@ class SavestateEntry {
 					{
 						type: 'input',
 						attr: {type: 'button', value: 'Load'},
-						data: {'savestate-action': 'load'}
+						data: {
+							'savestate-action': 'load',
+							'savestate-slot': o => o.slot.toString()
+						}
 					},
 					{
 						type: 'input',
 						attr: {type: 'button', value: 'Save'},
-						data: {'savestate-action': 'save'}
+						data: {
+							'savestate-action': 'save',
+							'savestate-slot': o => o.slot.toString()
+						}
 					}
 				]
 			}
@@ -66,7 +71,7 @@ class SavestateEntry {
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
 
-	protected slot: 'quicksave' | number;
+	protected slot: 'quickslot' | number;
 
 	protected element: HTMLElement;
 	protected buttonLoad: HTMLInputElement;
@@ -78,12 +83,12 @@ class SavestateEntry {
 	// | Constructors:                                                                                             |
 	// -------------------------------------------------------------------------------------------------------------
 
-	public constructor(slot: 'quicksave' | number) {
+	public constructor(slot: 'quickslot' | number) {
 		this.slot = slot;
 
 		this.element = this.TEMPLATE({slot: slot});
-		this.buttonLoad = <HTMLInputElement>this.element.querySelector('[savestate-action="load"]');
-		this.buttonSave = <HTMLInputElement>this.element.querySelector('[savestate-action="save"]');
+		this.buttonLoad = <HTMLInputElement>this.element.querySelector('[data-savestate-action="load"]');
+		this.buttonSave = <HTMLInputElement>this.element.querySelector('[data-savestate-action="save"]');
 		this.dateField = <HTMLElement>this.element.querySelector('.savestate-date');
 		this.image = <HTMLImageElement>this.element.querySelector('.image > img');
 
@@ -98,7 +103,7 @@ class SavestateEntry {
 	/**
 	 * Gets the savestate slot.
 	 */
-	public getSlot(): 'quicksave' | number {
+	public getSlot(): 'quickslot' | number {
 		return this.slot;
 	}
 
@@ -131,7 +136,7 @@ class SavestateEntry {
 	 * @param date The date, or null if not set.
 	 */
 	public setDate(date: Date | null): void {
-		this.dateField.textContent = date == null ? 'No Savestate' : date.toDateString();
+		this.dateField.textContent = date == null ? 'No Savestate' : date.toLocaleString();
 	}
 
 	/**
@@ -145,6 +150,14 @@ class SavestateEntry {
 			this.image.classList.remove('hide');
 			this.image.src = image;
 		}
+	}
+
+	/**
+	 * Sets the enabled state of the load button.
+	 * @param enabled The enabled state of the load state.
+	 */
+	public setLoadEnabled(enabled: boolean): void {
+		this.buttonLoad.disabled = !enabled;
 	}
 }
 

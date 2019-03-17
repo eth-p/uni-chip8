@@ -8,6 +8,8 @@ import Bitfield from '@chipotle/types/Bitfield';
 import {BITS as UINT8_BITS} from '@chipotle/types/Uint8';
 
 import ChipSprite from './ChipSprite';
+import Encoder from '@chipotle/types/Encoder';
+import Decoder from '@chipotle/types/Decoder';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -272,6 +274,30 @@ class ChipDisplay extends Emitter {
 		}
 
 		return `${border}\n${lines.map(x => `|${x}|`).join('\n')}\n${border}`;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Methods: Snapshot                                                                                         |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Creates a snapshot of the display.
+	 * @returns The display snapshot.
+	 */
+	public snapshot(): string {
+		return Encoder.base64(Encoder.string(this.drawBuffer));
+	}
+
+	/**
+	 * Restores a snapshot of the program.
+	 * @param snapshot The program snapshot.
+	 */
+	public restore(snapshot: string): void {
+		const buffer = new Uint8Array(Decoder.string(Decoder.base64(snapshot)));
+		this.drawBuffer.set(buffer);
+		if (this.doubleBuffered) {
+			this.displayBuffer.set(buffer);
+		}
 	}
 }
 

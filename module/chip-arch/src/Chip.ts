@@ -4,6 +4,9 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import {Uint8} from '@chipotle/types/Uint8';
 import {Uint16} from '@chipotle/types/Uint16';
+import Decoder from '@chipotle/types/Decoder';
+import Encoder from '@chipotle/types/Encoder';
+import JsonType from '@chipotle/types/JsonType';
 
 import Architecture from '@chipotle/vm/Architecture';
 import FloatTimer from '@chipotle/vm/FloatTimer';
@@ -13,8 +16,10 @@ import ProgramStack from '@chipotle/vm/ProgramStack';
 import VMContext from '@chipotle/vm/VMContext';
 import VMError from '@chipotle/vm/VMError';
 import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 
 import ChipDisplay from './ChipDisplay';
+import ChipKeyboard from './ChipKeyboard';
 
 import OP_ADD_REG_CON from './OP_ADD_REG_CON';
 import OP_LD_REG_CON from './OP_LD_REG_CON';
@@ -51,8 +56,6 @@ import OP_RET from './OP_RET';
 import OP_SKP from './OP_SKP';
 import OP_SKNP from './OP_SKNP';
 import OP_LD_F_REG from './OP_LD_F_REG';
-
-import ChipKeyboard from './ChipKeyboard';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -361,6 +364,30 @@ class Chip extends Architecture<Chip> {
 	protected _tick(this: VMContext<Chip>): void {
 		if (this._timer_sound.value > 0) this._timer_sound.descend();
 		if (this._timer_timer.value > 0) this._timer_timer.descend();
+	}
+
+	/**
+	 * @override
+	 */
+	protected _loadSnapshot(snapshot: VMSnapshot): void {
+		this.register_data.set(new Uint8Array(Decoder.string(Decoder.base64(<string>snapshot.register_data))));
+		this.register_sound = <number>snapshot.register_sound;
+		this.register_timer = <number>snapshot.register_timer;
+		this.stack.restore(snapshot.stack);
+		this.display.restore(<string>snapshot.display);
+	}
+
+	/**
+	 * @override
+	 */
+	protected _saveSnapshot(): JsonType {
+		return {
+			register_data: Encoder.base64(Encoder.string(this.register_data)),
+			register_sound: this.register_sound,
+			register_timer: this.register_timer,
+			stack: this.stack.snapshot(),
+			display: this.display.snapshot()
+		};
 	}
 
 	/**

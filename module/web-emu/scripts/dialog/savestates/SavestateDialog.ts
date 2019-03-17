@@ -5,6 +5,7 @@
 import Dialog from '@chipotle/wfw/Dialog';
 
 import App from '../../App';
+import Savestate from '../../Savestate';
 
 import SavestateEntry from './SavestateEntry';
 
@@ -20,6 +21,7 @@ class SavestateDialog extends App {
 
 	protected dialog!: Dialog;
 	protected entries: SavestateEntry[];
+	protected container!: HTMLElement;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -28,7 +30,7 @@ class SavestateDialog extends App {
 	public constructor() {
 		super();
 
-		this.entries = ['quicksave', 1, 2, 3, 4, 5, 6, 7, 8, 9].map(slot => new SavestateEntry(<any>slot));
+		this.entries = ['quickslot', 1, 2, 3, 4, 5, 6, 7, 8, 9].map(slot => new SavestateEntry(<any>slot));
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -39,11 +41,12 @@ class SavestateDialog extends App {
 		this.dialog = new Dialog(document.getElementById('dialog-savestates')!);
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
-		const container = this.dialog.getContentElement()!;
+		this.container = this.dialog.getContentElement()!;
 
 		// Generate list.
+		this.refresh();
 		for (let entry of this.entries) {
-			container.appendChild(entry.getElement());
+			this.container.appendChild(entry.getElement());
 		}
 	}
 
@@ -52,7 +55,38 @@ class SavestateDialog extends App {
 		this.triggers.dialog.savestates.hide.onTrigger(() => this.dialog.hide());
 	}
 
-	protected initListener(this: App.Fragment<this>): void {}
+	protected initListener(this: App.Fragment<this>): void {
+		this.settings.addListener('update', setting => {
+			if (setting.startsWith('savestate_')) this.refresh();
+		});
+
+		this.container.addEventListener('click', event => {
+			if (event.target == null) return;
+
+			const button = <HTMLElement>event.target;
+			const slot = button.getAttribute('data-savestate-slot');
+			const action = button.getAttribute('data-savestate-action');
+
+			if (slot == null || action == null) return;
+
+			if (action === 'load') {
+				const setting = this.settings.get(<any>`savestate_${slot}`);
+				if (setting != null) {
+					this.emulator.loadState(setting);
+					this.dialog.hide();
+				}
+			} else if (action === 'save') {
+				if (this.state.emulator.loaded.value) {
+					this.settings.set(<any>`savestate_${slot}`, this.emulator.saveState());
+					this.settings.save();
+					this.dialog.hide();
+				}
+			} else if (action === 'delete') {
+				this.settings.set(<any>`savestate_${slot}`, null);
+				this.settings.save();
+			}
+		});
+	}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Handlers:                                                                                                 |
@@ -61,6 +95,23 @@ class SavestateDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
 	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Refreshes the savestate dialog entries.
+	 * This will update the image and date.
+	 */
+	public refresh(): void {
+		for (let entry of this.entries) {
+			const savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
+			const enabled = savestate != null;
+
+			entry.setLoadEnabled(enabled);
+			if (enabled) {
+				entry.setImage(savestate!.screenshot);
+				entry.setDate(new Date(savestate!.date));
+			}
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

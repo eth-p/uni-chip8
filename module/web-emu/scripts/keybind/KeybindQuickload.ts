@@ -2,32 +2,26 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import VMSnapshot from '@chipotle/vm/VMSnapshot';
+import App from '../App';
+import Keybind from '../Keybind';
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Savestate:
+const settings = App.settings;
+const emulator = App.emulator;
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * A frontend representation of a savestate.
+ * Keybind: QUICKLOAD
+ * Loads the quicksave save state.
  */
-interface Savestate {
-	/**
-	 * The savestate screenshot.
-	 */
-	screenshot: string;
+class KeybindQuickLoad extends Keybind {
+	public onKeyDown(): void {
+		if (settings.savestate_quickslot == null) return;
 
-	/**
-	 * The savestate VM snapshot.
-	 */
-	snapshot: VMSnapshot;
-
-	/**
-	 * The savestate date.
-	 */
-	date: string;
+		emulator.loadState(settings.savestate_quickslot);
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default Savestate;
-export {Savestate};
+export default KeybindQuickLoad;
+export {KeybindQuickLoad};

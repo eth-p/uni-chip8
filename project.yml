@@ -127,6 +127,7 @@ modules:
       pages:  "."
     copy:
       <<: *website.copy
+      './_headers': '.'
       './images/favicon.png': '.'
 
   web-asm:

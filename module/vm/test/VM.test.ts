@@ -3,9 +3,11 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Uint16 from '@chipotle/types/Uint16';
+import JsonType from '@chipotle/types/JsonType';
 
 import Operation from '@chipotle/isa/Operation';
 import OperandType from '@chipotle/isa/OperandType';
+
 import InstructionCache from '@chipotle/isa/InstructionCache';
 import Interpreted from '@chipotle/vm/Interpreted';
 
@@ -81,6 +83,12 @@ class Test extends Architecture<Test> {
 	}
 
 	protected _debugOption(option: string, value: any): void {}
+
+	protected _loadSnapshot(snapshot: JsonType): void {}
+
+	protected _saveSnapshot(): JsonType {
+		return null;
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
