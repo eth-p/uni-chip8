@@ -165,15 +165,10 @@ Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for 
 #### Prev
 
 Reverses the CHIP-8 emulator to the last instruction.  
-Due to a non-deterministic PRNG, backstepping may result in changed or unexpected behaviour.
 
 #### Next
 
 Steps the CHIP-8 emulator to the next instruction.
-
-#### Clear DT
-
-Clears the delay timer.
 
 ### Other Buttons
 
