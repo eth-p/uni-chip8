@@ -17,6 +17,10 @@ export default class SpriteRegion {
 		this.data.fill(0);
 	}
 
+	clear() {
+		this.data.fill(0);
+	}
+
 	/**
 	 * Set the pixel at a coordinate.
 	 *
@@ -76,6 +80,42 @@ export default class SpriteRegion {
 
 	shiftDown(): void {
 		this.verticalShift(1);
+	}
+
+	// Align the sprite to the top-left most possible position.
+	renderAlign(): void {
+		let firstSetColumn: number = this.findFirstSetColumn();
+		let firstSetRow: number = this.findFirstSetRow();
+
+		if (firstSetColumn > 0) {
+			this.horizontalShift(-firstSetColumn);
+		}
+		
+		if (firstSetRow > 0) {
+			this.verticalShift(-firstSetRow);
+		}
+	}
+
+	private findFirstSetColumn(): number {
+		for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
+			for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+				if (this.getPixel(column, row)) {
+					return column;
+				}
+			}
+		}
+		return -1;
+	}
+
+	private findFirstSetRow(): number {
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+			for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
+				if (this.getPixel(column, row)) {
+					return row;
+				}
+			}
+		}
+		return -1;
 	}
 
 	private horizontalShift(amount: number): void {
