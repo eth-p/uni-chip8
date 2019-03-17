@@ -21,6 +21,7 @@ class SavestateDialog extends App {
 
 	protected dialog!: Dialog;
 	protected entries: SavestateEntry[];
+	protected container!: HTMLElement;
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -40,12 +41,12 @@ class SavestateDialog extends App {
 		this.dialog = new Dialog(document.getElementById('dialog-savestates')!);
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
-		const container = this.dialog.getContentElement()!;
+		this.container = this.dialog.getContentElement()!;
 
 		// Generate list.
 		this.refresh();
 		for (let entry of this.entries) {
-			container.appendChild(entry.getElement());
+			this.container.appendChild(entry.getElement());
 		}
 	}
 
@@ -57,6 +58,33 @@ class SavestateDialog extends App {
 	protected initListener(this: App.Fragment<this>): void {
 		this.settings.addListener('update', setting => {
 			if (setting.startsWith('savestate_')) this.refresh();
+		});
+
+		this.container.addEventListener('click', event => {
+			if (event.target == null) return;
+
+			const button = <HTMLElement>event.target;
+			const slot = button.getAttribute('data-savestate-slot');
+			const action = button.getAttribute('data-savestate-action');
+
+			if (slot == null || action == null) return;
+
+			if (action === 'load') {
+				const setting = this.settings.get(<any>`savestate_${slot}`);
+				if (setting != null) {
+					this.emulator.loadState(setting);
+					this.dialog.hide();
+				}
+			} else if (action === 'save') {
+				if (this.state.emulator.loaded.value) {
+					this.settings.set(<any>`savestate_${slot}`, this.emulator.saveState());
+					this.settings.save();
+					this.dialog.hide();
+				}
+			} else if (action === 'delete') {
+				this.settings.set(<any>`savestate_${slot}`, null);
+				this.settings.save();
+			}
 		});
 	}
 
@@ -74,10 +102,13 @@ class SavestateDialog extends App {
 	 */
 	public refresh(): void {
 		for (let entry of this.entries) {
-			let savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
-			if (savestate != null) {
-				entry.setImage(savestate.screenshot);
-				entry.setDate(new Date(savestate.date));
+			const savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
+			const enabled = savestate != null;
+
+			entry.setLoadEnabled(enabled);
+			if (enabled) {
+				entry.setImage(savestate!.screenshot);
+				entry.setDate(new Date(savestate!.date));
 			}
 		}
 	}

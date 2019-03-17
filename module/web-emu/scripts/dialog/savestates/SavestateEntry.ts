@@ -17,7 +17,6 @@ class SavestateEntry {
 	protected readonly TEMPLATE: (typeof SavestateEntry)['TEMPLATE'] = (<any>this.constructor).TEMPLATE;
 	public static readonly TEMPLATE = Template.compile<{slot: 'quickslot' | number}>({
 		classes: 'control-item',
-		data: {savestate: o => o.slot.toString()},
 		children: [
 			{
 				classes: 'content',
@@ -50,12 +49,18 @@ class SavestateEntry {
 					{
 						type: 'input',
 						attr: {type: 'button', value: 'Load'},
-						data: {'savestate-action': 'load'}
+						data: {
+							'savestate-action': 'load',
+							'savestate-slot': o => o.slot.toString()
+						}
 					},
 					{
 						type: 'input',
 						attr: {type: 'button', value: 'Save'},
-						data: {'savestate-action': 'save'}
+						data: {
+							'savestate-action': 'save',
+							'savestate-slot': o => o.slot.toString()
+						}
 					}
 				]
 			}
@@ -82,8 +87,8 @@ class SavestateEntry {
 		this.slot = slot;
 
 		this.element = this.TEMPLATE({slot: slot});
-		this.buttonLoad = <HTMLInputElement>this.element.querySelector('[savestate-action="load"]');
-		this.buttonSave = <HTMLInputElement>this.element.querySelector('[savestate-action="save"]');
+		this.buttonLoad = <HTMLInputElement>this.element.querySelector('[data-savestate-action="load"]');
+		this.buttonSave = <HTMLInputElement>this.element.querySelector('[data-savestate-action="save"]');
 		this.dateField = <HTMLElement>this.element.querySelector('.savestate-date');
 		this.image = <HTMLImageElement>this.element.querySelector('.image > img');
 
@@ -145,6 +150,14 @@ class SavestateEntry {
 			this.image.classList.remove('hide');
 			this.image.src = image;
 		}
+	}
+
+	/**
+	 * Sets the enabled state of the load button.
+	 * @param enabled The enabled state of the load state.
+	 */
+	public setLoadEnabled(enabled: boolean): void {
+		this.buttonLoad.disabled = !enabled;
 	}
 }
 
