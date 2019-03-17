@@ -121,7 +121,7 @@ jobs:
       - *workspace_load
       - run:
           name: Tests
-          command: ./sct test
+          command: ./sct test --workers=2
 
   # --------------------------------------------------------------------------------------------------------------
   # Job: release
