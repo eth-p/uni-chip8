@@ -138,4 +138,27 @@ describe('Sprite Region', () => {
 		expect(testRegion.getPixel(0, 0)).toStrictEqual(true);
 		expect(testRegion.getPixel(0, 1)).toStrictEqual(false);
 	});
+
+	it('Align', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+		testRegion.setPixel(1, 1, true);
+		testRegion.align();
+		expect(testRegion.getPixel(0, 0)).toStrictEqual(true);
+		expect(testRegion.getPixel(1, 1)).toStrictEqual(false);
+	});
+
+	it('Clear', () => {
+		let testRegion: SpriteRegion = new SpriteRegion();
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+			for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
+				testRegion.setPixel(column, row, Math.random() >= 0.5);
+			}
+		}
+		testRegion.clear();
+		for (let row: number = 0; row < SpriteRegion.ROWS; ++row) {
+			for (let column: number = 0; column < SpriteRegion.COLUMNS; ++column) {
+				expect(testRegion.getPixel(column, row)).toStrictEqual(false);
+			}
+		}
+	});
 });
