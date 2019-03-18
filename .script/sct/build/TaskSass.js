@@ -15,8 +15,9 @@ const Task           = require('@sct').Task;
 const AsyncTransform = require('@sct').AsyncTransform;
 
 // Gulp.
-const gulp_rename = require('gulp-rename');
-const gulp_sass   = require('gulp-sass');
+const gulp_rename  = require('gulp-rename');
+const gulp_sass    = require('gulp-sass');
+const gulp_postcss = require('gulp-postcss');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -60,6 +61,7 @@ module.exports = class TaskSass extends Task {
 		return this._gulpsrc(SASS_FILTER)
 			// Compile SCSS.
 			.pipe(gulp_sass({outputStyle: options.minify ? 'compressed' : 'expanded'}))
+			.pipe(gulp_postcss())
 
 			// Remove empty.
 			.pipe(new AsyncTransform({objectMode: true, transform: async (file) => {

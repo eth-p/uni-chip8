@@ -8,6 +8,7 @@ import App from '../../App';
 import Savestate from '../../Savestate';
 
 import SavestateEntry from './SavestateEntry';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -103,12 +104,18 @@ class SavestateDialog extends App {
 	public refresh(): void {
 		for (let entry of this.entries) {
 			const savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
-			const enabled = savestate != null;
+			const enabled = savestate != null && savestate.snapshot.__VERS === VMSnapshot.VERSION;
+			const invalid = savestate != null && savestate.snapshot.__VERS !== VMSnapshot.VERSION;
 
 			entry.setLoadEnabled(enabled);
 			if (enabled) {
 				entry.setImage(savestate!.screenshot);
 				entry.setDate(new Date(savestate!.date));
+				entry.setError(null);
+			} else if (invalid) {
+				entry.setImage(savestate!.screenshot);
+				entry.setDate(new Date(savestate!.date));
+				entry.setError('Incompatible savestate version.');
 			}
 		}
 	}

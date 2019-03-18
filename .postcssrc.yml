@@ -1,0 +1,3 @@
+plugins:
+  cssnano: {}
+  css-mqpacker: {}

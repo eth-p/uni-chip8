@@ -51,12 +51,12 @@ main .control-list {
 			display: flex;
 			margin: 8px 0;
 
-			border-bottom: $control-list-border 1px solid;
-
 			> .controls {
 				flex-direction: column;
 
 				margin-left: 6px;
+
+				border-left: $control-list-border 1px solid;
 
 				> * {
 					flex: 1 0 auto;
@@ -97,7 +97,6 @@ main .control-list {
 				text-decoration: none;
 				color: $control-list-button-color;
 				border: $control-list-button-border 1px solid;
-				border-bottom: none;
 				background: $control-list-button-background;
 
 				transition: color $animation-time ease, background $animation-time ease;
@@ -109,6 +108,17 @@ main .control-list {
 
 				@include desktop {
 					padding: 8px;
+
+					border-bottom: none;
+				}
+
+				@include mobile {
+					border-left: none;
+
+					&:first-child,
+					&:only-child {
+						border-top: none;
+					}
 				}
 
 				// Accented.
@@ -143,8 +153,8 @@ main .control-list {
 			// Borders.
 			@include mobile {
 				> * {
-					border-top: none !important;
 					border-right: none !important;
+					border-bottom: none !important;
 					min-height: 50px;
 					min-width: 50px;
 				}

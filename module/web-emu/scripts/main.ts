@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import app_ready from '@chipotle/web/app_ready';
-
 import App from './App';
 
 import DialogController from './controller/DialogController';
@@ -39,7 +37,12 @@ App.addListener('ready', () => {
 	App.settings.suppressListeners('update', false);
 	App.settings.broadcast();
 
-	app_ready.done();
+	// Hide the loading screen.
+	document.body.classList.remove('no-scroll');
+	const loading = document.querySelector('#loading-screen');
+	if (loading != null) {
+		loading.parentNode!.removeChild(loading);
+	}
 });
 
 App.depends([

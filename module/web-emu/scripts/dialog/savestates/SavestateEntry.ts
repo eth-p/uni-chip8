@@ -140,6 +140,17 @@ class SavestateEntry {
 	}
 
 	/**
+	 * Sets the error message of the entry.
+	 * @param message The error message, or null if no error.
+	 */
+	public setError(message: string | null): void {
+		this.dateField.classList[message == null ? 'remove' : 'add']('error');
+		if (message != null) {
+			this.dateField.textContent = message;
+		}
+	}
+
+	/**
 	 * Sets the image of the entry.
 	 * @param image The image URL, or null if no image available.
 	 */
