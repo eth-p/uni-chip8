@@ -15,6 +15,12 @@ include ../../web/components/toolbar
 - scripts.push('/scripts/web-tools/sprite-editor.js')
 
 -// --------------------------------------------------------------------------------------------------------------------
+-// Footer:
+-// --------------------------------------------------------------------------------------------------------------------
+mixin footer
+	a(href="https://docs.google.com/spreadsheets/d/1WDAzok8tdRUJ4R-_Bc8kukMhx04icMo5tIjpIFyjPWA/edit?usp=sharing") Excel Version
+
+-// --------------------------------------------------------------------------------------------------------------------
 -// Page:
 -// --------------------------------------------------------------------------------------------------------------------
 +page.filled
@@ -28,6 +34,8 @@ include ../../web/components/toolbar
 		+item
 			input(type='button' value='Align')#btn-render-align
 			input(type='button' value='Clear')#btn-clear
+
+		+item.spacer
 
 		+item#output-options
 			input(type='radio' name='btnout' checked)#set-hex-out
