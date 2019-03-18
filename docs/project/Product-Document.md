@@ -27,9 +27,9 @@
 |**8**|February 27|Release 2| |[Week 8](meeting-minutes/Week-8.md)|
 |**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
 |**10**|March 11|Release 3| |[Week 10](meeting-minutes/Week-10.md)|
-|**11**|March 18|Release 4| | |
+|**11**|March 18|Release 4| |[Week 11](meeting-minutes/Week-11.md)|
 |**12**|March 25|Release 4| | |
-|**13**|April 1|Release 4| | |
+|**13**|April 1|Release 4|Code freeze in-effect| |
 |**14**|N/A|N/A|Code freeze in-effect|N/A|
 
 ## Project Deliverables and Tools
@@ -38,17 +38,9 @@ This section contains all deliverables and tools that we are currently planning 
 
 ### In Progress
 
-- [**CHIP-8 Programs**](item-description/chip8-programs.md)
-
 ### Finalizing
 
 This stage is perhaps the longest one as this includes validation, improvements, and optimizations.
-
-- [**CHIP-8 Emulator**](item-description/chip8-emulator.md)
-  - Opcodes
-  - General Architecture
-- [**CHIP-8 Visualizer Website**](item-description/chip8-website.md)
-- [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
 
 ### Finished
 
@@ -63,6 +55,12 @@ This stage is perhaps the longest one as this includes validation, improvements,
 - **Build System**
 - **Project-Specific Standard Library**
   - Wrapper and utility classes for numerical values
+- [**CHIP-8 Emulator**](item-description/chip8-emulator.md)
+  - Opcodes
+  - General Architecture
+- [**CHIP-8 Visualizer Website**](item-description/chip8-website.md)
+- [**CHIP-8 Sprite Maker**](item-description/Sprite-Maker.md)
+- [**CHIP-8 Programs**](item-description/chip8-programs.md)
 
 ### Future
 
@@ -389,7 +387,13 @@ Instead of an assembler, we will have an improved sprite maker that can help wit
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
-**Code freeze will be in effect starting April 5th, 12:00 AM.** No new changes or modifications will be accepted into the master branch. It is expected that the entire product has been validated for final release.
+**Code freeze will be in effect starting April 1th, 12:00 AM.** No new changes or modifications will be accepted into the master branch. It is expected that the entire product has been validated for final release.
+
+#### Production
+
+##### Reflection on Release 4
+
+We are done with the emulator and are satisfied with its performance. Our programs may not run as well on other emulators due to the requirement of running at kilohertz, versus the typical ~500hz in many emulators.
 
 ### Member Roles
 
@@ -531,6 +535,11 @@ Considering the fact that we should have a reverse debugger, developers:
 - Ethan Pini
 - Anthony Pham
 - Firas Fakih
+
+### Release 4
+
+- Ethan Pini
+- Kyle Saburao
 
 ## Information Sources and Citations
 
