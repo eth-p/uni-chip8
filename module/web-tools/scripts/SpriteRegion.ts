@@ -1,4 +1,4 @@
-import { throwStatement } from "babel-types";
+import {throwStatement} from 'babel-types';
 
 //! --------------------------------------------------------------------------------------------------------------------
 //! Copyright (C) 2019 Team Chipotle
