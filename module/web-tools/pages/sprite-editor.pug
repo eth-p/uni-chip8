@@ -29,6 +29,16 @@ include ../../web/components/toolbar
 			input(type='button' value='Align')#btn-render-align
 			input(type='button' value='Clear')#btn-clear
 
+		+item#output-options
+			input(type='radio' name='btnout' checked)#set-hex-out
+			label(for='set-hex-out') Hexadecimal
+			input(type='radio' name='btnout')#set-dec-out
+			label(for='set-dec-out') Decimal
+			input(type='radio' name='btnout')#set-bin-out
+			label(for='set-bin-out') Binary
+			input(type='checkbox')#enable-prefix
+			label(for='enable-prefix') Prefix
+
 	+desktop
 		+desktop-content#sprite-editor.centered
 			+section#content
@@ -40,4 +50,3 @@ include ../../web/components/toolbar
 							for col in new Array(8)
 								td(data-x=col, data-y=row).pixel.off
 									div
-

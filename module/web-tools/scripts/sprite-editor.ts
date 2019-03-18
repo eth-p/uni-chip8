@@ -5,6 +5,7 @@
 import dom_ready from '@chipotle/web/dom_ready';
 
 import SpriteRegion from './SpriteRegion';
+import {OutputType, OutputState} from './OutputState';
 //! --------------------------------------------------------------------------------------------------------------------
 
 function render(spriteRegion: SpriteRegion, table: HTMLTableElement) {
@@ -25,9 +26,42 @@ function render(spriteRegion: SpriteRegion, table: HTMLTableElement) {
 	}
 }
 
-function updateDataOutput(spriteRegion: SpriteRegion, output: HTMLTextAreaElement) {
-	if (output !== null) {
-		output.value = spriteRegion.getData().toString();
+function updateDataOutput(spriteRegion: SpriteRegion, output: HTMLTextAreaElement, outputType: OutputState) {
+	if (spriteRegion !== null && output !== null) {
+		if (outputType.state === OutputType.Unknown) {
+			return;
+		}
+
+		let rows: number[] = spriteRegion.getData();
+		let outputString: string = '';
+		let prefix: string = '';
+		let base: number = 10;
+
+		switch (outputType.state) {
+			case OutputType.Hexadecimal:
+				prefix = '0x';
+				base = 16;
+				break;
+			case OutputType.Binary:
+				prefix = '0b';
+				base = 2;
+				break;
+			default:
+				break;
+		}
+
+		if (!outputType.enablePrefix) {
+			prefix = '';
+		}
+
+		for (let i: number = 0; i < rows.length; ++i) {
+			outputString += `${prefix}${rows[i].toString(base)}`;
+			if (i < rows.length - 1) {
+				outputString += ', ';
+			}
+		}
+
+		output.value = outputString;
 	}
 }
 
@@ -43,14 +77,57 @@ function main(): void {
 	let renderAlignButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-render-align');
 	let clearButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#btn-clear');
 
+	let setHexOut: HTMLInputElement = <HTMLInputElement>document.querySelector('#set-hex-out');
+	let setDecOut: HTMLInputElement = <HTMLInputElement>document.querySelector('#set-dec-out');
+	let setBinOut: HTMLInputElement = <HTMLInputElement>document.querySelector('#set-bin-out');
+	let enablePrefix: HTMLInputElement = <HTMLInputElement>document.querySelector('#enable-prefix');
+
+	let outputState: OutputState = new OutputState();
+	outputState.enablePrefix = enablePrefix!.checked;
+	outputState.state = OutputType.Hexadecimal;
+
 	render(region, regionTable);
-	updateDataOutput(region, output);
+	updateDataOutput(region, output, outputState);
+
+	if (setHexOut) {
+		setHexOut.addEventListener('change', ev => {
+			if (setHexOut.checked) {
+				outputState.state = OutputType.Hexadecimal;
+				updateDataOutput(region, output, outputState);
+			}
+		});
+	}
+
+	if (setDecOut) {
+		setDecOut.addEventListener('change', ev => {
+			if (setDecOut.checked) {
+				outputState.state = OutputType.Decimal;
+				updateDataOutput(region, output, outputState);
+			}
+		});
+	}
+
+	if (setBinOut) {
+		setBinOut.addEventListener('change', ev => {
+			if (setBinOut.checked) {
+				outputState.state = OutputType.Binary;
+				updateDataOutput(region, output, outputState);
+			}
+		});
+	}
+
+	if (enablePrefix) {
+		enablePrefix.addEventListener('change', ev => {
+			outputState.enablePrefix = enablePrefix.checked;
+			updateDataOutput(region, output, outputState);
+		});
+	}
 
 	if (shiftUpButton) {
 		shiftUpButton.addEventListener('click', ev => {
 			region.shiftUp();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -58,7 +135,7 @@ function main(): void {
 		shiftDownButton.addEventListener('click', ev => {
 			region.shiftDown();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -66,7 +143,7 @@ function main(): void {
 		shiftLeftButton.addEventListener('click', ev => {
 			region.shiftLeft();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -74,7 +151,7 @@ function main(): void {
 		shiftRightButton.addEventListener('click', ev => {
 			region.shiftRight();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -82,7 +159,7 @@ function main(): void {
 		renderAlignButton.addEventListener('click', ev => {
 			region.align();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -90,7 +167,7 @@ function main(): void {
 		clearButton.addEventListener('click', ev => {
 			region.clear();
 			render(region, regionTable);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		});
 	}
 
@@ -123,7 +200,7 @@ function main(): void {
 			isOn = !isOn;
 
 			region.setPixel(column, row, isOn);
-			updateDataOutput(region, output);
+			updateDataOutput(region, output, outputState);
 		}
 	});
 }
