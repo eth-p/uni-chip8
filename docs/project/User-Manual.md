@@ -219,6 +219,14 @@ Sprite Maker 2.0 allows for easy creation of CHIP-8 sprites.
   Useful for aligning the actual set pixels with the DRW operation code.
 - **Clear**
   - Clears the canvas.
+- **Hexadecimal**
+  - Set the output to base 16.
+- **Decimal**
+  - Set the output to base 10.
+- **Binary**
+  - Set the output to base 2.
+- **Prefix**
+  - Toggle prefixes.
 
 ### Output
 

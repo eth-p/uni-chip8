@@ -23,3 +23,4 @@
 
 - Start code freeze on April 1st, 2018.
 - We will try system testing on different platforms with different people.
+  - Report user experience for Week 12 meeting.
