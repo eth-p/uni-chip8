@@ -155,11 +155,38 @@ header {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// Footer:
+// ---------------------------------------------------------------------------------------------------------------------
+footer {
+	padding: $footer-padding;
+
+	border-top: $footer-border 1px solid;
+	background: $footer-background;
+
+	font-size: 13px;
+
+	a,
+	a:link {
+		text-decoration: none;
+		color: $text-dimmer;
+		transition: color $animation-time ease;
+	}
+
+	a:hover {
+		color: $accent-1;
+
+		@supports (--a: 0) {
+			color: var(--accent-1);
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Components:
 // ---------------------------------------------------------------------------------------------------------------------
 @import 'component_card';
 @import 'component_common';
-@import '_component_control_list';
+@import 'component_control_list';
 @import 'component_desktop';
 @import 'component_dialog';
 @import 'component_loading_screen';

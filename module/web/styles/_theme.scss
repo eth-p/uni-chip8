@@ -11,6 +11,7 @@ $accent-2: #eac349;
 $accent-2-dim: #715f20;
 $text: #fff;
 $text-dim: #bbb;
+$text-dimmer: #888;
 $text-error: #d00;
 $animation-time: 0.2s;
 
@@ -21,6 +22,11 @@ $font-monospace: 'Monaco', 'Lucida Console', whitespace;
 $header-height: 45px;
 $header-padding: 8px;
 $header-border: transparent;
+
+// Footer:
+$footer-border: #353a42;
+$footer-padding: 3px;
+$footer-background: null;
 
 // Content:
 $content-padding: 16px;
