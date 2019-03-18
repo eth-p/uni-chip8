@@ -1,3 +1,5 @@
+import { throwStatement } from "babel-types";
+
 //! --------------------------------------------------------------------------------------------------------------------
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
@@ -72,6 +74,22 @@ export default class SpriteRegion {
 			data.push(this.getRow(row));
 		}
 		return data;
+	}
+
+	/**
+	 * Get the sprite height.
+	 */
+	public getHeight(): number {
+		let lastFoundIndex: number = -1;
+		for (let i: number = 0; i < this.data.length; ++i) {
+			if (this.data[i] !== 0) {
+				lastFoundIndex = i;
+			}
+		}
+		if (lastFoundIndex !== -1) {
+			return lastFoundIndex + 1;
+		}
+		return 0;
 	}
 
 	/**
