@@ -36,5 +36,10 @@
 			opacity: 0.5;
 			font-size: 13px;
 		}
+
+		.error {
+			opacity: 1;
+			color: $text-error;
+		}
 	}
 }
