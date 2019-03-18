@@ -62,3 +62,7 @@ mixin page
 			#wrapper(class=Util.extractClasses(attributes, 'centered', 'filled'))
 				main
 					block
+
+			if pug_mixins['footer']
+				footer
+					+footer
