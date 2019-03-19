@@ -3,7 +3,6 @@
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
-; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define test_number VD
 define test_result VE
@@ -31,6 +30,8 @@ entry:
 	CALL test_06
 	CALL test_07
 	CALL test_08
+	CALL test_09
+	CALL test_10
 	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -314,6 +315,7 @@ test_07:
 	; Finish.
 	JP success
 
+
 ; -------------------------------------------------------------------------------------------------------------------- ;
 ; TEST 08: Shift Right                                                                                                 ;
 ; This will test shift right (SHR Vx).                                                                                 ;
@@ -348,6 +350,78 @@ test_08:
 
 	; Finish.
 	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 09: BCD                                                                                                         ;
+; This will test the BCD opcode.                                                                                       ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_09:
+	; Initialize test info.
+	LD test_number, 9
+
+	; Set registers.
+	LD I, data_test_indirect_write
+	LD V4, 254
+	LD V5, 64
+
+	; Test "254"
+	LD B, V4
+	LD V2, [I]
+
+	SE V0, 2
+		JP fail
+
+	SE V1, 5
+		JP fail
+
+	SE V2, 4
+		JP fail
+
+	; Test "064"
+	LD B, V5
+	LD V2, [I]
+
+	SE V0, 0
+		JP fail
+
+	SE V1, 6
+		JP fail
+
+	SE V2, 4
+		JP fail
+
+	; Finish.
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 10: ADD I, Vx                                                                                                   ;
+; This will test the ADD I, Vx opcode.                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_10:
+	; Initialize test info.
+	LD test_number, 10
+
+	; Set registers.
+	LD I, data_test_add
+	LD V0, 1
+	ADD I, V0
+
+	; Test
+	LD V0, [I]
+	SE V0, 1
+		JP fail
+
+	; Finish.
+	JP success
+
+
+
+
+
+
+
 
 
 
@@ -558,3 +632,6 @@ db	1, 2, 3, 4
 
 data_test_indirect_write:
 db	0, 0, 0, 0
+
+data_test_add:
+db	0, 1, 2, 3
