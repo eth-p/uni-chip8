@@ -148,18 +148,28 @@ test_03:
 
 	; Probe for success.
 	LD I, sprite_collide
+
 	LD V2, 0
 	DRW V2, V1, 1
 	LD V4, VF
+	DRW V2, V1, 1
+
+	LD V2, 64
+	DRW V2, V1, 1
+	LD V5, VF
+	DRW V2, V1, 1
 
 	; Clear leftovers.
-	DRW V2, V1, 1
 	LD I, sprite_wrap_test
 	DRW V0, V1, 1
 
 	; Finish.
 	SE V4, 1
 		JP fail
+
+	SE V5, 1
+		JP fail
+
 	JP success
 
 
@@ -181,18 +191,28 @@ test_04:
 
 	; Probe for success.
 	LD I, sprite_collide
-	LD V2, 0
+
+	LD V2, 32
 	DRW V0, V2, 1
 	LD V4, VF
+	DRW V0, V2, 1
+
+	LD V2, 0
+	DRW V0, V2, 1
+	LD V5, VF
+	DRW V0, V2, 1
 
 	; Clear leftovers.
-	DRW V0, V2, 1
 	LD I, sprite_wrap_test
 	DRW V0, V1, 2
 
 	; Finish.
 	SE V4, 1
 		JP fail
+
+	SE V5, 1
+		JP fail
+
 	JP success
 
 
