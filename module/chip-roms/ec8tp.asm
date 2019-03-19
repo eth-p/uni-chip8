@@ -29,6 +29,8 @@ entry:
 	CALL test_04
 	CALL test_05
 	CALL test_06
+	CALL test_07
+	CALL test_08
 	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -275,6 +277,76 @@ test_06:
 	SE V2, 3
 		JP fail
 
+	JP success
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 07: Shift Left                                                                                                  ;
+; This will test shift left (SHL Vx).                                                                                  ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_07:
+	; Initialize test info.
+	LD test_number, 7
+
+	; Set registers.
+	LD V0, 255
+	LD V1, 0
+	LD V2, 128
+
+	; Test shifts.
+	SHL V0
+	SE VF, 1
+		JP fail
+	SE V0, 254
+		JP fail
+
+	SHL V1
+	SE VF, 0
+		JP fail
+	SE V1, 0
+		JP fail
+
+	SHL V2
+	SE VF, 1
+		JP fail
+	SE V2, 0
+		JP fail
+
+	; Finish.
+	JP success
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 08: Shift Right                                                                                                 ;
+; This will test shift right (SHR Vx).                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_08:
+	; Initialize test info.
+	LD test_number, 8
+
+	; Set registers.
+	LD V0, 255
+	LD V1, 0
+	LD V2, 128
+
+	; Test shifts.
+	SHR V0
+	SE VF, 1
+		JP fail
+	SE V0, 127
+		JP fail
+
+	SHR V1
+	SE VF, 0
+		JP fail
+	SE V1, 0
+		JP fail
+
+	SHR V2
+	SE VF, 0
+		JP fail
+	SE V2, 64
+		JP fail
+
+	; Finish.
 	JP success
 
 
