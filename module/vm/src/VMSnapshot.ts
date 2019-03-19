@@ -34,7 +34,7 @@ interface VMSnapshot {
 }
 
 namespace VMSnapshot {
-	export const VERSION = 2;
+	export const VERSION = 3;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -381,6 +381,7 @@ class Chip extends Architecture<Chip> {
 		this.register_data.set(new Uint8Array(Decoder.string(Decoder.base64(<string>snapshot.register_data))));
 		this.register_sound = <number>snapshot.register_sound;
 		this.register_timer = <number>snapshot.register_timer;
+		this.register_index = <number>snapshot.register_index;
 		this.random.state = <number>snapshot.random;
 		this.stack.restore(snapshot.stack);
 		this.display.restore(<string>snapshot.display);
@@ -394,6 +395,7 @@ class Chip extends Architecture<Chip> {
 			register_data: Encoder.base64(Encoder.string(this.register_data)),
 			register_sound: this.register_sound,
 			register_timer: this.register_timer,
+			register_index: this.register_index,
 			stack: this.stack.snapshot(),
 			display: this.display.snapshot(),
 			random: this.random.state
