@@ -24,6 +24,8 @@ define div_divisor VB
 entry:
 	CALL test_00
 	CALL test_01
+	CALL test_02
+	CALL test_03
 	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -53,7 +55,7 @@ test_00:
 	JP fail
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; TEST 03: DT TIMING                                                                                                   ;
+; TEST 01: DT TIMING                                                                                                   ;
 ; This will test the timing of the DT register.                                                                        ;
 ;                                                                                                                      ;
 ; WARNING: THIS TEST ASSUMES A 500 Hz CLOCK                                                                            ;
@@ -96,6 +98,70 @@ test_01:
 	JP success
 
 
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 02: DRW X WRAP                                                                                                  ;
+; This will test wrapping along the X axis.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_02:
+	; Initialize test info.
+	LD test_number, 2
+
+	; Load wrap test sprite.
+	LD I, sprite_wrap_test
+
+	; Draw at test position.
+	LD V0, 63
+	LD V1, 30
+	DRW V0, V1, 1
+
+	; Probe for success.
+	LD I, sprite_collide
+	LD V2, 0
+	DRW V2, V1, 1
+	LD V4, VF
+
+	; Clear leftovers.
+	DRW V2, V1, 1
+	LD I, sprite_wrap_test
+	DRW V0, V1, 1
+
+	; Finish.
+	SE V4, 1
+		JP fail
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 03: DRW Y WRAP                                                                                                  ;
+; This will test wrapping along the Y axis.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_03:
+	; Initialize test info.
+	LD test_number, 3
+
+	; Load wrap test sprite.
+	LD I, sprite_wrap_test
+
+	; Draw at test position.
+	LD V0, 62
+	LD V1, 31
+	DRW V0, V1, 2
+
+	; Probe for success.
+	LD I, sprite_collide
+	LD V2, 0
+	DRW V0, V2, 1
+	LD V4, VF
+
+	; Clear leftovers.
+	DRW V0, V2, 1
+	LD I, sprite_wrap_test
+	DRW V0, V1, 2
+
+	; Finish.
+	SE V4, 1
+		JP fail
+	JP success
 
 
 
@@ -288,3 +354,13 @@ sprite_9:
 db	%11100000,
 	%11100000,
 	%00100000
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; SPRITES: Test Sprites                                                                                                ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+sprite_wrap_test:
+db	%11000000,
+	%11000000
+
+sprite_collide:
+db	%10000000
