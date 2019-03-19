@@ -22,6 +22,7 @@ include ../dialogs/dialog-settings
 - keywords.push('CHIP8', 'CHIP-8', 'CHIP-8 Emulator', 'CHIP8 Emulator', '.ch8')
 
 - stylesheets.push('/assets/styles/emulator.css')
+- scripts.push('/scripts/web/loading.js')
 - scripts.push('/scripts/web-emu/main.js')
 - shims[':scope'] = true
 
@@ -30,7 +31,7 @@ include ../dialogs/dialog-settings
 -// --------------------------------------------------------------------------------------------------------------------
 mixin loading-screen
 	h1 Loading...
-	h2 This might take a little while.
+	h2.loading-message This might take a little while.
 
 -// --------------------------------------------------------------------------------------------------------------------
 -// Page:
