@@ -70,7 +70,12 @@ const messages = [
 	'Clearing memory.',
 	'Blaming Canada.',
 	'Asking for a manager.',
-	'Violating the laws of physics.'
+	'Violating the laws of physics.',
+	'Challenging the Elite 4.',
+	'Calling Link "Zelda".',
+	"We're blasting off again!",
+	'Investing in Bitcoin.',
+	"It's a horrible night to have a curse."
 ];
 
 function displayError() {
