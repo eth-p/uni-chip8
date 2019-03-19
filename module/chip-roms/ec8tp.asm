@@ -26,6 +26,9 @@ entry:
 	CALL test_01
 	CALL test_02
 	CALL test_03
+	CALL test_04
+	CALL test_05
+	CALL test_06
 	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -99,12 +102,38 @@ test_01:
 
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; TEST 02: DRW X WRAP                                                                                                  ;
-; This will test wrapping along the X axis.                                                                            ;
+; TEST 02: DRW VF                                                                                                      ;
+; This will test the collision flag.                                                                                   ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 test_02:
 	; Initialize test info.
 	LD test_number, 2
+
+	; Load wrap test sprite.
+	LD I, sprite_collide
+
+	; Draw at test position.
+	LD V0, 63
+	LD V1, 31
+	DRW V0, V1, 1
+
+	; Probe for success.
+	DRW V0, V1, 1
+	LD V4, VF
+
+	; Finish.
+	SE V4, 1
+		JP fail
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 03: DRW X WRAP                                                                                                  ;
+; This will test wrapping along the X axis.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_03:
+	; Initialize test info.
+	LD test_number, 3
 
 	; Load wrap test sprite.
 	LD I, sprite_wrap_test
@@ -132,12 +161,12 @@ test_02:
 
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; TEST 03: DRW Y WRAP                                                                                                  ;
+; TEST 04: DRW Y WRAP                                                                                                  ;
 ; This will test wrapping along the Y axis.                                                                            ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
-test_03:
+test_04:
 	; Initialize test info.
-	LD test_number, 3
+	LD test_number, 4
 
 	; Load wrap test sprite.
 	LD I, sprite_wrap_test
@@ -163,6 +192,90 @@ test_03:
 		JP fail
 	JP success
 
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 05: Indirect Read                                                                                               ;
+; This will test indirect read (LD Vx, [I]).                                                                           ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_05:
+	; Initialize test info.
+	LD test_number, 5
+
+	; Load read address.
+	LD I, data_test_indirect_read
+
+	; Clear bytes.
+	LD V0, 255
+	LD V1, 255
+	LD V2, 255
+	LD V3, 255
+	LD V4, 255
+
+	; Read bytes.
+	LD V3, [I]
+
+	; Finish.
+	SE V4, 255
+		JP fail
+
+	SE V0, 1
+		JP fail
+
+	SE V1, 2
+		JP fail
+
+	SE V2, 3
+		JP fail
+
+	SE V3, 4
+		JP fail
+
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 06: Indirect Write                                                                                              ;
+; This will test indirect write (LD [I], Vx).                                                                          ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_06:
+	; Initialize test info.
+	LD test_number, 6
+
+	; Load read address.
+	LD I, data_test_indirect_write
+
+	; Set registers.
+	LD V0, 1
+	LD V1, 2
+	LD V2, 3
+	LD V3, 255
+
+	; Write bytes.
+	LD [I], V2
+
+	; Clear registers.
+	LD V0, 0
+	LD V1, 0
+	LD V2, 0
+	LD V3, 255
+
+	; Read back bytes.
+	LD V3, [I]
+
+	; Finish.
+	SE V3, 0
+		JP fail
+
+	SE V0, 1
+		JP fail
+
+	SE V1, 2
+		JP fail
+
+	SE V2, 3
+		JP fail
+
+	JP success
 
 
 
@@ -364,3 +477,12 @@ db	%11000000,
 
 sprite_collide:
 db	%10000000
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; DATA: Test Data                                                                                                      ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+data_test_indirect_read:
+db	1, 2, 3, 4
+
+data_test_indirect_write:
+db	0, 0, 0, 0
