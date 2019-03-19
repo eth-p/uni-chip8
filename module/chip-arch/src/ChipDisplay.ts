@@ -222,15 +222,14 @@ class ChipDisplay extends Emitter {
 		//         and XORs them with a 16-bit (shifted) sprite line. It then maps the 16-bit result back into the
 		//         buffer.
 
-		let shift = 8 - (x % UINT8_BITS);
+		const shift = 8 - (x % UINT8_BITS);
 
-		let offsetY = y * this.lineOffset;
 		let offsetXLo = ((x / UINT8_BITS) | 0) % this.lineOffset;
 		let offsetXHi = (((x / UINT8_BITS) | 0) + 1) % this.lineOffset;
 		let flag = false;
 
 		for (let line = 0; line < sprite.height; line++) {
-			let offset = offsetY + line * this.lineOffset;
+			let offset = ((y + line) % this.HEIGHT) * this.lineOffset;
 			let byteLo = this.drawBuffer[offsetXLo + offset];
 			let byteHi = this.drawBuffer[offsetXHi + offset];
 
