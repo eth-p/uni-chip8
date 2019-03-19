@@ -124,6 +124,11 @@
 ### Developer
 
 - **web-tools:** Add Sprite Maker 2.0
+- **web-tools:** Add Excel Sprite Maker.
 - **web-emu:** Add savestates.
 - **web-emu:** Add backstepping.
 - **web-x:** Refactor everything part 2.
+
+### Release
+
+- **Schedule:** Move code freeze to April 1st.

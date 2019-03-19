@@ -3,7 +3,6 @@
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
-; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define test_number VD
 define test_result VE
@@ -24,6 +23,15 @@ define div_divisor VB
 entry:
 	CALL test_00
 	CALL test_01
+	CALL test_02
+	CALL test_03
+	CALL test_04
+	CALL test_05
+	CALL test_06
+	CALL test_07
+	CALL test_08
+	CALL test_09
+	CALL test_10
 	JP halt
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
@@ -53,7 +61,7 @@ test_00:
 	JP fail
 
 ; -------------------------------------------------------------------------------------------------------------------- ;
-; TEST 03: DT TIMING                                                                                                   ;
+; TEST 01: DT TIMING                                                                                                   ;
 ; This will test the timing of the DT register.                                                                        ;
 ;                                                                                                                      ;
 ; WARNING: THIS TEST ASSUMES A 500 Hz CLOCK                                                                            ;
@@ -94,6 +102,343 @@ test_01:
 		JP fail
 
 	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 02: DRW VF                                                                                                      ;
+; This will test the collision flag.                                                                                   ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_02:
+	; Initialize test info.
+	LD test_number, 2
+
+	; Load wrap test sprite.
+	LD I, sprite_collide
+
+	; Draw at test position.
+	LD V0, 63
+	LD V1, 31
+	DRW V0, V1, 1
+
+	; Probe for success.
+	DRW V0, V1, 1
+	LD V4, VF
+
+	; Finish.
+	SE V4, 1
+		JP fail
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 03: DRW X WRAP                                                                                                  ;
+; This will test wrapping along the X axis.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_03:
+	; Initialize test info.
+	LD test_number, 3
+
+	; Load wrap test sprite.
+	LD I, sprite_wrap_test
+
+	; Draw at test position.
+	LD V0, 63
+	LD V1, 30
+	DRW V0, V1, 1
+
+	; Probe for success.
+	LD I, sprite_collide
+
+	LD V2, 0
+	DRW V2, V1, 1
+	LD V4, VF
+	DRW V2, V1, 1
+
+	LD V2, 64
+	DRW V2, V1, 1
+	LD V5, VF
+	DRW V2, V1, 1
+
+	; Clear leftovers.
+	LD I, sprite_wrap_test
+	DRW V0, V1, 1
+
+	; Finish.
+	SE V4, 1
+		JP fail
+
+	SE V5, 1
+		JP fail
+
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 04: DRW Y WRAP                                                                                                  ;
+; This will test wrapping along the Y axis.                                                                            ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_04:
+	; Initialize test info.
+	LD test_number, 4
+
+	; Load wrap test sprite.
+	LD I, sprite_wrap_test
+
+	; Draw at test position.
+	LD V0, 62
+	LD V1, 31
+	DRW V0, V1, 2
+
+	; Probe for success.
+	LD I, sprite_collide
+
+	LD V2, 32
+	DRW V0, V2, 1
+	LD V4, VF
+	DRW V0, V2, 1
+
+	LD V2, 0
+	DRW V0, V2, 1
+	LD V5, VF
+	DRW V0, V2, 1
+
+	; Clear leftovers.
+	LD I, sprite_wrap_test
+	DRW V0, V1, 2
+
+	; Finish.
+	SE V4, 1
+		JP fail
+
+	SE V5, 1
+		JP fail
+
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 05: Indirect Read                                                                                               ;
+; This will test indirect read (LD Vx, [I]).                                                                           ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_05:
+	; Initialize test info.
+	LD test_number, 5
+
+	; Load read address.
+	LD I, data_test_indirect_read
+
+	; Clear bytes.
+	LD V0, 255
+	LD V1, 255
+	LD V2, 255
+	LD V3, 255
+	LD V4, 255
+
+	; Read bytes.
+	LD V3, [I]
+
+	; Finish.
+	SE V4, 255
+		JP fail
+
+	SE V0, 1
+		JP fail
+
+	SE V1, 2
+		JP fail
+
+	SE V2, 3
+		JP fail
+
+	SE V3, 4
+		JP fail
+
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 06: Indirect Write                                                                                              ;
+; This will test indirect write (LD [I], Vx).                                                                          ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_06:
+	; Initialize test info.
+	LD test_number, 6
+
+	; Load read address.
+	LD I, data_test_indirect_write
+
+	; Set registers.
+	LD V0, 1
+	LD V1, 2
+	LD V2, 3
+	LD V3, 255
+
+	; Write bytes.
+	LD [I], V2
+
+	; Clear registers.
+	LD V0, 0
+	LD V1, 0
+	LD V2, 0
+	LD V3, 255
+
+	; Read back bytes.
+	LD V3, [I]
+
+	; Finish.
+	SE V3, 0
+		JP fail
+
+	SE V0, 1
+		JP fail
+
+	SE V1, 2
+		JP fail
+
+	SE V2, 3
+		JP fail
+
+	JP success
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 07: Shift Left                                                                                                  ;
+; This will test shift left (SHL Vx).                                                                                  ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_07:
+	; Initialize test info.
+	LD test_number, 7
+
+	; Set registers.
+	LD V0, 255
+	LD V1, 0
+	LD V2, 128
+
+	; Test shifts.
+	SHL V0
+	SE VF, 1
+		JP fail
+	SE V0, 254
+		JP fail
+
+	SHL V1
+	SE VF, 0
+		JP fail
+	SE V1, 0
+		JP fail
+
+	SHL V2
+	SE VF, 1
+		JP fail
+	SE V2, 0
+		JP fail
+
+	; Finish.
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 08: Shift Right                                                                                                 ;
+; This will test shift right (SHR Vx).                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_08:
+	; Initialize test info.
+	LD test_number, 8
+
+	; Set registers.
+	LD V0, 255
+	LD V1, 0
+	LD V2, 128
+
+	; Test shifts.
+	SHR V0
+	SE VF, 1
+		JP fail
+	SE V0, 127
+		JP fail
+
+	SHR V1
+	SE VF, 0
+		JP fail
+	SE V1, 0
+		JP fail
+
+	SHR V2
+	SE VF, 0
+		JP fail
+	SE V2, 64
+		JP fail
+
+	; Finish.
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 09: BCD                                                                                                         ;
+; This will test the BCD opcode.                                                                                       ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_09:
+	; Initialize test info.
+	LD test_number, 9
+
+	; Set registers.
+	LD I, data_test_indirect_write
+	LD V4, 254
+	LD V5, 64
+
+	; Test "254"
+	LD B, V4
+	LD V2, [I]
+
+	SE V0, 2
+		JP fail
+
+	SE V1, 5
+		JP fail
+
+	SE V2, 4
+		JP fail
+
+	; Test "064"
+	LD B, V5
+	LD V2, [I]
+
+	SE V0, 0
+		JP fail
+
+	SE V1, 6
+		JP fail
+
+	SE V2, 4
+		JP fail
+
+	; Finish.
+	JP success
+
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; TEST 10: ADD I, Vx                                                                                                   ;
+; This will test the ADD I, Vx opcode.                                                                                 ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+test_10:
+	; Initialize test info.
+	LD test_number, 10
+
+	; Set registers.
+	LD I, data_test_add
+	LD V0, 1
+	ADD I, V0
+
+	; Test
+	LD V0, [I]
+	SE V0, 1
+		JP fail
+
+	; Finish.
+	JP success
+
+
+
+
 
 
 
@@ -288,3 +633,25 @@ sprite_9:
 db	%11100000,
 	%11100000,
 	%00100000
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; SPRITES: Test Sprites                                                                                                ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+sprite_wrap_test:
+db	%11000000,
+	%11000000
+
+sprite_collide:
+db	%10000000
+
+; -------------------------------------------------------------------------------------------------------------------- ;
+; DATA: Test Data                                                                                                      ;
+; -------------------------------------------------------------------------------------------------------------------- ;
+data_test_indirect_read:
+db	1, 2, 3, 4
+
+data_test_indirect_write:
+db	0, 0, 0, 0
+
+data_test_add:
+db	0, 1, 2, 3
