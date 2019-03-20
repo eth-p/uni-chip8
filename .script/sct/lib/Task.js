@@ -20,6 +20,8 @@ const mm              = require('micromatch');
 const mississippi     = require('mississippi');
 const path            = require('path');
 
+const AsyncTransform  = require('./AsyncTransform');
+
 // Modules.
 const Finder     = require('./Finder');
 const TaskStatus = require('./TaskStatus');
@@ -224,6 +226,7 @@ module.exports = class Task {
 	_gulpdest(options) {
 		let project = this.module.getProject();
 		let streams = [
+			(options.sourcemaps ? new FixSourcemaps(this.module) : null),
 			(options.sourcemaps ? gulp_sourcemaps.write('.') : null),
 			(options.sourcemaps ? gulp_filter(['**', '!**/*.map'].concat(ALLOWED_SOURCEMAPS.map(x => `**/*${x}.map`))) : null),
 			gulp.dest(project.getBuildDirectory(), {cwd: project.getBuildDirectory()}),
@@ -305,3 +308,45 @@ module.exports = class Task {
 
 };
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Helpers:
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Fixes the sourcemap file paths.
+ * Kind of...
+ */
+class FixSourcemaps extends AsyncTransform {
+
+	constructor(module) {
+		super({objectMode: true});
+
+		this._module = module;
+		this._project = module.getProject();
+	}
+
+	async _asyncTransform(data, encoding) {
+		const base = path.relative(this._project.getDirectory(), this._module.getDirectory());
+		const mbase = path.relative(this._project.getDirectory(), this._project.getModuleDirectory());
+
+		if (data.path.endsWith('.ts') || data.path.endsWith('.js')) {
+			data.sourceMap.sources = data.sourceMap.sources.map(source => {
+				if (source.startsWith('../../../')) return `/${base}/src/${source.substring(9)}`;
+				if (source.startsWith('../../../../')) return `/${base}/${source.substring(12)}`;
+				return `/${source}`;
+			});
+		} else if (data.path.endsWith('.css')) {
+			data.sourceMap.sources = data.sourceMap.sources.map(source => {
+				if (source.startsWith('../')) return `/${mbase}/${source.substring(3)}`;
+				return `/${base}/${source}`;
+			});
+		} else if (data.path.endsWith('.html')) {
+			data.sourceMap.sources = data.sourceMap.sources.map(source => {
+				return `${base}/${source}`;
+			});
+		}
+
+		return data;
+	}
+
+}
