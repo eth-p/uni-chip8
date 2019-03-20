@@ -10,3 +10,8 @@ mixin debug-tools
 			+item
 				input(type="button" value="Prev" data-trigger="emulator->pause; emulator->stepPrev")
 				input(type="button" value="Next" data-trigger="emulator->pause; emulator->stepNext")
+
+			+item.spacer
+
+			+item
+				input(type="button" value="Memory" data-trigger="emulator->pause; dialog.heap->show")

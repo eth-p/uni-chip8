@@ -140,9 +140,10 @@ main {
 @import 'emulator_screen';
 @import 'visualizer';
 @import 'visualizer_program';
+@import 'visualizer_registers';
 @import 'visualizer_stack';
 @import 'dialog_error';
+@import 'dialog_heap';
 @import 'dialog_load';
-@import 'visualizer_registers';
 @import 'dialog_savestates';
 @import 'dialog_settings';
