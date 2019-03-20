@@ -13,6 +13,7 @@ import TriggerController from './controller/TriggerController';
 import VisibilityController from './controller/VisibilityController';
 
 import ErrorDialog from './dialog/error/ErrorDialog';
+import HeapDialog from './dialog/heap/HeapDialog';
 import LoadDialog from './dialog/load/LoadDialog';
 import SavestatesDialog from './dialog/savestates/SavestateDialog';
 import SettingsDialog from './dialog/settings/SettingsDialog';
@@ -57,6 +58,7 @@ App.depends([
 
 	// Dialog controllers.
 	ErrorDialog,
+	HeapDialog,
 	LoadDialog,
 	SavestatesDialog,
 	SettingsDialog,
