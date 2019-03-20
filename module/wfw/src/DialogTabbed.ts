@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Dialog from '@chipotle/wfw/Dialog';
+import Trigger from '@chipotle/wfw/Trigger';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -25,10 +26,12 @@ class DialogTabbed extends Dialog<'switch'> {
 
 	/**
 	 * Creates a new dialog from a `+dialog` element.
+	 *
 	 * @param dialog The dialog element.
+	 * @param triggers Triggers to bind to.
 	 */
-	public constructor(dialog: HTMLElement) {
-		super(dialog);
+	public constructor(dialog: HTMLElement, triggers?: {show: Trigger; hide: Trigger}) {
+		super(dialog, triggers);
 
 		this._clickListener = (event: MouseEvent) => {
 			if (!(event.target instanceof HTMLElement)) return;

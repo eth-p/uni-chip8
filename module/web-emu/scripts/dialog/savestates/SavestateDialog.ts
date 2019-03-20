@@ -39,7 +39,7 @@ class SavestateDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected initDOM(this: App.Fragment<this>): void {
-		this.dialog = new Dialog(document.getElementById('dialog-savestates')!);
+		this.dialog = new Dialog(document.getElementById('dialog-savestates')!, this.triggers.dialog.savestates);
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
 
 		this.container = this.dialog.getContentElement()!;
@@ -49,11 +49,6 @@ class SavestateDialog extends App {
 		for (let entry of this.entries) {
 			this.container.appendChild(entry.getElement());
 		}
-	}
-
-	protected initTrigger(this: App.Fragment<this>): void {
-		this.triggers.dialog.savestates.show.onTrigger(() => this.dialog.show());
-		this.triggers.dialog.savestates.hide.onTrigger(() => this.dialog.hide());
 	}
 
 	protected initListener(this: App.Fragment<this>): void {

@@ -3,7 +3,9 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import Emitter from '@chipotle/types/Emitter';
+
 import StateProvider from '@chipotle/wfw/StateProvider';
+import Trigger from '@chipotle/wfw/Trigger';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -27,14 +29,21 @@ class Dialog<T = never> extends Emitter<'show' | 'hide' | T> {
 
 	/**
 	 * Creates a new dialog from a `+dialog` element.
+	 *
 	 * @param dialog The dialog element.
+	 * @param triggers Triggers to bind to.
 	 */
-	public constructor(dialog: HTMLElement) {
+	public constructor(dialog: HTMLElement, triggers?: {show: Trigger; hide: Trigger}) {
 		super();
 
 		this.frame = dialog;
 		this.stateProvider = new StateProvider<boolean>(false);
 		this.invalidate();
+
+		if (triggers != null) {
+			triggers.show.addListener('trigger', () => this.show());
+			triggers.hide.addListener('trigger', () => this.hide());
+		}
 	}
 
 	// -------------------------------------------------------------------------------------------------------------

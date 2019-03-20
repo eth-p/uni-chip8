@@ -47,7 +47,7 @@ class SettingsDialog extends App {
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected initDOM(this: App.Fragment<this>): void {
-		this.dialog = new DialogTabbed(document.getElementById('dialog-settings')!);
+		this.dialog = new DialogTabbed(document.getElementById('dialog-settings')!, this.triggers.dialog.settings);
 		this.fields = <HTMLInputElement[]>Array.from(document.querySelectorAll('[data-setting]'));
 
 		this.state.dialog.visible.addProvider(this.dialog.getVisibilityProvider());
@@ -56,8 +56,6 @@ class SettingsDialog extends App {
 	}
 
 	protected initTrigger(this: App.Fragment<this>): void {
-		this.triggers.dialog.settings.show.onTrigger(() => this.dialog.show());
-		this.triggers.dialog.settings.hide.onTrigger(() => this.dialog.hide());
 		this.triggers.settings.undo.onTrigger(this.update.bind(this));
 	}
 
