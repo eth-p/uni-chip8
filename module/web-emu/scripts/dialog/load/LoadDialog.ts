@@ -46,7 +46,7 @@ class LoadDialog extends App {
 	protected initDOM(this: App.Fragment<this>): void {
 		this.database.load();
 
-		this.dialog = new DialogTabbed(document.getElementById('dialog-load')!);
+		this.dialog = new DialogTabbed(document.getElementById('dialog-load')!, this.triggers.dialog.load);
 		this.dialogUploadBox = this.dialog.getContentElement('#program-upload-display')!;
 		this.dialogUploadField = <HTMLInputElement>this.dialog.getContentElement('#program-upload');
 
@@ -57,11 +57,6 @@ class LoadDialog extends App {
 		for (let element of this.dialog.getContentElements('[data-library]')) {
 			this.dialogLists.set(element.getAttribute('data-library')!, <HTMLElement>element);
 		}
-	}
-
-	protected initTrigger(this: App.Fragment<this>): void {
-		this.triggers.dialog.load.show.onTrigger(() => this.dialog.show());
-		this.triggers.dialog.load.hide.onTrigger(() => this.dialog.hide());
 	}
 
 	protected initListener(this: App.Fragment<this>): void {
