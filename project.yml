@@ -41,8 +41,12 @@
     '@build': manual
     sources:
       - *website.sources
-      - 'package.json'
       - 'main.js'
+    output:
+      styles: '.'
+    copy:
+      <<: *website.copy
+      'package.json': '.'
 
   - &meta
     '@meta': true
@@ -162,9 +166,15 @@ modules:
       <<: *website.output
       pages:  "tools"
 
+  # .----------.
+  # | ELECTRON |
+  # .----------.
+
   elec-emu:
     <<: *electron
     description: "Electron App: CHIP-8 emulator."
+    override:
+      babel: false
 
   # .------.
   # | ROMS |
