@@ -10,8 +10,14 @@
 
 ## Attendance
 
+Everyone but Dan.
+
 ## Discussion
 
 - We need to start on the presentation.
 
 ## Decisions
+
+- Work on a script for the R4 presentation.
+- Work the R4 powerpoint.
+- Week 13 meeting before Monday lecture.
