@@ -21,6 +21,7 @@ main {
 
 		.emulator-debugger {
 			color: $text;
+			border-top: none !important;
 
 			// Hide the debugging pane when
 			@include mobile {
@@ -106,19 +107,6 @@ main {
 // ---------------------------------------------------------------------------------------------------------------------
 // Dialogs:
 // ---------------------------------------------------------------------------------------------------------------------
-
-// FIXME: Remove old implementation.
-.window {
-	height: 400px;
-	width: 80%;
-	max-width: 400px;
-
-	h2 {
-		margin: 10px 0 5px;
-		font-size: 16px;
-		font-weight: normal;
-	}
-}
 
 .dialog {
 	height: 80%;
