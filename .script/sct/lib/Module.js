@@ -252,7 +252,7 @@ module.exports = class Module {
 			try {
 				let tsconfig = JSON.parse(await fs.readFile(path.join(this.getDirectory(), 'tsconfig.json')));
 				if (tsconfig.include) this._sources  = this._sources.concat(tsconfig.include);
-				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.include.map(x => `!${x}`));
+				if (tsconfig.exclude) this._excludes = this._excludes.concat(tsconfig.exclude.map(x => `!${x}`));
 				if (tsconfig.tests)   this._tests    = this._tests.concat(tsconfig.tests);
 				if (tsconfig.compilerOptions) {
 					let compilerOpts = tsconfig.compilerOptions;
