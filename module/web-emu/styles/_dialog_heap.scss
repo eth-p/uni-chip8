@@ -42,7 +42,7 @@ $grid-padding: $window-padding / 2;
 	}
 
 	.memory-header,
-	.memory-row {
+	.memory-contents {
 		$index-size: (100% / 16) * 2;
 		$cell-size: (100% - $index-size) / 16;
 
@@ -63,14 +63,16 @@ $grid-padding: $window-padding / 2;
 
 		@include scroll('y');
 
-		.memory-row {
-			> *:first-child {
-				@include user-select(none);
-			}
+		> * {
+			padding: 2px 1px;
+		}
 
-			.zero {
-				opacity: 0.35;
-			}
+		.index {
+			@include user-select(none);
+		}
+
+		.zero {
+			opacity: 0.35;
 		}
 	}
 }

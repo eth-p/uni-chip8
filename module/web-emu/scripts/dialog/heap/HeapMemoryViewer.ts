@@ -47,24 +47,21 @@ class HeapMemoryViewer {
 		if (this.program.data == null) return;
 
 		// Generate new cells.
-		let row = null;
 		const end = this.program.data.length;
 		for (let byte = 0; byte < end; byte++) {
 			// Generate new row.
 			if (byte % 16 === 0) {
-				row = document.createElement('div');
-				row.classList.add('memory-row');
-				this.content.appendChild(row);
-
 				const rowIndex = document.createElement('div');
+				rowIndex.classList.add('index');
 				rowIndex.textContent = toHexString(Math.floor(byte / 0x10) * 0x10);
-				row.appendChild(rowIndex);
+				this.content.appendChild(rowIndex);
 			}
 
 			// Generate new cell and add to row.
 			const element = document.createElement('div');
 			element.textContent = '??';
-			row!.appendChild(element);
+
+			this.content.appendChild(element);
 			this.cells.push(element);
 		}
 	}

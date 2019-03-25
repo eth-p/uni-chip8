@@ -77,11 +77,16 @@ class HeapDialog extends App {
 
 		// Regenerate the viewer.
 		if (this.needsRegenerate) {
-			this.viewerMemory.generate();
+			this.needsRegenerate = false;
+			window.requestAnimationFrame(() => {
+				this.viewerMemory.generate();
+			});
 		}
 
 		// Refresh the viewer.
-		this.viewerMemory.refresh();
+		window.requestAnimationFrame(() => {
+			this.viewerMemory.refresh();
+		});
 	}
 }
 
