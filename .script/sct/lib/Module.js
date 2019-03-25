@@ -238,6 +238,15 @@ module.exports = class Module {
 		return this._outputs.get(type);
 	}
 
+	/**
+	 * Checks if a module is built automatically.
+	 *
+	 * @return boolean
+	 */
+	isAutomaticBuild() {
+		return this._buildType !== 'manual';
+	}
+
 	async _load() {
 		if (this._config['@auto'] === true) {
 			try {
@@ -261,8 +270,9 @@ module.exports = class Module {
 		this._id             = id;
 		this._description    = config.description;
 		this._meta           = config['@meta'] === true;
+		this._buildType      = config['@build'];
 		this._config         = config;
-		this._sources        = config.sources instanceof Array ? config.sources : [];
+		this._sources        = config.sources instanceof Array ? config.sources.flat() : [];
 		this._tests          = config.tests instanceof Array ? config.tests : [];
 		this._excludes       = config.exclude instanceof Array ? config.exclude.map(x => `!${x}`) : [];
 		this._copy           = config.copy == null ? [] : config.copy;

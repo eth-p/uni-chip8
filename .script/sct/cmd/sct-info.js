@@ -121,14 +121,36 @@ module.exports = class CommandInfo extends Command {
 		}
 
 		for (let module of modules.sort((a, b) => a.getId().localeCompare(b.getId()))) {
+			const flags = [];
+			flags.push(module.isMeta() ? 'META' : 'MODULE');
+			if (!module.isAutomaticBuild()) flags.push('NO_AUTO');
+
 			if (args.plumbing === true) {
-				process.stdout.write(`${module.getId()} ${module.isMeta() ? 'META' : 'MODULE'} ${module.getDirectory()}\n`);
+				process.stdout.write(`${module.getId()} ${flags.join(',')} ${module.getDirectory()}\n`);
 			} else {
-				console.log(`${module.getId().padEnd(16)} ` + (
-					module.isMeta()
-						? chalk.magenta('(Meta)')
-						: chalk.yellow('(Code)')
-				) + " -- " + (
+
+				let flagstrs = [];
+				let flagstrn = 0;
+
+				// Convert flags to something human-readable.
+				if (flags.includes('META')) {
+					flagstrs.push(chalk.magenta('Meta'));
+					flagstrn += 4;
+				}
+
+				if (flags.includes('MODULE')) {
+					flagstrs.push(chalk.yellow('Module'));
+					flagstrn += 6;
+				}
+
+				if (flags.includes('NO_AUTO')) {
+					flagstrs.push(chalk.cyan('Manual'));
+					flagstrn += 6;
+				}
+
+				flagstrn += (flagstrs.length - 1) * 2;
+
+				console.log(`${module.getId().padEnd(16)} ` + (`(${flagstrs.join(', ')})` + ''.padEnd(16 - flagstrn)) + " -- " + (
 					module.getDescription()
 				));
 			}

@@ -123,8 +123,13 @@ module.exports = class CommandBuild extends Command {
 	}
 
 	async _getModulesFromArgs(args) {
-		let moduleNames = args._.map(x => x.split(':')[0]);
-		return await CommandUtil.getModulesFromArgs({_: moduleNames}, {meta: true});
+		const moduleNames = args._.map(x => x.split(':')[0]);
+		const modules = await CommandUtil.getModulesFromArgs({_: moduleNames}, {meta: true});
+
+		if (moduleNames.length !== 0) return modules;
+
+		// Handle manual build modules.
+		return modules.filter(m => m.isAutomaticBuild());
 	}
 
 	async _getTasksFromArgs(args) {
