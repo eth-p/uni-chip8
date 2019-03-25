@@ -11,6 +11,9 @@
 // Libraries.
 const chalk      = require('chalk');
 const unique     = require('array-unique');
+const fs         = require('fs-extra');
+const npmp       = require('npm-programmatic');
+const path       = require('path');
 
 // Modules.
 const Command          = require('@sct').Command;
@@ -118,8 +121,54 @@ module.exports = class CommandBuild extends Command {
 		let tasks   = await this._getTasksFromArgs(args);
 		if (args.watch) tasks.forEach(t => t.watch = true);
 
+		// Install packages if needed.
+		const modules = unique(tasks.map(t => t.module));
+		await Promise.all(modules.map(m => this._installPackages(m)));
+
+		// Run tasks.
 		let runner  = new TaskRunner(tasks, args, args.plumbing ? TaskLogger : TaskLoggerPretty);
 		return runner.run(args['fast-fail']);
+	}
+
+	async _isMissingPackage(dep) {
+		const pkgDir = path.join((await SCT.getProject()).getDirectory(), 'node_modules');
+		if (await fs.pathExists(path.join(pkgDir, dep[0]))) {
+			return null;
+		}
+
+		return `${dep[0]}@${dep[1]}`;
+	}
+
+	async _installPackages(module) {
+		if (module.isMeta()) return; // Don't bother with meta modules.
+
+		const dir = module.getDirectory();
+		if (! (await fs.pathExists(path.join(dir, 'package.json')))) return;
+
+		const json = await fs.readJson(path.join(dir, 'package.json'));
+		const deps = Object.assign({}, json.dependencies, json.devDependencies);
+
+		// Collect missing packages.
+		const missing = [];
+		for (let dep of Object.entries(deps).map(d => this._isMissingPackage(d))) {
+			let depName = await dep;
+			if (depName != null) missing.push(depName);
+		}
+
+		// Return if up-to-date.
+		if (missing.length === 0) return;
+
+		// Install missing packages.
+		console.log("Installing dependencies...");
+		for (let pkg of missing) {
+			console.log(`- ${pkg}`);
+		}
+
+		await npmp.install(missing, {
+			save: false,
+			saveDev: false,
+			cwd: module.getProject().getDirectory()
+		});
 	}
 
 	async _getModulesFromArgs(args) {

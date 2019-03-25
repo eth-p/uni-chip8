@@ -18,6 +18,11 @@
     images: "assets/images"
     pages: "."
 
+  - &website.sources
+    - "styles/**/*.{scss,css}"
+    - "pages/**/*.{pug,html}"
+    - "images/**/*.{png,svg,webp,jpg,jpeg}"
+
   - &website
     '@meta': false
     '@auto': true
@@ -27,12 +32,17 @@
       - pug
       - images
       - copy
-    sources:
-      - "styles/**/*.{scss,css}"
-      - "pages/**/*.{pug,html}"
-      - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    sources: *website.sources
     copy:
       <<: *website.copy
+
+  - &electron
+    <<: *website
+    '@build': manual
+    sources:
+      - *website.sources
+      - 'package.json'
+      - 'main.js'
 
   - &meta
     '@meta': true
@@ -151,6 +161,10 @@ modules:
     output:
       <<: *website.output
       pages:  "tools"
+
+  elec-emu:
+    <<: *electron
+    description: "Electron App: CHIP-8 emulator."
 
   # .------.
   # | ROMS |
