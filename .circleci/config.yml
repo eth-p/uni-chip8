@@ -131,11 +131,37 @@ jobs:
   release:
     working_directory: *workspace_root
     executor: standard
+
+    parameters:
+      copyright:
+        description: Copyright string.
+        default: '2019 Team CHIPotle | https://chip.netlify.com/'
+        type: string
+
+      platform:
+        description: Platform type.
+        default: 'linux'
+        type: string
+
+      arch:
+        description: Platform architecture.
+        default: 'x64'
+        type: string
+
+      icon:
+        description: The icon file.
+        default: 'favicon.png'
+        type: string
+
     steps:
       - *workspace_load
       - run:
-          name: Netlify Deploy
-          command: curl -X POST -d {} https://api.netlify.com/build_hooks/5c493cdf222114941df5c844
+          name: Compile Electron
+          command: ./sct build elec-emu --release
+      - run:
+          name: Package Electron
+          command: |
+            .script/package/package.sh
       - store_artifacts:
           name: Store
           path: artifacts/
