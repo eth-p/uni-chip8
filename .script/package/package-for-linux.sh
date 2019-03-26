@@ -1,2 +1,3 @@
 build linux x64 "favicon.png"
-zip -r "$OUT/release-linux_x64.zip" *
+echo "Zipping app package..."
+zip -r "$OUT/release-linux_x64.zip" * >/dev/null

@@ -1,2 +1,3 @@
 build darwin x64 "favicon.icns"
-zip -r "$OUT/release-darwin_x64.zip" *
+echo "Zipping app package..."
+zip -r "$OUT/release-darwin_x64.zip" * >/dev/null
