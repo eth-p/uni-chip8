@@ -59,7 +59,11 @@ function onError(error) {
 	// Print the error.
 	if (DEBUG || !(error instanceof CommandError)) {
 		console.error(chalk.red(message));
-		console.error(error.stack.split('\n').slice(1).join('\n'));
+		if (error.stack) {
+			console.error(error.stack.split('\n').slice(1).join('\n'));
+		} else {
+			console.error("[No stack trace]");
+		}
 	} else {
 		console.error(chalk.red(`${PROGRAM}: ${message}`));
 	}

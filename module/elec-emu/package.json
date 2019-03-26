@@ -1,0 +1,9 @@
+{
+	"name": "chip8-emulator",
+	"main": "main.js",
+	"productName": "CHIP-8",
+	"devDependencies": {
+		"electron": "^4.1.1",
+		"electron-packager": "^13.1.1"
+	}
+}

@@ -54,6 +54,18 @@ module.exports = class CommandInfo extends Command {
 				description: 'Only check modified files. (Requires Repository)',
 				alias: 'modified-only'
 			},
+			'project-version': {
+				type: 'boolean',
+				default: false,
+				description: 'Print the project version.',
+				alias: '-P:v'
+			},
+			'project-copyright': {
+				type: 'boolean',
+				default: false,
+				description: 'Print the project copyright.',
+				alias: '-P:c'
+			},
 			'only-staged': {
 				type: 'boolean',
 				default: false,
@@ -80,11 +92,18 @@ module.exports = class CommandInfo extends Command {
 			throw new CommandError("Cannot use both '--list-files' and '--list-modules' arguments.");
 		}
 
+		if (args['project-version'] === true) return this.show_project_field('version');
+		if (args['project-copyright'] === true) return this.show_project_field('copyright');
 		if (args['list-files']   === true) return this.run_list_files(args, project);
 		if (args['list-modules'] === true) return this.run_list_modules(args, project);
 
 		console.log(this.usage());
 		return 1;
+	}
+
+	async show_project_field(field) {
+		let project = await SCT.getProject();
+		console.log(project[`get${field.charAt(0).toUpperCase()}${field.substring(1)}`]());
 	}
 
 	async run_list_files(args, project) {
@@ -121,14 +140,36 @@ module.exports = class CommandInfo extends Command {
 		}
 
 		for (let module of modules.sort((a, b) => a.getId().localeCompare(b.getId()))) {
+			const flags = [];
+			flags.push(module.isMeta() ? 'META' : 'MODULE');
+			if (!module.isAutomaticBuild()) flags.push('NO_AUTO');
+
 			if (args.plumbing === true) {
-				process.stdout.write(`${module.getId()} ${module.isMeta() ? 'META' : 'MODULE'} ${module.getDirectory()}\n`);
+				process.stdout.write(`${module.getId()} ${flags.join(',')} ${module.getDirectory()}\n`);
 			} else {
-				console.log(`${module.getId().padEnd(16)} ` + (
-					module.isMeta()
-						? chalk.magenta('(Meta)')
-						: chalk.yellow('(Code)')
-				) + " -- " + (
+
+				let flagstrs = [];
+				let flagstrn = 0;
+
+				// Convert flags to something human-readable.
+				if (flags.includes('META')) {
+					flagstrs.push(chalk.magenta('Meta'));
+					flagstrn += 4;
+				}
+
+				if (flags.includes('MODULE')) {
+					flagstrs.push(chalk.yellow('Module'));
+					flagstrn += 6;
+				}
+
+				if (flags.includes('NO_AUTO')) {
+					flagstrs.push(chalk.cyan('Manual'));
+					flagstrn += 6;
+				}
+
+				flagstrn += (flagstrs.length - 1) * 2;
+
+				console.log(`${module.getId().padEnd(16)} ` + (`(${flagstrs.join(', ')})` + ''.padEnd(16 - flagstrn)) + " -- " + (
 					module.getDescription()
 				));
 			}

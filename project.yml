@@ -18,6 +18,11 @@
     images: "assets/images"
     pages: "."
 
+  - &website.sources
+    - "styles/**/*.{scss,css}"
+    - "pages/**/*.{pug,html}"
+    - "images/**/*.{png,svg,webp,jpg,jpeg,icns,ico}"
+
   - &website
     '@meta': false
     '@auto': true
@@ -27,12 +32,21 @@
       - pug
       - images
       - copy
-    sources:
-      - "styles/**/*.{scss,css}"
-      - "pages/**/*.{pug,html}"
-      - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    sources: *website.sources
     copy:
       <<: *website.copy
+
+  - &electron
+    <<: *website
+    '@build': manual
+    sources:
+      - *website.sources
+      - 'main.js'
+    output:
+      styles: '.'
+    copy:
+      <<: *website.copy
+      'package.json': '.'
 
   - &meta
     '@meta': true
@@ -152,6 +166,16 @@ modules:
       <<: *website.output
       pages:  "tools"
 
+  # .----------.
+  # | ELECTRON |
+  # .----------.
+
+  elec-emu:
+    <<: *electron
+    description: "Electron App: CHIP-8 emulator."
+    override:
+      babel: false
+
   # .------.
   # | ROMS |
   # .------.
@@ -176,3 +200,7 @@ tasks:
 # Version:
 # ----------------------------------------------------------------------------------------------------------------------
 version: 1.4.0-dev
+license: MIT
+copyright:
+  year: 2019
+  author: Team Chipotle
