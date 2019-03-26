@@ -61,7 +61,8 @@ abstract class AbstractWindow {
 		return new BrowserWindow(
 			Object.assign(
 				{
-					show: false
+					show: false,
+					icon: Path.join(__dirname, 'assets', 'images', 'favicon.png')
 				},
 				options,
 				{
