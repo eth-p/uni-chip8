@@ -56,23 +56,10 @@
 		top: 0px;
 	}
 
-	// Fix scrolling.
-	//
-	//#page {
-	//	@include mobile {
-	//		@include scroll('both');
-	//	}
-	//}
-	//
 	//// Fix page elements.
 	main {
 		> .toolbar {
 			border-top: none;
 		}
-		//
-		//.emulator-interface,
-		//.emulator-debugger {
-		//	height: calc(100% - #{$toolbar-height + $frame-height + 2}) !important;
-		//}
 	}
 }
