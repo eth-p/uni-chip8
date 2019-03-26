@@ -18,13 +18,21 @@ import MainMenu from './MainMenu';
 function intercept() {
 	Electron.protocol.interceptFileProtocol('file', (req: any, callback: any) => {
 		const parsed = new URL(req.url);
-		const path = Path.normalize(unescape(parsed.pathname));
+		let path = Path.normalize(unescape(parsed.pathname));
+
+		if (process.platform === 'win32') {
+			path = path.substring(path.search(/[^\/\\]/));
+		}
 
 		if (path.startsWith(__dirname)) {
 			return callback({path});
 		}
 
-		callback({path: Path.normalize(Path.join(__dirname, parsed.pathname))});
+		if (process.platform === 'win32') {
+			path = path.substring(path.indexOf(':') + 1);
+		}
+
+		callback({path: Path.normalize(Path.join(__dirname, path))});
 	});
 }
 
