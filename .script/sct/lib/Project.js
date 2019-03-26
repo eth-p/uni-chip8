@@ -107,6 +107,18 @@ module.exports = class Project {
 	}
 
 	/**
+	 * Gets the copyright string of the project.
+	 * @returns {string} The copyright string, or the year.
+	 */
+	getCopyright() {
+		if (this._config.copyright == null) return `\u00a9 ${(new Date()).getFullYear()}`;
+		let year = this._config.copyright.year || (new Date()).getFullYear();
+		let author = this._config.copyright.author || null;
+
+		return author == null ? `\u00a9 ${year}` : `\u00a9 ${year} ${author}`;
+	}
+
+	/**
 	 * Gets the current branch of the project.
 	 * @returns {string} The friendly branch name, or unknown.
 	 */

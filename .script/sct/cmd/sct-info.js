@@ -54,6 +54,18 @@ module.exports = class CommandInfo extends Command {
 				description: 'Only check modified files. (Requires Repository)',
 				alias: 'modified-only'
 			},
+			'project-version': {
+				type: 'boolean',
+				default: false,
+				description: 'Print the project version.',
+				alias: '-P:v'
+			},
+			'project-copyright': {
+				type: 'boolean',
+				default: false,
+				description: 'Print the project copyright.',
+				alias: '-P:c'
+			},
 			'only-staged': {
 				type: 'boolean',
 				default: false,
@@ -80,11 +92,18 @@ module.exports = class CommandInfo extends Command {
 			throw new CommandError("Cannot use both '--list-files' and '--list-modules' arguments.");
 		}
 
+		if (args['project-version'] === true) return this.show_project_field('version');
+		if (args['project-copyright'] === true) return this.show_project_field('copyright');
 		if (args['list-files']   === true) return this.run_list_files(args, project);
 		if (args['list-modules'] === true) return this.run_list_modules(args, project);
 
 		console.log(this.usage());
 		return 1;
+	}
+
+	async show_project_field(field) {
+		let project = await SCT.getProject();
+		console.log(project[`get${field.charAt(0).toUpperCase()}${field.substring(1)}`]());
 	}
 
 	async run_list_files(args, project) {
