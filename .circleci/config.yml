@@ -36,6 +36,7 @@ jobs:
           name: Repository (Initialize)
           command: |
             git lfs install
+            git lfs pull
             git submodule update --init --recursive
 
       - restore_cache:
