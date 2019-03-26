@@ -21,7 +21,7 @@
   - &website.sources
     - "styles/**/*.{scss,css}"
     - "pages/**/*.{pug,html}"
-    - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    - "images/**/*.{png,svg,webp,jpg,jpeg,icns}"
 
   - &website
     '@meta': false
