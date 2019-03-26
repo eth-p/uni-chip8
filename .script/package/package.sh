@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(dirname "$(dirname "$HERE")")"
-# Assume running from base of project as root.
 
 PROJECT_NAME="CHIP-8"
 PROJECT_VERSION="$(./sct info --project-version)"
@@ -14,8 +13,13 @@ build() {
 	local ARCH="$2"
 	local ICON="$3"
 
+	local ARGS=()
+	if [ -n "$ICON" ]; then
+		ARGS+=(--icon "out/assets/images/${ICON}")
+	fi
+
 	npx electron-packager ./out --out artifacts-out \
-		--icon "out/assets/images/${ICON}" \
+		${ARGS[@]} \
 		--platform "$PLATFORM" \
 		--arch "$ARCH" \
 		--app-version "$PROJECT_VERSION" \
@@ -25,6 +29,7 @@ build() {
 	cd "${ROOT}/artifacts-out/${PROJECT_NAME}-${PLATFORM}-${ARCH}/"
 }
 
+cd "$ROOT"
 set -e
 [ -d "artifacts" ] || mkdir artifacts
 (source "${HERE}/package-for-darwin.sh") &&
