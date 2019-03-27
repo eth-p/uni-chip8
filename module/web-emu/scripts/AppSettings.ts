@@ -161,40 +161,6 @@ class AppSettings extends Settings<keyof AppSettings> {
 
 	@Setting('.')
 	public keybind_control_step_next!: string;
-
-	// -------------------------------------------------------------------------------------------------------------
-	// | Savestates:                                                                                               |
-	// -------------------------------------------------------------------------------------------------------------
-
-	@Setting(null)
-	public savestate_quickslot!: Savestate | null;
-
-	@Setting(null)
-	public savestate_1!: Savestate | null;
-
-	@Setting(null)
-	public savestate_2!: Savestate | null;
-
-	@Setting(null)
-	public savestate_3!: Savestate | null;
-
-	@Setting(null)
-	public savestate_4!: Savestate | null;
-
-	@Setting(null)
-	public savestate_5!: Savestate | null;
-
-	@Setting(null)
-	public savestate_6!: Savestate | null;
-
-	@Setting(null)
-	public savestate_7!: Savestate | null;
-
-	@Setting(null)
-	public savestate_8!: Savestate | null;
-
-	@Setting(null)
-	public savestate_9!: Savestate | null;
 }
 
 namespace AppSettings {

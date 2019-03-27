@@ -52,7 +52,7 @@ class SavestateDialog extends App {
 	}
 
 	protected initListener(this: App.Fragment<this>): void {
-		this.settings.addListener('update', setting => {
+		this.savestates.addListener('update', setting => {
 			if (setting.startsWith('savestate_')) this.refresh();
 		});
 
@@ -66,20 +66,20 @@ class SavestateDialog extends App {
 			if (slot == null || action == null) return;
 
 			if (action === 'load') {
-				const setting = this.settings.get(<any>`savestate_${slot}`);
+				const setting = this.savestates.get(<any>`savestate_${slot}`);
 				if (setting != null) {
 					this.emulator.loadState(setting);
 					this.dialog.hide();
 				}
 			} else if (action === 'save') {
 				if (this.state.emulator.loaded.value) {
-					this.settings.set(<any>`savestate_${slot}`, this.emulator.saveState());
-					this.settings.save();
+					this.savestates.set(<any>`savestate_${slot}`, this.emulator.saveState());
+					this.savestates.save();
 					this.dialog.hide();
 				}
 			} else if (action === 'delete') {
-				this.settings.set(<any>`savestate_${slot}`, null);
-				this.settings.save();
+				this.savestates.set(<any>`savestate_${slot}`, null);
+				this.savestates.save();
 			}
 		});
 	}
@@ -98,7 +98,7 @@ class SavestateDialog extends App {
 	 */
 	public refresh(): void {
 		for (let entry of this.entries) {
-			const savestate: Savestate | null = this.settings.get(<any>`savestate_${entry.getSlot()}`);
+			const savestate: Savestate | null = this.savestates.get(<any>`savestate_${entry.getSlot()}`);
 			const enabled = savestate != null && savestate.snapshot.__VERS === VMSnapshot.VERSION;
 			const invalid = savestate != null && savestate.snapshot.__VERS !== VMSnapshot.VERSION;
 
