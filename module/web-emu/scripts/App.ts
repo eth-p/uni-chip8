@@ -9,6 +9,7 @@ import VM from '@chipotle/vm/VM';
 import Application, {FragmentClass} from '@chipotle/wfw/Application';
 
 import AppSettings from './AppSettings';
+import AppSavestates from './AppSavestates';
 import AppState from './AppState';
 import AppTriggers from './AppTriggers';
 
@@ -24,6 +25,7 @@ class AppBase {
 
 	protected emulator: Emulator = AppBase.emulator;
 	protected settings: AppSettings = AppBase.settings;
+	protected savestates: AppSavestates = AppBase.savestates;
 	protected state: AppState = AppBase.state;
 	protected triggers: AppTriggers = AppBase.triggers;
 	protected disassembler: Disassembler<Chip> = AppBase.disassembler;
@@ -34,6 +36,7 @@ class AppBase {
 
 	public static emulator: Emulator = new Emulator(new VM(new Chip()));
 	public static settings: AppSettings = new AppSettings('emulator');
+	public static savestates: AppSavestates = new AppSavestates('emulator/savestates');
 	public static state: AppState = new AppState();
 	public static triggers: AppTriggers = new AppTriggers();
 	public static disassembler: Disassembler<Chip> = new Disassembler(AppBase.emulator.vm);
