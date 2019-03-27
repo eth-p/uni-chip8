@@ -71,8 +71,8 @@ class ScreenVisualizer extends Visualizer {
 
 		// Listeners for redrawing the screen.
 		// This one will clear the screen when a program is loaded.
-		this.addListener('load', () => {
-			this.render();
+		this.emulator.addListener('load', () => {
+			this.clear();
 		});
 
 		// Listeners for screen settings.
@@ -115,6 +115,18 @@ class ScreenVisualizer extends Visualizer {
 		}
 	}
 
+	/**
+	 * Clears the screen.
+	 */
+	public clear(this: App.Fragment<this>): void {
+		const deflicker = this.renderer.getDeflicker();
+
+		this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+		this.renderer.setDeflicker(0);
+		this.render();
+		this.renderer.setDeflicker(deflicker);
+	}
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Implementation:                                                                                           |
 	// -------------------------------------------------------------------------------------------------------------
@@ -138,7 +150,7 @@ class ScreenVisualizer extends Visualizer {
 	public reset(this: App.Fragment<this>): void {
 		this.resize();
 
-		this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+		this.clear();
 		this.render();
 	}
 }
