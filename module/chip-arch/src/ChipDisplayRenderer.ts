@@ -3,6 +3,7 @@
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
 import ChipDisplay from './ChipDisplay';
+import assert from '@chipotle/types/assert';
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
@@ -29,6 +30,14 @@ class ChipDisplayRenderer {
 	 */
 	protected background: string;
 
+	/**
+	 * The deflicker amount.
+	 * This calculates the transparency value to use for CRT simulation.
+	 *
+	 * (1 - n) * 0xFF
+	 */
+	protected deflicker: number;
+
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructor:                                                                                              |
 	// -------------------------------------------------------------------------------------------------------------
@@ -40,6 +49,7 @@ class ChipDisplayRenderer {
 		this.display = display;
 		this.foreground = '#ffffff';
 		this.background = '#000000';
+		this.deflicker = 0;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -63,6 +73,15 @@ class ChipDisplayRenderer {
 	}
 
 	/**
+	 * Sets the deflicker value.
+	 * @param value The deflicker value.
+	 */
+	public setDeflicker(value: number): void {
+		assert(value >= 0 && value <= 1, 'Deflicker value must be between 0 and 1.');
+		this.deflicker = value;
+	}
+
+	/**
 	 * Gets the foreground color of the renderer.
 	 * @returns The foreground color.
 	 */
@@ -76,6 +95,14 @@ class ChipDisplayRenderer {
 	 */
 	public getBackground(): string {
 		return this.background;
+	}
+
+	/**
+	 * Gets the deflicker value.
+	 * @returns The deflicker value.
+	 */
+	public getDeflicker(): number {
+		return this.deflicker;
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -108,18 +135,17 @@ class ChipDisplayRenderer {
 		const top = Math.floor((height - scale * virtualHeight) / 2);
 		const left = Math.floor((width - scale * virtualWidth) / 2);
 
-		// Fill frame.
+		// Fill background.
+		context.globalAlpha = Math.max(0.05, 1 - this.deflicker);
 		context.fillStyle = background;
 		if (filled) {
 			context.fillRect(0, 0, width, height);
 		} else {
-			context.clearRect(0, 0, width, height);
+			context.fillRect(left, top, virtualWidth * scale, virtualHeight * scale);
 		}
 
-		// Fill background.
-		context.fillRect(left, top, virtualWidth * scale, virtualHeight * scale);
-
 		// Draw foreground.
+		context.globalAlpha = 1;
 		context.fillStyle = foreground;
 		let index = 0;
 		for (let y = 0; y < virtualHeight; y++) {

@@ -69,6 +69,11 @@ mixin settings-pane-graphics
 					| Fills the outside of the display with the display's background color.
 					| This may be undesirable in games where the edge of the screen isn't clear.
 
+			+setting('boolean', 'display_deflicker', 'Deflicker')
+				div
+					| Emulates a CRT screen to reduce flickering.
+					| This will create slight ghosting.
+
 -// --------------------------------------------------------------------------------------------------------------------
 -// Pane: Controls
 -// --------------------------------------------------------------------------------------------------------------------
