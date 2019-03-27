@@ -83,6 +83,9 @@ class AppSettings extends Settings<keyof AppSettings> {
 	@Setting(true)
 	public display_scaling!: boolean;
 
+	@Setting(false)
+	public display_deflicker!: boolean;
+
 	@Setting('#ffffff', {validator: color => /^#[0-9A-F]{6}$/i.test(color)})
 	public screen_foreground!: string;
 
