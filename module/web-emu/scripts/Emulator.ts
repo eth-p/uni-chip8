@@ -30,9 +30,7 @@ import SavestateRenderer from './SavestateRenderer';
  * - `error`
  * - `snapshot`
  */
-class Emulator extends Emitter<
-	'error' | 'load' | 'pause' | 'resume' | 'reset' | 'step' | 'snapshot' | 'keydown' | 'keyup'
-> {
+class Emulator extends Emitter<'error' | 'load' | 'pause' | 'resume' | 'reset' | 'step' | 'keydown' | 'keyup'> {
 	// -------------------------------------------------------------------------------------------------------------
 	// | Fields:                                                                                                   |
 	// -------------------------------------------------------------------------------------------------------------
