@@ -76,6 +76,11 @@ class ScreenVisualizer extends Visualizer {
 		});
 
 		// Listeners for screen settings.
+		this.settings.onChange('display_deflicker', (s, v) => {
+			this.renderer.setDeflicker(v ? 0.2 : 0);
+			this.render();
+		});
+
 		this.settings.onChange('screen_foreground', (s, v) => {
 			this.renderer.setForeground(v);
 			this.render();
@@ -132,6 +137,8 @@ class ScreenVisualizer extends Visualizer {
 	 */
 	public reset(this: App.Fragment<this>): void {
 		this.resize();
+
+		this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 		this.render();
 	}
 }
