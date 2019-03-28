@@ -16,6 +16,7 @@ include ../dialogs/dialog-savestates
 include ../dialogs/dialog-error
 include ../dialogs/dialog-load
 include ../dialogs/dialog-settings
+include ../dialogs/dialog-heap
 
 - title = 'CHIP-8 Emulator'
 - description = 'A fancy (and fast) web-based CHIP-8 emulator and debugger. Supports and runs on mobile devices.'
@@ -63,6 +64,7 @@ mixin loading-screen
 			+ui-dialog-load
 			+ui-dialog-savestates
 			+ui-dialog-settings
+			+ui-dialog-heap
 
 		- // Layout
 		+desktop-content#emulator-layout

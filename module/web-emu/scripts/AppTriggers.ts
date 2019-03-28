@@ -56,6 +56,11 @@ class AppTriggers {
 		settings: {
 			show: new Trigger(),
 			hide: new Trigger()
+		},
+
+		heap: {
+			show: new Trigger(),
+			hide: new Trigger()
 		}
 	};
 

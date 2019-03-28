@@ -29,6 +29,6 @@ mixin dialog-pane(pane, isDefault)
 		block
 
 mixin dialog-content
-	.viewport&attributes(attributes)
-		.content
+	.viewport&attributes(Util.excludeClasses(attributes, 'no-scroll'))
+		.content(class=Util.extractClasses(attributes, 'no-scroll', 'control-list'))
 			block

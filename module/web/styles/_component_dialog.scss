@@ -111,7 +111,7 @@
 			z-index: 1;
 		}
 
-		> .content {
+		> .content:not(.no-scroll) {
 			@include scroll('y');
 		}
 	}

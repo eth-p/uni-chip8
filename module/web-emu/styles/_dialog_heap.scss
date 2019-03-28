@@ -1,0 +1,89 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Dialog: Heap
+// ---------------------------------------------------------------------------------------------------------------------
+$mobile-padding: 2px;
+$grid-padding: $window-padding / 2;
+
+#dialog-heap .viewport:after {
+	box-shadow: none;
+}
+
+#dialog-heap .content {
+	padding: 0;
+
+	display: flex;
+	flex-direction: row;
+}
+
+#dialog-heap-viewer {
+	display: flex;
+	flex-direction: column;
+
+	flex: 2 1 auto;
+	font-family: $font-monospace;
+
+	@include desktop {
+		border-right: $window-border 1px solid;
+	}
+
+	@include mobile {
+		border-bottom: $window-border 1px solid;
+	}
+
+	.memory-header {
+		flex: 0 0 auto;
+		border-bottom: $window-border 1px solid;
+	}
+
+	.memory-header,
+	.memory-contents {
+		$index-size: (100% / 16) * 2;
+		$cell-size: (100% - $index-size) / 16;
+
+		display: grid;
+		grid-template-columns: $index-size repeat(16, $cell-size);
+
+		text-align: center;
+		padding: $grid-padding;
+
+		@include mobile {
+			font-size: 10px;
+			padding: $mobile-padding 0;
+		}
+	}
+
+	.memory-contents {
+		flex: 1 1 auto;
+
+		@include scroll('y');
+
+		> * {
+			padding: 2px 1px;
+		}
+
+		.index {
+			@include user-select(none);
+		}
+
+		.zero {
+			opacity: 0.35;
+		}
+	}
+}
+
+#dialog-heap-disassembler {
+	flex: 1 0 auto;
+
+	// Padding.
+
+	padding: $window-padding;
+	@include mobile {
+		padding: $mobile-padding;
+	}
+}

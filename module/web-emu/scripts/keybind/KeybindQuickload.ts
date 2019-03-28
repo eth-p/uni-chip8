@@ -5,7 +5,7 @@
 import App from '../App';
 import Keybind from '../Keybind';
 
-const settings = App.settings;
+const savestates = App.savestates;
 const emulator = App.emulator;
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -16,9 +16,9 @@ const emulator = App.emulator;
  */
 class KeybindQuickLoad extends Keybind {
 	public onKeyDown(): void {
-		if (settings.savestate_quickslot == null) return;
+		if (savestates.savestate_quickslot == null) return;
 
-		emulator.loadState(settings.savestate_quickslot);
+		emulator.loadState(savestates.savestate_quickslot);
 	}
 }
 
