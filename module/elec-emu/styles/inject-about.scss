@@ -1,0 +1,18 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/theme';
+@import '../../web/styles/mixin';
+
+// Remove spacing for about page.
+.padded {
+	main > h1 {
+		margin-top: 0;
+	}
+}
+
+// Remove git statistics for about page.
+.member-git {
+	display: none;
+}

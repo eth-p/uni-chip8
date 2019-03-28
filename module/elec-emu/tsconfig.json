@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.settings.json",
+	"compilerOptions": {
+		"outDir": ".",
+		"declaration": false,
+		"module": "commonjs"
+	},
+	"include": [
+		"*.ts",
+		"main.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

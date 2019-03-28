@@ -19,7 +19,7 @@ class HeapMemoryViewer {
 
 	protected program: Program<unknown>;
 	protected content: HTMLElement;
-	protected cells: HTMLElement[];
+	protected cells: ({_cachedValue: number} & HTMLElement)[];
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Constructors:                                                                                             |
@@ -62,7 +62,7 @@ class HeapMemoryViewer {
 			element.textContent = '??';
 
 			this.content.appendChild(element);
-			this.cells.push(element);
+			this.cells.push(<any>element);
 		}
 	}
 
@@ -79,8 +79,11 @@ class HeapMemoryViewer {
 			const cell = this.cells[byte];
 			const value = data[byte];
 
-			cell.textContent = toHexString8(value);
-			cell.classList[value === 0 ? 'add' : 'remove']('zero');
+			if (cell._cachedValue !== value) {
+				cell._cachedValue = value;
+				cell.textContent = toHexString8(value);
+				cell.classList[value === 0 ? 'add' : 'remove']('zero');
+			}
 		}
 	}
 }

@@ -2,28 +2,25 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-import App from '../App';
-import Keybind from '../Keybind';
 
-const savestates = App.savestates;
-const state = App.state;
-const emulator = App.emulator;
+const INJECT_STYLESHEET = [
+	'var link = document.createElement("link");',
+	'link.setAttribute("rel", "stylesheet");',
+	'link.setAttribute("href", "/<$>");',
+	'document.head.appendChild(link);'
+];
 
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Keybind: QUICKSAVE
- * Saves the quicksave save state.
+ * A class for injecting things into pages.
  */
-class KeybindQuicksave extends Keybind {
-	public onKeyDown(): void {
-		if (!state.emulator.loaded.value) return;
-
-		savestates.savestate_quickslot = emulator.saveState();
-		savestates.save();
+class Injector {
+	public static stylesheet(path: string): string {
+		return INJECT_STYLESHEET.join('').replace('<$>', escape(path));
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default KeybindQuicksave;
-export {KeybindQuicksave};
+export default Injector;
+export {Injector};
