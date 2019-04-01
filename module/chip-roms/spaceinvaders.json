@@ -1,0 +1,16 @@
+{
+	"type": "GAME",
+	"name": "Space Invaders",
+	"date": "2019-04-01",
+	"featured": false,
+
+	"author": "Dan Amarasinghe",
+	"author_url": "https://github.com/danamaras",
+
+	"info": "Space Invaders for the CHIP-8.",
+	"controls": {
+		"7" : "LEFT",
+		"9" : "RIGHT",
+		"6" : "SHOOT"
+	}
+}
