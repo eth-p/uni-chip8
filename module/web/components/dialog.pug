@@ -1,0 +1,34 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-//  MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include util
+-// --------------------------------------------------------------------------------------------------------------------
+mixin dialog(depth)
+	.dialog(class=`${depth == null ? 1 : depth}z`)&attributes(attributes)
+		block
+
+mixin dialog-title(title)
+	.dialog-title
+		.title=title
+		.buttons
+			block
+
+mixin dialog-tabs
+	.toolbar
+		block
+
+mixin dialog-tab(pane)
+	.toolbar-item(data-target=pane)&attributes(attributes)
+		block
+
+mixin dialog-pane(pane, isDefault)
+	- classes = Util.extractClasses(attributes);
+	- if (isDefault !== true) classes.push('hide');
+	.section(data-pane=pane data-default=(isDefault === true ? true : null) class=classes)&attributes(attributes)
+		block
+
+mixin dialog-content
+	.viewport&attributes(Util.excludeClasses(attributes, 'no-scroll'))
+		.content(class=Util.extractClasses(attributes, 'no-scroll', 'control-list'))
+			block

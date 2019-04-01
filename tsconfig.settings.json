@@ -17,6 +17,7 @@
 		"strictPropertyInitialization": true,
 		"stripInternal": true,
 		"preserveConstEnums": true,
+		"skipLibCheck": true,
 		"noEmit": true,
 		"baseUrl": ".",
 		"paths": {
@@ -24,7 +25,8 @@
 			"@chipotle/vm/*": ["./module/vm/src/*"],
 			"@chipotle/isa/*": ["./module/isa/src/*"],
 			"@chipotle/chip-arch/*": ["./module/chip-arch/src/*"],
-			"@chipotle/web/*": ["./module/web/scripts/*"]
+			"@chipotle/web/*": ["./module/web/scripts/*"],
+			"@chipotle/wfw/*": ["./module/wfw/src/*"]
 		}
 	}
 }

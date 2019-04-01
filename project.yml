@@ -18,6 +18,11 @@
     images: "assets/images"
     pages: "."
 
+  - &website.sources
+    - "styles/**/*.{scss,css}"
+    - "pages/**/*.{pug,html}"
+    - "images/**/*.{png,svg,webp,jpg,jpeg,icns,ico}"
+
   - &website
     '@meta': false
     '@auto': true
@@ -27,12 +32,21 @@
       - pug
       - images
       - copy
-    sources:
-      - "styles/**/*.{scss,css}"
-      - "pages/**/*.{pug,html}"
-      - "images/**/*.{png,svg,webp,jpg,jpeg}"
+    sources: *website.sources
     copy:
       <<: *website.copy
+
+  - &electron
+    <<: *website
+    '@build': manual
+    sources:
+      - *website.sources
+      - 'main.js'
+    output:
+      styles: '.'
+    copy:
+      <<: *website.copy
+      'package.json': '.'
 
   - &meta
     '@meta': true
@@ -93,6 +107,10 @@ modules:
     <<: *code
     description: "Library: Common type definitions and classes."
 
+  wfw:
+    <<: *code
+    description: "Library: Website app framework."
+
   isa:
     <<: *code
     description: "Library: Virtual machine instruction set architecture."
@@ -123,6 +141,8 @@ modules:
       pages:  "."
     copy:
       <<: *website.copy
+      './_headers': '.'
+      './sitemap.xml': '.'
       './images/favicon.png': '.'
 
   web-asm:
@@ -134,10 +154,27 @@ modules:
 
   web-emu:
     <<: *website
-    description: "Website: CHIP-8 assembler."
+    description: "Website: CHIP-8 emulator."
     output:
       <<: *website.output
       pages:  "emulator"
+
+  web-tools:
+    <<: *website
+    description: "Website: CHIP-8 tools."
+    output:
+      <<: *website.output
+      pages:  "tools"
+
+  # .----------.
+  # | ELECTRON |
+  # .----------.
+
+  elec-emu:
+    <<: *electron
+    description: "Electron App: CHIP-8 emulator."
+    override:
+      babel: false
 
   # .------.
   # | ROMS |
@@ -145,12 +182,12 @@ modules:
 
   chip-roms:
     description: "CHIP-8: Demonstration programs."
-    tasks: [copy]
+    tasks: [copy, rom-db]
     sources:
       - '**/*.rom'
-      - './database.json'
+      - '**/*.asm'
+      - '**/*.json'
     copy:
-      './*.json': 'assets/rom/'
       './*.rom': 'assets/rom/'
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -158,3 +195,12 @@ modules:
 # ----------------------------------------------------------------------------------------------------------------------
 tasks:
   clean: "repo:clean"
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Version:
+# ----------------------------------------------------------------------------------------------------------------------
+version: 1.4.2
+license: MIT
+copyright:
+  year: 2019
+  author: Team Chipotle

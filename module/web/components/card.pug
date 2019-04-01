@@ -2,16 +2,21 @@
 -// Copyright (C) 2019 Team Chipotle
 -//  MIT License
 -// --------------------------------------------------------------------------------------------------------------------
+include util
+-// --------------------------------------------------------------------------------------------------------------------
 mixin card-contents
 	if attributes.img
 		.card-image
 			img(src=attributes.img)
+	else
+		.card-image-placeholder
 
 	.card-data
 		block
 
 mixin card
-	.card(class=(attributes.theme ? `card-${attributes.theme}` : 'card-light'))
+	- var attr = Util.excludeAttributes(attributes, 'theme', 'href', 'img')
+	.card(class=(attributes.theme ? `card-${attributes.theme}` : 'card-light'))&attributes(attr)
 		if attributes.href
 			a(href=attributes.href)
 				+card-contents&attributes(attributes)

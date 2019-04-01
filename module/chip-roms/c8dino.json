@@ -1,0 +1,14 @@
+{
+	"type": "GAME",
+	"name": "Chip 8 Dino",
+	"date": "2019-02-27",
+	"featured": false,
+
+	"author": "Anthony Pham",
+	"author_url": "https://github.com/cen357",
+
+	"info": "Fun and challenging game similar to chrome dino game! (Recommended emulator speed 500Hz)",
+	"controls": {
+		"1": "JUMP"
+	}
+}

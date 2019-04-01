@@ -10,6 +10,9 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 main .card {
+	display: flex;
+	flex-direction: column;
+
 	width: $card-width;
 
 	border: transparent 1px solid;
@@ -17,8 +20,16 @@ main .card {
 	box-shadow: $card-shadow 1px 1px 1px;
 
 	> a {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+
 		text-decoration: none;
 		color: inherit;
+	}
+
+	&.small {
+		width: $card-width-small;
 	}
 
 	// *-----------------------------------------------------------------------------------------------------------*
@@ -32,6 +43,10 @@ main .card {
 		height: auto;
 
 		border-radius: $card-radius $card-radius 0 0;
+	}
+
+	.card-image-placeholder {
+		flex: 1 1 0;
 	}
 
 	// *-----------------------------------------------------------------------------------------------------------*

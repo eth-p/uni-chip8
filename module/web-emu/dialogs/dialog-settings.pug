@@ -1,0 +1,137 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/toolbar
+include ../../web/components/dialog
+include ../../web/components/setting
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Dialog: Settings
+-// --------------------------------------------------------------------------------------------------------------------
+mixin ui-dialog-settings
+	+dialog#dialog-settings.tabbed
+		+dialog-title("Settings")
+			input(type="button" value="cancel" data-trigger="dialog.settings->hide; settings->undo")
+			input(type="button" value="save" data-trigger="dialog.settings->hide; settings->save")
+
+		+dialog-tabs
+			+dialog-tab("general") General
+			+dialog-tab("graphics") Graphics
+			+dialog-tab("controls") Controls
+			+dialog-tab("debug").requires-advanced Debug
+
+		+dialog-content
+			+settings-pane-general
+			+settings-pane-graphics
+			+settings-pane-controls
+			+settings-pane-debug
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Pane: General
+-// --------------------------------------------------------------------------------------------------------------------
+mixin settings-pane-general
+	+dialog-pane("general", true)
+		+setting-group
+			+setting('boolean', 'enable_advanced_settings', 'Advanced Settings')
+				div Enables advanced settings. This allows changing debug and tuning settings.
+
+		+setting-group("Sound")
+			+setting('boolean', 'enable_feedback_sound', 'Enable Sound')
+				div Enables CHIP-8 sound output.
+
+			+setting('boolean', 'enable_feedback_vibrate', 'Enable Vibration')
+				div Enables vibration for CHIP-8 sound output.
+				div This will only work on supported devices such as Chrome for Android.
+
+			+setting([200, 1000], 'sound_frequency', 'Sound Tone').requires-advanced
+				div The frequency to use for CHIP-8 beep sounds.
+				div Accepts: <code>200 - 1000</code> Hz.
+
+		+setting-group("Tuning").requires-advanced
+			+setting([1, 10000], 'cpu_speed', 'Clock Speed')
+				div The clock speed of the emulated device. This is usually 500 Hz for the CHIP-8.
+				div Accepts: <code>1 - 10000</code> Hz.
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Pane: Graphics
+-// --------------------------------------------------------------------------------------------------------------------
+mixin settings-pane-graphics
+	+dialog-pane("graphics")
+		+setting-group
+			+setting('boolean', 'display_scaling', 'Scaling')
+				div Scales the display up to the largest possible size while maintaining its aspect ratio.
+
+			+setting('boolean', 'display_frameless', 'Frameless')
+				div
+					| Fills the outside of the display with the display's background color.
+					| This may be undesirable in games where the edge of the screen isn't clear.
+
+			+setting('boolean', 'display_deflicker', 'Deflicker')
+				div
+					| Emulates a CRT screen to reduce flickering.
+					| This will create slight ghosting.
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Pane: Controls
+-// --------------------------------------------------------------------------------------------------------------------
+mixin settings-pane-controls
+	+dialog-pane("controls")
+		+setting-group
+			+setting('boolean', 'show_keypad', 'Show Keypad')
+				div Shows the keypad. This is necessary for touchscreen devices.
+
+		+setting-group("CHIP-8 Keybinds").grid-4
+			for key in ['1', '2', '3', 'C', '4', '5', '6', 'D', '7', '8', '9', 'E', 'A', '0', 'B', 'F']
+				+setting('keybind', `keybind_key_${key}`, `Key: ${key}`)
+
+		+setting-group("Emulator Keybinds").grid-3
+			+setting('keybind', 'keybind_control_pause', 'Pause')
+			+setting('keybind', 'keybind_control_quicksave', 'Quicksave')
+			+setting('keybind', 'keybind_control_quickload', 'Quickload')
+			+setting('keybind', 'keybind_control_turbo', 'Turbo')
+			+setting('keybind', 'keybind_control_step_next', 'Step Forwards').requires-debugger
+			+setting('keybind', 'keybind_control_step_prev', 'Step Backwards').requires-debugger
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Pane: Debug
+-// --------------------------------------------------------------------------------------------------------------------
+mixin settings-pane-debug
+	+dialog-pane("debug")
+		.warning These options will reduce performance.
+
+		+setting-group
+			+setting('boolean', 'enable_debugger', 'Enable Debugger')
+				div Enables the debugger and visualizers.
+
+			+setting('boolean', 'enable_tracing', 'Enable Tracing').requires-debugger-disable
+				div
+					| Enables reverse-stepping.
+					| This has large performance and memory implications.
+
+		+setting-group("Visualizers")
+			+setting('boolean', 'show_registers', 'Register').requires-debugger-disable
+				div
+					| Shows the register values.
+					| When the emulator is paused, they can be changed.
+
+			+setting('boolean', 'show_stack', 'Stack').requires-debugger-disable
+				div Shows the program return stack.
+
+			+setting('boolean', 'show_disassembler', 'Program').requires-debugger-disable
+				div Shows disassembled program code.
+
+		+setting-group("Hardware")
+			+setting('boolean', 'debug_disable_timer', 'Disable DT').requires-debugger-disable
+				div
+					| Disables the DT timer.
+					| This can greatly help with debugging.
+
+		+setting-group("Information").grid-2
+			span Version:
+			span=Project.VERSION
+
+			span Branch:
+			span=Project.BRANCH

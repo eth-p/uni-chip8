@@ -1,0 +1,61 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Registers:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#visualizer-registers {
+	.visualizer-content {
+		display: grid;
+		grid-template-columns: 33% 33% 33%;
+	}
+
+	.register-display {
+		display: flex;
+
+		padding: 4px;
+		text-align: center;
+		justify-content: center;
+
+		.register-value {
+			text-align: left;
+			border: transparent 1px solid;
+
+			cursor: pointer;
+
+			background: none;
+			color: $text;
+
+			width: 50px;
+
+			&:focus {
+				outline: none;
+				background: $input-background;
+				border-color: $input-border;
+			}
+
+			&:disabled {
+				cursor: text;
+			}
+		}
+
+		.register-name {
+			opacity: 0.5;
+			text-align: right;
+			padding-right: 3px;
+		}
+
+		> * {
+			font-family: $font-monospace;
+			font-size: 15px;
+
+			min-width: 20px;
+			height: 20px;
+			padding: 0 3px;
+		}
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"type": "TOOL",
+	"name": "Team Chipotle Test",
+	"date": "2019-01-19",
+	"featured": false,
+
+	"author": "Ethan Pini",
+	"author_url": "https://github.com/eth-p",
+
+	"info": "A program which runs tests designed for 500 Hz CHIP-8 emulators.",
+	"help": [
+		"Test 00: Check that DT is being set.",
+		"Test 01: Check that DT is correct for 500 Hz emulators.",
+		"Test 02: Test DRW collision.",
+		"Test 03: Test DRW x-wrap.",
+		"Test 04: Test DRW y-wrap.",
+		"Test 05: Test indirect read.",
+		"Test 06: Test indirect write.",
+		"Test 07: Test shift left.",
+		"Test 08: Test shift right.",
+		"Test 09: Test BCD operation.",
+		"Test 10: Test add to index register."
+	]
+}

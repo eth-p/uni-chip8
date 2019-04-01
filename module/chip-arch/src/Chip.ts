@@ -4,6 +4,11 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import {Uint8} from '@chipotle/types/Uint8';
 import {Uint16} from '@chipotle/types/Uint16';
+import Decoder from '@chipotle/types/Decoder';
+import Encoder from '@chipotle/types/Encoder';
+import Random from '@chipotle/types/Random';
+import Xorshift from '@chipotle/types/PrngXorshift';
+import JsonType from '@chipotle/types/JsonType';
 
 import Architecture from '@chipotle/vm/Architecture';
 import FloatTimer from '@chipotle/vm/FloatTimer';
@@ -11,9 +16,12 @@ import ProgramError from '@chipotle/vm/ProgramError';
 import ProgramSource from '@chipotle/vm/ProgramSource';
 import ProgramStack from '@chipotle/vm/ProgramStack';
 import VMContext from '@chipotle/vm/VMContext';
+import VMError from '@chipotle/vm/VMError';
 import VMInstructionSet from '@chipotle/vm/VMInstructionSet';
+import VMSnapshot from '@chipotle/vm/VMSnapshot';
 
 import ChipDisplay from './ChipDisplay';
+import ChipKeyboard from './ChipKeyboard';
 
 import OP_ADD_REG_CON from './OP_ADD_REG_CON';
 import OP_LD_REG_CON from './OP_LD_REG_CON';
@@ -50,8 +58,6 @@ import OP_RET from './OP_RET';
 import OP_SKP from './OP_SKP';
 import OP_SKNP from './OP_SKNP';
 import OP_LD_F_REG from './OP_LD_F_REG';
-
-import ChipKeyboard from './ChipKeyboard';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -220,6 +226,11 @@ class Chip extends Architecture<Chip> {
 	public display: ChipDisplay;
 
 	/**
+	 * The pseudo random number generator.
+	 */
+	public random: Random;
+
+	/**
 	 * The timer register's timer.
 	 * Decrements at 60 Hz.
 	 */
@@ -289,6 +300,7 @@ class Chip extends Architecture<Chip> {
 		this.register_index = 0;
 		this._timer_sound = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
 		this._timer_timer = new FloatTimer(this.CLOCK_SPEED, this.TIMER_SPEED);
+		this.random = new Xorshift();
 		this.display = new ChipDisplay();
 		this.keyboard = new ChipKeyboard();
 		this.stack = new ProgramStack(this.MAX_STACK);
@@ -360,6 +372,62 @@ class Chip extends Architecture<Chip> {
 	protected _tick(this: VMContext<Chip>): void {
 		if (this._timer_sound.value > 0) this._timer_sound.descend();
 		if (this._timer_timer.value > 0) this._timer_timer.descend();
+	}
+
+	/**
+	 * @override
+	 */
+	protected _loadSnapshot(snapshot: VMSnapshot): void {
+		this.register_data.set(new Uint8Array(Decoder.string(Decoder.base64(<string>snapshot.register_data))));
+		this.register_sound = <number>snapshot.register_sound;
+		this.register_timer = <number>snapshot.register_timer;
+		this.register_index = <number>snapshot.register_index;
+		this.random.state = <number>snapshot.random;
+		this.stack.restore(snapshot.stack);
+		this.display.restore(<string>snapshot.display);
+	}
+
+	/**
+	 * @override
+	 */
+	protected _saveSnapshot(): JsonType {
+		return {
+			register_data: Encoder.base64(Encoder.string(this.register_data)),
+			register_sound: this.register_sound,
+			register_timer: this.register_timer,
+			register_index: this.register_index,
+			stack: this.stack.snapshot(),
+			display: this.display.snapshot(),
+			random: this.random.state
+		};
+	}
+
+	/**
+	 * @override
+	 */
+	protected _debugOption(this: VMContext<Chip>, option: string, value: any): void {
+		switch (option) {
+			case 'DISABLE_DT': {
+				Object.defineProperty(this._timer_timer, 'value', {
+					enumerable: true,
+					configurable: true,
+					...(value === true
+						? {
+								get: () => 0,
+								set: () => {}
+						  }
+						: {
+								writable: true,
+								value: 0
+						  })
+				});
+
+				break;
+			}
+
+			default:
+				throw new VMError(`Unknown debug option: ${option}`);
+		}
 	}
 }
 

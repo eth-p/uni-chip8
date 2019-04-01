@@ -8,13 +8,15 @@
 'use strict';
 
 // Libraries.
+const fs = require('fs-extra');
 const path = require('path');
 
 // Modules.
-const Task     = require('@sct').Task;
+const Task = require('@sct').Task;
+const StreamUtil = require('@sct').StreamUtil;
 
 // Gulp.
-const gulp_pug    = require('gulp-pug');
+const gulp_pug = require('gulp-pug');
 const gulp_rename = require('gulp-rename');
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -24,6 +26,19 @@ const gulp_rename = require('gulp-rename');
 const PUG_FILTER = [
 	'**/*.pug'
 ];
+
+const PUG_LOCALS = {
+	Path: {
+		join: (...args) => path.join(...args)
+	},
+	File: {
+		readJSON: (file) => fs.readJsonSync(file)
+	},
+	Project: {
+		BRANCH: 'Unknown',
+		VERSION: 'Unknown'
+	}
+};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Generator:
@@ -48,22 +63,37 @@ module.exports = class TaskPug extends Task {
 	/**
 	 * @override
 	 */
-	_run(logger, options) {
-		let target   = options.release ? 'release' : 'debug';
-		let module  = this.module;
+	async _run(logger, options) {
+		let target = options.release ? 'release' : 'debug';
+		let module = this.module;
 		let project = this.module.getProject();
-
 		let out = module.getBuildDirectory('pages');
 
-		// Stream.
-		return this._gulpsrc(PUG_FILTER)
-			// Compile Pug.
-			.pipe(gulp_pug())
+		// Determine Pug Locals
+		const locals = Object.assign({}, PUG_LOCALS);
 
-			// Save.
-			.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
-			.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
-			.pipe(this._gulpdest(options))
+		locals.Path = Object.assign({}, locals.Path, {
+			TEMP: project.getTempDirectory(),
+			BUILD: project.getBuildDirectory(),
+			MODULES: project.getModuleDirectory(),
+			MODULE: module.getDirectory()
+		});
+
+		locals.Project = Object.assign({}, locals.Project, {
+			VERSION: project.getVersion(),
+			BRANCH: await project.getBranch()
+		});
+
+		// Stream.
+		return StreamUtil.ending(this._gulpsrc(PUG_FILTER)
+			// Compile Pug.
+				.pipe(gulp_pug({locals}))
+
+				// Save.
+				.pipe(this._gulpstrip(this.module.getSourcePatterns(false)))
+				.pipe(gulp_rename(file => file.dirname = path.join(out, file.dirname)))
+				.pipe(this._gulpdest(options))
+		);
 	}
 
 };

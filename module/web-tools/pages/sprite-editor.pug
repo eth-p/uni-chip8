@@ -1,0 +1,60 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/templates/page
+include ../../web/components/common
+include ../../web/components/desktop
+include ../../web/components/toolbar
+
+- title = 'CHIP-8 Sprite Editor'
+- description = 'A simple, yet powerful sprite editor for the CHIP-8.'
+- keywords.push('CHIP8', 'CHIP-8', 'CHIP-8 Sprite', 'CHIP8 Sprite', 'CHIP-8 Sprite Editor', 'CHIP8 Sprite Editor')
+
+- stylesheets.push('/assets/styles/tools.css')
+- scripts.push('/scripts/web-tools/sprite-editor.js')
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Footer:
+-// --------------------------------------------------------------------------------------------------------------------
+mixin footer
+	a(href="https://docs.google.com/spreadsheets/d/1WDAzok8tdRUJ4R-_Bc8kukMhx04icMo5tIjpIFyjPWA/edit?usp=sharing") Excel Version
+
+-// --------------------------------------------------------------------------------------------------------------------
+-// Page:
+-// --------------------------------------------------------------------------------------------------------------------
++page.filled
+	+toolbar#toolbar
+		+item
+			input(type='button' value='Shift Up')#btn-shift-up
+			input(type='button' value='Shift Down')#btn-shift-down
+			input(type='button' value='Shift Left')#btn-shift-left
+			input(type='button' value='Shift Right')#btn-shift-right
+
+		+item
+			input(type='button' value='Align')#btn-render-align
+			input(type='button' value='Clear')#btn-clear
+
+		+item.spacer
+
+		+item#output-options
+			input(type='radio' name='btnout' checked)#set-hex-out
+			label(for='set-hex-out') Hexadecimal
+			input(type='radio' name='btnout')#set-dec-out
+			label(for='set-dec-out') Decimal
+			input(type='radio' name='btnout')#set-bin-out
+			label(for='set-bin-out') Binary
+			input(type='checkbox')#enable-prefix
+			label(for='enable-prefix') Prefix
+
+	+desktop
+		+desktop-content#sprite-editor.centered
+			+section#content
+				textarea#output.themed(readonly=true)
+
+				table#region
+					for row in new Array(15)
+						tr
+							for col in new Array(8)
+								td(data-x=col, data-y=row).pixel.off
+									div

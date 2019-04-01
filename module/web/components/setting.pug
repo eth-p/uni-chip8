@@ -1,0 +1,39 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include util
+-// --------------------------------------------------------------------------------------------------------------------
+mixin setting-input(type, key)
+	if type instanceof Array
+		input(id=`___setting___${key}`, type="number" min=type[0] max=type[1] data-setting=key data-setting-type="range")
+
+	else if type === 'boolean'
+		input(id=`___setting___${key}`, type="checkbox" data-setting=key data-setting-type=type)
+
+	else if type === 'keybind'
+		input(id=`___setting___${key}`, type="text" data-setting=key data-setting-type=type)
+
+mixin setting(type, key, name)
+	- large_setting = false
+	- if (type instanceof Array) large_setting = true
+	- if (type === 'keybind')    large_setting = true
+
+	.setting&attributes(attributes)&attributes({class: large_setting ? 'multiline' : ''})
+		if !large_setting
+			+setting-input(type, key)
+
+		label(for=`___setting___${key}`)
+			.label=name
+			.description
+				block
+
+		if large_setting
+			+setting-input(type, key)
+
+mixin setting-group(title)
+
+	if title != null
+		h2(class=Util.extractClasses(attributes, 'requires-debugger', 'requires-advanced'))=title
+	div.setting-group&attributes(attributes)
+		block

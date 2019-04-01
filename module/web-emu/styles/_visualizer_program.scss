@@ -1,0 +1,59 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Disassembler:
+// ---------------------------------------------------------------------------------------------------------------------
+
+#visualizer-program {
+	.title {
+		opacity: 0.5;
+		margin-bottom: 4px;
+	}
+
+	.program-frame {
+		display: flex;
+		padding: 0 4px;
+		text-align: left;
+		font-family: $font-monospace;
+
+		&.template {
+			display: none !important;
+		}
+
+		&.unused {
+			> .program-frame-value {
+				opacity: 0.5;
+			}
+		}
+
+		// Display current instruction.
+		.program-frame-index.current::before {
+			content: '>';
+		}
+
+		.program-frame-index::before {
+			display: inline-block;
+			text-align: center;
+			content: '';
+			width: 30px;
+			margin-right: 4px;
+		}
+
+		// Display instruction address.
+		.program-frame-index {
+			width: 77px;
+			opacity: 0.5;
+			padding-right: 3px;
+			text-align: right;
+		}
+
+		// Display instruction disassembly.
+		.program-frame-value {
+			padding-left: 3px;
+		}
+	}
+}

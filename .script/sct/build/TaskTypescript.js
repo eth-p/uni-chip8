@@ -19,6 +19,7 @@ const gulp_babel      = require('gulp-babel');
 const gulp_filter     = require('gulp-filter');
 const gulp_rename     = require('gulp-rename');
 const gulp_typescript = require('gulp-typescript');
+const gulp_if         = require('gulp-if');
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Constants:
@@ -59,6 +60,10 @@ module.exports = class TaskTypescript extends Task {
 		let module  = this.module;
 		let project = this.module.getProject();
 
+		// Overrides.
+		let overrideModules = module._config.override == null ? null : module._config.override.modules;
+		let overrideBabel = module._config.override == null ? null : module._config.override.babel;
+
 		// Filters.
 		let filterJavascript = gulp_filter('**/*.js', {restore: true});
 
@@ -90,7 +95,7 @@ module.exports = class TaskTypescript extends Task {
 			babelOptions.shouldPrintComment = (val) => /^[!#]/.test(val);
 		}
 
-		switch (options.modules) {
+		switch (overrideModules || options.modules) {
 			case 'es6':      break;
 			case 'commonjs': babelOptions.plugins.push('@babel/plugin-transform-modules-commonjs'); break;
 			case 'amd':      babelOptions.plugins.push('@babel/plugin-transform-modules-amd');      break;
@@ -105,7 +110,7 @@ module.exports = class TaskTypescript extends Task {
 					if (!source.endsWith('.js')) source += '.js';
 					let capture = /^@chipotle[/\\](.+)$/.exec(source);
 					if (capture === null) return source;
-					return `../${capture[1]}`;
+					return `/scripts/${capture[1]}`;
 				}
 			}
 		]);
@@ -115,16 +120,16 @@ module.exports = class TaskTypescript extends Task {
 
 			// Compile TypeScript.
 			.pipe(tsProject())
-			.pipe(this._gulpstrip(tsSources))
+			.pipe(this._gulpstrip(tsSources.concat(tsSources.map( x => x.replace(/(.*)\.ts$/, '$1.js')))))
 
 			// Rename.
 			.pipe(gulp_rename(file => {
-				file.dirname = `${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}`
+				file.dirname = path.join(`${file.basename.endsWith('.d') ? tsDeclDir : tsOutDir}`, file.dirname)
 			}))
 
 			// Transform JavaScript.
 			.pipe(filterJavascript)
-			.pipe(gulp_babel(babelOptions))
+			.pipe(gulp_if((overrideBabel !== false), gulp_babel(babelOptions)))
 			.pipe(filterJavascript.restore)
 
 			// Save.

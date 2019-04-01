@@ -34,6 +34,23 @@ main {
 	}
 
 	// *-----------------------------------------------------------------------------------------------------------*
+	// | MOBILE-ONLY/DESKTOP-ONLY                                                                                  |
+	// | The component is hidden depending on the layout.                                                          |
+	// *-----------------------------------------------------------------------------------------------------------*
+
+	@include desktop {
+		.mobile-only {
+			display: none !important;
+		}
+	}
+
+	@include mobile {
+		.desktop-only {
+			display: none !important;
+		}
+	}
+
+	// *-----------------------------------------------------------------------------------------------------------*
 	// | WRAP                                                                                                      |
 	// | A wrappable flexbox.                                                                                      |
 	// |                                                                                                           |
@@ -76,9 +93,16 @@ main {
 
 	// Text.
 	input[type='text'],
-	input[type='number'] {
+	input[type='number'],
+	textarea {
 		padding: 2px;
 		border: #aaa 1px solid;
+
+		&.themed {
+			background: $input-background;
+			border-color: $input-border;
+			color: $text;
+		}
 	}
 
 	// Invalid.

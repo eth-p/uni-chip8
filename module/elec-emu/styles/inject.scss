@@ -1,0 +1,65 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '../../web/styles/theme';
+@import '../../web/styles/mixin';
+
+// Hide the header. We don't want people navigating away.
+#page header {
+	display: none;
+}
+
+.emulator-interface,
+.emulator-debugger {
+	height: calc(100% - #{$toolbar-height + 2}) !important;
+}
+
+// Fancy frames on Darwin.
+.electron-platform-darwin {
+	$frame-height: 23px;
+
+	&::before {
+		display: block;
+		content: '';
+
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: $frame-height;
+
+		background: $background;
+		-webkit-app-region: drag;
+
+		z-index: 99999;
+	}
+
+	&,
+	#page {
+		position: relative;
+		height: calc(100% - #{$frame-height});
+	}
+
+	& {
+		overflow: hidden !important;
+	}
+
+	#page {
+		margin-top: $frame-height;
+		background: transparentize($background, 0.8);
+
+		@include scroll('both');
+	}
+
+	#loading-screen {
+		top: 0px;
+	}
+
+	//// Fix page elements.
+	main {
+		> .toolbar {
+			border-top: none;
+		}
+	}
+}

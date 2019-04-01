@@ -2,8 +2,6 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
-@import '../../web/styles/theme';
-@import '../../web/styles/mixin';
 @import './common';
 
 main {
@@ -21,12 +19,24 @@ main {
 			flex-direction: column;
 		}
 
+		.emulator-debugger {
+			color: $text;
+			border-top: none !important;
+
+			// Hide the debugging pane when
+			@include mobile {
+				.no-scroll & {
+					display: none;
+				}
+			}
+		}
+
 		.emulator-debugger > * {
 			padding: $component-margin;
 			border-bottom: $component-separator 1px solid;
 		}
 
-		.emulator-debugger #emulator-debug-tools {
+		.emulator-debugger #debug-tools {
 			padding: 0;
 
 			input[type='button'] {
@@ -35,7 +45,7 @@ main {
 		}
 
 		// Desktop Layout:
-		@media only screen and (min-width: $layout-boundary) {
+		@include desktop {
 			flex-direction: row;
 
 			.emulator-interface {
@@ -51,7 +61,7 @@ main {
 		}
 
 		// Mobile Layout:
-		@media only screen and (max-width: $layout-boundary) {
+		@include mobile {
 			flex-direction: column;
 
 			.emulator-interface {
@@ -67,29 +77,42 @@ main {
 		}
 	}
 
-	.requires-debugger.no-debugger {
-		display: none !important;
-	}
-
-	.emulator-setting.requires-debugger.no-debugger {
-		display: flex !important;
-		pointer-events: none;
-		opacity: 0.25;
-	}
-
-	input[type='button'][data-action='emulator-play-pause'] {
+	// Toolbar
+	input[type='button'][data-intent='play-pause-resume'] {
 		width: 60px;
 	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// Windows:
+// Conditional Visibility:
 // ---------------------------------------------------------------------------------------------------------------------
 
-.window {
-	height: 400px;
+.debugger-disabled .requires-debugger {
+	display: none !important;
+}
+
+.debugger-disabled .requires-debugger-disable {
+	pointer-events: none;
+	opacity: 0.25;
+}
+
+.advanced-disabled .requires-advanced {
+	display: none !important;
+}
+
+.advanced-enabled .requires-not-advanced {
+	display: none !important;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Dialogs:
+// ---------------------------------------------------------------------------------------------------------------------
+
+.dialog {
+	height: 80%;
+	min-height: 400px;
+
 	width: 80%;
-	max-width: 400px;
 
 	h2 {
 		margin: 10px 0 5px;
@@ -101,11 +124,14 @@ main {
 // ---------------------------------------------------------------------------------------------------------------------
 // Components:
 // ---------------------------------------------------------------------------------------------------------------------
-@import 'emulator_disassembler';
 @import 'emulator_keypad';
-@import 'emulator_registers';
 @import 'emulator_screen';
-@import 'emulator_stack';
-@import 'window_error';
-@import 'window_settings';
-@import 'window_load';
+@import 'visualizer';
+@import 'visualizer_program';
+@import 'visualizer_registers';
+@import 'visualizer_stack';
+@import 'dialog_error';
+@import 'dialog_heap';
+@import 'dialog_load';
+@import 'dialog_savestates';
+@import 'dialog_settings';

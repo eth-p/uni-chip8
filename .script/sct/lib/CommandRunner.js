@@ -37,7 +37,7 @@ module.exports = class CommandRunner {
 				'--': true,
 
 				string: Object.entries(schema)
-					.filter(([k, v]) => v.type === 'string')
+					.filter(([k, v]) => v.type === 'string' || v.type === 'number')
 					.map(e => e[0]),
 
 				boolean: ['plumbing'].concat(Object.entries(schema)

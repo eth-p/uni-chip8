@@ -6,20 +6,27 @@
 $background: #212429;
 $background-dark: #111119;
 $accent-1: #5ba2e0;
+$accent-1-dim: #304768;
 $accent-2: #eac349;
+$accent-2-dim: #715f20;
 $text: #fff;
 $text-dim: #bbb;
+$text-dimmer: #888;
+$text-error: #d00;
 $animation-time: 0.2s;
 
 $font-regular: 'Open Sans', Roboto, Arial, 'Helvetica Neue', sans-serif;
 $font-monospace: 'Monaco', 'Lucida Console', whitespace;
 
-$layout-boundary: 800px; // The cutoff point between mobile and desktop.
-
 // Header:
 $header-height: 45px;
 $header-padding: 8px;
 $header-border: transparent;
+
+// Footer:
+$footer-border: #353a42;
+$footer-padding: 3px;
+$footer-background: null;
 
 // Content:
 $content-padding: 16px;
@@ -37,11 +44,13 @@ $input-invalid: #900;
 
 // Card:
 $card-width: 250px;
+$card-width-small: 150px;
 $card-padding: 10px;
 $card-shadow: #1113;
 $card-light-background: #73787d;
 $card-light-border: #fff;
 $card-light-text: #333;
+$card-dark-separator: #666;
 $card-dark-background: #484c51;
 $card-dark-border: #474c54;
 $card-dark-text: #aaa;
@@ -83,7 +92,15 @@ $error-window-border: #400000;
 $error-window-title-background: #300000;
 $error-window-background: #200000;
 
-// Program List:
-$program-list-border: #555a64;
-$program-list-background: #3a3d41;
-$program-list-background-hover: #555a64;
+// Control List:
+$control-list-border: #555a64;
+$control-list-background: #3a3d41;
+$control-list-button-color: $text-dim;
+$control-list-button-color-hover: $text;
+$control-list-button-background: #34363a;
+$control-list-button-border: #555a64;
+$control-list-button-background-hover: #555a64;
+
+// Input:
+$input-background: #393c40;
+$input-border: #474e59;

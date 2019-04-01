@@ -2,7 +2,9 @@
 //! Copyright (C) 2019 Team Chipotle
 //! MIT License
 //! --------------------------------------------------------------------------------------------------------------------
+import assert from '@chipotle/types/assert';
 import Emitter from '@chipotle/types/Emitter';
+import Optional from '@chipotle/types/Optional';
 
 import Instruction from '@chipotle/isa/Instruction';
 import InstructionCache from '@chipotle/isa/InstructionCache';
@@ -13,11 +15,9 @@ import Program from './Program';
 import {ProgramAddress, isValid} from './ProgramAddress';
 import ProgramError from './ProgramError';
 import VMContext from './VMContext';
+import VMError from './VMError';
 import VMInstructionSet from './VMInstructionSet';
-
-import assert from '@chipotle/types/assert';
-import VMError from '@chipotle/vm/VMError';
-import Optional from '@chipotle/types/Optional';
+import VMSnapshot from './VMSnapshot';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -75,6 +75,12 @@ export class VMBase<A> extends Emitter {
 	protected _VM_executing: boolean;
 
 	/**
+	 * An object that contains the VM debug options.
+	 * @internal
+	 */
+	protected _VM_debug: Map<string, any>;
+
+	/**
 	 * The program is waiting on a hardware event.
 	 * @internal
 	 */
@@ -92,6 +98,7 @@ export class VMBase<A> extends Emitter {
 		super();
 
 		this._VM_arch = <Architecture<A>>(<unknown>arch);
+		this._VM_debug = new Map();
 		this._VM_executing = false;
 		this._VM_awaiting = false;
 		this.emit = Emitter.prototype.emit;
@@ -133,7 +140,7 @@ export class VMBase<A> extends Emitter {
 		// Instruction wasn't located in the cache.
 		// The IR will need to be created now.
 		let operation = this.isa.lookup(instruction);
-		if (operation === null) return undefined;
+		if (operation === undefined) return undefined;
 
 		// Decode the operands and create an IR.
 		ir = {
@@ -213,9 +220,7 @@ export class VMBase<A> extends Emitter {
 	public reset(): void {
 		this.program_counter = 0;
 		this.tick = 0;
-		this._VM_executing = false;
-		this._VM_awaiting = false;
-		this.emit = Emitter.prototype.emit;
+		this._resetVM();
 		(<any>this)._reset();
 	}
 
@@ -254,6 +259,92 @@ export class VMBase<A> extends Emitter {
 		// Return.
 		this.tick++;
 		this._VM_executing = false;
+	}
+
+	/**
+	 * Sets a debug option.
+	 *
+	 * @param option The debug option.
+	 * @param value The value to set it to.
+	 */
+	public setDebugOption(option: string, value: any): void {
+		this._VM_debug.set(option, value);
+		(<any>this)._debugOption(option, value);
+	}
+
+	/**
+	 * Gets a debug option.
+	 *
+	 * @param option The debug option.
+	 * @returns The current value of the option.
+	 */
+	public getDebugOption(option: string): any {
+		return this._VM_debug.get(option) === true;
+	}
+
+	/**
+	 * Gets the virtual machine architecture.
+	 * The architecture.
+	 */
+	public getArchitecture(): Architecture<A> {
+		return this._VM_arch;
+	}
+
+	/**
+	 * Creates a snapshot of the virtual machine.
+	 * This snapshot can be restored at a later time.
+	 */
+	public snapshot(): VMSnapshot {
+		return {
+			program_counter: this.program_counter,
+			program: this.program.snapshot(),
+			...(<any>this)._saveSnapshot(),
+			__TICK: this.tick,
+			__ARCH: this._VM_arch.name,
+			__VERS: VMSnapshot.VERSION
+		};
+	}
+
+	/**
+	 * Restores a virtual machine snapshot.
+	 * This will set the state of the virtual machine back to the one it had when the snapshot was created.
+	 *
+	 * @param snapshot The snapshot to restore.
+	 *
+	 * @throws VMError When the snapshot is invalid.
+	 */
+	public restore(snapshot: VMSnapshot): void {
+		if (snapshot.__VERS !== VMSnapshot.VERSION) throw new VMError(VMError.SNAPSHOT_VERS_MISMATCH);
+		if (snapshot.__ARCH !== this._VM_arch.name) throw new VMError(VMError.SNAPSHOT_ARCH_MISMATCH);
+
+		// Reset virtual machine state.
+		this._resetVM();
+
+		// Restore virtual machine data.
+		this.tick = <number>snapshot.__TICK;
+		this.program_counter = <number>snapshot.program_counter;
+		this.program.restore(<string>snapshot.program);
+
+		// Restore architecture data.
+		(<any>this)._loadSnapshot(snapshot);
+
+		// Done!
+		this.emit('restore');
+		this.opcache.invalidateAll();
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Internal:                                                                                                 |
+	// -------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Resets any special virtual machine hooks and variables.
+	 * @internal
+	 */
+	protected _resetVM(): void {
+		this._VM_executing = false;
+		this._VM_awaiting = false;
+		this.emit = Emitter.prototype.emit;
 	}
 }
 

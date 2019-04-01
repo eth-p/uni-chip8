@@ -1,0 +1,17 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-// MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+include ../../web/components/toolbar
+
+mixin debug-tools
+	#debug-tools
+		+toolbar
+			+item
+				input(type="button" value="Prev" data-trigger="emulator->pause; emulator->stepPrev")
+				input(type="button" value="Next" data-trigger="emulator->pause; emulator->stepNext")
+
+			+item.spacer
+
+			+item
+				input(type="button" value="Memory" data-trigger="emulator->pause; dialog.heap->show")

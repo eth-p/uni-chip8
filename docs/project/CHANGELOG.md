@@ -74,10 +74,61 @@
 
 - **Release:** Moved programs to release 2 due to early completion of emulator and website.
 
-## Release 1
+## Release 2
 
 ### Developer
 
 - **chip-roms:** Added Brick Breaker game.
 - **chip-roms:** Redid DVD game.
-- **chip-roms:** Added Invader game.
+- **chip-roms:** Remove MAZE rom.
+- **chip-roms:** Added Dino game.
+- **chip-roms:** Added Snake Game.
+- **web-x**: Added register manipulation. (when paused).
+
+### Documentation
+
+- **docs:** Added week 8 meeting minutes.
+
+### Schedule
+
+- **Release:** Moved reverse debugger to release 4.
+- **Release:** Changed assembler to encompass release 3 & 4.
+- **Release:** Added Vancouver Driving Simulator to release 3.
+- **Release:** Added Flappy Bird to release 3.
+
+## Release 3
+
+### Developer
+
+- **chip-roms:** Add work on Nuclear Launch game.
+- **chip-roms:** Add Laser Defence game.
+- **web-x:** Update "About" page to show more details.
+- **web-x:** Add analytics to website.
+- **web-x:** Refactor everything part 1.
+- **chip-roms:** Add 'Artifacts' ROM.
+- **chip-roms:** Add 'Stop watch' ROM.
+- **chip-roms:** Add 'Advanced Warfare' game.
+- **chip-roms:** Add 'Maze' ROM.
+
+### Schedule
+
+- **Release:** Replace Vancouver Driving Simulator with Laser Defence.
+- **Release:** Move reverse-debugger into Release 3.
+- **Release:** Add MAZE 2.0 and SFU-related program to Release 3.
+- **Release:** Add Sprite Maker 2.0 into Release 4.
+- **Release:** Move assembler into Release 4.
+- **Release:** Remove assembler from Release 4.
+
+## Release 4
+
+### Developer
+
+- **web-tools:** Add Sprite Maker 2.0
+- **web-tools:** Add Excel Sprite Maker.
+- **web-emu:** Add savestates.
+- **web-emu:** Add backstepping.
+- **web-x:** Refactor everything part 2.
+
+### Release
+
+- **Schedule:** Move code freeze to April 1st.

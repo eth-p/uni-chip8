@@ -117,7 +117,7 @@ http://127.0.0.1:8080
 
 ## Website Visualizer
 
-![website](images/website.jpg)
+![website](images/emulator.png)
 
 ### Display
 
@@ -150,7 +150,9 @@ Each key in the following table associates to the on-screen button in the same p
 
 #### Registers
 
-Outputs the current values of each register.
+Outputs the current values of each register.  
+When the program is paused, a user may be able
+to manipulate the register value by clicking on the value itself.
 
 #### Stack
 
@@ -160,11 +162,13 @@ Outputs the addresses stored in the call stack.
 
 Outputs [cowgod's](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM) format for disassembled instructions around the current instruction.
 
+#### Prev
+
+Reverses the CHIP-8 emulator to the last instruction.  
+
 #### Next
 
 Steps the CHIP-8 emulator to the next instruction.
-
-**Note:** Reverse stepping is not implemented at this point.
 
 ### Other Buttons
 
@@ -180,9 +184,53 @@ Resets the CHIP-8 to default values and sets the program counter to 0x200.
 
 Pauses and resumes the currently loaded CHIP-8 program.
 
+#### Savestates
+
+Opens a menu to manage program save states.
+
 #### Settings
 
 Change miscellaneous settings such as the clock speed, or enabling/disabling the debugger.
+
+## Website Sprite Maker
+
+![sprite maker image](images/sprite-maker-2.png)
+
+### About
+
+Sprite Maker 2.0 allows for easy creation of CHIP-8 sprites.
+
+### Buttons
+
+- **Shift Up**
+  - Moves the contents of the entire canvas up.  
+  Pixels shifted above the canvas will be lost.
+- **Shift Down**
+  - Moves the contents of the entire canvas down.  
+  Pixels shifted below the canvas will be lost.
+- **Shift Left**
+  - Moves the contents of the entire canvas left.  
+  Pixels shifted left of the canvas will be lost.
+- **Shift Right**
+  - Moves the contents of the entire canvas right.  
+  Pixels shifted right of the canvas will be lost.
+- **Align**
+  - Moves the contents of the entire canvas to the top-left most possible position.  
+  Useful for aligning the actual set pixels with the DRW operation code.
+- **Clear**
+  - Clears the canvas.
+- **Hexadecimal**
+  - Set the output to base 16.
+- **Decimal**
+  - Set the output to base 10.
+- **Binary**
+  - Set the output to base 2.
+- **Prefix**
+  - Toggle prefixes.
+
+### Output
+
+Outputs the sprite row values in base 10 format.
 
 ## Browser Support
 
@@ -199,6 +247,6 @@ Your browser must be up-to-date. Due to Javascript's ubiquity, our website works
 - iOS Safari
 - Android Google Chrome
 
-**Known issues:**
+**Known Issues:**
 
 - Vibration does not work on iOS.

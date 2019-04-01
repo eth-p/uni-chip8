@@ -1,0 +1,66 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import '_theme';
+@import '_mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Member
+// ---------------------------------------------------------------------------------------------------------------------
+
+main .member {
+	.member-name {
+		color: #fff;
+	}
+
+	.member-role {
+	}
+
+	.member-git {
+		margin: (0) (-$card-padding) (-$card-padding) (-$card-padding);
+		color: $card-dark-text;
+		opacity: 0.8;
+
+		&::before {
+			content: '';
+
+			display: block;
+			margin-top: 8px;
+
+			height: 1px;
+			background: $card-dark-separator;
+		}
+
+		.git-stats {
+			display: flex;
+			justify-content: center;
+			flex-direction: row;
+
+			> * {
+				text-align: center;
+
+				padding: 2px 3px;
+				border-right: $card-dark-separator 1px solid;
+
+				&:last-child {
+					border-right: none;
+				}
+			}
+		}
+
+		.git-commits {
+			flex-grow: 1;
+		}
+
+		.git-additions {
+			color: #35a746;
+			flex-grow: 2;
+		}
+
+		.git-deletions {
+			color: #cc4c50;
+			flex-grow: 2;
+		}
+	}
+}

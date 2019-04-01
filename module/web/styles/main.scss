@@ -17,13 +17,17 @@ body {
 
 body {
 	background: $background;
-	color: $text;
+	color: $text-dim;
 
 	font-family: $font-regular;
 	font-size: 16px;
 
 	--accent-1: #{$accent-1};
 	--accent-2: #{$accent-2};
+
+	&.no-scroll {
+		overflow: hidden;
+	}
 }
 
 #page {
@@ -145,7 +149,34 @@ header {
 		}
 
 		> *:last-child {
-			flex-grow: 1;
+			flex: 1 0 auto;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Footer:
+// ---------------------------------------------------------------------------------------------------------------------
+footer {
+	padding: $footer-padding;
+
+	border-top: $footer-border 1px solid;
+	background: $footer-background;
+
+	font-size: 13px;
+
+	a,
+	a:link {
+		text-decoration: none;
+		color: $text-dimmer;
+		transition: color $animation-time ease;
+	}
+
+	a:hover {
+		color: $accent-1;
+
+		@supports (--a: 0) {
+			color: var(--accent-1);
 		}
 	}
 }
@@ -155,7 +186,9 @@ header {
 // ---------------------------------------------------------------------------------------------------------------------
 @import 'component_card';
 @import 'component_common';
+@import 'component_control_list';
 @import 'component_desktop';
-@import 'component_toolbar';
-@import 'component_window';
+@import 'component_dialog';
 @import 'component_loading_screen';
+@import 'component_toolbar';
+@import 'component_settings';

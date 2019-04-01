@@ -1,0 +1,185 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import 'theme';
+@import 'mixin';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Component: Dialog
+// ---------------------------------------------------------------------------------------------------------------------
+
+.dialog {
+	display: flex;
+	flex-direction: column;
+
+	color: $window-text;
+
+	&:not(.frameless) {
+		background: $window-background;
+		border: $window-border 1px solid;
+		border-radius: $window-radius;
+	}
+
+	> * {
+		flex: 0 0 auto;
+	}
+
+	// Dialog toolbar.
+	> .toolbar {
+		background: $window-title-background;
+		border-bottom: $window-border 1px solid;
+	}
+
+	// Dialog title.
+	> .title,
+	> .dialog-title {
+		font-size: 18px;
+		margin: 0;
+
+		font-weight: normal;
+		background: $window-title-background;
+		padding: ($window-padding / 2);
+		border-bottom: 1px solid;
+		border-bottom-color: inherit;
+		color: $window-title-text;
+	}
+
+	// Dialog title with buttons.
+	> .dialog-title {
+		display: flex;
+		flex-direction: row;
+
+		> .title {
+			flex: 1 1 auto;
+		}
+
+		> .buttons {
+			flex: 0 0 auto;
+
+			> input[type='button'] {
+				@include custom-button;
+
+				cursor: pointer;
+
+				font-size: 13px;
+
+				height: $toolbar-height - ($toolbar-padding * 2);
+				outline: none;
+				border: $window-title-button-border 1px solid;
+				background: $window-title-button-background;
+				color: $window-title-button-text;
+
+				transition: $animation-time ease;
+				transition-property: background-color, border, color;
+
+				&:hover {
+					border-color: $window-title-button-border-hover;
+					background: $window-title-button-background-hover;
+					color: $window-title-button-text-hover;
+				}
+			}
+		}
+	}
+
+	// Frameless title.
+	&.frameless .title {
+		background: none;
+		border: none;
+	}
+
+	// Content.
+	> .viewport {
+		position: relative;
+		flex: 1 1 auto;
+		overflow-y: hidden;
+
+		&::after {
+			pointer-events: none;
+			content: '';
+
+			box-shadow: $window-background 0 0 8px 4px inset;
+		}
+
+		&::after,
+		> .content {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1;
+		}
+
+		> .content:not(.no-scroll) {
+			@include scroll('y');
+		}
+	}
+
+	> .viewport > .content,
+	> .content {
+		font-size: 15px;
+		padding: $window-padding;
+	}
+
+	// Tabbed window.
+	&.tabbed > .toolbar {
+		$active-background: $window-background;
+		$active-text: $window-title-text;
+		$inactive-background: darken($window-background, 5);
+		$inactive-text: $text-dim;
+		$border: $window-border;
+
+		border-bottom: none;
+		background: $inactive-background;
+
+		@include user-select(none);
+
+		&::after {
+			content: '';
+			flex: 1 1 auto;
+			border-bottom: $border 1px solid;
+		}
+
+		.toolbar-item {
+			&:first-child {
+				border-left: none;
+			}
+		}
+
+		.toolbar-item {
+			padding: $toolbar-padding;
+			border-bottom: $border 1px solid;
+			border-left: $border 1px solid;
+			border-right: $border 1px solid;
+
+			&.active {
+				color: $active-text;
+				background: $active-background;
+				border-bottom-color: transparent;
+			}
+
+			&:not(.active) {
+				background: $inactive-background;
+				border-right-color: transparent;
+				border-left-color: transparent;
+				transition: $animation-time ease;
+				transition-property: color, border, background;
+				cursor: pointer;
+
+				&:hover {
+					color: $active-text;
+					background: $active-background;
+					opacity: 1;
+
+					border-left-color: $border;
+					border-right-color: $border;
+
+					&:first-child {
+						border-left-color: transparent;
+					}
+				}
+			}
+		}
+	}
+}

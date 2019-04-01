@@ -1,0 +1,70 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+#output-options {
+	align-items: center;
+	display: flex;
+}
+
+#output-options label {
+	margin-left: 2px;
+	margin-right: 10px;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Sprite Editor:
+// ---------------------------------------------------------------------------------------------------------------------
+main #sprite-editor {
+	padding: 10px;
+
+	#region {
+		border-spacing: 0;
+		border-collapse: separate;
+
+		.pixel {
+			padding: 2px;
+
+			> div {
+				cursor: pointer;
+			}
+
+			// Size pixel.
+			&,
+			> div {
+				width: 30px;
+				height: 30px;
+			}
+
+			// Draw pixel.
+			&.on > div {
+				background: white;
+			}
+
+			&.off > div {
+				background: black;
+			}
+
+			// Fix alignment.
+			&:first-child {
+				padding-left: 0;
+			}
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+	}
+
+	#content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	#output {
+		margin-bottom: 5px;
+		resize: none;
+	}
+}

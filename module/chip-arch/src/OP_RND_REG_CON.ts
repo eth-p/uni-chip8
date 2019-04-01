@@ -38,7 +38,6 @@ export default class OP_RND_REG_CON extends Operation {
 		const p2 = operands[1];
 
 		// Software enforce the boundaries
-		// TODO: Replace with PRNG.
-		context.register_data[p1] = ((Math.random() * UINT8_MAX) & p2) | 0;
+		context.register_data[p1] = (context.random.nextInt(0, 0xff) & p2) | 0;
 	}
 }

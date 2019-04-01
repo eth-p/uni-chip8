@@ -1,0 +1,91 @@
+-// --------------------------------------------------------------------------------------------------------------------
+-// Copyright (C) 2019 Team Chipotle
+-//  MIT License
+-// --------------------------------------------------------------------------------------------------------------------
+if Util == null
+	-
+		Util = {};
+
+		/**
+		* Extracts specific attributes.
+		*
+		* @param {object} attributes The attributes object.
+		* @param {string[]} extract The attributes to extract.
+		*/
+		Util.extractAttributes = (attributes, ...extract) => {
+			let options = (typeof extract[extract.length - 1] === 'object') ? extract.pop() : {};
+			let extracted = {};
+
+			for (let name of extract) {
+				extracted[name] = attributes[name];
+			}
+
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			return extracted;
+		};
+
+		/**
+		* Excludes specific attributes.
+		*
+		* @param {object} attributes The attributes object.
+		* @param {string[]} extract The attributes to exclude.
+		*/
+		Util.excludeAttributes = (attributes, ...exclude) => {
+			let options = (typeof exclude[exclude.length - 1] === 'object') ? exclude.pop() : {};
+			let extracted = Object.assign({}, attributes);
+
+			for (let name of exclude) {
+				if (name in extracted) delete extracted[name];
+			}
+
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			return extracted;
+		};
+
+		/**
+		* Extracts specific classes.
+		*
+		* Options:
+		* - {boolean}  join - Joins the extracted classes into a string.
+		* - {string[]} append - Appends extra classes.
+		*
+		* @param {object|string} attributes The attributes object, or a class string.
+		* @param {string[]} extract The class names to extract.
+		*/
+		Util.extractClasses = (attributes, ...extract) => {
+			if (typeof attributes !== 'string') {
+				return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...extract);
+			}
+
+			let options = (typeof extract[extract.length - 1] === 'object') ? extract.pop() : {};
+
+			let extracted = attributes.split(' ');
+			if (extract.length > 0) extracted = extracted.filter(f => extract.includes(f));
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			if (!options.join) return extracted;
+			return extracted.join(' ');
+		};
+
+		/**
+		* Excludes specific classes.
+		*
+		* Options:
+		* - {boolean}  join - Joins the extracted classes into a string.
+		* - {string[]} append - Appends extra classes.
+		*
+		* @param {object|string} attributes The attributes object, or a class string.
+		* @param {string[]} extract The class names to extract.
+		*/
+		Util.excludeClasses = (attributes, ...exclude) => {
+			if (typeof attributes !== 'string') {
+				return attributes['class'] == null ? [] : Util.extractClasses(attributes['class'], ...exclude);
+			}
+
+			let options = (typeof exclude[exclude.length - 1] === 'object') ? exclude.pop() : {};
+
+			let extracted = attributes.split(' ');
+			if (exclude.length > 0) extracted = extracted.filter(f => !exclude.includes(f));
+			if (options.append) extracted = Object.assign(extracted, options.append);
+			if (!options.join) return extracted;
+			return extracted.join(' ');
+		};

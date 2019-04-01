@@ -1,0 +1,17 @@
+{
+	"type": "DEMO",
+	"name": "Stop Watch",
+	"date": "2019-03-12",
+	"featured": false,
+	"drm": false,
+
+	"author": "Anthony Pham",
+	"author_url": "https://github.com/cen357",
+
+	"info": "Stop watch simulation for CHIP-8. (Recommended emulator speed 1300 Hz)",
+	"controls": {
+		"1": "START",
+		"2": "STOP",
+		"3": "RESET"
+	}
+}

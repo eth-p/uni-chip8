@@ -1,0 +1,45 @@
+//! --------------------------------------------------------------------------------------------------------------------
+//! Copyright (C) 2019 Team Chipotle
+//! MIT License
+//! --------------------------------------------------------------------------------------------------------------------
+@import './common';
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Dialog: Savestates
+// ---------------------------------------------------------------------------------------------------------------------
+
+#dialog-savestates {
+	.control-item .image {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		background: black;
+
+		min-width: 64px;
+		min-height: 32px;
+
+		border-right: $control-list-border 1px solid;
+	}
+
+	.control-item .details {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.savestate-info {
+		.savestate-name {
+		}
+
+		.savestate-date {
+			opacity: 0.5;
+			font-size: 13px;
+		}
+
+		.error {
+			opacity: 1;
+			color: $text-error;
+		}
+	}
+}

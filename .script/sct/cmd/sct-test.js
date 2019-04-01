@@ -35,6 +35,13 @@ module.exports = class CommandTest extends Command {
 				value: 'module',
 				type: 'string',
 				many: true
+			},
+			'workers': {
+				type: 'string',
+				value: 'count',
+				default: null,
+				validator: count => (!isNaN(parseInt(count))) && parseInt(count) > 0,
+				description: 'The number of workers to use.'
 			}
 		}
 	}
@@ -45,8 +52,13 @@ module.exports = class CommandTest extends Command {
 			metaError: m => `${m} is a meta-module, and cannot be tested.`
 		});
 
+		let opts = [];
+		if (args.workers != null) {
+			opts.push('--maxWorkers', args.workers);
+		}
+
 		// Run Jest command line.
-		await jestcli.run(modules.map(m => ['--roots', m.getDirectory()]).flat());
+		await jestcli.run(opts.concat(modules.map(m => ['--roots', m.getDirectory()]).flat()));
 	}
 
 };
