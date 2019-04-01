@@ -29,7 +29,7 @@
 |**10**|March 11|Release 3| |[Week 10](meeting-minutes/Week-10.md)|
 |**11**|March 18|Release 4| |[Week 11](meeting-minutes/Week-11.md)|
 |**12**|March 25|Release 4| |[Week 12](meeting-minutes/Week-12.md)|
-|**13**|April 1|Release 4|Code freeze in-effect| |
+|**13**|April 1|Release 4|Code freeze in-effect|[Week 13](meeting-minutes/Week-13.md)|
 |**14**|N/A|N/A|Code freeze in-effect|N/A|
 
 ## Project Deliverables and Tools
