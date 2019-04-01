@@ -28,8 +28,8 @@
 |**9**|March 4|Release 3| |[Week 9](meeting-minutes/Week-9.md)|
 |**10**|March 11|Release 3| |[Week 10](meeting-minutes/Week-10.md)|
 |**11**|March 18|Release 4| |[Week 11](meeting-minutes/Week-11.md)|
-|**12**|March 25|Release 4| | |
-|**13**|April 1|Release 4|Code freeze in-effect| |
+|**12**|March 25|Release 4| |[Week 12](meeting-minutes/Week-12.md)|
+|**13**|April 1|Release 4|Code freeze in-effect|[Week 13](meeting-minutes/Week-13.md)|
 |**14**|N/A|N/A|Code freeze in-effect|N/A|
 
 ## Project Deliverables and Tools
@@ -359,8 +359,8 @@ Space Invader was not completed in time, so it will not be made playable.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In progress|
-|**CHIP-8 Optimizations**|28/02/2019|Entire release|In Progress|
+|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In Complete|
+|**CHIP-8 Optimizations**|28/02/2019|Entire release|Complete|
 |**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Complete|
 
 #### Release 4 - Production (14/03/2019 - 08/04/2019)
@@ -380,10 +380,10 @@ Instead of an assembler, we will have an improved sprite maker that can help wit
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**General Product Refinement**|14/03/2019|Entire Release|In Progress|
-|**Sprite Maker 2.0**|14/03/2019|Entire Release|In Progress|
-|**Website Refactoring**|10/03/2019|Entire Release|In Progress|
-|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|In Progress (early)|
+|**General Product Refinement**|14/03/2019|Entire Release|Complete|
+|**Sprite Maker 2.0**|14/03/2019|Entire Release|Complete|
+|**Website Refactoring**|10/03/2019|Entire Release|Complete|
+|**CHIP-8 Reverse Debugger**|14/03/2019|Entire Release|Complete|
 
 We are targeting to bring the deliverables into a release ready state. Source code will be reviewed for further optimizations.
 
@@ -416,7 +416,7 @@ We are done with the emulator and are satisfied with its performance. Our progra
 |**Kyle Saburao**| X | X | X | X | | X |
 |**Anthony Pham**| | | | X | | X |
 |**Henry Wang**| | | | X | | X |
-|**Dan Amarasinghe**| | | | X | | X |  
+|**Dan Amarasinghe**| | | | | | X |  
 |**Firas Fakih**| | | | X | | X |
 
 These roles are representative of what has actually been occuring over the course of the project.
