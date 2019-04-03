@@ -4,3 +4,28 @@
 //! --------------------------------------------------------------------------------------------------------------------
 @import '../../web/styles/theme';
 @import '../../web/styles/mixin';
+
+.emulator-interface,
+.emulator-debugger {
+	height: calc(100% - #{$toolbar-height + 2}) !important;
+}
+
+// Fancy frames on Darwin.
+.electron-platform-darwin {
+	$toolbar-height: 30px;
+
+	// Shrink the toolbar.
+	#toolbar {
+		min-height: $toolbar-height;
+
+		.toolbar-item {
+			padding-top: 0;
+		}
+	}
+
+	// Adapt the UI size to the shrinked toolbar.
+	.emulator-interface,
+	.emulator-debugger {
+		height: calc(100% - #{$toolbar-height + 2}) !important;
+	}
+}
