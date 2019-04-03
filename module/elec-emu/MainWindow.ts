@@ -5,12 +5,17 @@
 import AbstractWindow from './AbstractWindow';
 import Injector from './Injector';
 
+import * as fs from 'fs';
+import {promisify} from 'util';
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
  * The main window of the application.
  */
 class MainWindowClass extends AbstractWindow {
+	private styles?: string;
+
 	protected _create() {
 		const window = this.createWindow({
 			width: 800,
@@ -30,8 +35,17 @@ class MainWindowClass extends AbstractWindow {
 		return window;
 	}
 
-	protected _execute(): string | null {
-		return Injector.stylesheet('inject.css');
+	protected async _preload(): Promise<void> {
+		const readFile = promisify(fs.readFile);
+
+		let common = readFile('inject.css', 'utf8');
+		let specific = readFile('inject-emulator.css', 'utf8');
+
+		this.styles = `${await common}\n${await specific}`;
+	}
+
+	protected _inject(contents: any): void {
+		contents.insertCSS(this.styles);
 	}
 }
 
