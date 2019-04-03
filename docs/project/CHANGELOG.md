@@ -132,3 +132,67 @@
 ### Release
 
 - **Schedule:** Move code freeze to April 1st.
+
+## Release 4 (Production Changelog)
+
+**Advanced Settings.**  
+A new checkbox was added to show/hide advanced settings.
+The following settings were changed to only show with advanced settings enabled:
+
+- Clock Speed
+- Debug Settings (Yes, all of them.)
+
+**Deterministic RNG.**  
+The `RNG` instruction was changed to use a seeded Xorshift32 pseudorandom number generator. This allows for deterministic savestates, which means that a program will always behave predictably once its state has been saved. Unfortunately, it also came at the slight cost of random number quality.
+
+**Settings Wipe.**  
+In order to facilitate some of the new changes, user settings were wiped out.
+You will need to reconfigure the emulator.
+
+## Additions
+
+**Savestates.**  
+You can now have 10 unique savestates (including quicksave/quickload). If you have a custom game that you had to keep loading in manually, you can now just save it as a savestate! How cool is that?
+
+**Reverse Debugging.**
+If you enable the "Tracing" option in debug settings, it is now possible to undo up to **5 minutes** of CHIP-8 history. That's a whole 5 minutes more than the last release!
+
+**Reverse Stepping.**  
+Even if "Tracing" is disabled, the emulator can undo any cycles that were stepped forwards while it was paused.
+*No stacks were harmed in the making of this feature.*
+
+**Sound Tone Setting.**  
+With advanced settings enabled, you can now change the frequency of the beep sound made by the emulator.
+
+**Deflicker Setting.**
+You asked (well... no, you didn't... but we digress.) for it, and we delivered! You can now enable deflicker mode to reduce the severity of that iconic CHIP-8 sprite flicker.
+
+**Program Memory Viewer.**  
+You can now view a hex dump of the program memory.
+Please be warned, it's not exactly fast however.
+*Seriously. Don't use it on mobile.*
+
+**Sprite Editor Tool.** (Web Only)  
+A fancy new sprite-editor tool has been added at [https://chip.netlify.com/tools/sprite-editor/](https://chip.netlify.com/tools/sprite-editor).
+Draw a dog! Or a cat! ...or something that we really can't say out loud, but know you'll probably draw before any of the previous suggestions.
+
+<details>
+  <summary><strong>Super Secret Feature.</strong> (Web Only)</summary>
+  <div>
+    You can now download some of our games to try on your own emulator! Make sure to enable advanced settings and browse the program list on a desktop computer. 
+  </div>
+</details>
+
+## Changes
+
+**Increased Clock Speed Limit.**  
+We changed the maximum clock speed to 10 KHz (10,000 Hz). If you found any game or program chugging along at 5 KHz, you shouldn't have a problem with it at twice the speed.
+
+**Upgraded Dialogs.**
+The entire dialog system was thrown out and recreated. While this doesn't mean much for you non-technical users, it does give you those sweet, sweet, larger-than-300px dialog windows when you're on desktop devices.
+
+**Upgraded Program List.**
+The menu for loading programs went through an overhaul. It's now 80% easier to use on mobile, and 100% better looking on desktop.
+
+**Boosted Performance.**
+A couple tinkers here and a few bug fixes there... And voila! The emulator now runs faster and no longer chews through your processor when its paused. 
