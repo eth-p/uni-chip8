@@ -7,7 +7,7 @@
 	"author": "Dan Amarasinghe",
 	"author_url": "https://github.com/danamaras",
 
-	"info": "Space Invaders for the CHIP-8.",
+	"info": "Space Invaders for the CHIP-8. (To reset, please press button 3 times.)",
 	"controls": {
 		"7" : "LEFT",
 		"9" : "RIGHT",
