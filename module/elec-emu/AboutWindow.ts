@@ -4,6 +4,8 @@
 //! --------------------------------------------------------------------------------------------------------------------
 import {AbstractWindow} from './AbstractWindow';
 import Injector from './Injector';
+import {promisify} from 'util';
+import * as fs from 'fs';
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -11,6 +13,8 @@ import Injector from './Injector';
  * The about window of the application.
  */
 class AboutWindowClass extends AbstractWindow {
+	private styles?: string;
+
 	protected _create() {
 		const window = this.createWindow({
 			width: 400,
@@ -31,8 +35,17 @@ class AboutWindowClass extends AbstractWindow {
 		return window;
 	}
 
-	protected _execute(): string | null {
-		return Injector.stylesheet('inject.css') + Injector.stylesheet('inject-about.css');
+	protected async _preload(): Promise<void> {
+		const readFile = promisify(fs.readFile);
+
+		let common = readFile('inject.css', 'utf8');
+		let specific = readFile('inject-about.css', 'utf8');
+
+		this.styles = `${await common}\n${await specific}`;
+	}
+
+	protected _inject(contents: any): void {
+		contents.insertCSS(this.styles);
 	}
 }
 

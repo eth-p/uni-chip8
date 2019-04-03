@@ -8,7 +8,9 @@ import * as Path from 'path';
 const Electron = require('electron');
 const BrowserWindow = Electron.BrowserWindow;
 const Shell = Electron.shell;
+
 type BrowserWindow = any;
+type WebContents = any;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -38,14 +40,22 @@ abstract class AbstractWindow {
 	protected window?: BrowserWindow;
 
 	// -------------------------------------------------------------------------------------------------------------
+	// | Constructors:                                                                                             |
+	// -------------------------------------------------------------------------------------------------------------
+
+	public constructor() {
+		AbstractWindow.instances.push(this);
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
 	// | Abstract:                                                                                                 |
 	// -------------------------------------------------------------------------------------------------------------
 
 	protected abstract _create(): BrowserWindow;
 
-	protected _execute(): string | null {
-		return null;
-	}
+	protected async _preload(): Promise<void> {}
+
+	protected _inject(contents: WebContents): void {}
 
 	// -------------------------------------------------------------------------------------------------------------
 	// | Methods:                                                                                                  |
@@ -91,15 +101,12 @@ abstract class AbstractWindow {
 		});
 
 		const inject = () => {
-			const js = this._execute();
-			if (js != null) {
-				this.window.webContents.executeJavaScript(js);
-			}
-
 			this.window.webContents.executeJavaScript("document.body.classList.add('electron')");
 			this.window.webContents.executeJavaScript(
 				`document.body.classList.add('electron-platform-${process.platform}')`
 			);
+
+			this._inject(this.window.webContents);
 		};
 
 		this.window.webContents.on('dom-ready', inject);
@@ -113,6 +120,19 @@ abstract class AbstractWindow {
 	 */
 	public isCreated(): boolean {
 		return this.window != null;
+	}
+
+	// -------------------------------------------------------------------------------------------------------------
+	// | Static:                                                                                                   |
+	// -------------------------------------------------------------------------------------------------------------
+
+	private static instances: AbstractWindow[] = [];
+
+	/**
+	 * Preloads injection data.
+	 */
+	public static async preload(): Promise<void> {
+		await Promise.all(AbstractWindow.instances.map(i => i._preload()));
 	}
 }
 
