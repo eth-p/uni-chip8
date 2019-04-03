@@ -8,12 +8,16 @@ const Application = Electron.app;
 import * as Path from 'path';
 import {URL} from 'url';
 
+import AbstractWindow from './AbstractWindow';
+
 import MainWindow from './MainWindow';
 import MainMenu from './MainMenu';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Main:
 // ---------------------------------------------------------------------------------------------------------------------
+
+const preloadPromise = AbstractWindow.preload();
 
 function intercept() {
 	Electron.protocol.interceptFileProtocol('file', (req: any, callback: any) => {
@@ -39,8 +43,10 @@ function intercept() {
 Application.on('ready', () => {
 	intercept();
 
-	Application.setApplicationMenu(MainMenu.create());
-	MainWindow.create();
+	preloadPromise.then(() => {
+		Application.setApplicationMenu(MainMenu.create());
+		MainWindow.create();
+	});
 });
 
 Application.on('window-all-closed', function() {

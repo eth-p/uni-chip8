@@ -62,7 +62,7 @@ class LibraryEntry {
 						type: 'a',
 						text: 'Download',
 						attr: {href: o => o.url},
-						classes: ['desktop-only', 'requires-advanced'],
+						classes: ['desktop-only', 'requires-advanced', 'not-electron'],
 						condition: o => !o.drm
 					}
 				]

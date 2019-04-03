@@ -64,7 +64,7 @@ $layout-boundary: 800px;
  * For mobile devices.
  */
 @mixin mobile() {
-	@media only screen and (max-width: $layout-boundary) {
+	@media only screen and (max-width: ($layout-boundary - 1px)) {
 		@content;
 	}
 }
