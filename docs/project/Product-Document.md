@@ -254,15 +254,15 @@ If a developer accepts a task, they will be given a due date. The due date will 
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**Start Product Document**|04/01/2019|1 day|Finished|
-|**Setup Discord Server**|04/01/2019|1 day|Finished|
-|**Setup GitHub Repository**|04/01/2019|1 day|Finished|
-|**Update Product Document**|04/01/2019|2 weeks|Finished|
-|**Setup Tools**|04/01/2019|2 weeks|Finished|
-|**Setup Testing Platform**|04/01/2019|1 week|Finished
-|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Finished|
-|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Finished|
-|**Release Product Document**|18/01/2019|2 weeks|Finished|
+|**Start Product Document**|04/01/2019|1 day|Completed|
+|**Setup Discord Server**|04/01/2019|1 day|Completed|
+|**Setup GitHub Repository**|04/01/2019|1 day|Completed|
+|**Update Product Document**|04/01/2019|2 weeks|Completed|
+|**Setup Tools**|04/01/2019|2 weeks|Completed|
+|**Setup Testing Platform**|04/01/2019|1 week|Completed
+|**CHIP-8 R&D Emulator**|10/01/2019|2 days|Completed|
+|**CHIP-8 R&D Bouncing DVD Logo**|15/01/2019|2 days|Completed|
+|**Release Product Document**|18/01/2019|2 weeks|Completed|
 
 We will be creating the initial product document.  
 The product document will at minimum satisfy the requirements as laid out on the [project page](http://www.cs.sfu.ca/CourseCentral/276/tjd/project.html).  
@@ -359,7 +359,7 @@ Space Invader was not completed in time, so it will not be made playable.
 
 |Task|Date|Timeframe|Status|
 |----|----|---------|------|
-|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|In Complete|
+|**CHIP-8 Reverse-Debugger**|28/02/2019|Entire Release|Complete|
 |**CHIP-8 Optimizations**|28/02/2019|Entire release|Complete|
 |**CHIP-8 Further Programs, view the Program Page**|28/02/2019|12 days|Complete|
 
@@ -393,7 +393,7 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ##### Reflection on Release 4
 
-We are done with the emulator and are satisfied with its performance. Our programs may not run as well on other emulators due to the requirement of running at kilohertz, versus the typical ~500hz in many emulators.
+We are done with the emulator and are satisfied with its performance. Our programs may not run as well on other emulators due to the requirement of the emulator operating at the kilohertz range, versus the typical ~500hz in many emulators.
 
 ### Member Roles
 

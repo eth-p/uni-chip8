@@ -10,4 +10,8 @@
 
 ## Attendance
 
+ Everyone.
+
 ## Discussion
+
+- Did presentation practice.
