@@ -15,6 +15,11 @@
 	height: calc(100% - #{$toolbar-height + 2}) !important;
 }
 
+// Hide elements.
+.not-electron {
+	display: none !important;
+}
+
 // Fancy frames on Darwin.
 .electron-platform-darwin {
 	$frame-height: 23px;
