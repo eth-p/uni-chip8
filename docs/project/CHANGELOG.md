@@ -129,6 +129,10 @@
 - **web-emu:** Add backstepping.
 - **web-x:** Refactor everything part 2.
 
+### Documentation
+
+- **docs:** Update user manual.
+
 ### Release
 
 - **Schedule:** Move code freeze to April 1st.
