@@ -10,9 +10,9 @@
 	display: none;
 }
 
-.emulator-interface,
-.emulator-debugger {
-	height: calc(100% - #{$toolbar-height + 2}) !important;
+// Hide elements.
+.not-electron {
+	display: none !important;
 }
 
 // Fancy frames on Darwin.
