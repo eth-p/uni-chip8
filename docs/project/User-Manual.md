@@ -170,6 +170,10 @@ Reverses the CHIP-8 emulator to the last instruction.
 
 Steps the CHIP-8 emulator to the next instruction.
 
+#### Memory
+
+View a hex dump of the program memory
+
 ### Other Buttons
 
 #### Load
@@ -230,7 +234,7 @@ Sprite Maker 2.0 allows for easy creation of CHIP-8 sprites.
 
 ### Output
 
-Outputs the sprite row values in base 10 format.
+Outputs the sprite row values in base 2, 10 or 16 format.
 
 ## Browser Support
 
