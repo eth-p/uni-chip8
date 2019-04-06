@@ -393,7 +393,9 @@ We are targeting to bring the deliverables into a release ready state. Source co
 
 ##### Reflection on Release 4
 
-We are done with the emulator and are satisfied with its performance. Our programs may not run as well on other emulators due to the requirement of the emulator operating at the kilohertz range, versus the typical ~500hz in many emulators.
+We are done with the emulator and are satisfied with its performance. Our programs may not run as well on other emulators due to the requirement of our emulator operating at the kilohertz range, versus the typical ~500hz in many other emulators.
+
+Our new sprite maker is much more functional and accessible (it is deployed onto the main website) versus the older version.
 
 ### Member Roles
 
