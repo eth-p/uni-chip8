@@ -1,6 +1,6 @@
-# CHIP-8 Sprite Maker
+# CHIP-8 Sprite Maker Manual
 
-| [<-- Product Document](../Product-Document.md) |
+| [&lt;--](../index.md) |
 
 ## Description
 
