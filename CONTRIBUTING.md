@@ -15,20 +15,46 @@ Therefore, it's important that the following guidelines be met:
 4. Commit messages should be prefixed with the project module they affect.
     Example: `interpreter: Added ... `
 
-To make it simpler and more streamlined, the [sct utility](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling#simple-contribution-tool-sct) has a couple of convenience commands available for contributors:
+To make more streamlined, the `sct` utility will enforce these guidelines once initialized.
+
+## Building
+
+We use custom tools for building the project. While you probably could make it work with your own tools, it's really not meant to be built without `sct`. 
 
 ```bash
-./sct commit                   # Interactive interface for commiting changes.
-./sct branch                   # List all branches.
-./sct branch [branch]          # Checkout a branch.
-./sct branch [branch] --create # Checkout a branch (after creating it).
-./sct push                     # Push commits.
-./sct pull                     # Pull commits.
+./sct build               # Builds all
+./sct build [module]      # Builds the entire "module" module.
+./sct build [module:task] # Builds the "task" task in the "module" module.
+
+# Flags:
+#  --release          -- Builds for release.
+#  --keep:asserts     -- Keeps runtime assertions in release builds.
+#  --keep:comments    -- Keeps comments.
+#  --no-sourcemaps    -- Disables sourcemaps.
+#  --no-minify        -- Disables minification in release builds
+#  --modules=es6      -- Outputs ES6 modules.
+#  --modules=commonjs -- Outputs CommonJS modules.
+#  --modules=amd      -- Outputs AMD modules.
+#  --verbose          -- Verbose output.
+
+#  --list-tasks       -- Lists all available build tasks.
+```
+
+## Testing
+
+```bash
+./sct test          # Run all unit tests
+./sct test [module] # Run all unit tests in the "module" module.
+
+# Flags
+#  --workers=[n]      -- Use [n] worker threads.
 ```
 
 ## Style Guide
 
 There is a `.editorconfig` file provided as part of the project, but if your text editor does not support it or all the editorconfig features, source code should conform to the following style examples:
+
+For automatic formatting, you can use `./sct fmt -sm` to format uncommitted files.
 
 **TypeScript**
 Filename: `ClassName.ts`
