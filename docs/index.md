@@ -1,11 +1,11 @@
 # CHIP-8 Emulator Documentation
 
-| [&lt;--](../README.md) | [Changelog](manual/changelog.md) | [User Manual](manual/index.md) | [Contributing Guide](dev/styleguide.md) |  
+| [&lt;--](../README.md) |    
 Team 15 / Team CHIPotle
 
-## Pages
+## Manual
 
-- [Changelog](changelog.md)
+- [Changelog](manual/changelog.md)
 - [Manual](manual/emulator-manual.md)
 - [Manual (Sprite Maker)](manual/spritemaker-manual.md)
 
