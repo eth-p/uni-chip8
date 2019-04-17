@@ -40,6 +40,8 @@ body {
 // Header:
 // ---------------------------------------------------------------------------------------------------------------------
 header {
+	font-size: $header-font-size;
+
 	display: flex;
 	height: $header-height;
 	z-index: 50;
@@ -103,6 +105,14 @@ header {
 			@supports (--a: 0) {
 				color: var(--accent-1);
 			}
+		}
+
+		a > svg {
+			$line-height: ($header-height - ($header-padding * 2));
+
+			fill: currentColor;
+			margin-top: ($line-height - $header-font-size) / 2;
+			height: $header-font-size;
 		}
 	}
 
