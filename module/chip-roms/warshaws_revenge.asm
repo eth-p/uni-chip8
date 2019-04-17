@@ -3,7 +3,6 @@
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
-; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define EET_HEIGHT 5
 define SHAW_HEIGHT 3

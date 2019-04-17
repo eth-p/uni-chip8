@@ -3,7 +3,6 @@
 ; Copyright (C) 2019 Kyle Saburao                                                                                      ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
-; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define SCRATCH_ZERO V0
 define SCRATCH_ONE V1

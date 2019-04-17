@@ -3,7 +3,6 @@
 ; Copyright (C) 2019 Ethan Pini                                                                                        ;
 ; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -;
 ; This program was designed to be assembled with https://github.com/wernsey/chip8                                      ;
-; It will later be converted to the syntax used for our assembler.                                                     ;
 ; -------------------------------------------------------------------------------------------------------------------- ;
 define FALCON_X 28       ; 64/2 - 8/2
 define FALCON_Y 26       ; 32 - 5 - 1
