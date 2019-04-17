@@ -20,8 +20,8 @@ brew install \
 	git-lfs
 
 # Clone the repo.
-git clone "git@github.com:eth-p/SFU-CMPT276.git" cmpt276
-cd cmpt276
+git clone "git@github.com:eth-p/uni-chip8.git" chip8
+cd chip8
 
 # Initialize the tooling scripts.
 ./sct init
