@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------------------------------------------------------------------
-# Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+# Copyright (C) 2019 Ethan Pini <contact@eth-p.dev>
 # MIT License
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # SCT: Simple Contribution Tool

@@ -1,5 +1,5 @@
 ;----------------------------------------------------------------------------
-;This program was designed to be assembled with https://github.com/wernsey/chip8                                      
+; This program was designed to be assembled with https://github.com/wernsey/chip8
 ; This Program was designed by Firas Fakih
 ; March 9th 2019
 ; ---------MAZE-------------

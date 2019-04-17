@@ -1,6 +1,6 @@
-# Team 15 CHIPotle: Setup
+# Developer Guide: Setup
 
-| <- [Index](../Index.md) |
+| [&lt;--](../index.md) |
 
 ## Requirements
 
@@ -20,8 +20,8 @@ brew install \
 	git-lfs
 
 # Clone the repo.
-git clone "git@github.com:eth-p/SFU-CMPT276.git" cmpt276
-cd cmpt276
+git clone "git@github.com:eth-p/uni-chip8.git" chip8
+cd chip8
 
 # Initialize the tooling scripts.
 ./sct init
@@ -51,8 +51,8 @@ sudo apt install -y \
 	libssl-dev
 
 # Clone the repo.
-git clone "git@github.com:eth-p/SFU-CMPT276.git" cmpt276
-cd cmpt276
+git clone "git@github.com:eth-p/uni-chip8.git" chip8
+cd chip8
 
 # Initialize the tooling scripts.
 ./sct init
@@ -69,9 +69,9 @@ After, go to your preferred directory and open PowerShell with `SHIFT-(RIGHT-CLI
 ```
 npm install --global windows-build-tools
 
-git clone "git@github.com:eth-p/SFU-CMPT276.git"
+git clone "git@github.com:eth-p/uni-chip8.git" chip8
 
-cd SFU-CMPT276
+cd chip8
 
 ./sct init
 ```

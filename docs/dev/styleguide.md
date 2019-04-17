@@ -1,30 +1,6 @@
-# Team 15 CHIPotle: Contributing Guide
+# Developer Guide: Style Guide
 
-|<- [README](README.md)|
-
-## Version Control
-
-It's important to have a documented history of changes to the project.
-Therefore, it's important that the following guidelines be met:
-
-1. Features should be worked on in branches, and merged using pull requests.
-    **Pushes to master will be rejected.**
-2. Pull requests must add a complete summary of changes both inside `CHANGELOG.md`, and in the pull request description.
-3. Commit messages must explain the intent of the commit.
-    They should start with: `Added`, `Removed`, `Fixed`, `Changed`, etc.
-4. Commit messages should be prefixed with the project module they affect.
-    Example: `interpreter: Added ... `
-
-To make it simpler and more streamlined, the [sct utility](https://github.com/eth-p/SFU-CMPT276/wiki/Tooling#simple-contribution-tool-sct) has a couple of convenience commands available for contributors:
-
-```bash
-./sct commit                   # Interactive interface for commiting changes.
-./sct branch                   # List all branches.
-./sct branch [branch]          # Checkout a branch.
-./sct branch [branch] --create # Checkout a branch (after creating it).
-./sct push                     # Push commits.
-./sct pull                     # Pull commits.
-```
+| [&lt;--](../index.md) |
 
 ## Style Guide
 
@@ -117,3 +93,50 @@ export class CamelCase {
 }
 ```
 
+## Commits
+
+Commits follow a strict message format:
+
+```
+[module]: [verb] [message]
+
+[extended information]
+```
+
+- The `[module]` parameter must be a module as listed in `./sct info --list-modules`.
+- The `[message]` parameter cannot end with `.`.
+- The `[verb]` parameter must be one of:
+  - Update
+  - Add
+  - Remove
+  - Refactor
+  - Change
+  - Rename
+  - Move
+  - Fix
+  - Reformat
+  - Replace
+  - Split
+  - Join
+  - Convert
+  - Implement
+  - Revert
+  
+Furthermore, commits will be automatically checked with `./sct check` for formatting consistency, profanity, and linting issues.
+
+## Formatting
+
+If you used `./sct init`, your code will automatically be formatted before a git commit.
+
+In the event where you need to manually reformat code, the `./sct fmt` tool will come handy.
+
+```bash
+./sct fmt          # Formats all files in project modules.
+./sct fmt [module] # Formats all files in the "module" module.
+
+# Flags:
+#  --dry                -- Only check formatting, don't change anything.
+#  --only-modified (-m) -- Only format modified (not staged) files.
+#  --only-staged   (-s) -- Only format staged files.
+#  -sm                  -- Only format modified or staged files.
+```
