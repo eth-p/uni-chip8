@@ -58,6 +58,7 @@ mixin page
 				div#links
 					a(href="/emulator") Emulator
 					a(href="/about") About
+					a(href="https://github.com/eth-p/uni-chip8")!=File.readText(`${Path.MODULES}/web/images/github.svg`)
 
 			#wrapper(class=Util.extractClasses(attributes, 'centered', 'filled'))
 				main

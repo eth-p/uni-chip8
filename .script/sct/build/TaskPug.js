@@ -32,7 +32,8 @@ const PUG_LOCALS = {
 		join: (...args) => path.join(...args)
 	},
 	File: {
-		readJSON: (file) => fs.readJsonSync(file)
+		readJSON: (file) => fs.readJsonSync(file),
+		readText: (file) => fs.readFileSync(file, 'utf-8')
 	},
 	Project: {
 		BRANCH: 'Unknown',
