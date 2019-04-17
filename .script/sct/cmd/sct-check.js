@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ---------------------------------------------------------------------------------------------------------------------
-// Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+// Copyright (C) 2019 Ethan Pini <contact@eth-p.dev>
 // MIT License
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // SCT Check: Check source code for guideline violations.

@@ -1,6 +1,6 @@
 @ECHO OFF
 REM --------------------------------------------------------------------------------------------------------------------
-REM Copyright (C) 2019 Ethan Pini <epini@sfu.ca>
+REM Copyright (C) 2019 Ethan Pini <contact@eth-p.dev>
 REM MIT License
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM SCT: Setup Script
