@@ -47,7 +47,7 @@
 		"laxy": "^1.0.0",
 		"markdown-folder-to-html": "^2.1.1",
 		"micromatch": "^3.1.10",
-		"minimist": "^1.2.0",
+		"minimist": "^1.2.2",
 		"mississippi": "^3.0.0",
 		"module-alias": "^2.2.0",
 		"nodegit": "^0.23.1",
