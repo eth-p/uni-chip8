@@ -4,7 +4,7 @@
 
 ## Contributors
 
-- [Kyle Saburao](https://github.com/macedir) - Project Manager
+- [Kyle Saburao](https://github.com/kylesaburao) - Project Manager
 - [Ethan Pini](https://ethan.pini.dev/) - Technical Lead
 - [Firas Fakih](https://github.com/ffakih) - Contributor
 - [Dan Amarasinghe](https://www.linkedin.com/in/dan-amarasinghe-926475179/) - Contributor
